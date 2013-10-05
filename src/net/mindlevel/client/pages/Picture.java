@@ -40,13 +40,13 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class Picture {
 	private RootPanel appArea;
-	private final HTML serverResponseLabel = new HTML();
-	private Image image = new Image("../images/loading.gif");
+	private final Image image = new Image("../images/loading.gif");
 	private int id = 0;
 	private int realId = 1;
 	private int imageCount = Integer.MAX_VALUE;
 	private boolean validated = true;
-	private HTML title, description, location, owner, tags, date, mission, category, link, score;
+	private boolean notFound = false;
+	private HTML title, description, location, owner, tags, date, mission, category, link, score, arrowLeft, arrowRight;
 	private Canvas keyUpHack;
 	private VerticalPanel ratingPanel = new VerticalPanel();
 	private VerticalPanel metaPanel;
@@ -127,10 +127,10 @@ public class Picture {
 		}
 		HorizontalPanel picturePanel = new HorizontalPanel();
 		// imagePanel.setHeight("100%");
-		picturePanel.addStyleName("picturePanel");
+		picturePanel.setStylePrimaryName("picturePanel");
 		image.setStylePrimaryName("picture");
-		HTML arrowLeft = new HTML("<div id=\"arrow-left\"></div>");
-		HTML arrowRight = new HTML("<div id=\"arrow-right\"></div>");
+		arrowLeft = new HTML("<div id=\"arrow-left\"></div>");
+		arrowRight = new HTML("<div id=\"arrow-right\"></div>");
 		picturePanel.add(arrowLeft);
 		picturePanel.add(image);
 		picturePanel.add(arrowRight);
@@ -146,12 +146,10 @@ public class Picture {
 				nextImage();
 			}
 		});
-		// random = loadImage(-1);
 		ImageHandler imageHandler = new ImageHandler();
 		image.addClickHandler(imageHandler);
 		keyUpHack = Canvas.createIfSupported();
 		keyUpHack.setSize("0px", "0px");
-		//keyUpBox.setVisible(false);
 		keyUpHack.addKeyUpHandler(imageHandler);
 		keyUpHack.addBlurHandler(new BlurHandler() {
 			@Override
@@ -161,6 +159,7 @@ public class Picture {
 			}
 		});
 		metaPanel = new VerticalPanel();
+		metaPanel.addStyleName("cardpanel");
 		HorizontalPanel alignPanel = new HorizontalPanel();
 		alignPanel.setStyleName("metapanel");
 		VerticalPanel infoPanel = new VerticalPanel();
@@ -184,6 +183,8 @@ public class Picture {
 		metaPanel.add(centerHack);
 		metaPanel.add(alignPanel);
 		if(Mindlevel.user.isAdmin()) {
+			validate.addStyleName("smallmargin");
+			delete.addStyleName("smallmargin");
 			if(!validated)
 				metaPanel.add(validate);
 			metaPanel.add(delete);
@@ -207,19 +208,19 @@ public class Picture {
 		 * Fired when the user types in the nameField.
 		 */
 		public void onKeyUp(KeyUpEvent event) {
-			if (event.getNativeKeyCode() == KeyCodes.KEY_RIGHT && id < imageCount)
-				nextImage();
-			else if (event.getNativeKeyCode() == KeyCodes.KEY_LEFT && id > 1)
-				prevImage();
-			else if (event.getNativeKeyCode() == (int)'R')
-				randomImage();
-			else if (event.getNativeKeyCode() == (int)'H')
-				HandyTools.showDialogBox("Shortcuts", new HTML("Right/Left Arrow - Browse pictures</br>R - Random picture</br>H - Show this help"));
+			if(!notFound)
+				if (event.getNativeKeyCode() == KeyCodes.KEY_RIGHT && id < imageCount)
+					nextImage();
+				else if (event.getNativeKeyCode() == KeyCodes.KEY_LEFT && id > 1)
+					prevImage();
+				else if (event.getNativeKeyCode() == (int)'R')
+					randomImage();
+				else if (event.getNativeKeyCode() == (int)'H')
+					HandyTools.showDialogBox("Shortcuts", new HTML("Right/Left Arrow - Browse pictures</br>R - Random picture</br>H - Show this help"));
 		}
 	}
 	
 	private void randomImage() {
-		setImageUrl("../images/loading.gif");
 		loadImage(-1, true);
 		clearFields();
 		arrowFocus();
@@ -228,20 +229,12 @@ public class Picture {
 	private void nextImage() {
 		if (id < imageCount)
 			loadImage(++id, true);
-//			id++;
-//			clearFields();
-//			setImageUrl("../images/notfound.jpg");
-//		}
 		arrowFocus();
 	}
 
 	private void prevImage() {
 		if (id > 1)
 			loadImage(--id, true);
-//			id = 0;
-//			clearFields();
-//			setImageUrl("../images/notfound.jpg");
-//		}
 		arrowFocus();
 	}
 	
@@ -261,10 +254,12 @@ public class Picture {
 		setImageUrl("../images/loading.gif");
 		pictureService.get(id, relative, validated, new AsyncCallback<MetaImage>() {
 			public void onFailure(Throwable caught) {
-				// Show the RPC error message to the user
-				serverResponseLabel.addStyleName("serverResponseLabelError");
-				// serverResponseLabel.setHTML(SERVER_ERROR);
-				serverResponseLabel.setHTML(caught.getMessage());
+				setImageUrl("../images/notfound.jpg");
+				metaPanel.setVisible(false);
+				arrowLeft.setVisible(false);
+				arrowRight.setVisible(false);
+				title.setVisible(false);
+				notFound = true;
 			}
 
 			public void onSuccess(final MetaImage metaImage) {
@@ -272,21 +267,28 @@ public class Picture {
 				setImageUrl("../pictures/" + metaImage.getFilename());
 				imageCount = metaImage.getImageCount();
 				if(id == 0)
-					setId(metaImage.getImageCount());
-				if(!relative)
+					setId(imageCount);
+				else if(!relative)
 					setId(metaImage.getRelativeId());
 				
 				//Check if the left arrow is needed
-				if (id == 1 && RootPanel.get("arrow-left").isVisible())
-					RootPanel.get("arrow-left").setVisible(false);
-				else if(!RootPanel.get("arrow-left").isVisible())
-					RootPanel.get("arrow-left").setVisible(true);
+				if (getId() == 1 && arrowLeft.isVisible())
+					arrowLeft.setVisible(false);
+				else if(!arrowLeft.isVisible())
+					arrowLeft.setVisible(true);
 				
 				//Check if the right arrow is needed
-				if (id == imageCount && RootPanel.get("arrow-right").isVisible())
-					RootPanel.get("arrow-right").setVisible(false);
-				else if(!RootPanel.get("arrow-right").isVisible())
-					RootPanel.get("arrow-right").setVisible(true);
+				if (getId() == imageCount && arrowRight.isVisible())
+					arrowRight.setVisible(false);
+				else if(!arrowRight.isVisible())
+					arrowRight.setVisible(true);
+				
+				//If it is a 'notfound' picture
+				if (imageCount == 0) {
+					arrowLeft.setVisible(false);
+					arrowRight.setVisible(false);
+					clearFields();
+				}
 				
 				realId = metaImage.getId();
 				if(validated) {
@@ -377,6 +379,8 @@ public class Picture {
 				image.setUrl(url);
 			}
 		});
+		tmpImage.setVisible(false);
+		appArea.add(tmpImage);
 		tmpImage.setUrl(url);
 	}
 	
@@ -412,6 +416,9 @@ public class Picture {
 				if(result != 0) {
 					rating.setValue((int)result);
 					rating.setReadOnly(true);
+				} else {
+					rating.setValue(0);
+					rating.setReadOnly(false);
 				}
 			}
 		});
@@ -434,6 +441,10 @@ public class Picture {
 	
 	public void setId(int id) {
 		this.id = id;
+	}
+	
+	public int getId() {
+		return id;
 	}
 	
 	private void getScore(final int id) {

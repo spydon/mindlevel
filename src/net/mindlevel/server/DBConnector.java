@@ -10,7 +10,7 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 public abstract class DBConnector extends RemoteServiceServlet {
 	protected String url = "jdbc:mysql://localhost/mindlevel";
 	protected String dbUser = "root";
-	protected String pass = "dty213f5l1016";
+	protected String pass = "L1e2A3";
 
 //	@Deprecated
 //	protected void connect() {

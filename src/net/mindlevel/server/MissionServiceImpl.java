@@ -138,12 +138,12 @@ public class MissionServiceImpl extends DBConnector implements MissionService {
 		try {
 			if(new TokenServiceImpl().validateAdminToken(token)) {
 				Connection conn = getConnection();
-				PreparedStatement ps = conn.prepareStatement("SELECT COUNT(*) FROM mission WHERE " +
+				PreparedStatement ps = conn.prepareStatement("SELECT name FROM mission WHERE " +
 						 "name=? AND category=? AND description=? AND creator=?");
 			    ps.setString(1, mission.getName());
 			    ps.setString(2, mission.getCategory());
 			    ps.setString(3, mission.getDescription());
-			    ps.setString(5, mission.getCreator());
+			    ps.setString(4, mission.getCreator());
 			    ResultSet rs = ps.executeQuery();
 			    if(!rs.first()) {
 					PreparedStatement ps2 = conn.prepareStatement("INSERT INTO mission " +
@@ -156,22 +156,23 @@ public class MissionServiceImpl extends DBConnector implements MissionService {
 				    ps2.setBoolean(4, mission.getAdult());
 				    ps2.setString(5, mission.getCreator());
 				    
-				    int result = ps.executeUpdate();
+				    int result = ps2.executeUpdate();
 				    ps.close();
 				    PreparedStatement ps3 = conn.prepareStatement("DELETE FROM mission_suggestion WHERE id = ?");
 				    ps3.setInt(1, mission.getId());
 				    int result2 = ps3.executeUpdate();
-				    if (result != 1 && result2 != 1)
+				    conn.close();
+				    if (result != 1 || result2 != 1)
 				    	throw new IllegalArgumentException("Unknown error.");
 			    } else {
 			    	throw new IllegalArgumentException("The mission already exists.");
 			    }
-			    conn.close();
 			} else {
 				throw new IllegalArgumentException(
 						"You are not admin, you sneaky bastard! ;)");
 			}
 		} catch(SQLException e) {
+			e.printStackTrace();
 			throw new IllegalArgumentException(
 					"Something went wrong.");
 		}

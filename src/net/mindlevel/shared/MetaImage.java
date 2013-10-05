@@ -16,7 +16,10 @@ public class MetaImage implements Serializable{
 	
 	public MetaImage() {
 		this.filename = "notfound.jpg";
-		this.setId(0);
+		this.imageCount = 0;
+		this.relativeId = 0;
+		this.id = 0;
+		this.missionId = 0;
 	}
 	
 	public MetaImage(String filename, String title, String location, 

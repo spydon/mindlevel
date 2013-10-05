@@ -54,12 +54,14 @@ public class MissionProfile {
 	
 	private void showMission() {
 		VerticalPanel missionPanel = new VerticalPanel();
+		missionPanel.setStylePrimaryName("cardpanel");
 		missionPanel.add(new Label("MissionID " + missionId));
 		missionPanel.add(new Label("Name " + mission.getName()));
 		missionPanel.add(new Label("Category " + mission.getCategory()));	
 		missionPanel.add(new Label("Description " + mission.getDescription()));
 		if(HandyTools.isLoggedIn() && validated) {
 			Button uploadButton = new Button("Upload completed mission");
+			uploadButton.addStyleName("smallmargin");
 			uploadButton.addClickHandler(new ClickHandler() {
 				
 				@Override
@@ -71,6 +73,7 @@ public class MissionProfile {
 		}
 		if(Mindlevel.user.isAdmin() && !validated) {
 			Button validateButton = new Button("Validate");
+			validateButton.addStyleName("smallmargin");
 			validateButton.addClickHandler(new ClickHandler() {
 				
 				@Override

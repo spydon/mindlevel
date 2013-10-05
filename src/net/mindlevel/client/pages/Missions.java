@@ -47,7 +47,10 @@ public class Missions {
 	}
 
 	public void init() {
+		//Sets how many elements to show on each page
 		table.setPageSize(3);
+		
+		//Makes it possible to get to the mission profiles by clicking the row of the mission
 		table.addCellPreviewHandler(new Handler<Mission>() {
 
 			@Override

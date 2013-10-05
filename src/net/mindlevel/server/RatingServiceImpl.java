@@ -21,7 +21,7 @@ public class RatingServiceImpl extends DBConnector implements RatingService {
 		    ps.setString(1, username);
 		    ps.setInt(2, pictureId);
 		    ResultSet rs = ps.executeQuery();
-		    if(rs.next())
+		    if(rs.first())
 		    	value = rs.getInt("score");
 		    rs.close();
 		    ps.close();
@@ -53,25 +53,29 @@ public class RatingServiceImpl extends DBConnector implements RatingService {
 	
 	@Override
 	public double getScore(int id) throws IllegalArgumentException {
-	    int total = 0;
-	    int voteNum = 0;
+//	    int total = 0;
+//	    int voteNum = 0;
+	    double voteAvg = 0.0;
 		try {
 			Connection conn = getConnection();
-			PreparedStatement ps = conn.prepareStatement("SELECT score FROM rating WHERE picture_id=?");
+			PreparedStatement ps = conn.prepareStatement("SELECT AVG(score) As vote_score FROM rating WHERE picture_id=?");
 		    ps.setInt(1, id);
 		    ResultSet rs = ps.executeQuery();
-		    while(rs.next()) {
-		    	total+=rs.getInt("score");
-		    	voteNum++;
-		    }
+		    if(rs.first())
+		    	voteAvg = rs.getDouble("vote_score");
+//		    while(rs.next()) {
+//		    	total+=rs.getInt("score");
+//		    	voteNum++;
+//		    }
 		    ps.close();
 		    conn.close();
 		} catch(SQLException e) {
 			e.printStackTrace();
 		}
-		if(voteNum!=0)
-			return Math.round((double)total/(double)voteNum * 100.0)/100.0;
-		return (double)voteNum;
+//		if(voteNum!=0)
+//			return Math.round((double)total/(double)voteNum * 100.0)/100.0;
+//		return (double)voteNum;
+		return voteAvg;
 	}
 	
 	@Override
@@ -79,11 +83,11 @@ public class RatingServiceImpl extends DBConnector implements RatingService {
 		int total = 0;
 		try {
 			Connection conn = getConnection();
-			PreparedStatement ps = conn.prepareStatement("SELECT count(*) FROM rating WHERE picture_id=?");
+			PreparedStatement ps = conn.prepareStatement("SELECT count(*) AS vote_number FROM rating WHERE picture_id=?");
 		    ps.setInt(1, id);
 		    ResultSet rs = ps.executeQuery();
 		    if(rs.first())
-		    	total = rs.getInt("count(*)");
+		    	total = rs.getInt("vote_number");
 		    ps.close();
 		    conn.close();
 		} catch(SQLException e) {

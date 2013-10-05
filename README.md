@@ -1,1 +1,1 @@
-# This is project needs >GWT 2.4.0
+# This project needs >GWT 2.4.0

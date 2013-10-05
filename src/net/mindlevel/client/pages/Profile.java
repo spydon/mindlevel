@@ -11,6 +11,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class Profile {
 	private RootPanel appArea;
@@ -33,27 +34,22 @@ public class Profile {
 	}
 	
 	private void init() {
+		final VerticalPanel profilePanel = new VerticalPanel();
+		profilePanel.setStylePrimaryName("cardpanel");
 		userService.getUser(userId, new AsyncCallback<User>() {
 			public void onFailure(Throwable caught) {
 				HandyTools.showDialogBox("Error", new HTML(caught.getMessage()));
 				appArea.clear();
 				new Home(appArea);
-				// Show the RPC error message to the user
-//				serverResponseLabel.addStyleName("serverResponseLabelError");
-				// serverResponseLabel.setHTML(SERVER_ERROR);
-//				serverResponseLabel.setHTML(caught.getMessage());
 			}
 
 			public void onSuccess(User userinfo) {
 				user = userinfo;
-				appArea.add(new Label("Profile " + userId));
-				appArea.add(new Label("Token " + Mindlevel.user.getToken()));
-				appArea.add(new Label(user.toString()));
+				profilePanel.add(new Label("Profile " + userId));
+				profilePanel.add(new Label("Token " + Mindlevel.user.getToken()));
+				profilePanel.add(new Label(user.toString()));
+				appArea.add(profilePanel);
 			}
 		});
-	}
-
-	public boolean canChange() {
-		return canChange;
 	}
 }

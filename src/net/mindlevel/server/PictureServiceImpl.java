@@ -40,6 +40,8 @@ public class PictureServiceImpl extends DBConnector implements PictureService {
 	}
 	
 	private MetaImage setMetaImageProps(int id, boolean relative, int imageCount, boolean validated) throws IllegalArgumentException, SQLException {
+		if(imageCount==0)
+			return new MetaImage();
 		Connection conn = getConnection();
 		MetaImage image = new MetaImage();
 		String table = validated ? "picture" : "picture_suggestion";
@@ -68,7 +70,9 @@ public class PictureServiceImpl extends DBConnector implements PictureService {
 	    						  rs.getString("owner"), rs.getBoolean("adult"));
 	    	image.setScore(rs.getInt("score"));
 	    	image.setId(realId);
-	    	image.setDate(rs.getString("created"));
+	    	String created = rs.getString("created");
+	    	image.setDate(created.replace(".0", ""));
+	    	//image.setDate(created.replaceAll("\\.[0-9]", ""));
 	    	image.setRelativeId(rs.getInt("relative_id"));
 	    } else {
 	    	throw new IllegalArgumentException("No such picture...");
@@ -109,7 +113,7 @@ public class PictureServiceImpl extends DBConnector implements PictureService {
 				ps.close();
 				conn.close();
 			} catch (SQLException e) {
-				throw new IllegalArgumentException("Could not delete tags. " + e.getMessage());
+				throw new IllegalArgumentException("Could not delete tags. " + e.getStackTrace());
 			}
 		} else {
 			throw new IllegalArgumentException("YOU don't seem to be admin. This was logged.");
@@ -122,13 +126,13 @@ public class PictureServiceImpl extends DBConnector implements PictureService {
 			String table = validated ? "picture" : "picture_suggestion";
 			PreparedStatement ps;
 			try {
-				ps = conn.prepareStatement("DELETE FROM " + table + " WHERE picture_id=?");
+				ps = conn.prepareStatement("DELETE FROM " + table + " WHERE id=?");
 				ps.setInt(1, pictureId);
 				ps.executeUpdate();
 				ps.close();
 				conn.close();
 			} catch (SQLException e) {
-				throw new IllegalArgumentException("Could not delete tags.");
+				throw new IllegalArgumentException("Could not delete picture. " + e.getMessage());
 			}
 		} else {
 			throw new IllegalArgumentException("YOU don't seem to be admin. This was logged.");
