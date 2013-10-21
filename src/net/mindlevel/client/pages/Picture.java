@@ -28,6 +28,10 @@ import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.event.dom.client.LoadEvent;
 import com.google.gwt.event.dom.client.LoadHandler;
+import com.google.gwt.event.dom.client.MouseDownEvent;
+import com.google.gwt.event.dom.client.MouseDownHandler;
+import com.google.gwt.event.dom.client.MouseOutEvent;
+import com.google.gwt.event.dom.client.MouseOutHandler;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -41,12 +45,15 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 public class Picture {
 	private RootPanel appArea;
 	private final Image image = new Image("../images/loading.gif");
+	private final Image leftArrow = new Image("../images/icons/left2.svg");
+	private final Image rightArrow = new Image("../images/icons/right2.svg");
 	private int id = 0;
 	private int realId = 1;
 	private int imageCount = Integer.MAX_VALUE;
 	private boolean validated = true;
 	private boolean notFound = false;
-	private HTML title, description, location, owner, tags, date, mission, category, link, score, arrowLeft, arrowRight;
+	private boolean activeArrow = false;
+	private HTML title, description, location, owner, tags, date, mission, category, link, score;
 	private Canvas keyUpHack;
 	private VerticalPanel ratingPanel = new VerticalPanel();
 	private VerticalPanel metaPanel;
@@ -129,21 +136,49 @@ public class Picture {
 		// imagePanel.setHeight("100%");
 		picturePanel.setStylePrimaryName("picturePanel");
 		image.setStylePrimaryName("picture");
-		arrowLeft = new HTML("<div id=\"arrow-left\"></div>");
-		arrowRight = new HTML("<div id=\"arrow-right\"></div>");
-		picturePanel.add(arrowLeft);
+		leftArrow.setStylePrimaryName("arrow-left");
+		rightArrow.setStylePrimaryName("arrow-right");
+//		leftArrow = new HTML("<div id=\"arrow-left\"></div>");
+//		rightArrow = new HTML("<div id=\"arrow-right\"></div>");
+		picturePanel.add(leftArrow);
 		picturePanel.add(image);
-		picturePanel.add(arrowRight);
-		arrowLeft.addClickHandler(new ClickHandler() {
+		picturePanel.add(rightArrow);
+		leftArrow.addMouseDownHandler(new MouseDownHandler() {
+			@Override
+			public void onMouseDown(MouseDownEvent event) {
+				activeArrow = true;
+			}
+		});
+//		leftArrow.addMouseOutHandler(new MouseOutHandler() {
+//			@Override
+//			public void onMouseOut(MouseOutEvent event) {
+//				activeArrow = false;
+//			}
+//		});
+		leftArrow.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
 				prevImage();
+				activeArrow = false;
 			}
 		});
-		arrowRight.addClickHandler(new ClickHandler() {
+		rightArrow.addMouseDownHandler(new MouseDownHandler() {
+			@Override
+			public void onMouseDown(MouseDownEvent event) {
+				activeArrow = true;
+			}
+		});
+//		rightArrow.addMouseOutHandler(new MouseOutHandler() {
+//			@Override
+//			public void onMouseOut(MouseOutEvent event) {
+//				activeArrow = false;
+//			}
+//		});
+		rightArrow.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
 				nextImage();
+				activeArrow = false;
 			}
 		});
 		ImageHandler imageHandler = new ImageHandler();
@@ -154,8 +189,10 @@ public class Picture {
 		keyUpHack.addBlurHandler(new BlurHandler() {
 			@Override
 			public void onBlur(BlurEvent event) {
-				if(!Mindlevel.user.isAdmin())
+				if(!Mindlevel.user.isAdmin() && !activeArrow)
 					arrowFocus();
+				else if(activeArrow)
+					activeArrow = false;
 			}
 		});
 		metaPanel = new VerticalPanel();
@@ -256,8 +293,8 @@ public class Picture {
 			public void onFailure(Throwable caught) {
 				setImageUrl("../images/notfound.jpg");
 				metaPanel.setVisible(false);
-				arrowLeft.setVisible(false);
-				arrowRight.setVisible(false);
+				leftArrow.setVisible(false);
+				rightArrow.setVisible(false);
 				title.setVisible(false);
 				notFound = true;
 			}
@@ -272,21 +309,21 @@ public class Picture {
 					setId(metaImage.getRelativeId());
 				
 				//Check if the left arrow is needed
-				if (getId() == 1 && arrowLeft.isVisible())
-					arrowLeft.setVisible(false);
-				else if(!arrowLeft.isVisible())
-					arrowLeft.setVisible(true);
+				if (getId() == 1)
+					leftArrow.addStyleName("hidden");
+				else if(leftArrow.getStyleName().contains("hidden"))
+					leftArrow.removeStyleName("hidden");
 				
 				//Check if the right arrow is needed
-				if (getId() == imageCount && arrowRight.isVisible())
-					arrowRight.setVisible(false);
-				else if(!arrowRight.isVisible())
-					arrowRight.setVisible(true);
+				if (getId() == imageCount)
+					rightArrow.addStyleName("hidden");
+				else if(rightArrow.getStyleName().contains("hidden"))
+					rightArrow.removeStyleName("hidden");
 				
 				//If it is a 'notfound' picture
 				if (imageCount == 0) {
-					arrowLeft.setVisible(false);
-					arrowRight.setVisible(false);
+					leftArrow.setVisible(false);
+					rightArrow.setVisible(false);
 					clearFields();
 				}
 				

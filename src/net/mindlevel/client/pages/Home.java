@@ -55,8 +55,8 @@ public class Home extends Page{
 		appArea.add(errorLabel);
 
 		// Focus the cursor on the name field when the app loads
-		nameField.setFocus(true);
-		nameField.selectAll();
+//		nameField.setFocus(true);
+//		nameField.selectAll();
 
 		// Create the popup dialog box
 		final DialogBox dialogBox = new DialogBox();
