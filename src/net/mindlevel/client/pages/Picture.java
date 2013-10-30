@@ -57,6 +57,7 @@ public class Picture {
     private Canvas keyUpHack;
     private final VerticalPanel ratingPanel = new VerticalPanel();
     private VerticalPanel metaPanel;
+    HorizontalPanel picturePanel, arrowPanel;
     private final Button validate = new Button("Validate");
     private final Button delete = new Button("Delete");
     private final Rating rating = new Rating(0,5,1,"../images/star.png","../images/stardeselected.png","../images/starhover.png",32,32);
@@ -116,7 +117,7 @@ public class Picture {
             Timer resizeTimer = new Timer() {
                 @Override
                 public void run() {
-                    adjustImageSize();
+                    adjustContentSize();
                 }
               };
             @Override
@@ -145,7 +146,9 @@ public class Picture {
                 }
             });
         }
-        HorizontalPanel picturePanel = new HorizontalPanel();
+        VerticalPanel containerPanel = new VerticalPanel();
+        picturePanel = new HorizontalPanel();
+        arrowPanel = new HorizontalPanel();
         picturePanel.setStylePrimaryName("picturePanel");
         image.setStylePrimaryName("picture");
         leftArrow.setStylePrimaryName("arrow-left");
@@ -153,6 +156,8 @@ public class Picture {
         picturePanel.add(leftArrow);
         picturePanel.add(image);
         picturePanel.add(rightArrow);
+        containerPanel.add(picturePanel);
+        containerPanel.add(arrowPanel);
         leftArrow.addMouseDownHandler(new MouseDownHandler() {
             @Override
             public void onMouseDown(MouseDownEvent event) {
@@ -225,7 +230,7 @@ public class Picture {
             metaPanel.add(delete);
         }
         appArea.add(title);
-        appArea.add(picturePanel);
+        appArea.add(containerPanel);
         appArea.add(metaPanel);
         appArea.add(keyUpHack);
         arrowFocus();
@@ -424,13 +429,28 @@ public class Picture {
         tmpImage.setUrl(url);
     }
 
-    private void adjustImageSize() {
-        int width = (int)(Window.getClientWidth()*0.7);
-//        if(image.getWidth() > width)
-        //Fix so that image size is less or equals to its original size
-        image.setPixelSize(width, image.getHeight()*width/image.getWidth());
-//        else
-//            image.setPixelSize(image.getWidth(), image.getHeight());
+    private void adjustContentSize() {
+        if (Window.getClientWidth() >= 520) {
+            int width = (int)(Window.getClientWidth()*0.7);
+            image.setPixelSize(width, image.getHeight()*width/image.getWidth());
+            if(picturePanel.getWidgetCount() != 3) {
+                arrowPanel.remove(leftArrow);
+                arrowPanel.remove(rightArrow);
+                picturePanel.remove(image);
+                picturePanel.add(leftArrow);
+                picturePanel.add(image);
+                picturePanel.add(rightArrow);
+            }
+        } else {
+            int width = Window.getClientWidth();
+            image.setPixelSize(width, image.getHeight()*width/image.getWidth());
+            if(picturePanel.getWidgetCount() == 3) {
+                picturePanel.remove(leftArrow);
+                picturePanel.remove(rightArrow);
+                arrowPanel.add(leftArrow);
+                arrowPanel.add(rightArrow);
+            }
+        }
     }
 
     private String getAnchor(String type, String data, String name) {

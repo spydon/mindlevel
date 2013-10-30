@@ -29,33 +29,33 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class MissionSuggestion {
 	private FlexTable t;
-	private HTML header;
-	private DecoratedPopupPanel popup;
-	private VerticalPanel panel;
-	
+	private final HTML header;
+	private final DecoratedPopupPanel popup;
+	private final VerticalPanel panel;
+
 	private final MissionServiceAsync missionService = GWT
 			.create(MissionService.class);
-	
+
 	private final static TokenServiceAsync tokenService = GWT
 			.create(TokenService.class);
-	
+
 	public MissionSuggestion() {
 		popup = new DecoratedPopupPanel(false);
 		panel = new VerticalPanel();
 		header = new HTML("<h1>Suggest Mission</h1>");
 		init();
 	}
-	
+
 	private void init() {
 		// Initiate the FlexTable
 		t = new FlexTable();
-		
+
 		panel.add(header);
-		
+
 		// Create a new uploader panel and attach it to the document
 		FlexTable metaData = getMetaDataPanel();
 		panel.add(metaData);
-		
+
 		popup.add(panel);
 		popup.center();
 		popup.show();
@@ -81,7 +81,7 @@ public class MissionSuggestion {
 				} else {
 					HandyTools.showDialogBox("Error", new HTML("You probably forgot to fill out one of the fields!"));
 				}
-					
+
 			}
 		});
 		Button closeB = new Button("Close");
@@ -103,7 +103,7 @@ public class MissionSuggestion {
 		t.setWidget(5, 1, closeB);
 		return t;
 	}
-	
+
 	private void missionUpload(final Mission mission) {
 		// Then, we send the input to the server.
 		tokenService.validateToken(Mindlevel.user.getToken(), new AsyncCallback<Boolean>() {
@@ -111,23 +111,25 @@ public class MissionSuggestion {
 			public void onFailure(Throwable caught) {
 				HandyTools.showDialogBox("Error", new HTML("You don't seem to be logged in properly..."));
 			}
-	
+
 			@Override
 			public void onSuccess(Boolean result) {
 				missionService.suggestMission(mission, new AsyncCallback<Void>() {
-					public void onFailure(Throwable caught) {
+					@Override
+                    public void onFailure(Throwable caught) {
 						HandyTools.showDialogBox("Error", new HTML(caught.getMessage()));
 					}
 
-					public void onSuccess(Void noreturn) {
+					@Override
+                    public void onSuccess(Void noreturn) {
 						popup.hide();
 						HandyTools.showDialogBox("Success", new HTML("<h1>Successfully suggested a mission.</h1>"));
 					}
-				});			
+				});
 			}
 		});
 	}
-	
+
 	private void getCategories(final ListBox categoryLB) {
 		missionService.getCategories(new AsyncCallback<ArrayList<String>>() {
 
