@@ -50,6 +50,7 @@ public class Picture {
     private int id = 0;
     private int realId = 1;
     private int imageCount = Integer.MAX_VALUE;
+    private int nativeWidth, nativeHeight;
     private boolean validated = true;
     private boolean notFound = false;
     private boolean activeArrow = false;
@@ -415,11 +416,9 @@ public class Picture {
 
             @Override
             public void onLoad(LoadEvent event) {
-                int width = (int)(Window.getClientWidth()*0.7);
-                if(tmpImage.getWidth() > width)
-                    image.setPixelSize(width, tmpImage.getHeight()*width/tmpImage.getWidth());
-                else
-                    image.setPixelSize(tmpImage.getWidth(), tmpImage.getHeight());
+                nativeWidth = tmpImage.getWidth();
+                nativeHeight = tmpImage.getHeight();
+                adjustImageSize();
                 image.setUrl(url);
             }
         });
@@ -429,10 +428,29 @@ public class Picture {
         tmpImage.setUrl(url);
     }
 
+    private void adjustImageSize() {
+        int width = nativeWidth;
+        int height = nativeHeight;
+        int arrowWidths = leftArrow.getWidth()+rightArrow.getWidth();
+        int clientWidth = Window.getClientWidth();
+
+        //If the window is under 520px but the pictures native width is too big
+        if(clientWidth <= 520) {
+            if(nativeWidth > clientWidth) {
+                width = clientWidth-10;
+                height = height*width/nativeWidth;
+            }
+        //If the image+arrows are too wide for the screen
+        } else if(width+arrowWidths>clientWidth) {
+            width = clientWidth-arrowWidths-20;
+            height = height*width/nativeWidth;
+        }
+
+        image.setPixelSize(width, height);
+    }
+
     private void adjustContentSize() {
         if (Window.getClientWidth() >= 520) {
-            int width = (int)(Window.getClientWidth()*0.7);
-            image.setPixelSize(width, image.getHeight()*width/image.getWidth());
             if(picturePanel.getWidgetCount() != 3) {
                 arrowPanel.remove(leftArrow);
                 arrowPanel.remove(rightArrow);
@@ -442,8 +460,6 @@ public class Picture {
                 picturePanel.add(rightArrow);
             }
         } else {
-            int width = Window.getClientWidth();
-            image.setPixelSize(width, image.getHeight()*width/image.getWidth());
             if(picturePanel.getWidgetCount() == 3) {
                 picturePanel.remove(leftArrow);
                 picturePanel.remove(rightArrow);
@@ -451,6 +467,7 @@ public class Picture {
                 arrowPanel.add(rightArrow);
             }
         }
+        adjustImageSize();
     }
 
     private String getAnchor(String type, String data, String name) {
