@@ -1,0 +1,79 @@
+<!doctype html>
+<!-- The DOCTYPE declaration above will set the     -->
+<!-- browser's rendering engine into                -->
+<!-- "Standards Mode". Replacing this declaration   -->
+<!-- with a "Quirks Mode" doctype is not supported. -->
+
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <link rel="icon" type="image/png" href="./images/brain.png" />
+    
+    <!--                                                               -->
+    <!-- Consider inlining CSS to reduce the number of requested files -->
+    <!--                                                               -->
+    <link type="text/css" rel="stylesheet" href="Mindlevel.css">
+    
+    <!--                                           -->
+    <!-- Any title is fine                         -->
+    <!--                                           -->
+    <title>MindLevel</title>
+    
+    <!--                                           -->
+    <!-- This script loads your compiled module.   -->
+    <!-- If you add any GWT meta tags, they must   -->
+    <!-- be added before this line.                -->
+    <!--                                           -->
+    <script type="text/javascript" src="mindlevel/mindlevel.nocache.js"></script>
+</head>
+
+<!--                                           -->
+<!-- The body can have arbitrary html, or      -->
+<!-- you can leave the body empty if you want  -->
+<!-- to create a completely dynamic UI.        -->
+<!--                                           -->
+<body>
+
+    <!-- OPTIONAL: include this if you want history support -->
+    <iframe src="javascript:''" id="__gwt_historyFrame" tabIndex='-1'
+        style="position: absolute; width: 0; height: 0; border: 0"></iframe>
+
+    <!-- RECOMMENDED if your web app will not function without JavaScript enabled -->
+    <noscript>
+        <div
+            style="width: 22em; position: absolute; left: 50%; margin-left: -11em; color: red; background-color: white; border: 1px solid red; padding: 4px; font-family: sans-serif">
+            Your web browser must have some friendly fluffy JavaScript enabled in
+            order for this application to display correctly.
+        </div>
+    </noscript>
+    <header id="topheader">
+        <nav id="adminmenu"></nav>
+<!--             <a id="logo" href="http://www.mindlevel.net">  -->
+<!--                 <img src="./images/brain.png"> -->
+<!--             </a> -->
+        <div id="quote"></div>
+        <nav class="menu" id="mainMenu">
+            <ul>
+                <li><a class="page" id="home"><img src="./images/icons/home.svg" alt="Home"><p class="pageName">Home</p></a></li>
+                <li><a class="page" id="missions"><img src="./images/icons/missions.svg" alt="Missions"><p class="pageName">Missions</p></a></li>
+                <li><a class="page" id="pictures"><img src="./images/icons/pictures.svg" alt="Pictures"><p class="pageName">Pictures</p></a></li>
+                <li><a class="page" id="highscore"><img src="./images/icons/highscore.svg" alt="Highscore"><p class="pageName">Highscore</p></a></li>
+                <li id="hidechat"><a class="page" id="chat"><img src="./images/icons/chat.svg" alt="Chat"><p class="pageName">Chat</p></a></li>
+                <li><a class="page" id="about"><img src="./images/icons/help.svg" alt="About"><p class="pageName">About</p></a></li>
+            </ul>
+        </nav>
+        <nav class="menu" id="loginMenu">
+            <ul>
+                <li id="hideprofile"><a class="page" id="profile">Profile</a></li>
+                <li id="hidelogin"><a class="page" id="login">Log in</a></li>
+                <li id="hidelogout"><a class="page" id="logout">Log out</a></li>
+                <li id="hideregister"><a class="page" id="register">Register</a></li>
+            </ul>
+        </nav>
+    </header>
+    <div id="apparea"></div>
+    <footer>
+        <div id="debug"></div>
+    </footer>
+</body>
+</html>

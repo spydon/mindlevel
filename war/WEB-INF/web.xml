@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
+              http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+         version="2.5"
+         xmlns="http://java.sun.com/xml/ns/javaee">
+
+  <!-- Servlets -->
+  <servlet>
+    <servlet-name>greetServlet</servlet-name>
+    <servlet-class>net.mindlevel.server.GreetingServiceImpl</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>greetServlet</servlet-name>
+    <url-pattern>/mindlevel/greet</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>missionServlet</servlet-name>
+    <servlet-class>net.mindlevel.server.MissionServiceImpl</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>missionServlet</servlet-name>
+    <url-pattern>/mindlevel/mission</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>regServlet</servlet-name>
+    <servlet-class>net.mindlevel.server.RegistrationServiceImpl</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>regServlet</servlet-name>
+    <url-pattern>/mindlevel/reg</url-pattern>
+  </servlet-mapping>
+  
+   <servlet>
+    <servlet-name>ratingServlet</servlet-name>
+    <servlet-class>net.mindlevel.server.RatingServiceImpl</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>ratingServlet</servlet-name>
+    <url-pattern>/mindlevel/rating</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>loginServlet</servlet-name>
+    <servlet-class>net.mindlevel.server.LoginServiceImpl</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>loginServlet</servlet-name>
+    <url-pattern>/mindlevel/login</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>pictureServlet</servlet-name>
+    <servlet-class>net.mindlevel.server.PictureServiceImpl</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>pictureServlet</servlet-name>
+    <url-pattern>/mindlevel/picture</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>tokenServlet</servlet-name>
+    <servlet-class>net.mindlevel.server.TokenServiceImpl</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>tokenServlet</servlet-name>
+    <url-pattern>/mindlevel/token</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>userServlet</servlet-name>
+    <servlet-class>net.mindlevel.server.UserServiceImpl</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>userServlet</servlet-name>
+    <url-pattern>/mindlevel/user</url-pattern>
+  </servlet-mapping>
+  
+    <servlet>
+    <servlet-name>oracleServlet</servlet-name>
+    <servlet-class>net.mindlevel.server.OracleServiceImpl</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>oracleServlet</servlet-name>
+    <url-pattern>/mindlevel/oracle</url-pattern>
+  </servlet-mapping>
+  
+    <servlet>
+    <servlet-name>metaUploadServlet</servlet-name>
+    <servlet-class>net.mindlevel.server.MetaUploadServiceImpl</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>metaUploadServlet</servlet-name>
+    <url-pattern>/mindlevel/metaUpload</url-pattern>
+  </servlet-mapping>
+  
+  <context-param>
+    <!-- max size of the upload request -->
+    <param-name>maxSize</param-name>
+    <param-value>3145728</param-value>
+  </context-param>
+  <context-param>
+    <!-- Useful in development mode to slow down the uploads in fast networks.
+         Put the number of milliseconds to sleep in each block received in the server.
+         false or 0, means don't use slow uploads  -->
+    <param-name>slowUploads</param-name>
+    <param-value>200</param-value>
+  </context-param>
+
+  <servlet>
+    <servlet-name>uploadServlet</servlet-name>
+    <!-- This is the default servlet, it puts files in session -->
+    <servlet-class>net.mindlevel.server.UploadServiceImpl</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>uploadServlet</servlet-name>
+    <url-pattern>*.gupld</url-pattern>
+  </servlet-mapping>
+  
+  <!-- Default page to serve -->
+  <welcome-file-list>
+    <welcome-file>Mindlevel.html</welcome-file>
+  </welcome-file-list>
+
+</web-app>

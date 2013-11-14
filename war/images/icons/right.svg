@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) --><svg height="48px" id="svg7196" inkscape:output_extension="org.inkscape.output.svg.inkscape" inkscape:version="0.46" sodipodi:docname="media-playback-start.svg" sodipodi:version="0.32" width="48px" xmlns="http://www.w3.org/2000/svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+  <metadata>
+    <rdf:RDF xmlns:cc="http://web.resource.org/cc/" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+      <cc:Work rdf:about="">
+        <dc:title></dc:title>
+        <dc:description></dc:description>
+        <dc:subject>
+          <rdf:Bag>
+            <rdf:li>unsorted</rdf:li>
+          </rdf:Bag>
+        </dc:subject>
+        <dc:publisher>
+          <cc:Agent rdf:about="http://www.openclipart.org/">
+            <dc:title>Open Clip Art Library, Source: GNOME-Colors, Source: GNOME-Colors, Source: GNOME-Colors, Source: GNOME-Colors, Source: GNOME-Colors, Source: GNOME-Colors, Source: GNOME-Colors, Source: GNOME-Colors</dc:title>
+          </cc:Agent>
+        </dc:publisher>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title></dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:rights>
+          <cc:Agent>
+            <dc:title></dc:title>
+          </cc:Agent>
+        </dc:rights>
+        <dc:date></dc:date>
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+        <cc:license rdf:resource="http://creativecommons.org/licenses/GPL/2.0/"/>
+        <dc:language>en</dc:language>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <defs id="defs7198">
+    <linearGradient id="linearGradient3203" inkscape:collect="always">
+      <stop id="stop3205" offset="0" style="stop-color:#ffffff;stop-opacity:1;"/>
+      <stop id="stop3207" offset="1" style="stop-color:#ffffff;stop-opacity:0;"/>
+    </linearGradient>
+    <linearGradient gradientUnits="userSpaceOnUse" id="linearGradient3209" inkscape:collect="always" x1="-183" x2="-183" xlink:href="#linearGradient3203" y1="2" y2="46"/>
+    <linearGradient id="linearGradient7344">
+      <stop id="stop7346" offset="0" style="stop-color:#eeeeec;stop-opacity:1"/>
+      <stop id="stop7348" offset="1" style="stop-color:#babdb6;stop-opacity:1"/>
+    </linearGradient>
+    <linearGradient gradientUnits="userSpaceOnUse" id="linearGradient3197" inkscape:collect="always" x1="-180" x2="-180" xlink:href="#linearGradient7344" y1="4" y2="44"/>
+    <linearGradient id="linearGradient9792">
+      <stop id="stop9794" offset="0" style="stop-color:#000000;stop-opacity:0.3137255;"/>
+      <stop id="stop9796" offset="1" style="stop-color:#000000;stop-opacity:0.31"/>
+    </linearGradient>
+    <linearGradient gradientTransform="matrix(1.0975609,0,0,1.0993152,217.67073,-2.396871)" gradientUnits="userSpaceOnUse" id="linearGradient3201" inkscape:collect="always" x1="-178.27779" x2="-170.07779" xlink:href="#linearGradient9792" y1="13.096572" y2="31.289717"/>
+  </defs>
+  <sodipodi:namedview bordercolor="#666666" borderopacity="1.0" id="base" inkscape:current-layer="layer1" inkscape:cx="24" inkscape:cy="24" inkscape:document-units="px" inkscape:grid-bbox="true" inkscape:pageopacity="0.0" inkscape:pageshadow="2" inkscape:window-height="688" inkscape:window-width="641" inkscape:window-x="306" inkscape:window-y="333" inkscape:zoom="7" pagecolor="#ffffff" showgrid="true"/>
+  <g id="layer1" inkscape:groupmode="layer" inkscape:label="Layer 1">
+    <path d="M 2,45.973 L 2,2.00039 L 8.2003814,5.0316876 L 47,24.00039 L 2,45.973 z" id="path3199" sodipodi:nodetypes="ccccc" style="opacity:0.3;fill:url(#linearGradient3201);fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.99999981999999998;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dashoffset:0.69999992000000000;stroke-opacity:1"/>
+    <g id="g7138" transform="translate(200,3.9e-4)">
+      <g id="g7515">
+        <path d="M -196.5,43.5 L -196.5,4.5 L -156.5,24 L -196.5,43.5 z" id="path7812" sodipodi:nodetypes="cccc" style="fill:url(#linearGradient3197);fill-opacity:1;fill-rule:evenodd;stroke:#888a85;stroke-width:0.99999982;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dashoffset:0.69999992;stroke-opacity:1"/>
+        <path d="M -195.46875,41.875 L -195.46875,6.109375 L -158.79688,24 L -195.46875,41.875 z" id="path7828" sodipodi:nodetypes="cccc" style="opacity:1;fill:none;fill-opacity:1;fill-rule:evenodd;stroke:url(#linearGradient3209);stroke-width:0.99999982;stroke-linecap:square;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dashoffset:0.69999992;stroke-opacity:1"/>
+      </g>
+    </g>
+  </g>
+</svg>

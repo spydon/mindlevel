@@ -1,0 +1,446 @@
+/** Add css rules here for your application. */
+
+/* } :not(.loadingPicture) */
+
+body * { 
+/*     transition:all .4s ease-in-out;  */
+/*     -o-transition:all .4s ease-in-out;  */
+/*     -moz-transition:all .4s ease-in-out;  */
+/*     -webkit-transition:all .4s ease-in-out; */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+td {
+    text-align: center;
+}
+
+table {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+td[style] {
+    text-align: center !important;
+    vertical-align: middle !important;
+}
+
+html, body {
+/*     height: 100%; */
+    margin: 0 !important;
+}
+
+h1 {
+    font-size: 1em;
+    font-weight: bold;
+    margin: 0px 0px 5px;
+    text-align: center;
+}
+
+.margin {
+    margin-top: 80px;
+}
+
+.smallmargin {
+    margin-top: 60px;
+}
+
+.nomargin {
+    margin-top: 57px;
+}
+
+/** MENU START **/
+
+.menu a {
+/*     color: #EEEEEE !important; */
+    color: #000 !important;
+}
+
+.menu img {
+    height: 35px;
+}
+
+.menu img:hover {
+    cursor: pointer;
+    height: 45px;
+    margin-top: -10px;
+    transition:all .2s ease-in-out; 
+}
+
+.menu img:active {
+    cursor: pointer;
+    height: 35px;
+    margin-top: -10px;
+    transition: none;
+/*     transition:all .03s ease-out-in; */
+}
+
+.menu ul {
+    margin: 0px 0px 10px;
+    padding: 0 1em;
+}
+
+.menu li {
+    display: inline;
+    padding: 0 0.5em;
+}
+
+.menu li a {
+    display: inline-block;
+}
+
+.menu a:hover > .pageName {
+    transition: none;
+/*     visibility: visible; */
+    display: block;
+    margin-left: -27px;
+}
+
+.menu a:active .pageName {
+    font-size: 90%;
+}
+
+.pageName {
+    transition: none;
+    position: absolute;
+    display: none;
+/*     visibility: hidden; */
+    color: black;
+    text-align: center;
+    width: 100px;
+}
+
+#mainMenu {
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 10px;
+    vertical-align: middle;
+    text-align: center;
+    clear: both;
+}
+
+header {
+    top: 0;
+    position:fixed;
+    z-index:999;
+    opacity: 0.9;
+/*     min-height: 35px; */
+    min-height: 55px;
+    width: 100%;
+    background-color: #199fd2;
+/*     background:-moz-linear-gradient(top,  #199fd2 0%, #2C3539 150%); */
+/*     background:-webkit-gradient(linear, left top, left bottom, color-stop(0%,#199fd2), color-stop(150%,#2C3539)); */
+/*     background:-webkit-linear-gradient(top,  #199fd2 0%,#2C3539 150%); */
+/*     background:-o-linear-gradient(top, #199fd2 0%,#2C3539 150%); */
+/*     background:-ms-linear-gradient(top, #199fd2 0%,#2C3539 150%); */
+/*     background:linear-gradient(top,  #199fd2 0%,#2C3539 150%); */
+/*     filter:progid:DXImageTransform.Microsoft.gradient( startColorstr='#199fd2', endColorstr='#30576e',GradientType=0);     */
+    color: white;
+    margin: 0px;
+    box-shadow: 0px 2px 2px #09103D;
+}
+
+/** MENU STOP **/
+
+
+.cellTableHoveredRow {
+    cursor: pointer;
+    background: #09103D;
+}
+
+.cellTableRow {
+    cursor: pointer;
+    background: #09103D;
+}
+
+.page,.page:visited {
+    color: #0066cc;
+    text-decoration: none;
+}
+
+.page:hover {
+    /*color: #0066cc;*/
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.metapanel {
+    text-align: left; !important;
+    padding: 10px;
+    border-radius: 10px;
+/*     margin: 0px 0px 10px; */
+    box-shadow: 0px 4px 4px #000;
+    background:#3e698c;
+/*     background:-moz-linear-gradient(top,  #199fd2 0%, #2C3539 150%); */
+/*     background:-webkit-gradient(linear, left top, left bottom, color-stop(0%,#199fd2), color-stop(150%,#2C3539)); */
+/*     background:-webkit-linear-gradient(top,  #199fd2 0%,#2C3539 150%); */
+/*     background:-o-linear-gradient(top, #199fd2 0%,#2C3539 150%); */
+/*     background:-ms-linear-gradient(top, #199fd2 0%,#2C3539 150%); */
+/*     background:linear-gradient(top,  #199fd2 0%,#2C3539 150%); */
+/*     filter:progid:DXImageTransform.Microsoft.gradient( startColorstr='#199fd2', endColorstr='#30576e',GradientType=0);  */
+}
+
+.metapanel a {
+    color: darkblue;
+}
+
+/* .sendButton { */
+/*     margin-left: auto; */
+/*     margin-right: auto; */
+/*     display: block; */
+/*     font-size: 16pt; */
+/* } */
+
+.about {
+    text-align: left;
+    max-width: 300px;
+}
+
+.picture-title {
+    font-size: 20pt;
+    margin: 10px;
+}
+
+.picture-description {
+	min-width: 200px;
+    margin: 5px 20px 5px;
+    max-width: 300px;
+    text-align: left;
+}
+
+.picture-description * {
+    text-align: left;
+    vertical-align: top;
+}
+
+.pictureInfo {
+    min-width: 200px;
+    margin: 5px 0px 0px;
+    text-align: left;
+}
+
+.scoreInfo {
+    font-size: 12pt;
+}
+
+.missionPicture {
+    transition: none; 
+    cursor: pointer;
+    margin: 0px 0px 10px;
+}
+
+.loadingPicture {
+    transition: none; 
+}
+
+.picture-panel {
+    max-width: 80%;
+/*     width: 95%; */
+/*     display: table; */
+/*     float: left; */
+/*     max-height: 95%; */
+}
+
+/** Most GWT widgets already have a style name defined */
+.gwt-DialogBox {
+    width: 400px;
+}
+
+.dialogVPanel {
+    margin: 5px;
+}
+
+.serverResponseLabelError {
+    color: red;
+}
+
+.dialogBoxHTML {
+    margin: 15px;
+}
+
+.arrow-right {}
+
+.arrow-right:hover {
+    cursor: pointer;
+}
+
+.arrow-right:active {
+    width: 100px;
+/*     transition: all .2s ease-out-in;  */
+}
+
+.arrow-left {}
+
+.arrow-left:hover {
+    cursor: pointer;
+}
+
+.arrow-left:active {
+    width: 100px;
+/*     transition: all .2s ease-out-in;  */
+}
+
+.hidden {
+    visibility: hidden !important;
+}
+
+.superhidden {
+    display: none !important;
+}
+
+#loginMenu {
+    top: 0;
+    right: 0;
+    position:absolute;
+    display: table-cell;
+    margin: 5px auto 0px auto;
+    vertical-align: top;
+    text-align: right;
+    white-space: nowrap;
+}
+
+#quote {
+    position: absolute;
+    top: 1px;
+    left: 2px;
+    color: black;
+/*     margin: 5px 10px 0px; */
+/*     padding: 0px; */
+/*     padding-top: 2px; */
+/*     margin-left: 2px; */
+    text-align: left;
+}
+
+#quote:hover {
+    font-weight:bold;
+}
+
+#logo {
+/*     width: 30%; */
+    top: 10px;
+    left: 0;
+    position:absolute;
+/*     display: table-cell; */
+    text-align: left;
+/*     padding: 5px; */
+}
+
+#logo > img {
+    margin: 0px 0px 0px 10px;
+    width: 64px;
+}
+
+#closeButton {
+    margin: 15px 6px 6px;
+}
+
+#apparea {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    height: 100%;
+}
+
+#debug {
+    text-align: center;
+}
+
+/** RESPONSIVE CSS */
+@media only screen and (max-width: 520px), only screen and (max-device-width: 520px) {
+    
+    #loginMenu li {
+        display: block;
+        padding: 0em;
+    }
+    
+    #loginMenu ul {
+        margin: 3px;
+        margin-right: 10px;
+        padding: 0em;
+    }
+    
+    .picture-panel {
+        position: relative;
+        width: 100%;
+    }
+    
+    .picture {
+        display: block;
+        min-width: 190px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    .arrow-left {
+        opacity: 0.7;
+        position: absolute;
+        left: 0;
+        width: 62px;
+    }
+    
+    .arrow-right {
+        opacity: 0.7;
+        position: absolute;
+        right: 0;
+        width: 62px;
+    }
+    
+    .arrow-left:active {
+        width: 50px;
+    }
+    
+    .arrow-right:active {
+        width: 50px;
+    }
+}
+
+@media only screen and (max-width: 420px), only screen and (max-device-width: 420px) {
+    header {
+        position:relative;
+        padding-top: 10px;
+    }
+    
+    #mainMenu {
+        max-width: 210px;
+        margin-left: 0;
+        padding-bottom: 2px; 
+    }
+    
+    .menu a:hover > .pageName {
+        background-color: rgba(255, 255, 255, 0.6);
+        border: 1px solid white;
+        border-radius: 2px;
+        margin-top: 0px;
+    }
+    
+    .pageName:hover {
+        display: none !important;
+    }
+    
+    .margin {
+        margin-top: 10px;
+    }
+
+    .smallmargin {
+        margin-top: 5px;
+    }
+    
+    .nomargin {
+        margin-top: 0px;
+    }
+        
+    .menu a:hover .pageName {
+        display: block;
+    }
+    
+/*     #apparea > .about { */
+/*         margin: 10px; */
+/*     } */
+}
+
+@media only screen and (max-width: 300px), only screen and (max-device-width: 300px) {
+    #mainMenu {
+        max-width: 150px;
+    }
+}

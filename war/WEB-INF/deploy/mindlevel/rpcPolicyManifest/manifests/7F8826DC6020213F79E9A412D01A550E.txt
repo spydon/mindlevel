@@ -1,0 +1,2 @@
+serviceClass: net.mindlevel.client.services.RatingService
+path: 3D46A3C31B99572489325D0588F633B2.gwt.rpc
