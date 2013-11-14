@@ -40,6 +40,7 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class Picture {
@@ -57,8 +58,8 @@ public class Picture {
     private final HTML title, description, location, owner, tags, date, mission, category, link, score;
     private Canvas keyUpHack;
     private final VerticalPanel ratingPanel = new VerticalPanel();
-    private VerticalPanel metaPanel;
-    HorizontalPanel picturePanel, arrowPanel;
+    private HorizontalPanel metaPanel;
+    private HorizontalPanel picturePanel;
     private final Button validate = new Button("Validate");
     private final Button delete = new Button("Delete");
     private final Rating rating = new Rating(0,5,1,"../images/star.png","../images/stardeselected.png","../images/starhover.png",32,32);
@@ -99,9 +100,8 @@ public class Picture {
         link = new HTML();
         date = new HTML();
         image.addStyleName("missionPicture");
-        title.addStyleName("pictureTitle");
+        title.addStyleName("picture-title");
         location.addStyleName("pictureInfo");
-        description.addStyleName("pictureDescription");
         tags.addStyleName("pictureInfo");
         owner.addStyleName("pictureInfo");
         category.addStyleName("pictureInfo");
@@ -149,8 +149,7 @@ public class Picture {
         }
         VerticalPanel containerPanel = new VerticalPanel();
         picturePanel = new HorizontalPanel();
-        arrowPanel = new HorizontalPanel();
-        picturePanel.setStylePrimaryName("picturePanel");
+        picturePanel.setStylePrimaryName("picture-panel");
         image.setStylePrimaryName("picture");
         leftArrow.setStylePrimaryName("arrow-left");
         rightArrow.setStylePrimaryName("arrow-right");
@@ -158,7 +157,6 @@ public class Picture {
         picturePanel.add(image);
         picturePanel.add(rightArrow);
         containerPanel.add(picturePanel);
-        containerPanel.add(arrowPanel);
         leftArrow.addMouseDownHandler(new MouseDownHandler() {
             @Override
             public void onMouseDown(MouseDownEvent event) {
@@ -199,21 +197,22 @@ public class Picture {
                     activeArrow = false;
             }
         });
-        metaPanel = new VerticalPanel();
-        metaPanel.addStyleName("cardpanel");
-        HorizontalPanel alignPanel = new HorizontalPanel();
-        alignPanel.setStyleName("metapanel");
+        metaPanel = new HorizontalPanel();
         VerticalPanel infoPanel = new VerticalPanel();
-        infoPanel.addStyleName("infoPanel");
-        infoPanel.add(location);
+
+        SimplePanel descriptionContainer = new SimplePanel();
+        descriptionContainer.addStyleName("picture-description");
+        descriptionContainer.add(description);
+
+        infoPanel.addStyleName("metapanel");
         infoPanel.add(owner);
         infoPanel.add(mission);
         infoPanel.add(category);
         infoPanel.add(tags);
         infoPanel.add(link);
         infoPanel.add(date);
-        alignPanel.add(description);
-        alignPanel.add(infoPanel);
+        metaPanel.add(infoPanel);
+        metaPanel.add(descriptionContainer);
 
         //Get rid of this somehow
         VerticalPanel centerHack = new VerticalPanel();
@@ -221,8 +220,6 @@ public class Picture {
             ratingPanel.add(rating);
         centerHack.add(ratingPanel);
         centerHack.add(score);
-        metaPanel.add(centerHack);
-        metaPanel.add(alignPanel);
         if(Mindlevel.user.isAdmin()) {
             validate.addStyleName("smallmargin");
             delete.addStyleName("smallmargin");
@@ -232,6 +229,7 @@ public class Picture {
         }
         appArea.add(title);
         appArea.add(containerPanel);
+        appArea.add(centerHack);
         appArea.add(metaPanel);
         appArea.add(keyUpHack);
         arrowFocus();
@@ -449,24 +447,24 @@ public class Picture {
         image.setPixelSize(width, height);
     }
 
-    private void adjustContentSize() {
-        if (Window.getClientWidth() >= 520) {
-            if(picturePanel.getWidgetCount() != 3) {
-                arrowPanel.remove(leftArrow);
-                arrowPanel.remove(rightArrow);
-                picturePanel.remove(image);
-                picturePanel.add(leftArrow);
-                picturePanel.add(image);
-                picturePanel.add(rightArrow);
-            }
-        } else {
-            if(picturePanel.getWidgetCount() == 3) {
-                picturePanel.remove(leftArrow);
-                picturePanel.remove(rightArrow);
-                arrowPanel.add(leftArrow);
-                arrowPanel.add(rightArrow);
-            }
-        }
+    private void adjustContentSize() { //All this should be done in CSS
+//        if (Window.getClientWidth() >= 520) {
+//            if(picturePanel.getWidgetCount() != 3) {
+//                arrowPanel.remove(leftArrow);
+//                arrowPanel.remove(rightArrow);
+//                picturePanel.remove(image);
+//                picturePanel.add(leftArrow);
+//                picturePanel.add(image);
+//                picturePanel.add(rightArrow);
+//            }
+//        } else {
+//            if(picturePanel.getWidgetCount() == 3) {
+//                picturePanel.remove(leftArrow);
+//                picturePanel.remove(rightArrow);
+//                arrowPanel.add(leftArrow);
+//                arrowPanel.add(rightArrow);
+//            }
+//        }
         adjustImageSize();
     }
 

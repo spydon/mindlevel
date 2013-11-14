@@ -102,10 +102,11 @@ public class HandyTools {
         RootPanel.get("hideregister").setVisible(!logIn);
         RootPanel.get("profile").getElement().setInnerHTML(username);
         RootPanel.get("hideprofile").setVisible(logIn);
-        if(logIn)
-            RootPanel.get("hidechat").removeStyleName("superhidden");
-        else
-            RootPanel.get("hidechat").addStyleName("superhidden");
+        RootPanel.get("hidechat").setStyleName("superhidden", !logIn);
+//        if(logIn)
+//            RootPanel.get("hidechat").removeStyleName("superhidden");
+//        else
+//            RootPanel.get("hidechat").addStyleName("superhidden");
         isLoggedIn = logIn;
     }
 

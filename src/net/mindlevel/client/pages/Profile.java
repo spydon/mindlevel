@@ -14,42 +14,44 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class Profile {
-	private RootPanel appArea;
-	private String userId;
-	private boolean canChange;
-	private User user;
-	
-	/**
-	 * Create a remote service proxy to talk to the server-side user
-	 * service.
-	 */
-	private final UserServiceAsync userService = GWT
-			.create(UserService.class);
+    private final RootPanel appArea;
+    private final String userId;
+    private final boolean canChange;
+    private User user;
 
-	public Profile(RootPanel appArea, String userId, boolean canChange) {
-		this.appArea = appArea;
-		this.userId = userId;
-		this.canChange = canChange;
-		init();
-	}
-	
-	private void init() {
-		final VerticalPanel profilePanel = new VerticalPanel();
-		profilePanel.setStylePrimaryName("cardpanel");
-		userService.getUser(userId, new AsyncCallback<User>() {
-			public void onFailure(Throwable caught) {
-				HandyTools.showDialogBox("Error", new HTML(caught.getMessage()));
-				appArea.clear();
-				new Home(appArea);
-			}
+    /**
+     * Create a remote service proxy to talk to the server-side user
+     * service.
+     */
+    private final UserServiceAsync userService = GWT
+            .create(UserService.class);
 
-			public void onSuccess(User userinfo) {
-				user = userinfo;
-				profilePanel.add(new Label("Profile " + userId));
-				profilePanel.add(new Label("Token " + Mindlevel.user.getToken()));
-				profilePanel.add(new Label(user.toString()));
-				appArea.add(profilePanel);
-			}
-		});
-	}
+    public Profile(RootPanel appArea, String userId, boolean canChange) {
+        this.appArea = appArea;
+        this.userId = userId;
+        this.canChange = canChange;
+        init();
+    }
+
+    private void init() {
+        final VerticalPanel profilePanel = new VerticalPanel();
+        profilePanel.setStylePrimaryName("cardpanel");
+        userService.getUser(userId, new AsyncCallback<User>() {
+            @Override
+            public void onFailure(Throwable caught) {
+                HandyTools.showDialogBox("Error", new HTML(caught.getMessage()));
+                appArea.clear();
+                new Home(appArea);
+            }
+
+            @Override
+            public void onSuccess(User userinfo) {
+                user = userinfo;
+                profilePanel.add(new Label("Profile " + userId));
+                profilePanel.add(new Label("Token " + Mindlevel.user.getToken()));
+                profilePanel.add(new Label(user.toString()));
+                appArea.add(profilePanel);
+            }
+        });
+    }
 }

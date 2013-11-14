@@ -33,7 +33,7 @@ public class TokenServiceImpl extends DBConnector implements TokenService {
 		}
 		return token;
 	}
-	
+
 	//Do not open up for remote use. Potentially unsafe.
 	public String generateToken(String username) throws IllegalArgumentException {
 		String token = "";
@@ -56,7 +56,7 @@ public class TokenServiceImpl extends DBConnector implements TokenService {
 		}
 		return token;
 	}
-	
+
 	public boolean validateAuth(String user, String token) {
 		boolean isValid = false;
 		try {
@@ -75,8 +75,9 @@ public class TokenServiceImpl extends DBConnector implements TokenService {
 		}
 		return isValid;
 	}
-	
-	public boolean validateToken(String token) throws IllegalArgumentException {
+
+	@Override
+    public boolean validateToken(String token) throws IllegalArgumentException {
 		boolean isValid = false;
 		try {
 			Connection conn = getConnection();
@@ -92,7 +93,7 @@ public class TokenServiceImpl extends DBConnector implements TokenService {
 		}
 		return isValid;
 	}
-	
+
 	//Do not open up to be called from client
 	public boolean validateAdminToken(String token) {
 		boolean isValid = false;
@@ -110,8 +111,9 @@ public class TokenServiceImpl extends DBConnector implements TokenService {
 		}
 		return isValid;
 	}
-	
-	public User getUser(String token) throws IllegalArgumentException {
+
+	@Override
+    public User getUser(String token) throws IllegalArgumentException {
 		User user = new User();
 		try {
 			Connection conn = getConnection();
@@ -120,7 +122,7 @@ public class TokenServiceImpl extends DBConnector implements TokenService {
 		    ResultSet rs = ps.executeQuery();
 		    if(rs.next()) {
 		    	user.setUsername(rs.getString("username"));
-		    	user.setAdmin(rs.getBoolean("admin"));
+		    	user.setPermission(rs.getInt("permission"));
 		    	user.setAdult(rs.getBoolean("adult"));
 		    	user.setLocation(rs.getString("location"));
 		    	user.setCreated(rs.getString("created"));
@@ -138,8 +140,9 @@ public class TokenServiceImpl extends DBConnector implements TokenService {
 		}
 		return user;
 	}
-	
-	public void invalidateToken(String token) throws IllegalArgumentException {
+
+	@Override
+    public void invalidateToken(String token) throws IllegalArgumentException {
 		try {
 			Connection conn = getConnection();
 			PreparedStatement ps = conn.prepareStatement("UPDATE user SET token=NULL WHERE token=?");

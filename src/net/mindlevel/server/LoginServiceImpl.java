@@ -34,7 +34,7 @@ public class LoginServiceImpl extends DBConnector implements LoginService {
 		    	user.setUsername(rs.getString("username"));
 		    	user.setAdult(rs.getBoolean("adult"));
 		    	user.setCreated(rs.getString("created"));
-		    	user.setAdmin(rs.getBoolean("admin"));
+		    	user.setPermission(rs.getInt("permission"));
 		    	//How much does it actually have to be filled out in the user object at this stage...
 		    	PreparedStatement ps2 = conn.prepareStatement("UPDATE user SET last_login=UNIX_TIMESTAMP() WHERE username = ?");
 				ps2.setString(1, username);

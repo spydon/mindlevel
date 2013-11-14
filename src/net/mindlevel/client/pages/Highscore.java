@@ -4,8 +4,8 @@ import java.util.Date;
 import java.util.List;
 
 import net.mindlevel.client.HandyTools;
-import net.mindlevel.client.services.HighscoreService;
-import net.mindlevel.client.services.HighscoreServiceAsync;
+import net.mindlevel.client.services.UserService;
+import net.mindlevel.client.services.UserServiceAsync;
 import net.mindlevel.shared.User;
 
 import com.google.gwt.cell.client.DateCell;
@@ -25,14 +25,14 @@ import com.google.gwt.view.client.CellPreviewEvent.Handler;
 import com.google.gwt.view.client.HasData;
 
 public class Highscore {
-	private RootPanel appArea;
-	private CellTable<User> table = new CellTable<User>();
+	private final RootPanel appArea;
+	private final CellTable<User> table = new CellTable<User>();
 	private AsyncDataProvider<User> provider;
 	/**
 	 * The list of data to display.
 	 */
-	private final HighscoreServiceAsync highscoreService = GWT
-			.create(HighscoreService.class);
+	private final UserServiceAsync highscoreService = GWT
+			.create(UserService.class);
 
 	public Highscore(RootPanel appArea) {
 		this.appArea = appArea;
@@ -57,10 +57,10 @@ public class Highscore {
 //		TextColumn<User> rankColumn = new TextColumn<User>() {
 //			@Override
 //			public String getValue(User user) {
-//				return 
+//				return
 //			}
 //		};
-		
+
 		// Add a text column to show the name.
 		TextColumn<User> nameColumn = new TextColumn<User>() {
 			@Override
@@ -70,7 +70,7 @@ public class Highscore {
 		};
 		nameColumn.setSortable(true);
 		table.addColumn(nameColumn, "Name");
-		
+
 		// Add a adult column to show the name.
 		TextColumn<User> adultColumn = new TextColumn<User>() {
 			@Override
@@ -90,11 +90,11 @@ public class Highscore {
 		};
 		dateColumn.setSortable(true);
 		table.addColumn(dateColumn, "Last login");
-		
+
 		// Manages the pages
 		final SimplePager pager = new SimplePager();
 		pager.setDisplay(table);
-		
+
 	    // Associate an async data provider to the table
 	    // XXX: Use AsyncCallback in the method onRangeChanged
 	    // to actually get the data from the server side
@@ -123,7 +123,7 @@ public class Highscore {
 		appArea.add(table);
 		appArea.add(pager);
 	}
-	
+
 	private void countUsers() {
 		highscoreService.getUserCount(new AsyncCallback<Integer>() {
 			@Override
