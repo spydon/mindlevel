@@ -10,7 +10,7 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 public abstract class DBConnector extends RemoteServiceServlet {
 	protected String url = "jdbc:mysql://localhost/mindlevel";
 	protected String dbUser = "root";
-	protected String pass = "L1e2A3";
+	protected String pass = "YouWillNeverRealizeHowFuckingLongThisPasswordIs!";
 
 //	@Deprecated
 //	protected void connect() {
@@ -21,7 +21,7 @@ public abstract class DBConnector extends RemoteServiceServlet {
 //			e.printStackTrace();
 //		}
 //	}
-//	
+//
 //	@Deprecated
 //	protected void disconnect() {
 //		try {
@@ -30,7 +30,7 @@ public abstract class DBConnector extends RemoteServiceServlet {
 //			e.printStackTrace();
 //		}
 //	}
-	
+
 	protected Connection getConnection() {
 		Connection conn = null;
 		try {
