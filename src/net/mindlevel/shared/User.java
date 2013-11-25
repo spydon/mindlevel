@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 public class User implements Serializable{
     private static final long serialVersionUID = 1L;
+    private int userId;
     private String username;
     private String token;
     private boolean adult;
@@ -101,5 +102,13 @@ public class User implements Serializable{
     public String toString() {
         return username + " " + location + " " + adult + " " + permission + " " + lastLogin + " "
                 + created + " " + description;
+    }
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 }

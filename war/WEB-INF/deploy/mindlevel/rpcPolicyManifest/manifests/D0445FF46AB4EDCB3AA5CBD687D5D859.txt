@@ -1,2 +1,0 @@
-serviceClass: net.mindlevel.client.services.MetaUploadService
-path: 4538AB933DFB5FF9DE539F35A30FED2A.gwt.rpc

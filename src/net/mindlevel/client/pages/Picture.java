@@ -45,7 +45,9 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class Picture {
     private final RootPanel appArea;
-    private final Image image = new Image("../images/loading.gif");
+    private final String notFoundPath = "../images/notfound.jpg";
+    private final String loadingPath = "../images/loading.gif";
+    private final Image image = new Image(loadingPath);
     private final Image leftArrow = new Image("../images/icons/left2.svg");
     private final Image rightArrow = new Image("../images/icons/right2.svg");
     private int id = 0;
@@ -291,15 +293,16 @@ public class Picture {
     }
 
     private void loadImage(final int id, final boolean relative) {
-        setImageUrl("../images/loading.gif");
+        setImageUrl(loadingPath);
         pictureService.get(id, relative, validated, new AsyncCallback<MetaImage>() {
             @Override
             public void onFailure(Throwable caught) {
-                setImageUrl("../images/notfound.jpg");
-                metaPanel.setVisible(false);
-                leftArrow.setVisible(false);
-                rightArrow.setVisible(false);
-                title.setVisible(false);
+                setImageUrl(notFoundPath);
+//                metaPanel.setVisible(false);
+//                leftArrow.setVisible(false);
+//                rightArrow.setVisible(false);
+//                title.setVisible(false);
+                clearFields();
                 notFound = true;
             }
 
@@ -473,16 +476,21 @@ public class Picture {
     }
 
     private void clearFields() {
-        title.setHTML("");
-        description.setHTML("");
-        location.setHTML("");
-        tags.setHTML("");
-        owner.setHTML("");
-        category.setHTML("");
-        mission.setHTML("");
-        link.setHTML("");
-        score.setHTML("");
-        date.setHTML("");
+        metaPanel.setVisible(false);
+        leftArrow.setVisible(false);
+        rightArrow.setVisible(false);
+        title.setVisible(false);
+        score.setVisible(false);
+//        title.setHTML("");
+//        description.setHTML("");
+//        location.setHTML("");
+//        tags.setHTML("");
+//        owner.setHTML("");
+//        category.setHTML("");
+//        mission.setHTML("");
+//        link.setHTML("");
+//        score.setHTML("");
+//        date.setHTML("");
         ratingPanel.setVisible(false);
         validate.setVisible(false);
         delete.setVisible(false);
@@ -518,7 +526,7 @@ public class Picture {
             @Override
             public void onSuccess(Mission m) {
                 mission.setHTML("<b>Mission: </b>" + getAnchor("mission", Integer.toString(m.getId()), m.getName()));
-                category.setHTML("<b>Category: </b>" + getAnchor("category", m.getCategory(), m.getCategory()));
+                category.setHTML("<b>Category: </b>" + getAnchor("category", m.getCategories().toString(), m.getCategories().toString())); //TODO: Fix categories
             }
         });
     }

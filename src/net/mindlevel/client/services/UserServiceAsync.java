@@ -14,6 +14,8 @@ public interface UserServiceAsync {
             throws IllegalArgumentException;
     void getUsers(int start, int end, AsyncCallback<List<User>> callback)
             throws IllegalArgumentException;
+    void getUsers(AsyncCallback<List<User>> asyncCallback);
     void getUserCount(AsyncCallback<Integer> callback)
             throws IllegalArgumentException;
+    void getUserFromToken(String token, AsyncCallback<User> asyncCallback);
 }

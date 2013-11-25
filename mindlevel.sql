@@ -23,8 +23,9 @@ DROP TABLE IF EXISTS `category`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `category` (
+  `id` int(11) NOT NULL,
   `name` varchar(32) NOT NULL,
-  PRIMARY KEY (`name`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -47,16 +48,14 @@ DROP TABLE IF EXISTS `mission`;
 CREATE TABLE `mission` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(64) NOT NULL,
-  `category` varchar(32) NOT NULL,
   `description` text NOT NULL,
-  `adult` tinyint(1) DEFAULT '0',
-  `creator` varchar(64) DEFAULT NULL,
+  `adult` tinyint(1) NOT NULL DEFAULT '0',
+  `user_id` int(11) DEFAULT NULL,
+  `validated` tinyint(1) NOT NULL DEFAULT '0',
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
-  KEY `name` (`name`),
-  KEY `creator` (`creator`),
-  CONSTRAINT `mission_ibfk_1` FOREIGN KEY (`name`) REFERENCES `category` (`name`) ON UPDATE CASCADE,
-  CONSTRAINT `mission_ibfk_2` FOREIGN KEY (`creator`) REFERENCES `user` (`username`) ON UPDATE CASCADE
+  KEY `mission_ibfk_1` (`user_id`),
+  CONSTRAINT `mission_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -70,35 +69,29 @@ LOCK TABLES `mission` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `mission_suggestion`
+-- Table structure for table `mission_category`
 --
 
-DROP TABLE IF EXISTS `mission_suggestion`;
+DROP TABLE IF EXISTS `mission_category`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `mission_suggestion` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(64) NOT NULL,
-  `category` varchar(32) NOT NULL,
-  `description` text,
-  `adult` tinyint(1) DEFAULT '0',
-  `creator` varchar(64) DEFAULT NULL,
-  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`id`),
-  KEY `category` (`category`),
-  KEY `creator` (`creator`),
-  CONSTRAINT `mission_suggestion_ibfk_1` FOREIGN KEY (`category`) REFERENCES `category` (`name`) ON UPDATE CASCADE,
-  CONSTRAINT `mission_suggestion_ibfk_2` FOREIGN KEY (`creator`) REFERENCES `user` (`username`) ON UPDATE CASCADE
+CREATE TABLE `mission_category` (
+  `mission_id` int(11) NOT NULL,
+  `category_id` int(11) NOT NULL,
+  PRIMARY KEY (`mission_id`,`category_id`),
+  KEY `mission_category_ibfk_2` (`category_id`),
+  CONSTRAINT `mission_category_ibfk_1` FOREIGN KEY (`mission_id`) REFERENCES `mission` (`id`) ON UPDATE CASCADE,
+  CONSTRAINT `mission_category_ibfk_2` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `mission_suggestion`
+-- Dumping data for table `mission_category`
 --
 
-LOCK TABLES `mission_suggestion` WRITE;
-/*!40000 ALTER TABLE `mission_suggestion` DISABLE KEYS */;
-/*!40000 ALTER TABLE `mission_suggestion` ENABLE KEYS */;
+LOCK TABLES `mission_category` WRITE;
+/*!40000 ALTER TABLE `mission_category` DISABLE KEYS */;
+/*!40000 ALTER TABLE `mission_category` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -139,14 +132,15 @@ CREATE TABLE `picture` (
   `location` varchar(256) NOT NULL DEFAULT '',
   `description` text NOT NULL,
   `adult` tinyint(1) DEFAULT '0',
-  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `owner` varchar(64) DEFAULT NULL,
+  `validated` tinyint(1) NOT NULL DEFAULT '0',
+  `owner_id` int(11) DEFAULT NULL,
   `mission_id` int(11) DEFAULT NULL,
   `score` int(11) DEFAULT NULL,
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
-  KEY `owner` (`owner`),
+  KEY `owner_id` (`owner_id`),
   KEY `mission_id` (`mission_id`),
-  CONSTRAINT `picture_ibfk_1` FOREIGN KEY (`owner`) REFERENCES `user` (`username`) ON UPDATE CASCADE,
+  CONSTRAINT `picture_ibfk_1` FOREIGN KEY (`owner_id`) REFERENCES `user` (`id`) ON UPDATE CASCADE,
   CONSTRAINT `picture_ibfk_2` FOREIGN KEY (`mission_id`) REFERENCES `mission` (`id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -161,41 +155,6 @@ LOCK TABLES `picture` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `picture_suggestion`
---
-
-DROP TABLE IF EXISTS `picture_suggestion`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `picture_suggestion` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `filename` varchar(64) NOT NULL,
-  `title` varchar(256) NOT NULL DEFAULT '',
-  `location` varchar(256) NOT NULL DEFAULT '',
-  `description` text NOT NULL,
-  `adult` tinyint(1) DEFAULT '0',
-  `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `owner` varchar(64) DEFAULT NULL,
-  `mission_id` int(11) DEFAULT NULL,
-  `score` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `owner` (`owner`),
-  KEY `mission_id` (`mission_id`),
-  CONSTRAINT `picture_suggestion_ibfk_1` FOREIGN KEY (`owner`) REFERENCES `user` (`username`) ON UPDATE CASCADE,
-  CONSTRAINT `picture_suggestion_ibfk_2` FOREIGN KEY (`mission_id`) REFERENCES `mission` (`id`) ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `picture_suggestion`
---
-
-LOCK TABLES `picture_suggestion` WRITE;
-/*!40000 ALTER TABLE `picture_suggestion` DISABLE KEYS */;
-/*!40000 ALTER TABLE `picture_suggestion` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `rating`
 --
 
@@ -203,17 +162,15 @@ DROP TABLE IF EXISTS `rating`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `rating` (
-  `user` varchar(64) NOT NULL,
-  `category` varchar(21) DEFAULT NULL,
-  `score` int(11) NOT NULL DEFAULT '0',
   `picture_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `score` int(11) NOT NULL DEFAULT '0',
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`user`,`picture_id`),
-  KEY `category` (`category`),
+  PRIMARY KEY (`picture_id`,`user_id`),
   KEY `picture_id` (`picture_id`),
-  CONSTRAINT `rating_ibfk_1` FOREIGN KEY (`user`) REFERENCES `user` (`username`) ON UPDATE CASCADE,
-  CONSTRAINT `rating_ibfk_2` FOREIGN KEY (`category`) REFERENCES `category` (`name`) ON UPDATE CASCADE,
-  CONSTRAINT `rating_ibfk_3` FOREIGN KEY (`picture_id`) REFERENCES `picture` (`id`) ON UPDATE CASCADE
+  KEY `user_id` (`user_id`),
+  CONSTRAINT `rating_ibfk_1` FOREIGN KEY (`picture_id`) REFERENCES `picture` (`id`) ON UPDATE CASCADE,
+  CONSTRAINT `rating_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -234,18 +191,19 @@ DROP TABLE IF EXISTS `user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(64) NOT NULL,
   `password` varchar(128) NOT NULL,
   `location` varchar(256) DEFAULT NULL,
   `description` text,
   `adult` tinyint(1) NOT NULL DEFAULT '0',
-  `permission` int(11) DEFAULT '0',
+  `permission_id` int(11) DEFAULT '0',
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `token` varchar(64) DEFAULT NULL,
   `last_login` int(11) DEFAULT NULL,
-  PRIMARY KEY (`username`),
-  KEY `permission` (`permission`),
-  CONSTRAINT `user_ibfk_1` FOREIGN KEY (`permission`) REFERENCES `permission` (`id`) ON UPDATE CASCADE
+  PRIMARY KEY (`id`),
+  KEY `permission_id` (`permission_id`),
+  CONSTRAINT `user_ibfk_1` FOREIGN KEY (`permission_id`) REFERENCES `permission` (`id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -255,7 +213,6 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES ('spydon','09cbb85ceed21bb97f5c13cbf26a5660a72f3e98dc065b697c9b4e78439b2cbbbf422e73edc5c0e77c31c4a540d9b88d5be539c98704958098b5d91d7ef0a429',NULL,NULL,1,1,'2013-11-10 09:43:35',NULL,1384076615);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -268,11 +225,11 @@ DROP TABLE IF EXISTS `user_picture`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `user_picture` (
   `picture_id` int(11) NOT NULL,
-  `user_id` varchar(64) NOT NULL,
+  `user_id` int(11) NOT NULL,
   PRIMARY KEY (`picture_id`,`user_id`),
   KEY `user_id` (`user_id`),
   CONSTRAINT `user_picture_ibfk_1` FOREIGN KEY (`picture_id`) REFERENCES `picture` (`id`) ON UPDATE CASCADE,
-  CONSTRAINT `user_picture_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`username`) ON UPDATE CASCADE
+  CONSTRAINT `user_picture_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -284,32 +241,6 @@ LOCK TABLES `user_picture` WRITE;
 /*!40000 ALTER TABLE `user_picture` DISABLE KEYS */;
 /*!40000 ALTER TABLE `user_picture` ENABLE KEYS */;
 UNLOCK TABLES;
-
---
--- Table structure for table `user_picture_suggestion`
---
-
-DROP TABLE IF EXISTS `user_picture_suggestion`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `user_picture_suggestion` (
-  `picture_id` int(11) NOT NULL,
-  `user_id` varchar(64) NOT NULL,
-  PRIMARY KEY (`picture_id`,`user_id`),
-  KEY `user_id` (`user_id`),
-  CONSTRAINT `user_picture_suggestion_ibfk_1` FOREIGN KEY (`picture_id`) REFERENCES `picture` (`id`) ON UPDATE CASCADE,
-  CONSTRAINT `user_picture_suggestion_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`username`) ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `user_picture_suggestion`
---
-
-LOCK TABLES `user_picture_suggestion` WRITE;
-/*!40000 ALTER TABLE `user_picture_suggestion` DISABLE KEYS */;
-/*!40000 ALTER TABLE `user_picture_suggestion` ENABLE KEYS */;
-UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
@@ -320,4 +251,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2013-11-14 19:21:47
+-- Dump completed on 2013-11-16 17:12:39

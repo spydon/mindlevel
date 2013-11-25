@@ -11,38 +11,38 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
 
 public class Logout {
-	private RootPanel appArea;
+    private final RootPanel appArea;
 
-	/**
-	 * Create a remote service proxy to talk to the server-side Greeting
-	 * service.
-	 */
-	private final TokenServiceAsync tokenService = GWT
-			.create(TokenService.class);
+    /**
+     * Create a remote service proxy to talk to the server-side Greeting
+     * service.
+     */
+    private final TokenServiceAsync tokenService = GWT
+            .create(TokenService.class);
 
-	public Logout(RootPanel appArea) {
-		this.appArea = appArea;
-		init();
-	}
+    public Logout(RootPanel appArea) {
+        this.appArea = appArea;
+        init();
+    }
 
-	private void init() {
+    private void init() {
+        tokenService.invalidateToken(Mindlevel.user.getToken(),
+                new AsyncCallback<Void>() {
+                    @Override
+                    public void onFailure(Throwable caught) {
+                        // Show the RPC error message to the user
+                        HandyTools.showDialogBox("Error",
+                                new HTML(caught.getMessage()));
+                    }
 
-		tokenService.invalidateToken(Mindlevel.user.getToken(),
-				new AsyncCallback<Void>() {
-					@Override
-					public void onFailure(Throwable caught) {
-						// Show the RPC error message to the user
-						HandyTools.showDialogBox("Error",
-								new HTML(caught.getMessage()));
-					}
-
-					@Override
-					public void onSuccess(Void result) {
-						HandyTools.setLoggedOff();
-						new Home(appArea);
-						HandyTools.showDialogBox("Logged out", new HTML(
-								"You successfully logged out"));
-					}
-				});
-	}
+                    @Override
+                    public void onSuccess(Void result) {
+                        HandyTools.setLoggedOff();
+                        new Home(appArea);
+                        HandyTools.showDialogBox("Logged out", new HTML(
+                                "You successfully logged out"));
+                    }
+                }
+        );
+    }
 }

@@ -3,8 +3,8 @@ package net.mindlevel.client;
 import java.util.Date;
 
 import net.mindlevel.client.pages.Admin;
-import net.mindlevel.client.services.TokenService;
-import net.mindlevel.client.services.TokenServiceAsync;
+import net.mindlevel.client.services.UserService;
+import net.mindlevel.client.services.UserServiceAsync;
 import net.mindlevel.shared.User;
 
 import com.google.gwt.core.client.GWT;
@@ -27,8 +27,8 @@ public class HandyTools {
      * Create a remote service proxy to talk to the server-side token
      * service.
      */
-    private final static TokenServiceAsync tokenService = GWT
-            .create(TokenService.class);
+    private final static UserServiceAsync userService = GWT
+            .create(UserService.class);
 
     public static boolean isLoggedIn() {
         return isLoggedIn;
@@ -82,7 +82,7 @@ public class HandyTools {
     }
 
     public static void keepLoggedIn(String token) {
-        tokenService.getUser(token, new AsyncCallback<User>() {
+        userService.getUserFromToken(token, new AsyncCallback<User>() {
             @Override
             public void onFailure(Throwable caught) {
                 HandyTools.showDialogBox("Error", new HTML(caught.getMessage()));
@@ -103,10 +103,10 @@ public class HandyTools {
         RootPanel.get("profile").getElement().setInnerHTML(username);
         RootPanel.get("hideprofile").setVisible(logIn);
         RootPanel.get("hidechat").setStyleName("superhidden", !logIn);
-//        if(logIn)
-//            RootPanel.get("hidechat").removeStyleName("superhidden");
-//        else
-//            RootPanel.get("hidechat").addStyleName("superhidden");
+        if(Mindlevel.user.isAdmin())
+            RootPanel.get("adminmenu").setStyleName("superhidden", !logIn);
+        else if(!logIn)
+            RootPanel.get("adminmenu").setStyleName("superhidden", !logIn);
         isLoggedIn = logIn;
     }
 

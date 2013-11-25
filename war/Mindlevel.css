@@ -51,8 +51,12 @@ h1 {
 
 /** MENU START **/
 
+.adminmenu {
+    position: relative;
+    z-index: 1500;
+}
+
 .menu a {
-/*     color: #EEEEEE !important; */
     color: #000 !important;
 }
 
@@ -287,6 +291,18 @@ header {
 
 .superhidden {
     display: none !important;
+}
+
+.noscript {
+    width: 22em;
+    position: absolute;
+    left: 50%;
+    margin-left: -11em;
+    color: red;
+    background-color: white;
+    border: 1px solid red;
+    padding: 4px;
+    font-family: sans-serif;
 }
 
 #loginMenu {

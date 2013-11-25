@@ -1,7 +1,5 @@
 package net.mindlevel.client.services;
 
-import net.mindlevel.shared.User;
-
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
@@ -10,8 +8,7 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
  */
 @RemoteServiceRelativePath("token")
 public interface TokenService extends RemoteService {
-	String getToken(String login, String password) throws IllegalArgumentException;
-	boolean validateToken(String token) throws IllegalArgumentException;
-	void invalidateToken(String token) throws IllegalArgumentException;
-	User getUser(String token) throws IllegalArgumentException;
+    String getToken(String login, String password) throws IllegalArgumentException;
+    boolean validateToken(String token) throws IllegalArgumentException;
+    void invalidateToken(String token) throws IllegalArgumentException;
 }
