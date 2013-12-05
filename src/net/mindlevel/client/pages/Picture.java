@@ -526,7 +526,7 @@ public class Picture {
             @Override
             public void onSuccess(Mission m) {
                 mission.setHTML("<b>Mission: </b>" + getAnchor("mission", Integer.toString(m.getId()), m.getName()));
-                category.setHTML("<b>Category: </b>" + getAnchor("category", m.getCategories().toString(), m.getCategories().toString())); //TODO: Fix categories
+//                category.setHTML("<b>Category: </b>" + getAnchor("category", m.getCategories().toString(), m.getCategories().toString())); //TODO: Fix categories
             }
         });
     }

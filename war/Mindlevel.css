@@ -54,6 +54,7 @@ h1 {
 .adminmenu {
     position: relative;
     z-index: 1500;
+    padding-bottom: 40px;
 }
 
 .menu a {

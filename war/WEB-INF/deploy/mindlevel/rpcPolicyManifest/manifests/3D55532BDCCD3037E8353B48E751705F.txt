@@ -1,2 +1,0 @@
-serviceClass: net.mindlevel.client.services.OracleService
-path: 60AA7BF1771468BA53141F5B5FBA5366.gwt.rpc

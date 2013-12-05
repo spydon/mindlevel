@@ -87,16 +87,6 @@
   </servlet-mapping>
   
     <servlet>
-    <servlet-name>oracleServlet</servlet-name>
-    <servlet-class>net.mindlevel.server.OracleServiceImpl</servlet-class>
-  </servlet>
-  
-  <servlet-mapping>
-    <servlet-name>oracleServlet</servlet-name>
-    <url-pattern>/mindlevel/oracle</url-pattern>
-  </servlet-mapping>
-  
-    <servlet>
     <servlet-name>metaUploadServlet</servlet-name>
     <servlet-class>net.mindlevel.server.MetaUploadServiceImpl</servlet-class>
   </servlet>

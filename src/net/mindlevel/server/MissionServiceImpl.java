@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import net.mindlevel.client.services.MissionService;
 import net.mindlevel.shared.Mission;
@@ -14,30 +15,32 @@ import net.mindlevel.shared.Mission;
 @SuppressWarnings("serial")
 public class MissionServiceImpl extends DBConnector implements MissionService {
 
-    private final ArrayList<Mission> missions = new ArrayList<Mission>();
-
     @Override
-    public List<Mission> getMissions(int start, int end, boolean validated) throws IllegalArgumentException {
+    public List<Mission> getMissions(int start, int end, boolean validated) throws IllegalArgumentException, NoSuchElementException {
+        ArrayList<Mission> missions = null;
+
         try {
             Connection conn = getConnection();
-            missions.clear();
             PreparedStatement ps =
                     conn.prepareStatement("SELECT "
-                                        + "id, "
-                                        + "name, "
-                                        + "adult, "
-                                        + "username As creator, "
-                                        + "timestamp "
+                                        + "mission.id, "
+                                        + "mission.name, "
+                                        + "mission.adult, "
+                                        + "user.username As creator, "
+                                        + "mission.timestamp "
                                         + "FROM mission "
                                         + "INNER JOIN user "
-                                        + "ON user_id = user.id "
-                                        + "ORDER BY name "
+                                        + "ON mission.user_id = user.id "
+                                        + "ORDER BY mission.name "
                                         + "LIMIT ?,?");
             ps.setInt(1, start);
             ps.setInt(2, end);
             ResultSet rs = ps.executeQuery();
             //TODO: Get categories
+
             while(rs.next()) {
+                if(rs.isFirst())
+                    missions = new ArrayList<Mission>();
                 Mission mission = new Mission();
                 mission.setId(rs.getInt("id"));
                 mission.setName(rs.getString("name"));
@@ -46,6 +49,7 @@ public class MissionServiceImpl extends DBConnector implements MissionService {
                 mission.setTimestamp(rs.getString("timestamp"));
                 missions.add(mission);
             }
+
             rs.close();
             ps.close();
             conn.close();
@@ -76,25 +80,26 @@ public class MissionServiceImpl extends DBConnector implements MissionService {
 
     @Override
     public Mission getMission(int id, boolean validated) throws IllegalArgumentException {
-        Mission mission = new Mission();
+        Mission mission = null;
         try {
             Connection conn = getConnection();
             PreparedStatement ps =
                     conn.prepareStatement("SELECT "
-                                        + "id, "
-                                        + "name, "
-                                        + "category, "
-                                        + "description, "
-                                        + "adult, "
+                                        + "mission.id, "
+                                        + "mission.name, "
+                                        + "mission.description, "
+                                        + "mission.adult, "
                                         + "user.username, "
-                                        + "timestamp "
+                                        + "mission.timestamp "
                                         + "FROM mission "
                                         + "INNER JOIN user "
                                         + "ON user_id = user.id "
                                         + "WHERE id = ?");
+            //TODO: Fix categories
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             if(rs.first()) {
+                mission = new Mission();
                 mission.setName(rs.getString("name"));
                 mission.setCategories(getCategories(rs.getInt("id")));
                 mission.setId(rs.getInt("id"));
