@@ -1,0 +1,2 @@
+serviceClass: net.mindlevel.client.services.MissionService
+path: C9E39A93DE841115D83093018CE76C48.gwt.rpc
