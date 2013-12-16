@@ -50,12 +50,12 @@ CREATE TABLE `mission` (
   `name` varchar(64) NOT NULL,
   `description` text NOT NULL,
   `adult` tinyint(1) NOT NULL DEFAULT '0',
-  `user_id` int(11) DEFAULT NULL,
+  `creator` varchar(64) NOT NULL,
   `validated` tinyint(1) NOT NULL DEFAULT '0',
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
-  KEY `mission_ibfk_1` (`user_id`),
-  CONSTRAINT `mission_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON UPDATE CASCADE
+  KEY `mission_ibfk_1` (`creator`),
+  CONSTRAINT `mission_ibfk_1` FOREIGN KEY (`creator`) REFERENCES `user` (`username`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -163,14 +163,14 @@ DROP TABLE IF EXISTS `rating`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `rating` (
   `picture_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
+  `username` varchar(64) NOT NULL,
   `score` int(11) NOT NULL DEFAULT '0',
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  PRIMARY KEY (`picture_id`,`user_id`),
+  PRIMARY KEY (`picture_id`,`username`),
   KEY `picture_id` (`picture_id`),
-  KEY `user_id` (`user_id`),
+  KEY `username` (`username`),
   CONSTRAINT `rating_ibfk_1` FOREIGN KEY (`picture_id`) REFERENCES `picture` (`id`) ON UPDATE CASCADE,
-  CONSTRAINT `rating_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON UPDATE CASCADE
+  CONSTRAINT `rating_ibfk_2` FOREIGN KEY (`username`) REFERENCES `user` (`username`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -191,7 +191,6 @@ DROP TABLE IF EXISTS `user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `user` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(64) NOT NULL,
   `password` varchar(128) NOT NULL,
   `location` varchar(256) DEFAULT NULL,
@@ -201,7 +200,7 @@ CREATE TABLE `user` (
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `token` varchar(64) DEFAULT NULL,
   `last_login` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`),
+  PRIMARY KEY (`username`),
   KEY `permission_id` (`permission_id`),
   CONSTRAINT `user_ibfk_1` FOREIGN KEY (`permission_id`) REFERENCES `permission` (`id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -225,11 +224,11 @@ DROP TABLE IF EXISTS `user_picture`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `user_picture` (
   `picture_id` int(11) NOT NULL,
-  `user_id` int(11) NOT NULL,
-  PRIMARY KEY (`picture_id`,`user_id`),
-  KEY `user_id` (`user_id`),
+  `username` varchar(64) NOT NULL,
+  PRIMARY KEY (`picture_id`,`username`),
+  KEY `username` (`username`),
   CONSTRAINT `user_picture_ibfk_1` FOREIGN KEY (`picture_id`) REFERENCES `picture` (`id`) ON UPDATE CASCADE,
-  CONSTRAINT `user_picture_ibfk_2` FOREIGN KEY (`user_id`) REFERENCES `user` (`id`) ON UPDATE CASCADE
+  CONSTRAINT `user_picture_ibfk_2` FOREIGN KEY (`username`) REFERENCES `user` (`username`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 

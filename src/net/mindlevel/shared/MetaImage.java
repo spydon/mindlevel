@@ -12,7 +12,6 @@ public class MetaImage implements Serializable{
     private int id;
     private int relativeId;
     private final int missionId;
-    private int ownerId;
     private int score = 0;
 
     public MetaImage() {
@@ -24,17 +23,16 @@ public class MetaImage implements Serializable{
     }
 
     public MetaImage(String filename, String title, String location,
-                     int missionId, int ownerId, String description, ArrayList<String> tags,
-                     String owner, boolean adult) {
+                     int missionId, String owner, String description, ArrayList<String> tags,
+                     boolean adult) {
         this.filename = filename;
         this.setId(id);
         this.title = title;
         this.location = location;
         this.missionId = missionId;
-        this.ownerId = ownerId;
+        this.owner = owner;
         this.description = description;
         this.tags = tags;
-        this.setOwner(owner);
         this.adult = adult;
     }
 
@@ -157,9 +155,5 @@ public class MetaImage implements Serializable{
     public int getOwnerId() {
         // TODO Auto-generated method stub
         return 0;
-    }
-
-    public void setOwnerId(int ownerId) {
-        this.ownerId = ownerId;
     }
 }

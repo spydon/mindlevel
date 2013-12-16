@@ -69,9 +69,9 @@ public class PictureServiceImpl extends DBConnector implements PictureService {
             int realId = rs.getInt("id");
             image = new MetaImage(rs.getString("filename"), rs.getString("title"),
                                   rs.getString("location"), rs.getInt("mission_id"),
-                                  rs.getInt("owner_id"), rs.getString("description"),
+                                  rs.getString("owner"), rs.getString("description"),
                                   getTags(realId, validated),
-                                  rs.getString("owner"), rs.getBoolean("adult"));
+                                  rs.getBoolean("adult"));
             image.setScore(rs.getInt("score"));
             image.setId(realId);
             String created = rs.getString("created");

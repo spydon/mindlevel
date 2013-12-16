@@ -109,8 +109,8 @@ public class Upload {
             @Override
             public void onClick(ClickEvent event) {
                 MetaImage metaImage = new MetaImage(filename, titleTB.getText(),
-                        locationTB.getText(), missionId, Mindlevel.user.getUserId(), descriptionTA.getText(),
-                        getTags(), Mindlevel.user.getUsername(), adultCB.getValue());
+                        locationTB.getText(), missionId, Mindlevel.user.getUsername(), descriptionTA.getText(),
+                        getTags(), adultCB.getValue());
                 metaImage.setToken(Mindlevel.user.getToken());
                 if(FieldVerifier.isValidMetaImage(metaImage)) {
                     metaUpload(metaImage);

@@ -34,7 +34,6 @@ public class LoginServiceImpl extends DBConnector implements LoginService {
             if(rs.first()) {
                 String token = new TokenServiceImpl().generateToken(username);
                 user.setToken(token);
-                user.setUserId(rs.getInt("id"));
                 user.setUsername(rs.getString("username"));
                 user.setAdult(rs.getBoolean("adult"));
                 user.setCreated(rs.getString("created"));

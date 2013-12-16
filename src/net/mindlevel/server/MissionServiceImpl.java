@@ -26,11 +26,9 @@ public class MissionServiceImpl extends DBConnector implements MissionService {
                                         + "mission.id, "
                                         + "mission.name, "
                                         + "mission.adult, "
-                                        + "user.username As creator, "
+                                        + "mission.creator, "
                                         + "mission.timestamp "
                                         + "FROM mission "
-                                        + "INNER JOIN user "
-                                        + "ON mission.user_id = user.id "
                                         + "ORDER BY mission.name "
                                         + "LIMIT ?,?");
             ps.setInt(1, start);
