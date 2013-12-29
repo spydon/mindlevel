@@ -1,8 +1,8 @@
--- MySQL dump 10.14  Distrib 10.0.4-MariaDB, for debian-linux-gnu (x86_64)
+-- MySQL dump 10.14  Distrib 10.0.5-MariaDB, for debian-linux-gnu (x86_64)
 --
 -- Host: localhost    Database: mindlevel
 -- ------------------------------------------------------
--- Server version	10.0.4-MariaDB-1~wheezy-log
+-- Server version	10.0.5-MariaDB-1~wheezy-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -133,14 +133,14 @@ CREATE TABLE `picture` (
   `description` text NOT NULL,
   `adult` tinyint(1) DEFAULT '0',
   `validated` tinyint(1) NOT NULL DEFAULT '0',
-  `owner_id` int(11) DEFAULT NULL,
+  `owner` varchar(64) DEFAULT NULL,
   `mission_id` int(11) DEFAULT NULL,
   `score` int(11) DEFAULT NULL,
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
-  KEY `owner_id` (`owner_id`),
+  KEY `owner` (`owner`),
   KEY `mission_id` (`mission_id`),
-  CONSTRAINT `picture_ibfk_1` FOREIGN KEY (`owner_id`) REFERENCES `user` (`id`) ON UPDATE CASCADE,
+  CONSTRAINT `picture_ibfk_1` FOREIGN KEY (`owner`) REFERENCES `user` (`username`) ON UPDATE CASCADE,
   CONSTRAINT `picture_ibfk_2` FOREIGN KEY (`mission_id`) REFERENCES `mission` (`id`) ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
