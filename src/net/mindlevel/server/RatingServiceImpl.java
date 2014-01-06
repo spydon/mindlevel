@@ -17,9 +17,8 @@ public class RatingServiceImpl extends DBConnector implements RatingService {
         int value = 0;
         try {
             Connection conn = getConnection();
-            PreparedStatement ps = conn.prepareStatement("SELECT score FROM rating INNER JOIN "
-                    + "user ON user_id = user.id "
-                    + "WHERE user.username = ? AND picture_id = ?");
+            PreparedStatement ps = conn.prepareStatement("SELECT score FROM rating "
+                    + "WHERE username = ? AND picture_id = ?");
             ps.setString(1, username);
             ps.setInt(2, pictureId);
             ResultSet rs = ps.executeQuery();

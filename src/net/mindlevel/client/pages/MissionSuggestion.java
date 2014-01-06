@@ -6,6 +6,8 @@ import java.util.List;
 
 import net.mindlevel.client.HandyTools;
 import net.mindlevel.client.Mindlevel;
+import net.mindlevel.client.services.CategoryService;
+import net.mindlevel.client.services.CategoryServiceAsync;
 import net.mindlevel.client.services.MissionService;
 import net.mindlevel.client.services.MissionServiceAsync;
 import net.mindlevel.client.services.TokenService;
@@ -16,12 +18,17 @@ import net.mindlevel.shared.Mission;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyUpEvent;
+import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.DecoratedPopupPanel;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.HTMLTable.Cell;
+import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.ListBox;
 import com.google.gwt.user.client.ui.TextArea;
@@ -33,9 +40,14 @@ public class MissionSuggestion {
     private final HTML header;
     private final DecoratedPopupPanel popup;
     private final VerticalPanel panel;
+    private ArrayList<String> categories;
+    private final ArrayList<ListBox> categoryList = new ArrayList<ListBox>();
 
     private final MissionServiceAsync missionService = GWT
             .create(MissionService.class);
+
+    private final CategoryServiceAsync categoryService = GWT
+            .create(CategoryService.class);
 
     private final static TokenServiceAsync tokenService = GWT
             .create(TokenService.class);
@@ -65,9 +77,9 @@ public class MissionSuggestion {
     private FlexTable getMetaDataPanel() {
         Label titleL = new Label("Title");
         final TextBox titleTB = new TextBox();
-        Label categoryL = new Label("Category");
-        final ListBox categoryLB = new ListBox();
-        getCategories(categoryLB);
+//        Label categoryL = new Label("Categories (as few as possible)");
+//        final ListBox categoryLB = new ListBox();
+//        getCategories(categoryLB);
         Label descriptionL = new Label("Description");
         final TextArea descriptionTA = new TextArea();
         Label adultL = new Label("18+ only?");
@@ -76,8 +88,12 @@ public class MissionSuggestion {
         uploadB.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-                ArrayList<String> categories = new ArrayList<String>(); //TODO: Fix categories
-                categories.add(categoryLB.getItemText(categoryLB.getSelectedIndex()));
+                ArrayList<String> categories = new ArrayList<String>();
+                for(ListBox categoryLB : categoryList) {
+                    String category = categoryLB.getItemText(categoryLB.getSelectedIndex());
+                    if(!categories.contains(category) && !categoryLB.isEnabled())
+                        categories.add(category);
+                }
                 Mission mission = new Mission(titleTB.getText(), categories, descriptionTA.getText(), Mindlevel.user.getUsername(), adultCB.getValue());
                 if(FieldVerifier.isValidMission(mission)) {
                     missionUpload(mission);
@@ -98,8 +114,9 @@ public class MissionSuggestion {
         t.setWidget(0, 1, titleTB);
         t.setWidget(1, 0, descriptionL);
         t.setWidget(1, 1, descriptionTA);
-        t.setWidget(2, 0, categoryL);
-        t.setWidget(2, 1, categoryLB);
+//        t.setWidget(2, 0, categoryL);
+        createTagRow(2);
+//        t.setWidget(2, 1, categoryLB);
         t.setWidget(3, 0, adultL);
         t.setWidget(3, 1, adultCB);
         t.setWidget(4, 1, uploadB);
@@ -133,18 +150,73 @@ public class MissionSuggestion {
         });
     }
 
-    private void getCategories(final ListBox categoryLB) {
-        missionService.getCategories(new AsyncCallback<List<String>>() {
+    private void createTagRow(final int row) {
+        Label tagL = new Label("Add category");
+        final ListBox categoryLB = new ListBox();
+        final Button newTagB = new Button("+");
+        final Button delTagB = new Button("-");
+        getCategories(categoryLB);
+        HorizontalPanel buttonPanel = new HorizontalPanel();
+        buttonPanel.add(newTagB);
+        buttonPanel.add(delTagB);
+        t.setWidget(row, 0, tagL);
+        t.setWidget(row, 1, categoryLB);
+        t.setWidget(row, 2, buttonPanel);
+        categoryLB.setFocus(true);
+        categoryList.add(categoryLB);
+        newTagB.addClickHandler(new ClickHandler() {
             @Override
-            public void onFailure(Throwable caught) {
-                HandyTools.showDialogBox("Error", new HTML("Could not load categories, try reloading the page."));
-            }
-
-            @Override
-            public void onSuccess(List<String> result) {
-                for(String category : result)
-                    categoryLB.addItem(category);
+            public void onClick(ClickEvent event) {
+                categoryLB.setEnabled(false);
+                if(t.getRowCount() < 9) {
+                    Cell cell = t.getCellForEvent(event);
+                    t.insertRow(cell.getRowIndex()+1);
+                    createTagRow(cell.getRowIndex()+1);
+                } else {
+                    HandyTools.showDialogBox("Enough", new HTML("You can only choose 4 categories, usually you only need 1 or 2."));
+                }
             }
         });
+        delTagB.addClickHandler(new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+                Cell cell = t.getCellForEvent(event);
+                categoryList.remove(categoryLB);
+                if(t.getRowCount() > 6)
+                    t.removeRow(cell.getRowIndex());
+                else
+                    categoryLB.setItemSelected(0, false);
+            }
+        });
+        categoryLB.addKeyUpHandler(new KeyUpHandler() {
+            @Override
+            public void onKeyUp(KeyUpEvent event) {
+                if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER)
+                    newTagB.click();
+            }
+        });
+    }
+
+    private void getCategories(final ListBox categoryLB) {
+        if(categories == null) {
+            categoryService.getCategories(new AsyncCallback<List<String>>() {
+                @Override
+                public void onFailure(Throwable caught) {
+                    HandyTools.showDialogBox("Error", new HTML("Could not load categories, try reloading the page."));
+                }
+
+                @Override
+                public void onSuccess(List<String> result) {
+                    categories = new ArrayList<String>();
+                    for(String category : result) {
+                        categoryLB.addItem(category);
+                        categories.add(category);
+                    }
+                }
+            });
+        } else {
+            for(String category : categories)
+                categoryLB.addItem(category);
+        }
     }
 }

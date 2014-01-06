@@ -1,2 +1,0 @@
-serviceClass: net.mindlevel.client.services.LoginService
-path: AE3D8E9669ADB4C3A4A0D841E05A373F.gwt.rpc

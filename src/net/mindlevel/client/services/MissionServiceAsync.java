@@ -16,6 +16,5 @@ public interface MissionServiceAsync {
             throws IllegalArgumentException;
     void getMission(int missionId, boolean validated, AsyncCallback<Mission> asyncCallback);
     void uploadMission(Mission mission, String token, AsyncCallback<Void> asyncCallback);
-    void getCategories(int userId, AsyncCallback<List<String>> asyncCallback);
-    void getCategories(AsyncCallback<List<String>> asyncCallback);
+    void validateMission(int missionId, String username, String token, AsyncCallback<Void> asyncCallback);
 }

@@ -56,9 +56,11 @@ public class Missions {
             @Override
             public void onCellPreview(CellPreviewEvent<Mission> event) {
                 boolean isClick = "click".equals(event.getNativeEvent().getType());
-                if(isClick)
+                if(isClick) {
+                    System.out.println(event.getValue().getId());
                     new MissionProfile(appArea, event.getValue().getId(), validated);
                     //Window.Location.assign("/?mission="+event.getValue().getId());
+                }
             }
         });
         table.setKeyboardSelectionPolicy(KeyboardSelectionPolicy.ENABLED);
@@ -76,11 +78,11 @@ public class Missions {
         // Add a category column to show the category.
         TextColumn<Mission> categoryColumn = new TextColumn<Mission>() {
             @Override
-            public String getValue(Mission mission) { //TODO: Fix categories
-                return "Categories unimplemented"; //Normalizer.capitalizeName(mission.getCategories());
+            public String getValue(Mission mission) {
+                return Normalizer.listToString(mission.getCategories());
             }
         };
-        table.addColumn(categoryColumn, "Category");
+        table.addColumn(categoryColumn, "Categories");
 
         // Add a category column to show if mission is only suited for adults.
         TextColumn<Mission> adultColumn = new TextColumn<Mission>() {
@@ -112,7 +114,7 @@ public class Missions {
             }
         };
         table.addColumn(createdColumn, "Created");
-        // Add a date column to show the last time the mission was acomplished.
+        // Add a date column to show the last time the mission was accomplished.
 //        DateCell dateCell = new DateCell();
 //        Column<User, Date> dateColumn = new Column<User, Date>(dateCell) {
 //            @Override
@@ -141,7 +143,8 @@ public class Missions {
 
                     @Override
                     public void onSuccess(List<Mission> result) {
-                        updateRowData(start, result);
+                        if(result != null)
+                            updateRowData(start, result);
                     }
                 };
                 missionService.getMissions(start, length, validated, callback);

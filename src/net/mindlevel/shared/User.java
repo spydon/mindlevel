@@ -10,7 +10,7 @@ public class User implements Serializable{
     private int permission;
     private String location, description, created;
     private String lastLogin;
-//    private final HashMap<String, Integer> scores = new HashMap<String, Integer>();
+//  private final HashMap<String, Integer> scores = new HashMap<String, Integer>();
     //TODO: Change this datastructure
 
     public User() {
@@ -70,11 +70,11 @@ public class User implements Serializable{
     }
 
     public boolean isAdmin() {
-        return 1==permission;
+        return permission==1;
     }
 
     public boolean isModerator() {
-        return 2==permission;
+        return permission>=1 && permission<=2;
     }
 
     public void setPermission(int permission) {

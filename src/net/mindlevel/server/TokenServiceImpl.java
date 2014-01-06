@@ -75,6 +75,7 @@ public class TokenServiceImpl extends DBConnector implements TokenService {
         return isValid;
     }
 
+    @Deprecated //Use validateAuth instead
     @Override
     public boolean validateToken(String token) throws IllegalArgumentException {
         boolean isValid = false;
@@ -98,7 +99,8 @@ public class TokenServiceImpl extends DBConnector implements TokenService {
         boolean isValid = false;
         try {
             Connection conn = getConnection();
-            PreparedStatement ps = conn.prepareStatement("SELECT token FROM user WHERE token=? AND admin=1");
+            PreparedStatement ps = conn.prepareStatement(
+                    "SELECT token FROM user WHERE token=? AND permission_id>0");
             ps.setString(1, token);
             ResultSet rs = ps.executeQuery();
             if(rs.next())

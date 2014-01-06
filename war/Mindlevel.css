@@ -41,12 +41,24 @@ h1 {
     margin-top: 80px;
 }
 
+.margin.adminbar {
+    margin-top: 110px;
+}
+
 .smallmargin {
     margin-top: 60px;
 }
 
+.smallmargin.adminbar {
+    margin-top: 90px;
+}
+
 .nomargin {
     margin-top: 57px;
+}
+
+.nomargin.adminbar {
+    margin-top: 88px;
 }
 
 /** MENU START **/
@@ -54,7 +66,8 @@ h1 {
 .adminmenu {
     position: relative;
     z-index: 1500;
-    padding-bottom: 40px;
+    margin-bottom: 31px;
+/*     padding-bottom: 40px; */
 }
 
 .menu a {
@@ -128,7 +141,7 @@ h1 {
 header {
     top: 0;
     position:fixed;
-    z-index:999;
+    z-index:0;
     opacity: 0.9;
 /*     min-height: 35px; */
     min-height: 55px;
@@ -147,7 +160,6 @@ header {
 }
 
 /** MENU STOP **/
-
 
 .cellTableHoveredRow {
     cursor: pointer;

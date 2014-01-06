@@ -86,7 +86,7 @@ public class UserServiceImpl extends DBConnector implements UserService {
             while(rs.next()) {
                 User user = new User();
                 user.setUsername(rs.getString("username"));
-                user.setPermission(rs.getInt("permission"));
+                user.setPermission(rs.getInt("permission_id"));
                 user.setAdult(rs.getBoolean("adult"));
                 user.setLocation(rs.getString("location"));
                 user.setCreated(rs.getString("created"));
@@ -151,7 +151,7 @@ public class UserServiceImpl extends DBConnector implements UserService {
             while(rs.next()) {
                 User user = new User();
                 user.setUsername(rs.getString("username"));
-                user.setPermission(rs.getInt("permission"));
+                user.setPermission(rs.getInt("permission_id"));
                 user.setAdult(rs.getBoolean("adult"));
                 user.setLocation(rs.getString("location"));
                 user.setCreated(rs.getString("created"));

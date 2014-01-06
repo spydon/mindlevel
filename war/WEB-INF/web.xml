@@ -86,7 +86,7 @@
     <url-pattern>/mindlevel/user</url-pattern>
   </servlet-mapping>
   
-    <servlet>
+  <servlet>
     <servlet-name>metaUploadServlet</servlet-name>
     <servlet-class>net.mindlevel.server.MetaUploadServiceImpl</servlet-class>
   </servlet>
@@ -94,6 +94,16 @@
   <servlet-mapping>
     <servlet-name>metaUploadServlet</servlet-name>
     <url-pattern>/mindlevel/metaUpload</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>categoryServlet</servlet-name>
+    <servlet-class>net.mindlevel.server.CategoryServiceImpl</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>categoryServlet</servlet-name>
+    <url-pattern>/mindlevel/category</url-pattern>
   </servlet-mapping>
   
   <context-param>

@@ -1,2 +1,0 @@
-serviceClass: net.mindlevel.client.services.PictureService
-path: 27BEFAE6548702C39982DED6D2A39253.gwt.rpc

@@ -11,8 +11,8 @@ public class MetaImage implements Serializable{
     private int imageCount = Integer.MAX_VALUE;
     private int id;
     private int relativeId;
-    private final int missionId;
-    private int score = 0;
+    private int score;
+    private int missionId;
 
     public MetaImage() {
         this.filename = "notfound.jpg";
@@ -132,6 +132,10 @@ public class MetaImage implements Serializable{
         this.category = category;
     }
 
+    public void setMissionId(int missionId) {
+        this.missionId = missionId;
+    }
+
     public int getMissionId() {
         return missionId;
     }
@@ -150,10 +154,5 @@ public class MetaImage implements Serializable{
 
     public void setRelativeId(int relativeId) {
         this.relativeId = relativeId;
-    }
-
-    public int getOwnerId() {
-        // TODO Auto-generated method stub
-        return 0;
     }
 }

@@ -22,7 +22,7 @@ public class Mission implements Serializable{
         this.adult = adult;
     }
 
-    public Mission() {
+    protected Mission() {
     }
 
     public String getName() {

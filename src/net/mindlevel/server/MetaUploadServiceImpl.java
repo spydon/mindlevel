@@ -32,14 +32,14 @@ public class MetaUploadServiceImpl extends DBConnector implements
         try {
             Connection conn = getConnection();
             PreparedStatement ps = conn.prepareStatement("INSERT INTO picture "
-                    + "(filename, title, location, description, adult, owner_id, mission_id) "
+                    + "(filename, title, location, description, adult, owner, mission_id) "
                     + "values(?, ?, ?, ?, ?, ?, ?)");
             ps.setString(1, metaImage.getFilename());
             ps.setString(2, metaImage.getTitle());
             ps.setString(3, metaImage.getLocation());
             ps.setString(4, metaImage.getDescription());
             ps.setBoolean(5, metaImage.isAdult());
-            ps.setInt(6, metaImage.getOwnerId());
+            ps.setString(6, metaImage.getOwner());
             ps.setInt(7, metaImage.getMissionId());
 
             ps.executeUpdate();
@@ -58,12 +58,14 @@ public class MetaUploadServiceImpl extends DBConnector implements
         if (!tags.contains(owner))
             tags.add(owner);
         UserServiceImpl userService = new UserServiceImpl();
-        for (String tag : tags) {
-            if(userService.userExists(tag.toLowerCase())) {
+        for (String username : tags) {
+            if(userService.userExists(username.toLowerCase())) {
                 Connection conn = getConnection();
-                PreparedStatement ps = conn.prepareStatement("INSERT INTO user_picture (picture_id, user_id) values(?, ?)");
+                PreparedStatement ps = conn.prepareStatement(
+                        "INSERT INTO user_picture "
+                        + "(picture_id, username) VALUES (?, ?)");
                 ps.setInt(1, pictureId);
-                ps.setString(2, tag);
+                ps.setString(2, username);
                 ps.executeUpdate();
                 ps.close();
                 conn.close();

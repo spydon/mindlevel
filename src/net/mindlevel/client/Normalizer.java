@@ -1,5 +1,7 @@
 package net.mindlevel.client;
 
+import java.util.List;
+
 public class Normalizer {
 
     public static String capitalizeName(String name) {
@@ -24,5 +26,15 @@ public class Normalizer {
             return date.substring(0, end);
         else
             return date;
+    }
+
+    public static String listToString(List<String> items) {
+        String readable = "";
+        if(items.size() > 0) {
+            for(String item : items)
+                readable += ", " + item;
+            readable = readable.substring(2);
+        }
+        return readable;
     }
 }

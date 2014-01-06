@@ -85,6 +85,8 @@ public class Mindlevel implements EntryPoint {
     public static RootPanel getAppArea(boolean margin) {
         RootPanel appArea = RootPanel.get("apparea");
         //List<String> styles = Arrays.asList(appArea.getStyleName().split(" "));
+        if(user.isModerator())
+            appArea.addStyleName("adminbar");
         if(margin)
             appArea.setStylePrimaryName("margin");
         else

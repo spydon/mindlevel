@@ -1,2 +1,0 @@
-serviceClass: net.mindlevel.client.services.UserService
-path: F9505416E5BD52BE7799BA1BF9BEF94F.gwt.rpc

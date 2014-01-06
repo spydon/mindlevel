@@ -81,11 +81,18 @@ public class Picture {
             .create(MissionService.class);
 
     /**
-     * Create a remote service proxy to talk to the server-side Greeting
+     * Create a remote service proxy to talk to the server-side rating
      * service.
      */
     private final RatingServiceAsync ratingService = GWT
             .create(RatingService.class);
+
+    /**
+     * Create a remote service proxy to talk to the server-side metaupload
+     * service.
+     */
+    final MetaUploadServiceAsync metaUploadService = GWT
+            .create(MetaUploadService.class);
 
     public Picture(RootPanel appArea, int id, boolean validated) {
         this.appArea = appArea;
@@ -222,11 +229,13 @@ public class Picture {
             ratingPanel.add(rating);
         centerHack.add(ratingPanel);
         centerHack.add(score);
-        if(Mindlevel.user.isAdmin()) {
+        if(Mindlevel.user.isModerator()) {
             validate.addStyleName("smallmargin");
-            delete.addStyleName("smallmargin");
             if(!validated)
                 metaPanel.add(validate);
+        }
+        if(Mindlevel.user.isAdmin()) {
+            delete.addStyleName("smallmargin");
             metaPanel.add(delete);
         }
         appArea.add(title);
@@ -339,37 +348,14 @@ public class Picture {
                 realId = metaImage.getId();
                 if(validated) {
                     getVoteValue();
-                } else {
+                } else if(Mindlevel.user.isModerator()){
                     validate.addClickHandler(new ClickHandler() {
 
                         @Override
                         public void onClick(ClickEvent event) {
-                            final MetaUploadServiceAsync metaUploadService = GWT
-                                    .create(MetaUploadService.class);
-                            metaImage.setToken(Mindlevel.user.getToken());
-                            metaUploadService.upload(metaImage, true, new AsyncCallback<String>() {
+                            pictureService.validate(realId, Mindlevel.user.getToken(),
+                                    new AsyncCallback<Void>() {
 
-                                @Override
-                                public void onFailure(Throwable caught) {
-                                    HandyTools.showDialogBox("Error", new HTML(caught.getMessage()));
-                                }
-
-                                @Override
-                                public void onSuccess(String result) {
-                                    deletePicture(metaImage);
-                                }
-                            });
-                        }
-                    });
-                }
-                if(Mindlevel.user.isAdmin()) {
-                    delete.addClickHandler(new ClickHandler() {
-
-                        @Override
-                        public void onClick(ClickEvent event) {
-                            //TODO
-                            //Add questionbox
-                            pictureService.deletePicture(metaImage.getId(), validated, Mindlevel.user.getToken(), new AsyncCallback<Void>() {
                                 @Override
                                 public void onFailure(Throwable caught) {
                                     HandyTools.showDialogBox("Error", new HTML(caught.getMessage()));
@@ -377,12 +363,37 @@ public class Picture {
 
                                 @Override
                                 public void onSuccess(Void result) {
-                                    HandyTools.showDialogBox("Success", new HTML("Successfully deleted!"));
+                                    HandyTools.showDialogBox("Success", new HTML("Great success!"));
+                                    nextImage();
                                 }
                             });
                         }
                     });
                 }
+
+                if(Mindlevel.user.isAdmin()) {
+                    delete.addClickHandler(new ClickHandler() {
+
+                        @Override
+                        public void onClick(ClickEvent event) {
+                            pictureService.delete(realId, Mindlevel.user.getToken(),
+                                    new AsyncCallback<Void>() {
+
+                                @Override
+                                public void onFailure(Throwable caught) {
+                                    HandyTools.showDialogBox("Error", new HTML(caught.getMessage()));
+                                }
+
+                                @Override
+                                public void onSuccess(Void result) {
+                                    HandyTools.showDialogBox("Success", new HTML("Picture deleted!"));
+                                    nextImage();
+                                }
+                            });
+                        }
+                    });
+                }
+
                 title.setHTML(metaImage.getTitle());
                 location.setHTML("<b>Location: </b>" + metaImage.getLocation());
                 owner.setHTML("<b>Owner: </b>" + getAnchor("user", metaImage.getOwner(), metaImage.getOwner()));
@@ -471,6 +482,16 @@ public class Picture {
         adjustImageSize();
     }
 
+    private String getCategoryAnchors(ArrayList<String> categories) {
+        String categoryAnchors = "";
+        for(String category : categories)
+            if(categories.indexOf(category) != 0)
+                categoryAnchors += ", " + getAnchor("category", category, category);
+            else
+                categoryAnchors = getAnchor("category", category, category);
+        return categoryAnchors;
+    }
+
     private String getAnchor(String type, String data, String name) {
         return data!=null ? "<a href=./Mindlevel.html?"+type+"="+data+">"+name+"</a>" : "";
     }
@@ -525,8 +546,11 @@ public class Picture {
 
             @Override
             public void onSuccess(Mission m) {
-                mission.setHTML("<b>Mission: </b>" + getAnchor("mission", Integer.toString(m.getId()), m.getName()));
-//                category.setHTML("<b>Category: </b>" + getAnchor("category", m.getCategories().toString(), m.getCategories().toString())); //TODO: Fix categories
+                if(m != null) {
+                    mission.setHTML("<b>Mission: </b>" + getAnchor("mission", Integer.toString(m.getId()), m.getName()));
+                    category.setHTML("<b>Categories: </b>" + getCategoryAnchors(m.getCategories()));
+                    //TODO: Fix categories?
+                }
             }
         });
     }
@@ -559,31 +583,6 @@ public class Picture {
                     @Override
                     public void onSuccess(Integer votes) {
                         score.setHTML("<b>Score: </b>" + totalScore + "/5 of " + votes + " votes");
-                    }
-                });
-            }
-        });
-    }
-
-    private void deletePicture(final MetaImage metaImage) {
-        pictureService.deleteTags(metaImage.getId(), validated, Mindlevel.user.getToken(), new AsyncCallback<Void>() {
-
-            @Override
-            public void onFailure(Throwable caught) {
-                HandyTools.showDialogBox("Error", new HTML(caught.getMessage()));
-            }
-
-            @Override
-            public void onSuccess(Void result) {
-                pictureService.deletePicture(metaImage.getId(), validated, Mindlevel.user.getToken(), new AsyncCallback<Void>() {
-                    @Override
-                    public void onFailure(Throwable caught) {
-                        HandyTools.showDialogBox("Error", new HTML(caught.getMessage()));
-                    }
-
-                    @Override
-                    public void onSuccess(Void result) {
-                        HandyTools.showDialogBox("Success", new HTML("Great success!"));
                     }
                 });
             }

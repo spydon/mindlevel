@@ -12,7 +12,6 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
@@ -57,10 +56,10 @@ public class MissionProfile {
     private void showMission() {
         VerticalPanel missionPanel = new VerticalPanel();
         missionPanel.setStylePrimaryName("cardpanel");
-        missionPanel.add(new Label("MissionID " + missionId));
-        missionPanel.add(new Label("Name " + mission.getName()));
-        missionPanel.add(new Label("Category " + mission.getCategories())); //TODO: Do this differently
-        missionPanel.add(new Label("Description " + mission.getDescription()));
+        missionPanel.add(new HTML("<b>MissionID</b> " + missionId));
+        missionPanel.add(new HTML("<b>Name</b> " + mission.getName()));
+        missionPanel.add(new HTML("<b>Categories</b> " + mission.getCategories())); //TODO: Do this differently
+        missionPanel.add(new HTML("<b>Description</b> " + mission.getDescription()));
         if(HandyTools.isLoggedIn() && validated) {
             Button uploadButton = new Button("Upload completed mission");
             uploadButton.addStyleName("smallmargin");
@@ -80,18 +79,21 @@ public class MissionProfile {
 
                 @Override
                 public void onClick(ClickEvent event) {
-                    missionService.uploadMission(mission, Mindlevel.user.getToken(), new AsyncCallback<Void>() {
+                    missionService.validateMission(
+                            mission.getId(),
+                            Mindlevel.user.getUsername(),
+                            Mindlevel.user.getToken(),
+                            new AsyncCallback<Void>() {
+                                @Override
+                                public void onFailure(Throwable caught) {
+                                    HandyTools.showDialogBox("Error", new HTML(caught.getMessage()));
+                                }
 
-                        @Override
-                        public void onFailure(Throwable caught) {
-                            HandyTools.showDialogBox("Error", new HTML(caught.getMessage()));
-                        }
-
-                        @Override
-                        public void onSuccess(Void result) {
-                            HandyTools.showDialogBox("Success!", new HTML("\"" + mission.getName() + "\" is now validated! :)"));
-                        }
-                    });
+                                @Override
+                                public void onSuccess(Void result) {
+                                    HandyTools.showDialogBox("Success!", new HTML("\"" + mission.getName() + "\" is now validated! :)"));
+                                }
+                            });
                 }
             });
             missionPanel.add(validateButton);

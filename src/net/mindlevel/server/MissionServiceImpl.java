@@ -1,6 +1,5 @@
 package net.mindlevel.server;
 
-//import java.sql.ResultSet;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,13 +10,16 @@ import java.util.NoSuchElementException;
 
 import net.mindlevel.client.services.MissionService;
 import net.mindlevel.shared.Mission;
-//import com.yourdomain.projectname.client.User;
+
 @SuppressWarnings("serial")
 public class MissionServiceImpl extends DBConnector implements MissionService {
 
+    private final CategoryServiceImpl categoryService = new CategoryServiceImpl();
+
     @Override
-    public List<Mission> getMissions(int start, int end, boolean validated) throws IllegalArgumentException, NoSuchElementException {
-        ArrayList<Mission> missions = null;
+    public List<Mission> getMissions(int start, int end, boolean validated)
+            throws IllegalArgumentException, NoSuchElementException {
+        ArrayList<Mission> missions = new ArrayList<Mission>();
 
         try {
             Connection conn = getConnection();
@@ -25,25 +27,27 @@ public class MissionServiceImpl extends DBConnector implements MissionService {
                     conn.prepareStatement("SELECT "
                                         + "mission.id, "
                                         + "mission.name, "
+                                        + "mission.description, "
                                         + "mission.adult, "
                                         + "mission.creator, "
                                         + "mission.timestamp "
                                         + "FROM mission "
+                                        + "WHERE validated = ? "
                                         + "ORDER BY mission.name "
                                         + "LIMIT ?,?");
-            ps.setInt(1, start);
-            ps.setInt(2, end);
+            ps.setBoolean(1, validated);
+            ps.setInt(2, start);
+            ps.setInt(3, end);
             ResultSet rs = ps.executeQuery();
-            //TODO: Get categories
 
             while(rs.next()) {
-                if(rs.isFirst())
-                    missions = new ArrayList<Mission>();
-                Mission mission = new Mission();
+                Mission mission = new Mission(
+                        rs.getString("name"),
+                        categoryService.getCategories(rs.getInt("id")),
+                        rs.getString("description"),
+                        rs.getString("creator"),
+                        rs.getBoolean("adult"));
                 mission.setId(rs.getInt("id"));
-                mission.setName(rs.getString("name"));
-                mission.setAdult(rs.getBoolean("adult"));
-                mission.setCreator(rs.getString("creator"));
                 mission.setTimestamp(rs.getString("timestamp"));
                 missions.add(mission);
             }
@@ -62,7 +66,8 @@ public class MissionServiceImpl extends DBConnector implements MissionService {
         int count = 0;
         try {
             Connection conn = getConnection();
-            PreparedStatement ps = conn.prepareStatement("SELECT COUNT(*) AS count FROM mission");
+            PreparedStatement ps = conn.prepareStatement("SELECT COUNT(*) AS count FROM mission WHERE validated = ?");
+            ps.setBoolean(1, validated);
             ResultSet rs = ps.executeQuery();
             if(rs.first()) {
                 count = rs.getInt("count");
@@ -87,23 +92,21 @@ public class MissionServiceImpl extends DBConnector implements MissionService {
                                         + "mission.name, "
                                         + "mission.description, "
                                         + "mission.adult, "
-                                        + "user.username, "
+                                        + "mission.creator, "
                                         + "mission.timestamp "
                                         + "FROM mission "
-                                        + "INNER JOIN user "
-                                        + "ON user_id = user.id "
-                                        + "WHERE id = ?");
-            //TODO: Fix categories
+                                        + "WHERE id = ? AND validated = ?");
             ps.setInt(1, id);
+            ps.setBoolean(2, validated);
             ResultSet rs = ps.executeQuery();
             if(rs.first()) {
-                mission = new Mission();
-                mission.setName(rs.getString("name"));
-                mission.setCategories(getCategories(rs.getInt("id")));
+                mission = new Mission(
+                        rs.getString("name"),
+                        categoryService.getCategories(rs.getInt("id")),
+                        rs.getString("description"),
+                        rs.getString("creator"),
+                        rs.getBoolean("adult"));
                 mission.setId(rs.getInt("id"));
-                mission.setDescription(rs.getString("description"));
-                mission.setAdult(rs.getBoolean("adult"));
-                mission.setCreator(rs.getString("creator"));
                 mission.setTimestamp(rs.getString("timestamp"));
             }
             rs.close();
@@ -118,15 +121,15 @@ public class MissionServiceImpl extends DBConnector implements MissionService {
     @Override
     public void uploadMission(Mission mission, String token) throws IllegalArgumentException {
         try {
-            if(new TokenServiceImpl().validateAdminToken(token)) {
+            if(new TokenServiceImpl().validateAuth(mission.getCreator(), token)) {
                 Connection conn = getConnection();
                 PreparedStatement ps = conn.prepareStatement(
-                        "SELECT name FROM mission "
-                                + "INNER JOIN user "
-                                + "ON user_id = user.id WHERE "
-                                + "name=? AND "
-                                + "description=? AND "
-                                + "username=?");
+                                "SELECT id "
+                                + "FROM mission "
+                                + "WHERE "
+                                + "name = ? AND "
+                                + "description = ? AND "
+                                + "creator = ?");
                 ps.setString(1, mission.getName());
                 ps.setString(2, mission.getDescription());
                 ps.setString(3, mission.getCreator());
@@ -137,7 +140,7 @@ public class MissionServiceImpl extends DBConnector implements MissionService {
                             + "(name, "
                             + "description, "
                             + "adult, "
-                            + "user_id, "
+                            + "creator) "
                             + "values "
                             + "(?, ?, ?, ?)");
                     insertMission.setString(1, mission.getName());
@@ -146,17 +149,32 @@ public class MissionServiceImpl extends DBConnector implements MissionService {
                     insertMission.setString(4, mission.getCreator());
 
                     int result = insertMission.executeUpdate();
+                    insertMission.close();
                     ps.close();
-                    conn.close();
-                    //TODO: Add categories
+
                     if (result != 1)
                         throw new IllegalArgumentException("Unknown error.");
+                    //TODO: get mission id after execution of last insert
+                    PreparedStatement checkId = conn.prepareStatement(
+                            "SELECT id "
+                            + "FROM mission "
+                            + "WHERE "
+                            + "name = ? AND "
+                            + "description = ? AND "
+                            + "creator = ?");
+                    checkId.setString(1, mission.getName());
+                    checkId.setString(2, mission.getDescription());
+                    checkId.setString(3, mission.getCreator());
+                    ResultSet rsCheck = checkId.executeQuery();
+                    if(rsCheck.next())
+                        categoryService.connectCategories(rsCheck.getInt("id"), mission.getCategories());
+                    conn.close();
                 } else {
-                    throw new IllegalArgumentException("The mission already exists.");
+                    throw new IllegalArgumentException("The mission already exists or is already suggested by you.");
                 }
             } else {
                 throw new IllegalArgumentException(
-                        "You are not admin, you sneaky bastard! ;)");
+                        "You are not logged in, you sneaky bastard! ;)");
             }
         } catch(SQLException e) {
             e.printStackTrace();
@@ -166,44 +184,36 @@ public class MissionServiceImpl extends DBConnector implements MissionService {
     }
 
     @Override
-    public ArrayList<String> getCategories(int id) {
-        ArrayList<String> categories = new ArrayList<String>();
+    public void validateMission(int missionId, String username, String token)
+            throws IllegalArgumentException {
         try {
-            Connection conn = getConnection();
-            PreparedStatement ps = conn.prepareStatement("SELECT name FROM category "
-                    + "INNER JOIN mission_category ON category_id = category.id "
-                    + "WHERE mission_id = ?");
-            ps.setInt(1, id);
-            ResultSet rs = ps.executeQuery();
-            while(rs.next()) {
-                categories.add(rs.getString("name"));
+            if(new TokenServiceImpl().validateAdminToken(token) &&
+               new TokenServiceImpl().validateAuth(username, token)) {
+                Connection conn = getConnection();
+                PreparedStatement validateMission = conn.prepareStatement(
+                        "UPDATE mission "
+                        + "SET "
+                        + "validated = ?, "
+                        + "validator = ? "
+                        + "WHERE "
+                        + "id = ?");
+                validateMission.setBoolean(1, true);
+                validateMission.setString(2, username);
+                validateMission.setInt(3, missionId);
+
+                int result = validateMission.executeUpdate();
+                validateMission.close();
+                conn.close();
+                if (result != 1)
+                    throw new IllegalArgumentException("Unknown error.");
+            } else {
+                throw new IllegalArgumentException(
+                        "You are not logged in, you sneaky bastard! ;)");
             }
-            rs.close();
-            ps.close();
-            conn.close();
         } catch(SQLException e) {
             e.printStackTrace();
+            throw new IllegalArgumentException(
+                    "Something went wrong.");
         }
-        return categories;
-    }
-
-
-    @Override
-    public ArrayList<String> getCategories() {
-        ArrayList<String> categories = new ArrayList<String>();
-        try {
-            Connection conn = getConnection();
-            PreparedStatement ps = conn.prepareStatement("SELECT name FROM category");
-            ResultSet rs = ps.executeQuery();
-            while(rs.next()) {
-                categories.add(rs.getString("name"));
-            }
-            rs.close();
-            ps.close();
-            conn.close();
-        } catch(SQLException e) {
-            e.printStackTrace();
-        }
-        return categories;
     }
 }

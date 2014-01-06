@@ -40,7 +40,8 @@ public class PictureServiceImpl extends DBConnector implements PictureService {
         return imageCount;
     }
 
-    private MetaImage setMetaImageProps(int id, boolean relative, int imageCount, boolean validated) throws IllegalArgumentException, SQLException {
+    private MetaImage setMetaImageProps(int id, boolean relative, int imageCount, boolean validated)
+            throws IllegalArgumentException, SQLException {
         if(imageCount==0)
             return new MetaImage();
         Connection conn = getConnection();
@@ -53,16 +54,23 @@ public class PictureServiceImpl extends DBConnector implements PictureService {
             relative = true;
         }
         if(relative) {
-            ps = conn.prepareStatement("SELECT filename, title, picture.location, mission_id, owner_id, "
-                    + "picture.description user.username As owner, adult, ? AS relative_id FROM picture "
-                    + "INNER JOIN user ON owner_id = user.id ORDER BY created LIMIT ?,1");
+            ps = conn.prepareStatement("SELECT id, filename, title, location, mission_id, owner, "
+                    + "description, adult, ? AS relative_id, score, timestamp FROM picture "
+                    + "WHERE validated = ? "
+                    + "ORDER BY timestamp LIMIT ?,1");
             ps.setInt(1, id);
-            ps.setInt(2, id-1);
+            ps.setBoolean(2, validated);
+            ps.setInt(3, id-1);
         } else {
-            ps = conn.prepareStatement("SELECT *, (SELECT COUNT(*) FROM picture "
-                    + "WHERE ID <= ?) AS relative_id FROM picture WHERE id=?");
+            ps = conn.prepareStatement("SELECT id, filename, title, location, mission_id, owner, "
+                    + "description, adult, (SELECT COUNT(id) FROM picture "
+                    + "WHERE id <= ? AND validated = ?) AS relative_id, "
+                    + "score, timestamp FROM picture "
+                    + "WHERE id = ? AND validated = ?");
             ps.setInt(1, id);
-            ps.setInt(2, id);
+            ps.setBoolean(2, validated);
+            ps.setInt(3, id);
+            ps.setBoolean(4, validated);
         }
         ResultSet rs = ps.executeQuery();
         if(rs.first()) {
@@ -74,7 +82,7 @@ public class PictureServiceImpl extends DBConnector implements PictureService {
                                   rs.getBoolean("adult"));
             image.setScore(rs.getInt("score"));
             image.setId(realId);
-            String created = rs.getString("created");
+            String created = rs.getString("timestamp");
             image.setDate(created.replace(".0", ""));
             //image.setDate(created.replaceAll("\\.[0-9]", ""));
             image.setRelativeId(rs.getInt("relative_id"));
@@ -88,15 +96,35 @@ public class PictureServiceImpl extends DBConnector implements PictureService {
         return image;
     }
 
+    @Override
+    public void validate(int pictureId, String token) throws IllegalArgumentException {
+        if(new TokenServiceImpl().validateAdminToken(token)) {
+            Connection conn = getConnection();
+            PreparedStatement ps;
+            try {
+                ps = conn.prepareStatement("UPDATE picture SET validated=1 WHERE id=?");
+                ps.setInt(1, pictureId);
+                ps.executeUpdate();
+                ps.close();
+                conn.close();
+            } catch (SQLException e) {
+                throw new IllegalArgumentException("Could not validate picture. " + e.getStackTrace());
+            }
+        } else {
+            throw new IllegalArgumentException("YOU don't seem to be admin. This was logged.");
+        }
+    }
+
     private ArrayList<String> getTags(int id, boolean validated) throws SQLException {
         Connection conn = getConnection();
-        PreparedStatement ps = conn.prepareStatement("SELECT * FROM user_picture WHERE picture_id=?");
+        PreparedStatement ps = conn.prepareStatement(
+                "SELECT username FROM user_picture WHERE picture_id=?");
         ps.setInt(1, id);
         ResultSet rs = ps.executeQuery();
         ArrayList<String> tags = new ArrayList<String>();
         while(rs.next()) {
-            String UserID = rs.getString("UserID");
-            tags.add(UserID);
+            String username = rs.getString("username");
+            tags.add(username);
         }
         rs.close();
         ps.close();
@@ -105,7 +133,7 @@ public class PictureServiceImpl extends DBConnector implements PictureService {
     }
 
     @Override
-    public void deleteTags(int pictureId, boolean validated, String token) throws IllegalArgumentException{
+    public void deleteTags(int pictureId, String token) throws IllegalArgumentException {
         if(new TokenServiceImpl().validateAdminToken(token)) {
             Connection conn = getConnection();
             PreparedStatement ps;
@@ -124,11 +152,14 @@ public class PictureServiceImpl extends DBConnector implements PictureService {
     }
 
     @Override
-    public void deletePicture(int pictureId, boolean validated, String token) throws IllegalArgumentException{
+    public void delete(int pictureId, String token) throws IllegalArgumentException {
         if(new TokenServiceImpl().validateAdminToken(token)) {
             Connection conn = getConnection();
             PreparedStatement ps;
             try {
+                ps = conn.prepareStatement("DELETE FROM user_picture WHERE picture_id=?");
+                ps.setInt(1, pictureId);
+                ps.executeUpdate();
                 ps = conn.prepareStatement("DELETE FROM picture WHERE id=?");
                 ps.setInt(1, pictureId);
                 ps.executeUpdate();
