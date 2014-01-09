@@ -2,6 +2,7 @@ package net.mindlevel.client.pages;
 
 import net.mindlevel.client.HandyTools;
 import net.mindlevel.client.Mindlevel;
+import net.mindlevel.client.pages.dialog.Upload;
 import net.mindlevel.client.services.MissionService;
 import net.mindlevel.client.services.MissionServiceAsync;
 import net.mindlevel.shared.Mission;
@@ -55,10 +56,10 @@ public class MissionProfile {
 
     private void showMission() {
         VerticalPanel missionPanel = new VerticalPanel();
-        missionPanel.setStylePrimaryName("cardpanel");
+        missionPanel.setStylePrimaryName("profile-panel");
         missionPanel.add(new HTML("<b>MissionID</b> " + missionId));
         missionPanel.add(new HTML("<b>Name</b> " + mission.getName()));
-        missionPanel.add(new HTML("<b>Categories</b> " + mission.getCategories())); //TODO: Do this differently
+        missionPanel.add(new HTML("<b>Categories</b> " + mission.getCategories())); //TODO: Do this differently?
         missionPanel.add(new HTML("<b>Description</b> " + mission.getDescription()));
         if(HandyTools.isLoggedIn() && validated) {
             Button uploadButton = new Button("Upload completed mission");

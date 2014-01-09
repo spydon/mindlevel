@@ -18,19 +18,21 @@ public class UserServiceImpl extends DBConnector implements UserService {
         User user = new User();
         try {
             Connection conn = getConnection();
-            PreparedStatement ps = conn.prepareStatement("SELECT username, permission_id As permission, "
-                    + "adult, location, created, token, description, last_login FROM user WHERE username = ?");
+            PreparedStatement ps = conn.prepareStatement("SELECT username, name, permission_id As permission, "
+                    + "adult, location, created, token, about, picture, last_login FROM user WHERE username = ?");
             ps.setString(1, username);
             ResultSet rs = ps.executeQuery();
             if(rs.next()) {
                 user.setUsername(rs.getString("username"));
+                user.setName(rs.getString("name"));
                 user.setPermission(rs.getInt("permission"));
                 user.setAdult(rs.getBoolean("adult"));
                 user.setLocation(rs.getString("location"));
                 user.setCreated(rs.getString("created"));
                 user.setToken(rs.getString("token"));
-                user.setDescription(rs.getString("description"));
-                user.setLastLogin(rs.getString("last_login"));
+                user.setAbout(rs.getString("about"));
+                user.setPictureUrl(rs.getString("picture"));
+                user.setLastLogin(rs.getLong("last_login"));
             } else {
                 throw new IllegalArgumentException("Not logged in.");
             }
@@ -48,19 +50,21 @@ public class UserServiceImpl extends DBConnector implements UserService {
         User user = new User();
         try {
             Connection conn = getConnection();
-            PreparedStatement ps = conn.prepareStatement("SELECT username, permission_id As permission, "
-                    + "adult, location, created, token, description, last_login FROM user WHERE token = ?");
+            PreparedStatement ps = conn.prepareStatement("SELECT username, name, permission_id As permission, "
+                    + "adult, location, created, token, about, picture, last_login FROM user WHERE token = ?");
             ps.setString(1, token);
             ResultSet rs = ps.executeQuery();
             if(rs.next()) {
                 user.setUsername(rs.getString("username"));
+                user.setName(rs.getString("name"));
                 user.setPermission(rs.getInt("permission"));
                 user.setAdult(rs.getBoolean("adult"));
                 user.setLocation(rs.getString("location"));
                 user.setCreated(rs.getString("created"));
                 user.setToken(rs.getString("token"));
-                user.setDescription(rs.getString("description"));
-                user.setLastLogin(rs.getString("last_login"));
+                user.setAbout(rs.getString("about"));
+                user.setPictureUrl(rs.getString("picture"));
+                user.setLastLogin(rs.getLong("last_login"));
             } else {
                 throw new IllegalArgumentException("Not logged in.");
             }
@@ -79,19 +83,23 @@ public class UserServiceImpl extends DBConnector implements UserService {
         try {
             Connection conn = getConnection();
             users.clear();
-            PreparedStatement ps = conn.prepareStatement("SELECT * FROM user ORDER BY username LIMIT ?,?");
+            PreparedStatement ps = conn.prepareStatement("SELECT username, name, permission_id As permission, "
+                    + "adult, location, created, token, about, picture, last_login FROM user ORDER BY username LIMIT ?,?");
             ps.setInt(1, start);
             ps.setInt(2, end);
             ResultSet rs = ps.executeQuery();
             while(rs.next()) {
                 User user = new User();
                 user.setUsername(rs.getString("username"));
-                user.setPermission(rs.getInt("permission_id"));
+                user.setName(rs.getString("name"));
+                user.setPermission(rs.getInt("permission"));
                 user.setAdult(rs.getBoolean("adult"));
                 user.setLocation(rs.getString("location"));
                 user.setCreated(rs.getString("created"));
-                user.setDescription(rs.getString("description"));
-                user.setLastLogin(rs.getString("last_login")+"000");
+                user.setToken(rs.getString("token"));
+                user.setAbout(rs.getString("about"));
+                user.setPictureUrl(rs.getString("picture"));
+                user.setLastLogin(rs.getLong("last_login"));
                 users.add(user);
             }
             rs.close();
@@ -126,7 +134,7 @@ public class UserServiceImpl extends DBConnector implements UserService {
         boolean exists = false;
         try {
             Connection conn = getConnection();
-            PreparedStatement ps = conn.prepareStatement("SELECT * FROM user WHERE username = ?");
+            PreparedStatement ps = conn.prepareStatement("SELECT username FROM user WHERE username = ?");
             ps.setString(1, username);
             ResultSet rs = ps.executeQuery();
             if(rs.first()) {
@@ -146,17 +154,21 @@ public class UserServiceImpl extends DBConnector implements UserService {
         try {
             Connection conn = getConnection();
             users.clear();
-            PreparedStatement ps = conn.prepareStatement("SELECT * FROM user ORDER BY username");
+            PreparedStatement ps = conn.prepareStatement("SELECT username, name permission_id As permission, "
+                    + "adult, location, created, token, about, picture, last_login FROM user ORDER BY username");
             ResultSet rs = ps.executeQuery();
             while(rs.next()) {
                 User user = new User();
                 user.setUsername(rs.getString("username"));
-                user.setPermission(rs.getInt("permission_id"));
+                user.setName(rs.getString("name"));
+                user.setPermission(rs.getInt("permission"));
                 user.setAdult(rs.getBoolean("adult"));
                 user.setLocation(rs.getString("location"));
                 user.setCreated(rs.getString("created"));
-                user.setDescription(rs.getString("description"));
-                user.setLastLogin(rs.getString("last_login")+"000");
+                user.setToken(rs.getString("token"));
+                user.setAbout(rs.getString("about"));
+                user.setPictureUrl(rs.getString("picture"));
+                user.setLastLogin(rs.getLong("last_login"));
                 users.add(user);
             }
             rs.close();
@@ -166,5 +178,56 @@ public class UserServiceImpl extends DBConnector implements UserService {
             e.printStackTrace();
         }
         return users;
+    }
+
+    @Override
+    public Void setProfilePicture(String filename, boolean adult, String username, String token) throws IllegalArgumentException {
+        try {
+            Connection conn = getConnection();
+            PreparedStatement ps = conn.prepareStatement("UPDATE user SET picture = ?, picture_adult = ? WHERE username = ?");
+            if(new TokenServiceImpl().validateAuth(username, token)) {
+                ps.setString(1, filename);
+                ps.setBoolean(2, adult);
+                ps.setString(3, username);
+                int result = ps.executeUpdate();
+            }
+            ps.close();
+            conn.close();
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public Void updateProfile(String name,
+                             String location,
+                             String about,
+                             boolean adult,
+                             String username,
+                             String token) throws IllegalArgumentException {
+        try {
+            Connection conn = getConnection();
+            PreparedStatement ps = conn.prepareStatement("UPDATE user SET name = ?, location = ?, about = ?, adult = ? WHERE username = ?");
+            int result = 0;
+            if(new TokenServiceImpl().validateAuth(username, token)) {
+                ps.setString(1, name);
+                ps.setString(2, location);
+                ps.setString(3, about);
+                ps.setBoolean(4, adult);
+                ps.setString(5, username);
+                result = ps.executeUpdate();
+            } else {
+                throw new IllegalArgumentException("You are trying to modify somebody elses profile. This was logged.");
+            }
+            if(result != 1) {
+                throw new UnknownError("Something went wrong");
+            }
+            ps.close();
+            conn.close();
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

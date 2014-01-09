@@ -8,8 +8,9 @@ public class User implements Serializable{
     private String token;
     private boolean adult;
     private int permission;
-    private String location, description, created;
-    private String lastLogin;
+    private String name, location, about, created;
+    private long lastLogin;
+    private String pictureUrl;
 //  private final HashMap<String, Integer> scores = new HashMap<String, Integer>();
     //TODO: Change this datastructure
 
@@ -53,12 +54,12 @@ public class User implements Serializable{
         this.location = location;
     }
 
-    public String getDescription() {
-        return description;
+    public String getAbout() {
+        return about;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setAbout(String description) {
+        this.about = description;
     }
 
     public String getCreated() {
@@ -89,17 +90,33 @@ public class User implements Serializable{
         this.adult = adult;
     }
 
-    public String getLastLogin() {
+    public long getLastLogin() {
         return lastLogin;
     }
 
-    public void setLastLogin(String lastLogin) {
+    public void setLastLogin(long lastLogin) {
         this.lastLogin = lastLogin;
     }
 
     @Override
     public String toString() {
         return username + " " + location + " " + adult + " " + permission + " " + lastLogin + " "
-                + created + " " + description;
+                + created + " " + about;
+    }
+
+    public String getPictureUrl() {
+        return pictureUrl;
+    }
+
+    public void setPictureUrl(String pictureUrl) {
+        this.pictureUrl = pictureUrl;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

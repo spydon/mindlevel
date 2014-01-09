@@ -230,13 +230,13 @@ public class Picture {
         centerHack.add(ratingPanel);
         centerHack.add(score);
         if(Mindlevel.user.isModerator()) {
-            validate.addStyleName("smallmargin");
+            validate.addStyleName("center-button");
             if(!validated)
-                metaPanel.add(validate);
+                infoPanel.add(validate);
         }
         if(Mindlevel.user.isAdmin()) {
-            delete.addStyleName("smallmargin");
-            metaPanel.add(delete);
+            delete.addStyleName("center-button");
+            infoPanel.add(delete);
         }
         appArea.add(title);
         appArea.add(containerPanel);

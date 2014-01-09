@@ -4,13 +4,13 @@ import net.mindlevel.client.pages.About;
 import net.mindlevel.client.pages.Chat;
 import net.mindlevel.client.pages.Highscore;
 import net.mindlevel.client.pages.Home;
-import net.mindlevel.client.pages.Login;
-import net.mindlevel.client.pages.Logout;
 import net.mindlevel.client.pages.MissionProfile;
 import net.mindlevel.client.pages.Missions;
 import net.mindlevel.client.pages.Picture;
 import net.mindlevel.client.pages.Profile;
 import net.mindlevel.client.pages.Registration;
+import net.mindlevel.client.pages.dialog.Login;
+import net.mindlevel.client.pages.dialog.Logout;
 import net.mindlevel.shared.User;
 
 import com.google.gwt.core.client.EntryPoint;

@@ -11,18 +11,18 @@ body * {
     margin-right: auto;
 }
 
-td {
-    text-align: center;
-}
+/* td { */
+/*     text-align: center; */
+/* } */
 
-table {
-    margin-left: auto;
-    margin-right: auto;
-}
+/* table { */
+/*     margin-left: auto; */
+/*     margin-right: auto; */
+/* } */
 
 td[style] {
-    text-align: center !important;
-    vertical-align: middle !important;
+    text-align: center;
+    vertical-align: middle;
 }
 
 html, body {
@@ -68,6 +68,13 @@ h1 {
     z-index: 1500;
     margin-bottom: 31px;
 /*     padding-bottom: 40px; */
+}
+
+.center-button {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 2px;
+    margin-bottom: 2px;
 }
 
 .menu a {
@@ -257,6 +264,15 @@ header {
 /*     display: table; */
 /*     float: left; */
 /*     max-height: 95%; */
+}
+
+.profile-panel * {
+    text-align: left;
+    max-width: 400px;
+}
+
+.profile-picture {
+    margin-right: 15px;
 }
 
 /** Most GWT widgets already have a style name defined */

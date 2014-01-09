@@ -114,4 +114,10 @@ public class HandyTools {
         Element debug = RootPanel.get("debug").getElement();
         debug.setInnerHTML(debug.getInnerHTML() + "</br>" + msg);
     }
+
+    //Unix time to a readable date
+    public static String unixToDate(long unixtime) {
+        java.util.Date time = new java.util.Date(unixtime*1000);
+        return time.toString();
+    }
 }

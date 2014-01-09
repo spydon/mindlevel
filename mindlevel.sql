@@ -60,7 +60,7 @@ CREATE TABLE `mission` (
   KEY `validator` (`validator`),
   CONSTRAINT `mission_ibfk_1` FOREIGN KEY (`creator`) REFERENCES `user` (`username`) ON UPDATE CASCADE,
   CONSTRAINT `mission_ibfk_2` FOREIGN KEY (`validator`) REFERENCES `user` (`username`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -69,7 +69,7 @@ CREATE TABLE `mission` (
 
 LOCK TABLES `mission` WRITE;
 /*!40000 ALTER TABLE `mission` DISABLE KEYS */;
-INSERT INTO `mission` VALUES (6,'test','test',0,'aaaa',1,'2013-12-29 15:50:29','spydon'),(7,'No more cellphone','Give away your cellphone to somebody that needs it more than you.',1,'aaaa',1,'2013-12-29 16:54:52','spydon');
+INSERT INTO `mission` VALUES (6,'test','test',0,'aaaa',1,'2013-12-29 15:50:29','spydon'),(7,'No more cellphone','Give away your cellphone to somebody that needs it more than you.',1,'aaaa',1,'2013-12-29 16:54:52','spydon'),(8,'A day without pants','How comfortable are you a whole day without pants?',1,'spydon',1,'2014-01-06 20:56:42','spydon');
 /*!40000 ALTER TABLE `mission` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -96,7 +96,7 @@ CREATE TABLE `mission_category` (
 
 LOCK TABLES `mission_category` WRITE;
 /*!40000 ALTER TABLE `mission_category` DISABLE KEYS */;
-INSERT INTO `mission_category` VALUES (6,1),(7,1);
+INSERT INTO `mission_category` VALUES (6,1),(7,1),(8,1),(8,2);
 /*!40000 ALTER TABLE `mission_category` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -148,7 +148,7 @@ CREATE TABLE `picture` (
   KEY `mission_id` (`mission_id`),
   CONSTRAINT `picture_ibfk_1` FOREIGN KEY (`owner`) REFERENCES `user` (`username`) ON UPDATE CASCADE,
   CONSTRAINT `picture_ibfk_2` FOREIGN KEY (`mission_id`) REFERENCES `mission` (`id`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -157,7 +157,6 @@ CREATE TABLE `picture` (
 
 LOCK TABLES `picture` WRITE;
 /*!40000 ALTER TABLE `picture` DISABLE KEYS */;
-INSERT INTO `picture` VALUES (3,'e9f2930a-7516-482a-a97c-369033fd8ac2.jpg','Reading room','Melbourne','It\'s time to move on.',1,0,'spydon',7,NULL,'2013-12-29 23:24:20');
 /*!40000 ALTER TABLE `picture` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -201,12 +200,15 @@ CREATE TABLE `user` (
   `username` varchar(64) NOT NULL,
   `password` varchar(128) NOT NULL,
   `location` varchar(256) DEFAULT NULL,
-  `description` text,
+  `about` text,
   `adult` tinyint(1) NOT NULL DEFAULT '0',
   `permission_id` int(11) DEFAULT '0',
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `token` varchar(64) DEFAULT NULL,
   `last_login` int(11) DEFAULT NULL,
+  `picture` varchar(64) DEFAULT NULL,
+  `picture_adult` tinyint(1) DEFAULT '0',
+  `name` varchar(64) DEFAULT NULL,
   PRIMARY KEY (`username`),
   KEY `permission_id` (`permission_id`),
   CONSTRAINT `user_ibfk_1` FOREIGN KEY (`permission_id`) REFERENCES `permission` (`id`) ON UPDATE CASCADE
@@ -219,7 +221,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES ('aaaa','6dd2462d6399baca7619994288653b0998946d6a912b83c2013f53c0f92fddf5cea0cda44ca1b04744179237051a81b995efec25eacf2b6048dea5d16b79d8ce',NULL,NULL,1,0,'2013-12-29 09:49:58',NULL,1388336031),('spydon','6b753344106bdd9ee9358ec03a62762d9e12bc2fa865ab37e296c37f2d0956341d95f9e1362c1a9798ce6f22dd5c0060788979dd92b964e2ec7bf1daa9232e86',NULL,NULL,1,1,'2013-12-29 09:32:13',NULL,1389035642);
+INSERT INTO `user` VALUES ('aaaa','6dd2462d6399baca7619994288653b0998946d6a912b83c2013f53c0f92fddf5cea0cda44ca1b04744179237051a81b995efec25eacf2b6048dea5d16b79d8ce',NULL,NULL,1,0,'2013-12-29 09:49:58',NULL,1388336031,'test.jpg',0,NULL),('spydon','6b753344106bdd9ee9358ec03a62762d9e12bc2fa865ab37e296c37f2d0956341d95f9e1362c1a9798ce6f22dd5c0060788979dd92b964e2ec7bf1daa9232e86','Uppsala','Hur jävla långt kan man skriva här då? Vaaaa? Hur långt? Vad sa du? Lorem ipsum blablabal... asdasdasdasd asdasdasd asdasdas dasdasda sdHur jävla långt kan man skriva här då? Vaaaa? Hur långt? Vad sa du? Lorem ipsum blablabal... asdasdasdasd asdasdasd asdasdas dasdasda sdHur jävla långt kan man skriva här då? Vaaaa? Hur långt? Vad sa du? Lorem ipsum blablabal... asdasdasdasd asdasdasd asdasdas dasdasda sdHur jävla långt kan man skriva här då? Vaaaa? Hur långt? Vad sa du? Lorem ipsum blablabal... asdasdasdasd asdasdasd asdasdas dasdasda sd',1,1,'2013-12-29 09:32:13','de22d1ce-7973-11e3-a3c6-14288d4cd549',1389302430,'test.jpg',1,'Lukas K');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -258,4 +260,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-01-06 20:24:48
+-- Dump completed on 2014-01-09 23:44:39

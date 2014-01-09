@@ -4,6 +4,7 @@ import java.util.List;
 
 import net.mindlevel.client.HandyTools;
 import net.mindlevel.client.Normalizer;
+import net.mindlevel.client.pages.dialog.MissionSuggestion;
 import net.mindlevel.client.services.MissionService;
 import net.mindlevel.client.services.MissionServiceAsync;
 import net.mindlevel.shared.Mission;

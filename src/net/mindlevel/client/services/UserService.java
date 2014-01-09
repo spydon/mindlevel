@@ -17,4 +17,6 @@ public interface UserService extends RemoteService {
     List<User> getUsers() throws IllegalArgumentException;
     int getUserCount() throws IllegalArgumentException;
     User getUserFromToken(String token);
+    Void setProfilePicture(String filename, boolean adult, String username, String token);
+    Void updateProfile(String realName, String location, String about, boolean adult, String username, String token);
 }
