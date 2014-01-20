@@ -7,7 +7,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import net.mindlevel.client.services.RatingService;
-import net.mindlevel.shared.MetaImage;
 import net.mindlevel.shared.User;
 //import com.yourdomain.projectname.client.User;
 @SuppressWarnings("serial")
@@ -34,20 +33,27 @@ public class RatingServiceImpl extends DBConnector implements RatingService {
     }
 
     @Override
-    public void setVoteValue(String token, int pictureId, int value) throws IllegalArgumentException{
+    public void setVoteValue(String token, int pictureId, int value) throws IllegalArgumentException {
         try {
             Connection conn = getConnection();
             User user = new UserServiceImpl().getUserFromToken(token);
-            MetaImage image = new PictureServiceImpl().get(pictureId, false, true);
-            PreparedStatement ps = conn.prepareStatement("INSERT INTO rating "
-                    + "(user, picture_id, category, score) values (?,?,?,?) "
-                    + "on duplicate key update score=values(score)");
-            ps.setString(1, user.getUsername());
-            ps.setInt(2, pictureId);
-            ps.setString(3, image.getCategory());
-            ps.setInt(4, value);
-            ps.executeUpdate();
-            ps.close();
+            PreparedStatement precheck = conn.prepareStatement("SELECT picture_id FROM rating WHERE username = ? AND picture_id = ?");
+            precheck.setString(1, user.getUsername());
+            precheck.setInt(2, pictureId);
+            ResultSet rs = precheck.executeQuery();
+            if(!rs.first()) {
+                PreparedStatement ps = conn.prepareStatement("INSERT INTO rating "
+                        + "(username, picture_id, score) values (?,?,?) "
+                        + "on duplicate key update score=values(score)");
+                ps.setString(1, user.getUsername());
+                ps.setInt(2, pictureId);
+                ps.setInt(3, value);
+                ps.executeUpdate();
+                ps.close();
+            } else {
+                throw new IllegalArgumentException("You've already voted on this picture...");
+            }
+            precheck.close();
             conn.close();
         } catch(SQLException e) {
             e.printStackTrace();
@@ -99,5 +105,24 @@ public class RatingServiceImpl extends DBConnector implements RatingService {
             e.printStackTrace();
         }
         return total;
+    }
+
+    public void deleteRatings(int pictureId, String token) throws IllegalArgumentException {
+        if(new TokenServiceImpl().validateAdminToken(token)) {
+            Connection conn = getConnection();
+            PreparedStatement ps;
+            try {
+                ps = conn.prepareStatement("DELETE FROM rating WHERE picture_id=?");
+                ps.setInt(1, pictureId);
+                ps.executeUpdate();
+                ps.close();
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+                throw new IllegalArgumentException("Could not delete ratings.");
+            }
+        } else {
+            throw new IllegalArgumentException("YOU don't seem to be admin. This was logged.");
+        }
     }
 }

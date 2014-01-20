@@ -14,25 +14,41 @@ import net.mindlevel.client.pages.dialog.Logout;
 import net.mindlevel.shared.User;
 
 import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Element;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.EventListener;
-import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
  */
-public class Mindlevel implements EntryPoint {
+public class Mindlevel implements EntryPoint, ValueChangeHandler<String> {
     public static User user = new User();
     public static boolean forceFocus = true;
     private final String[] pages =
             {"home", "missions", "pictures", "highscore",
             "about", "chat", "login", "logout",
             "register", "profile"};
+
+    /**
+     * This is the entry point method.
+     */
+    @Override
+    public void onModuleLoad() {
+        History.addValueChangeHandler(this);
+
+        for(String page:pages)
+            connectListener(page);
+        new QuoteHandler(RootPanel.get("quote"));
+        keepLoggedIn();
+        History.fireCurrentHistoryState();
+    }
 
     /**
      * Connects mouse down listeners to HTML-elements.
@@ -43,50 +59,121 @@ public class Mindlevel implements EntryPoint {
         DOM.setEventListener(e, new EventListener() {
             @Override
             public void onBrowserEvent(Event event) {
-                if(name.equals("home")){
-                    clearScreen();
-                    new Home(getAppArea(true));
-                } else if(name.equals("register")) {
-                    forceFocus = false;
-                    new Registration();
-                } else if(name.equals("login")) {
-                    forceFocus = false;
-                    new Login();
-                } else if(name.equals("logout")) {
-                    clearScreen();
-                    new Logout(getAppArea(true));
-                } else if(name.equals("chat")) {
-                    clearScreen();
-                    new Chat(getAppArea(false));
-                } else if(name.equals("profile")) {
-                    clearScreen();
-                    new Profile(getAppArea(true), Mindlevel.user.getUsername(), true);
-                } else if(name.equals("highscore")) {
-                    clearScreen();
-                    new Highscore(getAppArea(true));
-                } else if(name.equals("missions")) {
-                    clearScreen();
-                    new Missions(getAppArea(true), true);
-                } else if(name.equals("pictures")) {
+                String lastPage = History.getToken();
+                if(!lastPage.equals("") && (name.equals("login") || name.equals("logout"))) { //|| name.equals("register")))
+                    History.newItem(name + "&session=" + lastPage);
+                } else if(name.equals("pictures")) { //This should be done in the parser, but how to avoid duplicate picture history? (both #pictures and #picture=3)
                     forceFocus = true;
                     clearScreen();
                     new Picture(getAppArea(true), 0, true);
-                } else if(name.equals("about")) {
-                    clearScreen();
-                    new About(getAppArea(true));
                 } else {
-                    clearScreen();
-                    //new ErrorPage();
+                    History.newItem(name);
                 }
             }
         });
     }
 
+    private void parseToken(String parameters) {
+        if(!parameters.contains("=")) {
+            if(parameters.equals("home") || parameters.equals("")) { //Empty is always home
+                clearScreen();
+                new Home(getAppArea(true));
+            } else if(parameters.equals("register")) {
+                forceFocus = false;
+                new Registration();
+            } else if(parameters.equals("login")) {
+                forceFocus = false;
+                new Login("home");
+            } else if(parameters.equals("logout")) {
+                clearScreen();
+                new Logout("home");
+            } else if(parameters.equals("chat")) {
+                clearScreen();
+                new Chat(getAppArea(false));
+            } else if(parameters.equals("profile")) {
+                clearScreen();
+                new Profile(getAppArea(true), Mindlevel.user.getUsername());
+            } else if(parameters.equals("highscore")) {
+                clearScreen();
+                new Highscore(getAppArea(true));
+            } else if(parameters.equals("missions")) {
+                clearScreen();
+                new Missions(getAppArea(true), true);
+            } else if(parameters.equals("pictures")) {
+                forceFocus = true;
+                clearScreen();
+                new Picture(getAppArea(true), 0, true);
+            } else if(parameters.equals("about")) {
+                clearScreen();
+                new About(getAppArea(true));
+            } else {
+                clearScreen();
+                new Home(getAppArea(true));
+                HandyTools.showDialogBox("Error", new HTML("Something is wrong with your browser history. :( <br />Guru meditation: 1"));
+            }
+        } else {
+            String[] tokens = parameters.split("&");
+            boolean validated = true;
+            String session = "";
+            for(int i = 0; i < tokens.length; i++) {
+                if (tokens[i].contains("validated")) {
+                    String value = getValue(tokens[i]);
+                    validated = !value.toLowerCase().equals("false") && !value.equals("0");
+                    i++;
+                } else if (tokens[i].contains("session")) {
+                    String value = getValue(tokens[i]);
+                    session = value.toLowerCase();
+                    i++;
+                }
+            }
+            for(int i = 0; i < tokens.length; i++) {
+                if(tokens[i].contains("picture")) {
+                    try {
+                        int pictureId = Integer.parseInt(getValue(tokens[i]));
+                        forceFocus = true;
+                        clearScreen();
+                        new Picture(getAppArea(true), pictureId, validated);
+                    } catch (NumberFormatException nfe) {
+                        clearScreen();
+                        new Home(getAppArea(true));
+                        HandyTools.showDialogBox("Error", new HTML("Couldn't find a picture with that id. :("));
+                    }
+                    break;
+                } else if(tokens[i].contains("user")) {
+                    String userId = getValue(tokens[i]).toLowerCase();
+                    clearScreen();
+                    new Profile(getAppArea(true), userId);
+                    break;
+                } else if(tokens[i].contains("mission")) {
+                    try {
+                        int missionId = Integer.parseInt(getValue(tokens[i]));
+                        clearScreen();
+                        new MissionProfile(getAppArea(true), missionId, validated);
+                    } catch (NumberFormatException nfe) {
+                        clearScreen();
+                        new Home(getAppArea(true));
+                        HandyTools.showDialogBox("Error", new HTML("Couldn't find a mission with that id. :("));
+                    }
+                    break;
+                } else if(parameters.contains("login")) {
+                    forceFocus = false;
+                    new Login(session);
+                    break;
+                } else if(parameters.contains("logout")) {
+                    clearScreen();
+                    new Logout(session);
+                    break;
+                } else {
+                    clearScreen();
+                    new Home(getAppArea(true));
+                    HandyTools.showDialogBox("Error", new HTML("Something is wrong with your browser history. :( <br /> Guru meditation: 2"));
+                }
+            }
+        }
+    }
+
     public static RootPanel getAppArea(boolean margin) {
         RootPanel appArea = RootPanel.get("apparea");
-        //List<String> styles = Arrays.asList(appArea.getStyleName().split(" "));
-        if(user.isModerator())
-            appArea.addStyleName("adminbar");
         if(margin)
             appArea.setStylePrimaryName("margin");
         else
@@ -98,41 +185,21 @@ public class Mindlevel implements EntryPoint {
         RootPanel.get("apparea").clear();
     }
 
-    /**
-     * This is the entry point method.
-     */
-    @Override
-    public void onModuleLoad() {
-        for(String page:pages)
-            connectListener(page);
-        new QuoteHandler(RootPanel.get("quote"));
-        keepLoggedIn();
-        String pictureId = Window.Location.getParameter("picture");
-        String userId = Window.Location.getParameter("user");
-        String missionId = Window.Location.getParameter("mission");
-        boolean validated = Window.Location.getParameter("validated") == null ? true : Window.Location.getParameter("validated").toLowerCase().equals("true");
-        if(pictureId!=null)
-            try {
-                new Picture(getAppArea(true), Integer.parseInt(pictureId), validated);
-            } catch (NumberFormatException nfe) {
-                new Home(getAppArea(true));
-                HandyTools.showDialogBox("Error", new HTML("No picture with that id. :("));
-            }
-        else if(userId!=null)
-            if(userId==Mindlevel.user.getUsername())
-                new Profile(getAppArea(true), userId, true);
-            else
-                new Profile(getAppArea(true), userId, false);
-        else if(missionId!=null)
-                new MissionProfile(getAppArea(true), Integer.parseInt(missionId), validated);
-        else
-            new Home(getAppArea(true));
-    }
-
     private void keepLoggedIn() {
         if(Cookies.getCookie("mindlevel")!=null)
             HandyTools.keepLoggedIn(Cookies.getCookie("mindlevel"));
         else
             HandyTools.setLoggedOff();
+    }
+
+    private String getValue(String token) {
+        return token.substring(token.indexOf("=")+1);
+    }
+
+    @Override
+    public void onValueChange(ValueChangeEvent<String> event) {
+        String token = event.getValue();
+        System.out.println(token);
+        parseToken(token);
     }
 }

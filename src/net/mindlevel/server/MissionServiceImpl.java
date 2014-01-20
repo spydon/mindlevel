@@ -1,5 +1,7 @@
 package net.mindlevel.server;
 
+import static org.apache.commons.lang3.StringEscapeUtils.escapeHtml4;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -143,10 +145,10 @@ public class MissionServiceImpl extends DBConnector implements MissionService {
                             + "creator) "
                             + "values "
                             + "(?, ?, ?, ?)");
-                    insertMission.setString(1, mission.getName());
-                    insertMission.setString(2, mission.getDescription());
+                    insertMission.setString(1, escapeHtml4(mission.getName()));
+                    insertMission.setString(2, escapeHtml4(mission.getDescription()));
                     insertMission.setBoolean(3, mission.getAdult());
-                    insertMission.setString(4, mission.getCreator());
+                    insertMission.setString(4, escapeHtml4(mission.getCreator()));
 
                     int result = insertMission.executeUpdate();
                     insertMission.close();
@@ -198,7 +200,7 @@ public class MissionServiceImpl extends DBConnector implements MissionService {
                         + "WHERE "
                         + "id = ?");
                 validateMission.setBoolean(1, true);
-                validateMission.setString(2, username);
+                validateMission.setString(2, escapeHtml4(username));
                 validateMission.setInt(3, missionId);
 
                 int result = validateMission.executeUpdate();

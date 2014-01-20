@@ -144,7 +144,8 @@ public class PictureServiceImpl extends DBConnector implements PictureService {
                 ps.close();
                 conn.close();
             } catch (SQLException e) {
-                throw new IllegalArgumentException("Could not delete tags. " + e.getStackTrace());
+                e.printStackTrace();
+                throw new IllegalArgumentException("Could not delete tags.");
             }
         } else {
             throw new IllegalArgumentException("YOU don't seem to be admin. This was logged.");
@@ -157,16 +158,16 @@ public class PictureServiceImpl extends DBConnector implements PictureService {
             Connection conn = getConnection();
             PreparedStatement ps;
             try {
-                ps = conn.prepareStatement("DELETE FROM user_picture WHERE picture_id=?");
-                ps.setInt(1, pictureId);
-                ps.executeUpdate();
+                new RatingServiceImpl().deleteRatings(pictureId, token);
+                deleteTags(pictureId, token);
                 ps = conn.prepareStatement("DELETE FROM picture WHERE id=?");
                 ps.setInt(1, pictureId);
                 ps.executeUpdate();
                 ps.close();
                 conn.close();
             } catch (SQLException e) {
-                throw new IllegalArgumentException("Could not delete picture. " + e.getMessage());
+                e.printStackTrace();
+                throw new IllegalArgumentException("Could not delete picture.");
             }
         } else {
             throw new IllegalArgumentException("YOU don't seem to be admin. This was logged.");

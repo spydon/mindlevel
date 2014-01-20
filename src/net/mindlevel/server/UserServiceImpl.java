@@ -1,6 +1,8 @@
 package net.mindlevel.server;
 
-//import java.sql.ResultSet;
+import static org.apache.commons.lang3.StringEscapeUtils.escapeHtml4;
+
+import java.io.File;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,7 +12,7 @@ import java.util.List;
 
 import net.mindlevel.client.services.UserService;
 import net.mindlevel.shared.User;
-//import com.yourdomain.projectname.client.User;
+
 @SuppressWarnings("serial")
 public class UserServiceImpl extends DBConnector implements UserService {
     @Override
@@ -34,7 +36,7 @@ public class UserServiceImpl extends DBConnector implements UserService {
                 user.setPictureUrl(rs.getString("picture"));
                 user.setLastLogin(rs.getLong("last_login"));
             } else {
-                throw new IllegalArgumentException("Not logged in.");
+                throw new IllegalArgumentException("No such user.");
             }
             rs.close();
             ps.close();
@@ -66,7 +68,7 @@ public class UserServiceImpl extends DBConnector implements UserService {
                 user.setPictureUrl(rs.getString("picture"));
                 user.setLastLogin(rs.getLong("last_login"));
             } else {
-                throw new IllegalArgumentException("Not logged in.");
+                throw new IllegalArgumentException("No such user.");
             }
             rs.close();
             ps.close();
@@ -154,7 +156,7 @@ public class UserServiceImpl extends DBConnector implements UserService {
         try {
             Connection conn = getConnection();
             users.clear();
-            PreparedStatement ps = conn.prepareStatement("SELECT username, name permission_id As permission, "
+            PreparedStatement ps = conn.prepareStatement("SELECT username, name, permission_id As permission, "
                     + "adult, location, created, token, about, picture, last_login FROM user ORDER BY username");
             ResultSet rs = ps.executeQuery();
             while(rs.next()) {
@@ -185,11 +187,18 @@ public class UserServiceImpl extends DBConnector implements UserService {
         try {
             Connection conn = getConnection();
             PreparedStatement ps = conn.prepareStatement("UPDATE user SET picture = ?, picture_adult = ? WHERE username = ?");
-            if(new TokenServiceImpl().validateAuth(username, token)) {
+            int result = 0;
+            File file = new File("./pictures/" + filename);
+            if(new TokenServiceImpl().validateAuth(username, token) && file.exists()) {
                 ps.setString(1, filename);
                 ps.setBoolean(2, adult);
                 ps.setString(3, username);
-                int result = ps.executeUpdate();
+                result = ps.executeUpdate();
+            } else {
+                throw new IllegalArgumentException("Seems like you are trying to do something dodgy. This was logged.");
+            }
+            if(result != 1) {
+                throw new UnknownError("Something went wrong");
             }
             ps.close();
             conn.close();
@@ -211,9 +220,9 @@ public class UserServiceImpl extends DBConnector implements UserService {
             PreparedStatement ps = conn.prepareStatement("UPDATE user SET name = ?, location = ?, about = ?, adult = ? WHERE username = ?");
             int result = 0;
             if(new TokenServiceImpl().validateAuth(username, token)) {
-                ps.setString(1, name);
-                ps.setString(2, location);
-                ps.setString(3, about);
+                ps.setString(1, escapeHtml4(name));
+                ps.setString(2, escapeHtml4(location));
+                ps.setString(3, escapeHtml4(about));
                 ps.setBoolean(4, adult);
                 ps.setString(5, username);
                 result = ps.executeUpdate();

@@ -13,6 +13,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.LoadEvent;
 import com.google.gwt.event.dom.client.LoadHandler;
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
@@ -37,7 +38,8 @@ public class Profile {
     private final UserServiceAsync userService = GWT
             .create(UserService.class);
 
-    public Profile(RootPanel appArea, String userId, boolean canChange) {
+    public Profile(RootPanel appArea, String userId) {
+        History.newItem("user=" + userId, false);
         this.appArea = appArea;
         this.userId = userId;
         this.changePicture = new Button("Change picture");
@@ -61,6 +63,7 @@ public class Profile {
             @Override
             public void onSuccess(User userinfo) {
                 user = userinfo;
+                History.newItem("user="+user.getUsername());
                 String special = "";
                 if(user.isModerator())
                     special = user.isAdmin() ? "(Admin)" : "(Moderator)";
@@ -106,7 +109,7 @@ public class Profile {
 
                         @Override
                         public void onClick(ClickEvent event) {
-                            new UpdateProfile();
+                            new UpdateProfile(user);
                         }
                     });
                     infoPanel.add(changeInfo);

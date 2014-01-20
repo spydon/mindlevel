@@ -1,6 +1,7 @@
 package net.mindlevel.server;
 
-//import java.sql.ResultSet;
+import static org.apache.commons.lang3.StringEscapeUtils.escapeHtml4;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -25,8 +26,8 @@ public class RegistrationServiceImpl extends DBConnector implements Registration
             Connection conn = getConnection();
             PreparedStatement ps = conn.prepareStatement("INSERT INTO user (username, password, adult, token, last_login) "
                     + "values (?, SHA2(CONCAT(SHA2(?, 512),SHA2(?, 512)),512), ?, UUID(), UNIX_TIMESTAMP())");
-            ps.setString(1, username);
-            ps.setString(2, username);
+            ps.setString(1, escapeHtml4(username));
+            ps.setString(2, escapeHtml4(username));
             ps.setString(3, password);
             ps.setBoolean(4, adult);
             result = ps.executeUpdate();

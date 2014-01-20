@@ -3,11 +3,11 @@ package net.mindlevel.client.pages;
 import java.util.List;
 
 import net.mindlevel.client.HandyTools;
-import net.mindlevel.client.Normalizer;
 import net.mindlevel.client.pages.dialog.MissionSuggestion;
 import net.mindlevel.client.services.MissionService;
 import net.mindlevel.client.services.MissionServiceAsync;
 import net.mindlevel.shared.Mission;
+import net.mindlevel.shared.Normalizer;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -58,7 +58,6 @@ public class Missions {
             public void onCellPreview(CellPreviewEvent<Mission> event) {
                 boolean isClick = "click".equals(event.getNativeEvent().getType());
                 if(isClick) {
-                    System.out.println(event.getValue().getId());
                     new MissionProfile(appArea, event.getValue().getId(), validated);
                     //Window.Location.assign("/?mission="+event.getValue().getId());
                 }

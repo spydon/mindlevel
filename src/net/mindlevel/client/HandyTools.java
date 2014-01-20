@@ -5,14 +5,16 @@ import java.util.Date;
 import net.mindlevel.client.pages.Admin;
 import net.mindlevel.client.services.UserService;
 import net.mindlevel.client.services.UserServiceAsync;
+import net.mindlevel.shared.Normalizer;
 import net.mindlevel.shared.User;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.i18n.shared.DateTimeFormat;
+import com.google.gwt.i18n.shared.DefaultDateTimeFormatInfo;
 import com.google.gwt.user.client.Cookies;
-import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
@@ -34,8 +36,7 @@ public class HandyTools {
         return isLoggedIn;
     }
 
-    public static void showDialogBox(String title, HTML text) {
-        final Boolean currentFocus = Mindlevel.forceFocus;
+    public static Button showDialogBox(String title, HTML text) {
         Mindlevel.forceFocus = false;
         final DialogBox db = new DialogBox();
         db.setText(title);
@@ -44,7 +45,6 @@ public class HandyTools {
             @Override
             public void onClick(ClickEvent event) {
                 db.hide();
-                Mindlevel.forceFocus = currentFocus;
             }
         });
         VerticalPanel dbPanel = new VerticalPanel();
@@ -53,13 +53,8 @@ public class HandyTools {
         dbPanel.add(closeButton);
         db.add(dbPanel);
         db.center();
-        Timer t = new Timer() {
-            @Override
-            public void run() {
-                closeButton.setFocus(true);
-            }
-        };
-        t.schedule(0);
+        closeButton.setFocus(true);
+        return closeButton;
     }
 
     public static void setLoggedIn(User user) {
@@ -97,16 +92,23 @@ public class HandyTools {
     }
 
     private static void setRightView(boolean logIn, String username) {
-        RootPanel.get("hidelogin").setVisible(!logIn);
-        RootPanel.get("hidelogout").setVisible(logIn);
-        RootPanel.get("hideregister").setVisible(!logIn);
+//        RootPanel.get("hidelogin").setVisible(!logIn);
+//        RootPanel.get("hidelogout").setVisible(logIn);
+//        RootPanel.get("hideregister").setVisible(!logIn);
+//        RootPanel.get("hideprofile").setVisible(logIn);
+        RootPanel.get("hidelogin").setStyleName("superhidden", logIn);
+        RootPanel.get("hidelogout").setStyleName("superhidden", !logIn);
+        RootPanel.get("hideregister").setStyleName("superhidden", logIn);
         RootPanel.get("profile").getElement().setInnerHTML(username);
-        RootPanel.get("hideprofile").setVisible(logIn);
+        RootPanel.get("hideprofile").setStyleName("superhidden", !logIn);
         RootPanel.get("hidechat").setStyleName("superhidden", !logIn);
-        if(Mindlevel.user.isAdmin())
+        if(Mindlevel.user.isAdmin()) {
             RootPanel.get("adminmenu").setStyleName("superhidden", !logIn);
-        else if(!logIn)
-            RootPanel.get("adminmenu").setStyleName("superhidden", !logIn);
+            RootPanel.get("apparea").setStyleName("adminbar", logIn);
+        }
+
+//        else if(!logIn)
+//            RootPanel.get("adminmenu").setStyleName("superhidden", !logIn);
         isLoggedIn = logIn;
     }
 
@@ -117,7 +119,9 @@ public class HandyTools {
 
     //Unix time to a readable date
     public static String unixToDate(long unixtime) {
-        java.util.Date time = new java.util.Date(unixtime*1000);
-        return time.toString();
+        java.util.Date date = new java.util.Date(unixtime*1000);
+        DefaultDateTimeFormatInfo info = new DefaultDateTimeFormatInfo();
+        DateTimeFormat dtf = new DateTimeFormat("EEE, d MMM yyyy HH:mm:ss", info) {};
+        return dtf.format(date);
     }
 }

@@ -32,6 +32,7 @@ import com.google.gwt.event.dom.client.MouseDownEvent;
 import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -207,13 +208,14 @@ public class Picture {
             }
         });
         metaPanel = new HorizontalPanel();
+        metaPanel.addStyleName("metapanel");
         VerticalPanel infoPanel = new VerticalPanel();
 
         SimplePanel descriptionContainer = new SimplePanel();
         descriptionContainer.addStyleName("picture-description");
         descriptionContainer.add(description);
 
-        infoPanel.addStyleName("metapanel");
+        infoPanel.addStyleName("infopanel");
         infoPanel.add(owner);
         infoPanel.add(mission);
         infoPanel.add(category);
@@ -259,21 +261,32 @@ public class Picture {
          */
         @Override
         public void onKeyUp(KeyUpEvent event) {
-            if(!notFound)
-                if (event.getNativeKeyCode() == KeyCodes.KEY_RIGHT && id < imageCount)
+            if(!notFound) {
+                if (event.getNativeKeyCode() == KeyCodes.KEY_RIGHT && id < imageCount) {
                     nextImage();
-                else if (event.getNativeKeyCode() == KeyCodes.KEY_LEFT && id > 1)
+                } else if (event.getNativeKeyCode() == KeyCodes.KEY_LEFT && id > 1) {
                     prevImage();
-                else if (event.getNativeKeyCode() == 'R')
+                } else if (event.getNativeKeyCode() == 'R') {
                     randomImage();
-                else if (event.getNativeKeyCode() == 'H')
-                    HandyTools.showDialogBox("Shortcuts", new HTML("Right/Left Arrow - Browse pictures</br>R - Random picture</br>H - Show this help"));
+                } else if (event.getNativeKeyCode() == 'H') {
+                    Button closeButton =
+                            HandyTools.showDialogBox("Shortcuts",
+                                    new HTML("Right/Left Arrow - Browse pictures</br>R - Random picture</br>H - Show this help"));
+                    closeButton.addClickHandler(new ClickHandler() {
+
+                        @Override
+                        public void onClick(ClickEvent event) {
+                            Mindlevel.forceFocus = true;
+                            arrowFocus();
+                        }
+                    });
+                }
+            }
         }
     }
 
     private void randomImage() {
         loadImage(-1, true);
-        clearFields();
         arrowFocus();
     }
 
@@ -311,7 +324,7 @@ public class Picture {
 //                leftArrow.setVisible(false);
 //                rightArrow.setVisible(false);
 //                title.setVisible(false);
-                clearFields();
+                hideFields();
                 notFound = true;
             }
 
@@ -341,11 +354,12 @@ public class Picture {
                 if (imageCount == 0) {
                     leftArrow.addStyleName("hidden");
                     rightArrow.addStyleName("hidden");
-                    clearFields();
+                    hideFields();
                 }
 
                 //If the image is validated, fetch the votevalue, else add validation button
                 realId = metaImage.getId();
+                History.newItem("picture=" + realId, false);
                 if(validated) {
                     getVoteValue();
                 } else if(Mindlevel.user.isModerator()){
@@ -404,7 +418,7 @@ public class Picture {
                 if(validated)
                     link.setHTML("<b>Link: </b>" + getAnchor("picture", Integer.toString(realId), "Right click to copy"));
                 else
-                    link.setHTML("<b>Link: </b><a href=./Mindlevel.html?picture="+realId+"&validated=false>Right click to copy</a>");
+                    link.setHTML("<b>Link: </b><a href=./Mindlevel.html#picture="+realId+"&validated=false>Right click to copy</a>");
                 fetchMission(metaImage.getMissionId());
                 getScore(realId);
             }
@@ -493,10 +507,10 @@ public class Picture {
     }
 
     private String getAnchor(String type, String data, String name) {
-        return data!=null ? "<a href=./Mindlevel.html?"+type+"="+data+">"+name+"</a>" : "";
+        return data!=null ? "<a href=./Mindlevel.html#"+type+"="+data+">"+name+"</a>" : "";
     }
 
-    private void clearFields() {
+    private void hideFields() {
         metaPanel.setVisible(false);
         leftArrow.setVisible(false);
         rightArrow.setVisible(false);
@@ -549,7 +563,6 @@ public class Picture {
                 if(m != null) {
                     mission.setHTML("<b>Mission: </b>" + getAnchor("mission", Integer.toString(m.getId()), m.getName()));
                     category.setHTML("<b>Categories: </b>" + getCategoryAnchors(m.getCategories()));
-                    //TODO: Fix categories?
                 }
             }
         });
