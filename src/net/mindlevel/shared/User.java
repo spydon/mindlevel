@@ -104,12 +104,16 @@ public class User implements Serializable{
                 + created + " " + about;
     }
 
-    public String getPictureUrl() {
+    public String getPicture() {
         return pictureUrl;
     }
 
-    public void setPictureUrl(String pictureUrl) {
+    public void setPicture(String pictureUrl) {
         this.pictureUrl = pictureUrl;
+    }
+
+    public String getThumbnail() {
+        return pictureUrl.replace("scaled", "thumb");
     }
 
     public String getName() {

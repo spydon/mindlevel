@@ -33,7 +33,7 @@ public class UserServiceImpl extends DBConnector implements UserService {
                 user.setCreated(rs.getString("created"));
                 user.setToken(rs.getString("token"));
                 user.setAbout(rs.getString("about"));
-                user.setPictureUrl(rs.getString("picture"));
+                user.setPicture(rs.getString("picture"));
                 user.setLastLogin(rs.getLong("last_login"));
             } else {
                 throw new IllegalArgumentException("No such user.");
@@ -65,7 +65,7 @@ public class UserServiceImpl extends DBConnector implements UserService {
                 user.setCreated(rs.getString("created"));
                 user.setToken(rs.getString("token"));
                 user.setAbout(rs.getString("about"));
-                user.setPictureUrl(rs.getString("picture"));
+                user.setPicture(rs.getString("picture"));
                 user.setLastLogin(rs.getLong("last_login"));
             } else {
                 throw new IllegalArgumentException("No such user.");
@@ -100,7 +100,7 @@ public class UserServiceImpl extends DBConnector implements UserService {
                 user.setCreated(rs.getString("created"));
                 user.setToken(rs.getString("token"));
                 user.setAbout(rs.getString("about"));
-                user.setPictureUrl(rs.getString("picture"));
+                user.setPicture(rs.getString("picture"));
                 user.setLastLogin(rs.getLong("last_login"));
                 users.add(user);
             }
@@ -169,7 +169,7 @@ public class UserServiceImpl extends DBConnector implements UserService {
                 user.setCreated(rs.getString("created"));
                 user.setToken(rs.getString("token"));
                 user.setAbout(rs.getString("about"));
-                user.setPictureUrl(rs.getString("picture"));
+                user.setPicture(rs.getString("picture"));
                 user.setLastLogin(rs.getLong("last_login"));
                 users.add(user);
             }

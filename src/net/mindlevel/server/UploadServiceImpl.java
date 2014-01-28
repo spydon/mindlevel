@@ -27,6 +27,7 @@ public class UploadServiceImpl extends UploadAction {
 
     private static final long serialVersionUID = 1L;
     private static final int PICTURE_MAXWIDTH = 800;
+    private static final int THUMB_MAXWIDTH = 64;
     Hashtable<String, String> receivedContentTypes = new Hashtable<String, String>();
     /**
      * Maintain a list with received files and their content types.
@@ -65,6 +66,11 @@ public class UploadServiceImpl extends UploadAction {
                     } else {
                         response = file.getName();
                     }
+
+                    // Create a thumbnail
+                    BufferedImage thumbImage = scaleImage(file, THUMB_MAXWIDTH);
+                    File thumbFile = new File(path + hashName + "_thumb" + extension);
+                    ImageIO.write(thumbImage, extension.substring(1), thumbFile);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

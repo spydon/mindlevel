@@ -391,6 +391,37 @@ header {
     text-align: center;
 }
 
+/** ReadBox */
+.comment-box {
+	position: relative;
+    text-align: left; !important;
+/*     border-radius: 5px; */
+/*     margin: 0px 0px 10px; */
+    box-shadow: 0px 4px 4px #000;
+    background: #bae2f1;
+}
+
+.comment-button {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+}
+
+.comment-label {
+	text-align: left;
+	max-width: 300px;
+    margin: 5px;
+}
+
+.comment-thumbnail {
+    cursor: pointer;
+}
+
+.comment-textarea {
+    width: 365px;
+    height: 40px;
+}
+
 /** RESPONSIVE CSS */
 @media only screen and (max-width: 520px), only screen and (max-device-width: 520px) {
     

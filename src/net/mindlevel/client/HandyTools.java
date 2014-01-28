@@ -1,5 +1,6 @@
 package net.mindlevel.client;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 import net.mindlevel.client.pages.Admin;
@@ -73,6 +74,7 @@ public class HandyTools {
 
     public static void setLoggedOff() {
         Cookies.removeCookie("mindlevel");
+        Mindlevel.user = null;
         setRightView(false, "");
     }
 
@@ -102,13 +104,11 @@ public class HandyTools {
         RootPanel.get("profile").getElement().setInnerHTML(username);
         RootPanel.get("hideprofile").setStyleName("superhidden", !logIn);
         RootPanel.get("hidechat").setStyleName("superhidden", !logIn);
-        if(Mindlevel.user.isAdmin()) {
+        if(Mindlevel.user != null && Mindlevel.user.isAdmin()) {
             RootPanel.get("adminmenu").setStyleName("superhidden", !logIn);
             RootPanel.get("apparea").setStyleName("adminbar", logIn);
         }
 
-//        else if(!logIn)
-//            RootPanel.get("adminmenu").setStyleName("superhidden", !logIn);
         isLoggedIn = logIn;
     }
 
@@ -123,5 +123,19 @@ public class HandyTools {
         DefaultDateTimeFormatInfo info = new DefaultDateTimeFormatInfo();
         DateTimeFormat dtf = new DateTimeFormat("EEE, d MMM yyyy HH:mm:ss", info) {};
         return dtf.format(date);
+    }
+
+    public static String getCategoryAnchors(ArrayList<String> categories) {
+        String categoryAnchors = "";
+        for(String category : categories)
+            if(categories.indexOf(category) != 0)
+                categoryAnchors += ", " + getAnchor("category", category, category);
+            else
+                categoryAnchors = getAnchor("category", category, category);
+        return categoryAnchors;
+    }
+
+    public static String getAnchor(String type, String data, String name) {
+        return data!=null ? "<a href=#"+type+"="+data+">"+name+"</a>" : "";
     }
 }

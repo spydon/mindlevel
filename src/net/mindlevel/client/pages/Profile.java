@@ -74,7 +74,7 @@ public class Profile {
                 infoPanel.add(new HTML("<b>About:</b> " + user.getAbout()));
                 infoPanel.add(new HTML("<b>Last log in:</b> " + HandyTools.unixToDate(user.getLastLogin())));
 
-                final Image profilePicture = new Image("./pictures/" + userinfo.getPictureUrl());
+                final Image profilePicture = new Image("./pictures/" + userinfo.getPicture());
                 profilePicture.setVisible(false);
                 profilePicture.setStylePrimaryName("profile-picture");
                 profilePicture.addLoadHandler(new LoadHandler() {
@@ -96,7 +96,7 @@ public class Profile {
                 });
                 picturePanel.add(profilePicture);
 
-                if(userinfo.getUsername().equals(Mindlevel.user.getUsername())) {
+                if(Mindlevel.user != null && userinfo.getUsername().equals(Mindlevel.user.getUsername())) {
                     changePicture.addClickHandler(new ClickHandler() {
 
                         @Override

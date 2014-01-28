@@ -1,12 +1,2 @@
 # Module mindlevel
 # RPC service class, partial path of RPC policy file
-net.mindlevel.client.services.PictureService, 66167484F3FBC79E404F4F32722DF8FD.gwt.rpc
-net.mindlevel.client.services.GreetingService, D031330CF58FD1955A17AAFFA8F4C16B.gwt.rpc
-net.mindlevel.client.services.RegistrationService, F8C74A3E9CBE2C5A4DC97CDDA9CED127.gwt.rpc
-net.mindlevel.client.services.LoginService, D0D763FA8D0BCC05102972504558C783.gwt.rpc
-net.mindlevel.client.services.CategoryService, B87627DB056D7C7ECFCD0A46EF31D880.gwt.rpc
-net.mindlevel.client.services.RatingService, 3D46A3C31B99572489325D0588F633B2.gwt.rpc
-net.mindlevel.client.services.MissionService, A15A5BDD34711AD8700AED0144B0FBB0.gwt.rpc
-net.mindlevel.client.services.MetaUploadService, 4538AB933DFB5FF9DE539F35A30FED2A.gwt.rpc
-net.mindlevel.client.services.TokenService, A86D0F9AE9BC81906790938844F316D5.gwt.rpc
-net.mindlevel.client.services.UserService, E7A2CA19E3C2B91E13FB4D58FBC43125.gwt.rpc

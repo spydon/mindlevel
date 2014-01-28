@@ -410,13 +410,13 @@ public class Picture {
 
                 title.setHTML(metaImage.getTitle());
                 location.setHTML("<b>Location: </b>" + metaImage.getLocation());
-                owner.setHTML("<b>Owner: </b>" + getAnchor("user", metaImage.getOwner(), metaImage.getOwner()));
+                owner.setHTML("<b>Owner: </b>" + HandyTools.getAnchor("user", metaImage.getOwner(), metaImage.getOwner()));
                 description.setHTML("<h1>Description</h1>"
                         + metaImage.getDescription());
                 tags.setHTML(buildTagHTML(metaImage.getTags()));
                 date.setHTML("<b>Creation date: </b>" + metaImage.getDate());
                 if(validated)
-                    link.setHTML("<b>Link: </b>" + getAnchor("picture", Integer.toString(realId), "Right click to copy"));
+                    link.setHTML("<b>Link: </b>" + HandyTools.getAnchor("picture", Integer.toString(realId), "Right click to copy"));
                 else
                     link.setHTML("<b>Link: </b><a href=./Mindlevel.html#picture="+realId+"&validated=false>Right click to copy</a>");
                 fetchMission(metaImage.getMissionId());
@@ -429,7 +429,7 @@ public class Picture {
         String tagHtml = "<b>Tags: </b>";
         if(tags!=null)
             for(String tag : tags) {
-                tagHtml = tagHtml.concat(getAnchor("user", tag, tag));
+                tagHtml = tagHtml.concat(HandyTools.getAnchor("user", tag, tag));
                 if(tags.get(tags.size()-1)!=tag)
                     tagHtml = tagHtml.concat(",&nbsp;");
             }
@@ -496,20 +496,6 @@ public class Picture {
         adjustImageSize();
     }
 
-    private String getCategoryAnchors(ArrayList<String> categories) {
-        String categoryAnchors = "";
-        for(String category : categories)
-            if(categories.indexOf(category) != 0)
-                categoryAnchors += ", " + getAnchor("category", category, category);
-            else
-                categoryAnchors = getAnchor("category", category, category);
-        return categoryAnchors;
-    }
-
-    private String getAnchor(String type, String data, String name) {
-        return data!=null ? "<a href=./Mindlevel.html#"+type+"="+data+">"+name+"</a>" : "";
-    }
-
     private void hideFields() {
         metaPanel.setVisible(false);
         leftArrow.setVisible(false);
@@ -561,8 +547,8 @@ public class Picture {
             @Override
             public void onSuccess(Mission m) {
                 if(m != null) {
-                    mission.setHTML("<b>Mission: </b>" + getAnchor("mission", Integer.toString(m.getId()), m.getName()));
-                    category.setHTML("<b>Categories: </b>" + getCategoryAnchors(m.getCategories()));
+                    mission.setHTML("<b>Mission: </b>" + HandyTools.getAnchor("mission", Integer.toString(m.getId()), m.getName()));
+                    category.setHTML("<b>Categories: </b>" + HandyTools.getCategoryAnchors(m.getCategories()));
                 }
             }
         });

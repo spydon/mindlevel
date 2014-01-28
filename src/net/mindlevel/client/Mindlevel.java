@@ -29,7 +29,7 @@ import com.google.gwt.user.client.ui.RootPanel;
  * Entry point classes define <code>onModuleLoad()</code>.
  */
 public class Mindlevel implements EntryPoint, ValueChangeHandler<String> {
-    public static User user = new User();
+    public static User user;
     public static boolean forceFocus = true;
     private final String[] pages =
             {"home", "missions", "pictures", "highscore",
