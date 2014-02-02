@@ -68,16 +68,17 @@ public class Home extends Page{
         appArea.add(nameField);
         appArea.add(sendButton);
         appArea.add(errorLabel);
-        userService.getUser("aaaa", new AsyncCallback<User>() {
+        userService.getUser("spydon", new AsyncCallback<User>() {
 
             @Override
             public void onSuccess(User result) {
                 appArea.add(new ReadBox(
                         result,
-                        new Comment(result.getUsername(),
-                                "This is the first comment ever on this site, but now it's growing!!! How long can it be, that is the magical question.",
-                                "Spydon",
-                                "2014-01-26")));
+                        new Comment(0,
+                                    result.getUsername(),
+                                    "This is the first comment ever on this site, but now it's growing!!! How long can it be, that is the magical question.",
+                                    0,
+                                    123456)));
             }
 
             @Override

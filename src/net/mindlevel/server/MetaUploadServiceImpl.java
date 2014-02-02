@@ -12,6 +12,8 @@ import net.mindlevel.client.services.MetaUploadService;
 import net.mindlevel.shared.FieldVerifier;
 import net.mindlevel.shared.MetaImage;
 
+import com.mysql.jdbc.Statement;
+
 /**
  * This is an example of how to use UploadAction class.
  */
@@ -32,10 +34,11 @@ public class MetaUploadServiceImpl extends DBConnector implements
                     "Something went wrong with the authentication.");
         }
         try {
+            int threadId = getThreadId();
             Connection conn = getConnection();
             PreparedStatement ps = conn.prepareStatement("INSERT INTO picture "
-                    + "(filename, title, location, description, adult, owner, mission_id) "
-                    + "values(?, ?, ?, ?, ?, ?, ?)");
+                    + "(filename, title, location, description, adult, owner, mission_id, thread_id) "
+                    + "values(?, ?, ?, ?, ?, ?, ?, ?)");
             ps.setString(1, escapeHtml4(metaImage.getFilename()));
             ps.setString(2, escapeHtml4(metaImage.getTitle()));
             ps.setString(3, escapeHtml4(metaImage.getLocation()));
@@ -43,6 +46,7 @@ public class MetaUploadServiceImpl extends DBConnector implements
             ps.setBoolean(5, metaImage.isAdult());
             ps.setString(6, escapeHtml4(metaImage.getOwner()));
             ps.setInt(7, metaImage.getMissionId());
+            ps.setInt(8, threadId);
 
             ps.executeUpdate();
             uploadTags(escapeHtml4(metaImage.getOwner()), metaImage.getTags(),
@@ -53,6 +57,25 @@ public class MetaUploadServiceImpl extends DBConnector implements
             e.printStackTrace();
         }
         return "Success";
+    }
+
+    private int getThreadId() {
+        int threadId = 0;
+        try {
+            Connection conn = getConnection();
+            PreparedStatement ps = conn.prepareStatement("INSERT INTO comment_thread () values ()", Statement.RETURN_GENERATED_KEYS);
+
+            ps.executeUpdate();
+            ResultSet keys = ps.getGeneratedKeys();
+            keys.first();
+            threadId = keys.getInt(1);
+
+            ps.close();
+            conn.close();
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }
+        return threadId;
     }
 
     private void uploadTags(String owner, ArrayList<String> tags, int pictureId, boolean validated)

@@ -1,8 +1,8 @@
--- MySQL dump 10.14  Distrib 10.0.6-MariaDB, for debian-linux-gnu (x86_64)
+-- MySQL dump 10.14  Distrib 10.0.7-MariaDB, for debian-linux-gnu (x86_64)
 --
 -- Host: localhost    Database: mindlevel
 -- ------------------------------------------------------
--- Server version	10.0.6-MariaDB-1~wheezy-log
+-- Server version	10.0.7-MariaDB-1~wheezy-log
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -35,8 +35,63 @@ CREATE TABLE `category` (
 
 LOCK TABLES `category` WRITE;
 /*!40000 ALTER TABLE `category` DISABLE KEYS */;
-INSERT INTO `category` VALUES (1,'adventurous'),(2,'funny');
+INSERT INTO `category` VALUES (1,'adventurous'),(2,'artistic'),(3,'funny'),(4,'kind'),(5,'outgoing');
 /*!40000 ALTER TABLE `category` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `comment`
+--
+
+DROP TABLE IF EXISTS `comment`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `comment` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `username` varchar(64) NOT NULL,
+  `comment` text NOT NULL,
+  `parent_id` int(11) NOT NULL,
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `thread_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `parent_id` (`parent_id`),
+  KEY `username` (`username`),
+  KEY `thread_id` (`thread_id`),
+  CONSTRAINT `comment_ibfk_1` FOREIGN KEY (`parent_id`) REFERENCES `comment` (`id`) ON UPDATE CASCADE ON DELETE CASCADE,
+  CONSTRAINT `comment_ibfk_2` FOREIGN KEY (`username`) REFERENCES `user` (`username`) ON UPDATE CASCADE ON DELETE CASCADE,
+  CONSTRAINT `comment_ibfk_3` FOREIGN KEY (`thread_id`) REFERENCES `comment_thread` (`id`) ON UPDATE CASCADE ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `comment`
+--
+
+LOCK TABLES `comment` WRITE;
+/*!40000 ALTER TABLE `comment` DISABLE KEYS */;
+/*!40000 ALTER TABLE `comment` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `comment_thread`
+--
+
+DROP TABLE IF EXISTS `comment_thread`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `comment_thread` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `comment_thread`
+--
+
+LOCK TABLES `comment_thread` WRITE;
+/*!40000 ALTER TABLE `comment_thread` DISABLE KEYS */;
+/*!40000 ALTER TABLE `comment_thread` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -60,7 +115,7 @@ CREATE TABLE `mission` (
   KEY `validator` (`validator`),
   CONSTRAINT `mission_ibfk_1` FOREIGN KEY (`creator`) REFERENCES `user` (`username`) ON UPDATE CASCADE,
   CONSTRAINT `mission_ibfk_2` FOREIGN KEY (`validator`) REFERENCES `user` (`username`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -69,7 +124,6 @@ CREATE TABLE `mission` (
 
 LOCK TABLES `mission` WRITE;
 /*!40000 ALTER TABLE `mission` DISABLE KEYS */;
-INSERT INTO `mission` VALUES (6,'test','test',0,'aaaa',1,'2013-12-29 15:50:29','spydon'),(7,'No more cellphone','Give away your cellphone to somebody that needs it more than you.',1,'aaaa',1,'2013-12-29 16:54:52','spydon'),(8,'A day without pants','How comfortable are you a whole day without pants?',1,'spydon',1,'2014-01-06 20:56:42','spydon');
 /*!40000 ALTER TABLE `mission` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -85,8 +139,8 @@ CREATE TABLE `mission_category` (
   `category_id` int(11) NOT NULL,
   PRIMARY KEY (`mission_id`,`category_id`),
   KEY `mission_category_ibfk_2` (`category_id`),
-  CONSTRAINT `mission_category_ibfk_1` FOREIGN KEY (`mission_id`) REFERENCES `mission` (`id`) ON UPDATE CASCADE,
-  CONSTRAINT `mission_category_ibfk_2` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`) ON UPDATE CASCADE
+  CONSTRAINT `mission_category_ibfk_1` FOREIGN KEY (`mission_id`) REFERENCES `mission` (`id`) ON UPDATE CASCADE ON DELETE CASCADE,
+  CONSTRAINT `mission_category_ibfk_2` FOREIGN KEY (`category_id`) REFERENCES `category` (`id`) ON UPDATE CASCADE ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -96,7 +150,6 @@ CREATE TABLE `mission_category` (
 
 LOCK TABLES `mission_category` WRITE;
 /*!40000 ALTER TABLE `mission_category` DISABLE KEYS */;
-INSERT INTO `mission_category` VALUES (6,1),(7,1),(8,1),(8,2);
 /*!40000 ALTER TABLE `mission_category` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -143,12 +196,15 @@ CREATE TABLE `picture` (
   `mission_id` int(11) DEFAULT NULL,
   `score` int(11) DEFAULT NULL,
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `thread_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `owner` (`owner`),
   KEY `mission_id` (`mission_id`),
+  KEY `thread_id` (`thread_id`),
+  CONSTRAINT `picture_ibfk_3` FOREIGN KEY (`thread_id`) REFERENCES `comment_thread` (`id`),
   CONSTRAINT `picture_ibfk_1` FOREIGN KEY (`owner`) REFERENCES `user` (`username`) ON UPDATE CASCADE,
   CONSTRAINT `picture_ibfk_2` FOREIGN KEY (`mission_id`) REFERENCES `mission` (`id`) ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -175,8 +231,8 @@ CREATE TABLE `rating` (
   PRIMARY KEY (`picture_id`,`username`),
   KEY `picture_id` (`picture_id`),
   KEY `username` (`username`),
-  CONSTRAINT `rating_ibfk_1` FOREIGN KEY (`picture_id`) REFERENCES `picture` (`id`) ON UPDATE CASCADE,
-  CONSTRAINT `rating_ibfk_2` FOREIGN KEY (`username`) REFERENCES `user` (`username`) ON UPDATE CASCADE
+  CONSTRAINT `rating_ibfk_1` FOREIGN KEY (`picture_id`) REFERENCES `picture` (`id`) ON UPDATE CASCADE ON DELETE CASCADE,
+  CONSTRAINT `rating_ibfk_2` FOREIGN KEY (`username`) REFERENCES `user` (`username`) ON UPDATE CASCADE ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -221,7 +277,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES ('aaaa','6dd2462d6399baca7619994288653b0998946d6a912b83c2013f53c0f92fddf5cea0cda44ca1b04744179237051a81b995efec25eacf2b6048dea5d16b79d8ce',NULL,NULL,1,0,'2013-12-29 09:49:58',NULL,1388336031,'test.jpg',0,NULL),('spydon','6b753344106bdd9ee9358ec03a62762d9e12bc2fa865ab37e296c37f2d0956341d95f9e1362c1a9798ce6f22dd5c0060788979dd92b964e2ec7bf1daa9232e86','Uppsala','Hur jävla långt kan man skriva här då? Vaaaa? Hur långt? Vad sa du? Lorem ipsum blablabal... asdasdasdasd asdasdasd asdasdas dasdasda sdHur jävla långt kan man skriva här då? Vaaaa? Hur långt? Vad sa du? Lorem ipsum blablabal... asdasdasdasd asdasdasd asdasdas dasdasda sdHur jävla långt kan man skriva här då? Vaaaa? Hur långt? Vad sa du? Lorem ipsum blablabal... asdasdasdasd asdasdasd asdasdas dasdasda sdHur jävla långt kan man skriva här då? Vaaaa? Hur långt? Vad sa du? Lorem ipsum blablabal... asdasdasdasd asdasdasd asdasdas dasdasda sd',1,1,'2013-12-29 09:32:13','de22d1ce-7973-11e3-a3c6-14288d4cd549',1389302430,'test.jpg',1,'Lukas K');
+INSERT INTO `user` VALUES ('spydon','6b753344106bdd9ee9358ec03a62762d9e12bc2fa865ab37e296c37f2d0956341d95f9e1362c1a9798ce6f22dd5c0060788979dd92b964e2ec7bf1daa9232e86','Test','test',1,1,'2013-12-29 09:32:13',NULL,1390255104,'test.jpg',1,'');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -237,8 +293,8 @@ CREATE TABLE `user_picture` (
   `username` varchar(64) NOT NULL,
   PRIMARY KEY (`picture_id`,`username`),
   KEY `username` (`username`),
-  CONSTRAINT `user_picture_ibfk_1` FOREIGN KEY (`picture_id`) REFERENCES `picture` (`id`) ON UPDATE CASCADE,
-  CONSTRAINT `user_picture_ibfk_2` FOREIGN KEY (`username`) REFERENCES `user` (`username`) ON UPDATE CASCADE
+  CONSTRAINT `user_picture_ibfk_1` FOREIGN KEY (`picture_id`) REFERENCES `picture` (`id`) ON UPDATE CASCADE ON DELETE CASCADE,
+  CONSTRAINT `user_picture_ibfk_2` FOREIGN KEY (`username`) REFERENCES `user` (`username`) ON UPDATE CASCADE ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -260,4 +316,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2014-01-09 23:44:39
+-- Dump completed on 2014-02-02 15:23:59
