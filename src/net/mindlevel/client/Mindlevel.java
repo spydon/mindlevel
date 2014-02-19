@@ -155,11 +155,11 @@ public class Mindlevel implements EntryPoint, ValueChangeHandler<String> {
                         HandyTools.showDialogBox("Error", new HTML("Couldn't find a mission with that id. :("));
                     }
                     break;
-                } else if(parameters.contains("login")) {
+                } else if(parameters.contains("login")  && !UserTools.isLoggedIn()) {
                     forceFocus = false;
                     new Login(session);
                     break;
-                } else if(parameters.contains("logout")) {
+                } else if(parameters.contains("logout") && UserTools.isLoggedIn()) {
                     clearScreen();
                     new Logout(session);
                     break;
@@ -187,9 +187,9 @@ public class Mindlevel implements EntryPoint, ValueChangeHandler<String> {
 
     private void keepLoggedIn() {
         if(Cookies.getCookie("mindlevel")!=null)
-            HandyTools.keepLoggedIn(Cookies.getCookie("mindlevel"));
+            UserTools.keepLoggedIn(Cookies.getCookie("mindlevel"));
         else
-            HandyTools.setLoggedOff();
+            UserTools.setLoggedOff();
     }
 
     private String getValue(String token) {

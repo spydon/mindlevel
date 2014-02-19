@@ -2,6 +2,7 @@ package net.mindlevel.client.pages;
 
 import net.mindlevel.client.HandyTools;
 import net.mindlevel.client.Mindlevel;
+import net.mindlevel.client.UserTools;
 import net.mindlevel.client.pages.dialog.Upload;
 import net.mindlevel.client.services.MissionService;
 import net.mindlevel.client.services.MissionServiceAsync;
@@ -63,7 +64,7 @@ public class MissionProfile {
         missionPanel.add(new HTML("<b>Name</b> " + mission.getName()));
         missionPanel.add(new HTML("<b>Categories</b> " + mission.getCategories())); //TODO: Do this differently?
         missionPanel.add(new HTML("<b>Description</b> " + mission.getDescription()));
-        if(HandyTools.isLoggedIn() && validated) {
+        if(UserTools.isLoggedIn() && validated) {
             Button uploadButton = new Button("Upload completed mission");
             uploadButton.addStyleName("smallmargin");
             uploadButton.addClickHandler(new ClickHandler() {
@@ -75,7 +76,7 @@ public class MissionProfile {
             });
             missionPanel.add(uploadButton);
         }
-        if(Mindlevel.user.isAdmin() && !validated) {
+        if(UserTools.isAdmin() && !validated) {
             Button validateButton = new Button("Validate");
             validateButton.addStyleName("smallmargin");
             validateButton.addClickHandler(new ClickHandler() {

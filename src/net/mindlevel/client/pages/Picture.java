@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import net.mindlevel.client.HandyTools;
 import net.mindlevel.client.Mindlevel;
+import net.mindlevel.client.UserTools;
 import net.mindlevel.client.services.MetaUploadService;
 import net.mindlevel.client.services.MetaUploadServiceAsync;
 import net.mindlevel.client.services.MissionService;
@@ -138,7 +139,7 @@ public class Picture {
             }
         });
         loadImage(id, false);
-        if(HandyTools.isLoggedIn() && validated) {
+        if(UserTools.isLoggedIn() && validated) {
             getVoteValue();
             rating.addClickHandler(new ClickHandler() {
                 @Override
@@ -201,7 +202,7 @@ public class Picture {
         keyUpHack.addBlurHandler(new BlurHandler() {
             @Override
             public void onBlur(BlurEvent event) {
-                if(!Mindlevel.user.isAdmin() && !activeArrow)
+                if(!UserTools.isAdmin() && !activeArrow)
                     arrowFocus();
                 else if(activeArrow)
                     activeArrow = false;
@@ -227,18 +228,21 @@ public class Picture {
 
         //Get rid of this somehow
         VerticalPanel centerHack = new VerticalPanel();
-        if(HandyTools.isLoggedIn() && validated)
-            ratingPanel.add(rating);
-        centerHack.add(ratingPanel);
-        centerHack.add(score);
-        if(Mindlevel.user.isModerator()) {
-            validate.addStyleName("center-button");
-            if(!validated)
-                infoPanel.add(validate);
-        }
-        if(Mindlevel.user.isAdmin()) {
-            delete.addStyleName("center-button");
-            infoPanel.add(delete);
+        if(UserTools.isLoggedIn()) {
+            if(validated) {
+                ratingPanel.add(rating);
+                centerHack.add(ratingPanel);
+                centerHack.add(score);
+            }
+            if(UserTools.isModerator()) {
+                validate.addStyleName("center-button");
+                if(!validated)
+                    infoPanel.add(validate);
+            }
+            if(UserTools.isAdmin()) {
+                delete.addStyleName("center-button");
+                infoPanel.add(delete);
+            }
         }
         appArea.add(title);
         appArea.add(containerPanel);
@@ -360,9 +364,9 @@ public class Picture {
                 //If the image is validated, fetch the votevalue, else add validation button
                 realId = metaImage.getId();
                 History.newItem("picture=" + realId, false);
-                if(validated) {
+                if(UserTools.isLoggedIn() && validated) {
                     getVoteValue();
-                } else if(Mindlevel.user.isModerator()){
+                } else if(UserTools.isModerator()){
                     validate.addClickHandler(new ClickHandler() {
 
                         @Override
@@ -385,7 +389,7 @@ public class Picture {
                     });
                 }
 
-                if(Mindlevel.user.isAdmin()) {
+                if(UserTools.isAdmin()) {
                     delete.addClickHandler(new ClickHandler() {
 
                         @Override
