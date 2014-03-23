@@ -3,6 +3,7 @@ package net.mindlevel.client.pages;
 import java.util.List;
 
 import net.mindlevel.client.HandyTools;
+import net.mindlevel.client.UserTools;
 import net.mindlevel.client.pages.dialog.MissionSuggestion;
 import net.mindlevel.client.services.MissionService;
 import net.mindlevel.client.services.MissionServiceAsync;
@@ -150,19 +151,23 @@ public class Missions {
                 missionService.getMissions(start, length, validated, callback);
             }
         };
-        Button suggestButton = new Button("Suggest Mission");
-        suggestButton.addClickHandler(new ClickHandler() {
 
-            @Override
-            public void onClick(ClickEvent event) {
-                new MissionSuggestion();
-            }
-        });
         countMissions();
         provider.addDataDisplay(table);
         appArea.add(table);
         appArea.add(pager);
-        appArea.add(suggestButton);
+
+        if(UserTools.isLoggedIn()) {
+            Button suggestButton = new Button("Suggest Mission");
+            suggestButton.addClickHandler(new ClickHandler() {
+
+                @Override
+                public void onClick(ClickEvent event) {
+                    new MissionSuggestion();
+                }
+            });
+            appArea.add(suggestButton);
+        }
     }
 
     private void countMissions() {

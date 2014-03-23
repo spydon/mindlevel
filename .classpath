@@ -11,5 +11,6 @@
 	<classpathentry kind="lib" path="war/WEB-INF/lib/commons-lang3-3.2.1.jar"/>
 	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER/GWT (3)"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/gwtupload-1.0.0.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/gwt-dev.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

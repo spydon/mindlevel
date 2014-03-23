@@ -324,10 +324,6 @@ public class Picture {
             @Override
             public void onFailure(Throwable caught) {
                 setImageUrl(notFoundPath);
-//                metaPanel.setVisible(false);
-//                leftArrow.setVisible(false);
-//                rightArrow.setVisible(false);
-//                title.setVisible(false);
                 hideFields();
                 notFound = true;
             }

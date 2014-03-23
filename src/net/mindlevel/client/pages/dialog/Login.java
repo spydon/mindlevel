@@ -136,6 +136,7 @@ public class Login {
                             @Override
                             public void onSuccess(User user) {
                                 UserTools.setLoggedIn(user);
+                                System.out.println(user);
 //                                Mindlevel.forceFocus = true;
 //                                serverResponse
 //                                        .removeStyleName("serverResponseLabelError");

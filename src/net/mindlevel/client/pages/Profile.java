@@ -62,6 +62,7 @@ public class Profile {
 
             @Override
             public void onSuccess(User userinfo) {
+                appArea.clear();
                 user = userinfo;
                 History.newItem("user="+user.getUsername());
                 String special = "";

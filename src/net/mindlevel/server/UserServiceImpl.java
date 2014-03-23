@@ -21,7 +21,7 @@ public class UserServiceImpl extends DBConnector implements UserService {
         try {
             Connection conn = getConnection();
             PreparedStatement ps = conn.prepareStatement("SELECT username, name, permission_id As permission, "
-                    + "adult, location, created, token, about, picture, last_login FROM user WHERE username = ?");
+                    + "adult, location, created, about, picture, last_login FROM user WHERE username = ?");
             ps.setString(1, username);
             ResultSet rs = ps.executeQuery();
             if(rs.next()) {
@@ -31,7 +31,6 @@ public class UserServiceImpl extends DBConnector implements UserService {
                 user.setAdult(rs.getBoolean("adult"));
                 user.setLocation(rs.getString("location"));
                 user.setCreated(rs.getString("created"));
-                user.setToken(rs.getString("token"));
                 user.setAbout(rs.getString("about"));
                 user.setPicture(rs.getString("picture"));
                 user.setLastLogin(rs.getLong("last_login"));
@@ -53,17 +52,17 @@ public class UserServiceImpl extends DBConnector implements UserService {
         try {
             Connection conn = getConnection();
             PreparedStatement ps = conn.prepareStatement("SELECT username, name, permission_id As permission, "
-                    + "adult, location, created, token, about, picture, last_login FROM user WHERE token = ?");
+                    + "token, adult, location, created, about, picture, last_login FROM user WHERE token = ?");
             ps.setString(1, token);
             ResultSet rs = ps.executeQuery();
             if(rs.next()) {
                 user.setUsername(rs.getString("username"));
                 user.setName(rs.getString("name"));
                 user.setPermission(rs.getInt("permission"));
+                user.setToken(rs.getString("token"));
                 user.setAdult(rs.getBoolean("adult"));
                 user.setLocation(rs.getString("location"));
                 user.setCreated(rs.getString("created"));
-                user.setToken(rs.getString("token"));
                 user.setAbout(rs.getString("about"));
                 user.setPicture(rs.getString("picture"));
                 user.setLastLogin(rs.getLong("last_login"));
@@ -86,7 +85,7 @@ public class UserServiceImpl extends DBConnector implements UserService {
             Connection conn = getConnection();
             users.clear();
             PreparedStatement ps = conn.prepareStatement("SELECT username, name, permission_id As permission, "
-                    + "adult, location, created, token, about, picture, last_login FROM user ORDER BY username LIMIT ?,?");
+                    + "adult, location, created, about, picture, last_login FROM user ORDER BY username LIMIT ?,?");
             ps.setInt(1, start);
             ps.setInt(2, end);
             ResultSet rs = ps.executeQuery();
@@ -98,7 +97,6 @@ public class UserServiceImpl extends DBConnector implements UserService {
                 user.setAdult(rs.getBoolean("adult"));
                 user.setLocation(rs.getString("location"));
                 user.setCreated(rs.getString("created"));
-                user.setToken(rs.getString("token"));
                 user.setAbout(rs.getString("about"));
                 user.setPicture(rs.getString("picture"));
                 user.setLastLogin(rs.getLong("last_login"));
@@ -157,7 +155,7 @@ public class UserServiceImpl extends DBConnector implements UserService {
             Connection conn = getConnection();
             users.clear();
             PreparedStatement ps = conn.prepareStatement("SELECT username, name, permission_id As permission, "
-                    + "adult, location, created, token, about, picture, last_login FROM user ORDER BY username");
+                    + "adult, location, created, about, picture, last_login FROM user ORDER BY username");
             ResultSet rs = ps.executeQuery();
             while(rs.next()) {
                 User user = new User();
@@ -167,7 +165,6 @@ public class UserServiceImpl extends DBConnector implements UserService {
                 user.setAdult(rs.getBoolean("adult"));
                 user.setLocation(rs.getString("location"));
                 user.setCreated(rs.getString("created"));
-                user.setToken(rs.getString("token"));
                 user.setAbout(rs.getString("about"));
                 user.setPicture(rs.getString("picture"));
                 user.setLastLogin(rs.getLong("last_login"));
@@ -189,6 +186,8 @@ public class UserServiceImpl extends DBConnector implements UserService {
             PreparedStatement ps = conn.prepareStatement("UPDATE user SET picture = ?, picture_adult = ? WHERE username = ?");
             int result = 0;
             File file = new File("./pictures/" + filename);
+            System.out.println(file);
+            System.out.println(file.exists());
             if(new TokenServiceImpl().validateAuth(username, token) && file.exists()) {
                 ps.setString(1, filename);
                 ps.setBoolean(2, adult);

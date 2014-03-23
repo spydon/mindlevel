@@ -15,7 +15,6 @@ import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy.KeyboardSelectionPolicy;
 import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.TextColumn;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -47,7 +46,7 @@ public class Highscore {
             public void onCellPreview(CellPreviewEvent<User> event) {
                 boolean isClick = "click".equals(event.getNativeEvent().getType());
                 if(isClick) {
-                    Window.Location.assign("/?user="+event.getValue().getUsername());
+                    new Profile(appArea, event.getValue().getUsername());
                 }
             }
         });

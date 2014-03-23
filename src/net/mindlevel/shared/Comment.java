@@ -4,20 +4,42 @@ import java.io.Serializable;
 
 public class Comment implements Serializable{
     private static final long serialVersionUID = 1L;
-    private String username, comment, repliedTo;
-    private int id, timestamp;
-    private int parentId; //If parentId is 0 the comment is a direct comment and not a reply to somebody else.
+    private String username, comment;
+    private int id;
+    private int timestamp;
+    private int parentId = 0; //If parentId is 0 the comment is a direct comment and not a reply to somebody else.
+    private int threadId;
+
+    protected Comment() {}
+
+    public Comment(int threadId) { //To add non-existing parent comment
+        this.id = 0;
+        this.parentId = 0;
+        this.setThreadId(threadId);
+    }
 
     public Comment(int id,
+                   int threadId,
                    String username,
                    String comment,
                    int parentId,
                    int timestamp) {
         this.setId(id);
+        this.setThreadId(threadId);
         this.setUsername(username);
         this.setComment(comment);
         this.setParentId(parentId);
         this.timestamp = timestamp;
+    }
+
+    public Comment(int threadId,
+                   String username,
+                   String comment,
+                   int parentId) {
+        this.setThreadId(threadId);
+        this.setUsername(username);
+        this.setComment(comment);
+        this.setParentId(parentId);
     }
 
     public int getTimestamp() {
@@ -44,14 +66,6 @@ public class Comment implements Serializable{
         this.comment = comment;
     }
 
-    public String getRepliedTo() {
-        return repliedTo;
-    }
-
-    public void setRepliedTo(String repliedTo) {
-        this.repliedTo = repliedTo;
-    }
-
     public int getParentId() {
         return parentId;
     }
@@ -61,11 +75,18 @@ public class Comment implements Serializable{
     }
 
     public int getId() {
-        // TODO Auto-generated method stub
-        return 0;
+        return id;
     }
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public int getThreadId() {
+        return threadId;
+    }
+
+    public void setThreadId(int threadId) {
+        this.threadId = threadId;
     }
 }

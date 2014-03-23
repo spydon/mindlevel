@@ -40,39 +40,6 @@ INSERT INTO `category` VALUES (1,'adventurous'),(2,'artistic'),(3,'funny'),(4,'k
 UNLOCK TABLES;
 
 --
--- Table structure for table `comment`
---
-
-DROP TABLE IF EXISTS `comment`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `comment` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `username` varchar(64) NOT NULL,
-  `comment` text NOT NULL,
-  `parent_id` int(11) NOT NULL,
-  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `thread_id` int(11) NOT NULL,
-  PRIMARY KEY (`id`),
-  KEY `parent_id` (`parent_id`),
-  KEY `username` (`username`),
-  KEY `thread_id` (`thread_id`),
-  CONSTRAINT `comment_ibfk_1` FOREIGN KEY (`parent_id`) REFERENCES `comment` (`id`) ON UPDATE CASCADE ON DELETE CASCADE,
-  CONSTRAINT `comment_ibfk_2` FOREIGN KEY (`username`) REFERENCES `user` (`username`) ON UPDATE CASCADE ON DELETE CASCADE,
-  CONSTRAINT `comment_ibfk_3` FOREIGN KEY (`thread_id`) REFERENCES `comment_thread` (`id`) ON UPDATE CASCADE ON DELETE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `comment`
---
-
-LOCK TABLES `comment` WRITE;
-/*!40000 ALTER TABLE `comment` DISABLE KEYS */;
-/*!40000 ALTER TABLE `comment` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `comment_thread`
 --
 
@@ -91,7 +58,43 @@ CREATE TABLE `comment_thread` (
 
 LOCK TABLES `comment_thread` WRITE;
 /*!40000 ALTER TABLE `comment_thread` DISABLE KEYS */;
+INSERT INTO comment_thread (id) VALUE (0);
 /*!40000 ALTER TABLE `comment_thread` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `comment`
+--
+
+DROP TABLE IF EXISTS `comment`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `comment` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `username` varchar(64) NOT NULL,
+  `comment` text NOT NULL,
+  `parent_id` int(11) NOT NULL,
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `thread_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  /*INDEX(`thread_id`),*/
+  KEY `parent_id` (`parent_id`),
+  KEY `username` (`username`),
+  KEY `thread_id` (`thread_id`),
+  CONSTRAINT `comment_ibfk_1` FOREIGN KEY (`parent_id`) REFERENCES `comment` (`id`) ON UPDATE CASCADE ON DELETE CASCADE,
+  CONSTRAINT `comment_ibfk_2` FOREIGN KEY (`username`) REFERENCES `user` (`username`) ON UPDATE CASCADE ON DELETE CASCADE,
+  CONSTRAINT `comment_ibfk_3` FOREIGN KEY (`thread_id`) REFERENCES `comment_thread` (`id`) ON UPDATE CASCADE ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `comment`
+--
+
+LOCK TABLES `comment` WRITE;
+/*!40000 ALTER TABLE `comment` DISABLE KEYS */;
+INSERT INTO comment (id, username, parent_id, thread_id) VALUES (0, 'system', 0, 0);
+/*!40000 ALTER TABLE `comment` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -277,7 +280,9 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES ('spydon','6b753344106bdd9ee9358ec03a62762d9e12bc2fa865ab37e296c37f2d0956341d95f9e1362c1a9798ce6f22dd5c0060788979dd92b964e2ec7bf1daa9232e86','Test','test',1,1,'2013-12-29 09:32:13',NULL,1390255104,'test.jpg',1,'');
+INSERT INTO `user` VALUES ('system','ThisIsALoginBlock','','',1,1,'2013-12-29 09:32:13',NULL,1390255104,'',1,'');
+INSERT INTO `user` VALUES ('spydon','6b753344106bdd9ee9358ec03a62762d9e12bc2fa865ab37e296c37f2d0956341d95f9e1362c1a9798ce6f22dd5c0060788979dd92b964e2ec7bf1daa9232e86'
+                            ,'Test','test',1,1,'2013-12-29 09:32:13',NULL,1390255104,'test.jpg',1,'');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 

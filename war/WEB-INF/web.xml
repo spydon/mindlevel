@@ -106,6 +106,16 @@
     <url-pattern>/mindlevel/category</url-pattern>
   </servlet-mapping>
   
+    <servlet>
+    <servlet-name>commentServlet</servlet-name>
+    <servlet-class>net.mindlevel.server.CommentServiceImpl</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>commentServlet</servlet-name>
+    <url-pattern>/mindlevel/comment</url-pattern>
+  </servlet-mapping>
+  
   <context-param>
     <!-- max size of the upload request -->
     <param-name>maxSize</param-name>

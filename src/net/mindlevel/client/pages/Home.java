@@ -1,14 +1,9 @@
 package net.mindlevel.client.pages;
 
-import net.mindlevel.client.HandyTools;
 import net.mindlevel.client.services.GreetingService;
 import net.mindlevel.client.services.GreetingServiceAsync;
-import net.mindlevel.client.services.UserService;
-import net.mindlevel.client.services.UserServiceAsync;
-import net.mindlevel.client.widgets.ReadBox;
-import net.mindlevel.shared.Comment;
+import net.mindlevel.client.widgets.CommentSection;
 import net.mindlevel.shared.FieldVerifier;
-import net.mindlevel.shared.User;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -41,14 +36,6 @@ public class Home extends Page{
     private final GreetingServiceAsync greetingService = GWT
             .create(GreetingService.class);
 
-
-    /**
-     * Create a remote service proxy to talk to the server-side user
-     * service.
-     */
-    private final UserServiceAsync userService = GWT
-            .create(UserService.class);
-
     public Home(RootPanel appArea) {
         this.appArea = appArea;
         init();
@@ -68,24 +55,8 @@ public class Home extends Page{
         appArea.add(nameField);
         appArea.add(sendButton);
         appArea.add(errorLabel);
-        userService.getUser("spydon", new AsyncCallback<User>() {
+        appArea.add(new CommentSection(1));
 
-            @Override
-            public void onSuccess(User result) {
-                appArea.add(new ReadBox(
-                        result,
-                        new Comment(0,
-                                    result.getUsername(),
-                                    "This is the first comment ever on this site, but now it's growing!!! How long can it be, that is the magical question.",
-                                    0,
-                                    123456)));
-            }
-
-            @Override
-            public void onFailure(Throwable caught) {
-                HandyTools.showDialogBox("Error", new HTML("Something went wrong while loading comments! Guru meditation: RB01"));
-            }
-        });
         // Focus the cursor on the name field when the app loads
 //        nameField.setFocus(true);
 //        nameField.selectAll();

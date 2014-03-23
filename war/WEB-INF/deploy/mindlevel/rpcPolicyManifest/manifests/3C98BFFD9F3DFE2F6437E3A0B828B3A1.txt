@@ -1,2 +1,0 @@
-serviceClass: net.mindlevel.client.services.GreetingService
-path: D031330CF58FD1955A17AAFFA8F4C16B.gwt.rpc

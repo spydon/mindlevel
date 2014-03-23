@@ -6,6 +6,7 @@ import java.util.List;
 
 import net.mindlevel.client.HandyTools;
 import net.mindlevel.client.Mindlevel;
+import net.mindlevel.client.UserTools;
 import net.mindlevel.client.services.CategoryService;
 import net.mindlevel.client.services.CategoryServiceAsync;
 import net.mindlevel.client.services.MissionService;
@@ -94,13 +95,17 @@ public class MissionSuggestion {
                     if(!categories.contains(category) && !categoryLB.isEnabled())
                         categories.add(category);
                 }
-                Mission mission = new Mission(titleTB.getText(), categories, descriptionTA.getText(), Mindlevel.user.getUsername(), adultCB.getValue());
-                if(FieldVerifier.isValidMission(mission)) {
-                    missionUpload(mission);
-                } else {
-                    HandyTools.showDialogBox("Error", new HTML("You probably forgot to fill out one of the fields!"));
-                }
 
+                if(UserTools.isLoggedIn()) {
+                    Mission mission = new Mission(titleTB.getText(), categories, descriptionTA.getText(), UserTools.getUsername(), adultCB.getValue());
+                    if(FieldVerifier.isValidMission(mission)) {
+                        missionUpload(mission);
+                    } else {
+                        HandyTools.showDialogBox("Error", new HTML("You probably forgot to fill out one of the fields!"));
+                    }
+                } else {
+                    HandyTools.notLoggedInBox();
+                }
             }
         });
         Button closeB = new Button("Close");

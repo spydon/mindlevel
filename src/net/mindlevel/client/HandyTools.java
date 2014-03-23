@@ -36,6 +36,11 @@ public class HandyTools {
         return closeButton;
     }
 
+    public static void notLoggedInBox() {
+        HandyTools.showDialogBox("Error", new HTML("You must be logged in to comment<br /><a href=\"#login\">Login</a> or <a href=\"#register\">Register</a>"));
+    }
+
+
     //TODO: This one is too confusing, rewrite!
     public static void setRightView(boolean logIn, String username) {
         RootPanel.get("hidelogin").setStyleName("superhidden", logIn);

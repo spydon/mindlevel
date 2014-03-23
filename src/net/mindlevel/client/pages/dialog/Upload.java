@@ -2,7 +2,6 @@ package net.mindlevel.client.pages.dialog;
 
 import gwtupload.client.IUploadStatus.Status;
 import gwtupload.client.IUploader;
-import gwtupload.client.IUploader.UploadedInfo;
 import gwtupload.client.PreloadedImage;
 import gwtupload.client.PreloadedImage.OnLoadPreloadedImageHandler;
 import gwtupload.client.SingleUploader;
@@ -229,14 +228,14 @@ public class Upload {
                 new PreloadedImage(uploader.getServerInfo().getFileUrl(), showImage);
                 panel.remove(defaultUploader);
                 // The server sends useful information to the client by default
-                UploadedInfo info = uploader.getServerInfo();
+//                UploadedInfo info = uploader.getServerInfo();
 //                System.out.println("File name " + info.name);
 //                System.out.println("File content-type " + info.ctype);
 //                System.out.println("File size " + info.size);
 
                 // You can send any customized message and parse it
                 System.out.println("Server message " + uploader.getServerMessage().getMessage());
-                filename = info.getFileName();
+                filename = uploader.getServerMessage().getMessage();
             }
         }
     };
