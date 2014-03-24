@@ -13,6 +13,7 @@ import net.mindlevel.client.services.PictureService;
 import net.mindlevel.client.services.PictureServiceAsync;
 import net.mindlevel.client.services.RatingService;
 import net.mindlevel.client.services.RatingServiceAsync;
+import net.mindlevel.client.widgets.CommentSection;
 import net.mindlevel.shared.MetaImage;
 import net.mindlevel.shared.Mission;
 
@@ -62,6 +63,7 @@ public class Picture {
     private final HTML title, description, location, owner, tags, date, mission, category, link, score;
     private Canvas keyUpHack;
     private final VerticalPanel ratingPanel = new VerticalPanel();
+    private final VerticalPanel commentPanel = new VerticalPanel();
     private HorizontalPanel metaPanel;
     private HorizontalPanel picturePanel;
     private final Button validate = new Button("Validate");
@@ -249,6 +251,7 @@ public class Picture {
         appArea.add(centerHack);
         appArea.add(metaPanel);
         appArea.add(keyUpHack);
+        appArea.add(commentPanel);
         arrowFocus();
     }
 
@@ -320,6 +323,7 @@ public class Picture {
 
     private void loadImage(final int id, final boolean relative) {
         setImageUrl(loadingPath);
+        commentPanel.clear();
         pictureService.get(id, relative, validated, new AsyncCallback<MetaImage>() {
             @Override
             public void onFailure(Throwable caught) {
@@ -421,6 +425,7 @@ public class Picture {
                     link.setHTML("<b>Link: </b><a href=./Mindlevel.html#picture="+realId+"&validated=false>Right click to copy</a>");
                 fetchMission(metaImage.getMissionId());
                 getScore(realId);
+                commentPanel.add(new CommentSection(metaImage.getThreadId()));
             }
         });
     }
@@ -502,17 +507,8 @@ public class Picture {
         rightArrow.setVisible(false);
         title.setVisible(false);
         score.setVisible(false);
-//        title.setHTML("");
-//        description.setHTML("");
-//        location.setHTML("");
-//        tags.setHTML("");
-//        owner.setHTML("");
-//        category.setHTML("");
-//        mission.setHTML("");
-//        link.setHTML("");
-//        score.setHTML("");
-//        date.setHTML("");
         ratingPanel.setVisible(false);
+        commentPanel.setVisible(false);
         validate.setVisible(false);
         delete.setVisible(false);
     }

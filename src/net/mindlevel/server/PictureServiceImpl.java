@@ -55,7 +55,7 @@ public class PictureServiceImpl extends DBConnector implements PictureService {
         }
         if(relative) {
             ps = conn.prepareStatement("SELECT id, filename, title, location, mission_id, owner, "
-                    + "description, adult, ? AS relative_id, score, timestamp FROM picture "
+                    + "description, adult, ? AS relative_id, score, thread_id, timestamp FROM picture "
                     + "WHERE validated = ? "
                     + "ORDER BY timestamp LIMIT ?,1");
             ps.setInt(1, id);
@@ -65,7 +65,7 @@ public class PictureServiceImpl extends DBConnector implements PictureService {
             ps = conn.prepareStatement("SELECT id, filename, title, location, mission_id, owner, "
                     + "description, adult, (SELECT COUNT(id) FROM picture "
                     + "WHERE id <= ? AND validated = ?) AS relative_id, "
-                    + "score, timestamp FROM picture "
+                    + "score, thread_id, timestamp FROM picture "
                     + "WHERE id = ? AND validated = ?");
             ps.setInt(1, id);
             ps.setBoolean(2, validated);
@@ -81,6 +81,7 @@ public class PictureServiceImpl extends DBConnector implements PictureService {
                                   getTags(realId, validated),
                                   rs.getBoolean("adult"));
             image.setScore(rs.getInt("score"));
+            image.setThreadId(rs.getInt("thread_id"));
             image.setId(realId);
             String created = rs.getString("timestamp");
             image.setDate(created.replace(".0", ""));

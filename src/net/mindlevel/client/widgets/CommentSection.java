@@ -17,7 +17,7 @@ public class CommentSection extends Composite {
 
     private final ArrayList<Comment> comments;
     private final VerticalPanel p;
-    private final int MAX_COMMENT_DEPTH = 3;
+    public final static int MAX_COMMENT_DEPTH = 3;
 
     private final CommentServiceAsync commentService = GWT
             .create(CommentService.class);
@@ -40,10 +40,9 @@ public class CommentSection extends Composite {
             @Override
             public void onSuccess(ArrayList<Comment> oldComments) {
                 comments.addAll(oldComments);
+                p.add(new WriteBox(new Comment(threadId)));
                 if(comments.size() > 0)
                     addNestedComments(new Comment(threadId), 0);
-                else
-                    p.add(new WriteBox(new Comment(threadId)));
             }
 
             @Override
@@ -59,19 +58,8 @@ public class CommentSection extends Composite {
                 ReadBox readBox = new ReadBox(c);
                 readBox.addStyleName("comment-level-" + (level <= MAX_COMMENT_DEPTH ? level : MAX_COMMENT_DEPTH));
                 p.add(readBox);
-//                comments.remove(c);
                 addNestedComments(c, level+1);
             }
         }
     }
-
-//    protected void parseComments() {
-//        for(Comment c : comments) {
-//            if(c.getParentId() == 0) {
-//                p.add(new ReadBox(c));
-//                addSubComments(c, 1);
-//                comments.remove(c);
-//            }
-//        }
-//    }
 }

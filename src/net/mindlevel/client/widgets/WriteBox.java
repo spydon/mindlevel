@@ -51,24 +51,33 @@ public class WriteBox extends Composite {
         textArea.addStyleName("comment-textarea");
 
         HorizontalPanel buttonPanel = new HorizontalPanel();
-        Button reply = new Button("Reply");
+        Button reply = new Button("Comment");
         reply.addClickHandler(new ClickHandler() {
 
             @Override
             public void onClick(ClickEvent event) {
                 if(UserTools.isLoggedIn()) {
-                    panel.clear();
+                    //panel.clear();
                     final Comment comment = new Comment(parent.getThreadId(),
                                                         UserTools.getUsername(),
                                                         textArea.getText(),
                                                         parent.getId());
-                    System.out.println(parent.getThreadId());
                     commentService.addComment(comment, new AsyncCallback<Integer>() {
 
                         @Override
                         public void onSuccess(Integer id) {
                             comment.setId(id);
-                            container.add(new ReadBox(comment));
+                            ReadBox rb = new ReadBox(comment);
+
+                            container.add(rb);
+                            VerticalPanel commentThread = (VerticalPanel) container.getParent().getParent();
+                            int position = commentThread.getWidgetIndex(container.getParent());
+                            commentThread.insert(rb, position+1);
+                            textArea.setText("");
+                            if(parent.getId() != 0) {
+                                container.clear();
+                                container.getParent().removeFromParent();
+                            }
                         }
 
                         @Override
@@ -91,7 +100,8 @@ public class WriteBox extends Composite {
             }
         });
         buttonPanel.add(reply);
-        buttonPanel.add(cancel);
+        if(parent.getId() != 0)
+            buttonPanel.add(cancel);
 //        buttonPanel.addStyleName("comment-button");
 
         panel.add(textArea);

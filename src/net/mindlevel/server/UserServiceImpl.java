@@ -186,8 +186,6 @@ public class UserServiceImpl extends DBConnector implements UserService {
             PreparedStatement ps = conn.prepareStatement("UPDATE user SET picture = ?, picture_adult = ? WHERE username = ?");
             int result = 0;
             File file = new File("./pictures/" + filename);
-            System.out.println(file);
-            System.out.println(file.exists());
             if(new TokenServiceImpl().validateAuth(username, token) && file.exists()) {
                 ps.setString(1, filename);
                 ps.setBoolean(2, adult);

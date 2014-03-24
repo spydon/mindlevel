@@ -9,6 +9,8 @@ import java.util.ArrayList;
 
 import net.mindlevel.client.services.CommentService;
 import net.mindlevel.shared.Comment;
+
+import com.mysql.jdbc.Statement;
 //import com.yourdomain.projectname.client.User;
 @SuppressWarnings("serial")
 public class CommentServiceImpl extends DBConnector implements CommentService {
@@ -49,7 +51,7 @@ public class CommentServiceImpl extends DBConnector implements CommentService {
         try {
             Connection conn = getConnection();
             PreparedStatement ps = conn.prepareStatement("INSERT INTO comment (thread_id, parent_id, username, comment) "
-                    + "VALUES (?, ?, ?, ?)");
+                    + "VALUES (?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, comment.getThreadId());
             ps.setInt(2, comment.getParentId());
             ps.setString(3, comment.getUsername());
@@ -57,13 +59,11 @@ public class CommentServiceImpl extends DBConnector implements CommentService {
 
             ps.executeUpdate();
 
-            PreparedStatement ps2 = conn.prepareStatement("SELECT LAST_INSERT_ID()");
-            ResultSet rs = ps2.executeQuery();
-            if(rs.next())
-                id = rs.getInt(1);
+            ResultSet keys = ps.getGeneratedKeys();
+            keys.first();
+            id = keys.getInt(1);
 
             ps.close();
-            ps2.close();
             conn.close();
         } catch(SQLException e) {
             e.printStackTrace();

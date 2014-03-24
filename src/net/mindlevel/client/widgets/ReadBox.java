@@ -1,5 +1,6 @@
 package net.mindlevel.client.widgets;
 
+import static com.google.gwt.safehtml.shared.SafeHtmlUtils.htmlEscape;
 import net.mindlevel.client.HandyTools;
 import net.mindlevel.client.UserTools;
 import net.mindlevel.client.services.UserService;
@@ -17,7 +18,6 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class ReadBox extends Composite {
@@ -53,7 +53,7 @@ public class ReadBox extends Composite {
         initWidget(container);
 
         // Give the overall composite a style name.
-//        setStyleName("comment-box");
+//        container.setStyleName("comment-box");
         panel.setStyleName("comment-box");
     }
 
@@ -72,27 +72,32 @@ public class ReadBox extends Composite {
                 History.newItem("user=" + user.getUsername());
             }
         });
-        HTML userLabel = new HTML(HandyTools.getAnchor("user", user.getUsername(), user.getUsername()));
+        HTML userLabel = new HTML("#" + comment.getId() + " " + HandyTools.getAnchor("user", user.getUsername(), user.getUsername()));
+        if(comment.getParentId() != 0)
+            userLabel = new HTML(userLabel.getHTML() + " comments on #" + comment.getParentId());
         Button replyButton = new Button("Reply");
         replyButton.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
                 if(UserTools.isLoggedIn()) {
-                    if(replyPanel.getWidgetCount() == 0)
+//                    if(replyPanel.getWidgetCount() == 0)
                         replyPanel.add(new WriteBox(comment));
                 } else {
                     HandyTools.notLoggedInBox();
                 }
             }
         });
-        Label commentText = new Label(comment.getComment());
+        HTML commentText = new HTML(htmlEscape(comment.getComment()));
         rightPanel.add(userLabel);
         rightPanel.add(commentText);
         rightPanel.add(replyButton);
+        rightPanel.addStyleName("comment-content");
+
 
         HorizontalPanel readPanel = new HorizontalPanel();
         readPanel.add(picture);
         readPanel.add(rightPanel);
+        readPanel.addStyleName("comment-content");
 
         panel.add(readPanel);
         container.add(replyPanel);
@@ -101,6 +106,6 @@ public class ReadBox extends Composite {
         replyButton.setStylePrimaryName("comment-button");
         picture.addStyleName("comment-thumbnail");
         userLabel.addStyleName("comment-username");
-        commentText.addStyleName("comment-label");
+        commentText.addStyleName("comment-text");
     }
 }

@@ -199,7 +199,6 @@ public class Mindlevel implements EntryPoint, ValueChangeHandler<String> {
     @Override
     public void onValueChange(ValueChangeEvent<String> event) {
         String token = event.getValue();
-        System.out.println(token);
         parseToken(token);
     }
 }

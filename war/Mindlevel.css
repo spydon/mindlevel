@@ -66,9 +66,13 @@ h1 {
 
 .adminmenu {
     position: relative;
-    z-index: 1500;
+    z-index: 4;
     margin-bottom: 31px;
 /*     padding-bottom: 40px; */
+}
+
+.gwt-MenuBarPopup {
+	z-index: 5;
 }
 
 .center-button {
@@ -148,8 +152,8 @@ h1 {
 
 header {
     top: 0;
-    position:fixed;
-    z-index:0;
+    position: fixed;
+    z-index: 3;
     opacity: 0.9;
 /*     min-height: 35px; */
     min-height: 55px;
@@ -397,11 +401,11 @@ header {
 
 /** ReadBox */
 .comment-box {
+	z-index: 2;
 	position: relative;
-    text-align: left !important;
-    margin-left: 0px !important; 
+/*     text-align: left !important; */
 /*     border-radius: 5px; */
-/*     margin: 0px 0px 10px; */
+    margin-bottom: 10px;
     box-shadow: 0px 4px 4px #000;
     background: #bae2f1;
     min-width: 400px;
@@ -414,40 +418,51 @@ header {
     right: 5px;
 }
 
-.comment-label {
+.comment-content {
+    width: 100%;
+    float: left;
+}
+
+.comment-text {
 	text-align: left;
-	max-width: 300px;
+/* 	max-width: 300px; */
     margin: 5px;
+    margin-bottom: 15px;
+    width: 300px;
+    word-break: break-word;
 }
 
 .comment-thumbnail {
+	z-index: 1;
     cursor: pointer;
-    margin: 0px;
+    margin: 0;
+    float: left;
 }
 
 .comment-textarea {
-    width: 365px;
+    width: 400px;
     height: 40px;
 }
 
 .comment-level-0 {
+	margin-top: 20px;
     padding-left: 0px; 
 }
 
 .comment-level-1 {
-    padding-left: 20px;	
+    padding-left: 40px;	
 }
 
 .comment-level-2 {
-    padding-left: 40px; 
+    padding-left: 80px; 
 }
 
 .comment-level-3 {
-    padding-left: 60px; 
+    padding-left: 120px; 
 }
 
 .comment-level-4 {
-    padding-left: 80px; 
+    padding-left: 160px; 
 }
 
 /** RESPONSIVE CSS */

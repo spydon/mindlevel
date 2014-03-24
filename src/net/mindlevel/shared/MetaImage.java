@@ -13,6 +13,7 @@ public class MetaImage implements Serializable{
     private int relativeId;
     private int score;
     private int missionId;
+    private int threadId;
 
     public MetaImage() {
         this.filename = "notfound.jpg";
@@ -154,5 +155,13 @@ public class MetaImage implements Serializable{
 
     public void setRelativeId(int relativeId) {
         this.relativeId = relativeId;
+    }
+
+    public int getThreadId() {
+        return threadId;
+    }
+
+    public void setThreadId(int threadId) {
+        this.threadId = threadId;
     }
 }

@@ -2,7 +2,6 @@ package net.mindlevel.client.pages;
 
 import net.mindlevel.client.services.GreetingService;
 import net.mindlevel.client.services.GreetingServiceAsync;
-import net.mindlevel.client.widgets.CommentSection;
 import net.mindlevel.shared.FieldVerifier;
 
 import com.google.gwt.core.client.GWT;
@@ -55,7 +54,6 @@ public class Home extends Page{
         appArea.add(nameField);
         appArea.add(sendButton);
         appArea.add(errorLabel);
-        appArea.add(new CommentSection(1));
 
         // Focus the cursor on the name field when the app loads
 //        nameField.setFocus(true);
