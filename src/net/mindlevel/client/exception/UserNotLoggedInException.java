@@ -1,7 +1,6 @@
 package net.mindlevel.client.exception;
 
 public class UserNotLoggedInException extends Exception {
-
     /**
      *
      */

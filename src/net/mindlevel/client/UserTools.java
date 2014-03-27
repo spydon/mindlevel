@@ -87,6 +87,10 @@ public class UserTools {
         return username;
     }
 
+    public static String getToken() {
+        return Mindlevel.user.getToken();
+    }
+
     public static String getDefaultThumbnail() {
         return defaultThumbnail;
     }

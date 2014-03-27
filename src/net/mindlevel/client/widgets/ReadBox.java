@@ -49,11 +49,10 @@ public class ReadBox extends Composite {
             }
         });
 
+
         // All composites must call initWidget() in their constructors.
         initWidget(container);
-
-        // Give the overall composite a style name.
-//        container.setStyleName("comment-box");
+        addStyleName("comment-level-" + (comment.getLevel() <= CommentSection.MAX_COMMENT_DEPTH ? comment.getLevel() : CommentSection.MAX_COMMENT_DEPTH));
         panel.setStyleName("comment-box");
     }
 
@@ -80,17 +79,35 @@ public class ReadBox extends Composite {
             @Override
             public void onClick(ClickEvent event) {
                 if(UserTools.isLoggedIn()) {
-//                    if(replyPanel.getWidgetCount() == 0)
-                        replyPanel.add(new WriteBox(comment));
+                    replyPanel.add(new WriteBox(comment));
                 } else {
                     HandyTools.notLoggedInBox();
                 }
             }
         });
+        Button editButton = new Button("Edit");
+
+        if(UserTools.getUsername() == comment.getUsername()) {
+            editButton.addClickHandler(new ClickHandler() {
+
+                @Override
+                public void onClick(ClickEvent arg0) {
+                    ReadBox rb = getOuter();
+                    VerticalPanel parent = ((VerticalPanel) rb.getParent());
+                    parent.insert(new EditBox(comment), parent.getWidgetIndex(rb));
+                    parent.remove(rb);
+                }
+            });
+        }
+
+        HorizontalPanel buttonPanel = new HorizontalPanel();
+        buttonPanel.add(editButton);
+        buttonPanel.add(replyButton);
+
         HTML commentText = new HTML(htmlEscape(comment.getComment()));
         rightPanel.add(userLabel);
         rightPanel.add(commentText);
-        rightPanel.add(replyButton);
+        rightPanel.add(buttonPanel);
         rightPanel.addStyleName("comment-content");
 
 
@@ -103,9 +120,14 @@ public class ReadBox extends Composite {
         container.add(replyPanel);
 
         // Gives all the subwidgets style names
-        replyButton.setStylePrimaryName("comment-button");
+        buttonPanel.setStylePrimaryName("comment-button");
+//        editButton.setStylePrimaryName("comment-edit-button");
         picture.addStyleName("comment-thumbnail");
         userLabel.addStyleName("comment-username");
         commentText.addStyleName("comment-text");
+    }
+
+    protected ReadBox getOuter() {
+        return this;
     }
 }

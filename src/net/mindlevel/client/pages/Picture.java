@@ -140,7 +140,7 @@ public class Picture {
                 resizeTimer.schedule(250);
             }
         });
-        loadImage(id, false);
+
         if(UserTools.isLoggedIn() && validated) {
             getVoteValue();
             rating.addClickHandler(new ClickHandler() {
@@ -253,6 +253,7 @@ public class Picture {
         appArea.add(keyUpHack);
         appArea.add(commentPanel);
         arrowFocus();
+        loadImage(id, false);
     }
 
     class ImageHandler implements ClickHandler, KeyUpHandler {

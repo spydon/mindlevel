@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import net.mindlevel.client.exception.UserNotLoggedInException;
 import net.mindlevel.client.services.CommentService;
 import net.mindlevel.shared.Comment;
 
@@ -14,6 +15,8 @@ import com.mysql.jdbc.Statement;
 //import com.yourdomain.projectname.client.User;
 @SuppressWarnings("serial")
 public class CommentServiceImpl extends DBConnector implements CommentService {
+
+    private final TokenServiceImpl tokenService = new TokenServiceImpl();
 
     @Override
     public ArrayList<Comment> getComments(int threadId) throws IllegalArgumentException {
@@ -46,28 +49,60 @@ public class CommentServiceImpl extends DBConnector implements CommentService {
     }
 
     @Override
-    public Integer addComment(Comment comment) {
+    public Integer addComment(Comment comment, String token) throws UserNotLoggedInException {
         int id = 0;
         try {
-            Connection conn = getConnection();
-            PreparedStatement ps = conn.prepareStatement("INSERT INTO comment (thread_id, parent_id, username, comment) "
-                    + "VALUES (?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
-            ps.setInt(1, comment.getThreadId());
-            ps.setInt(2, comment.getParentId());
-            ps.setString(3, comment.getUsername());
-            ps.setString(4, comment.getComment());
+            if(tokenService.validateAuth(comment.getUsername(), token)) {
+                Connection conn = getConnection();
+                PreparedStatement ps = conn.prepareStatement("INSERT INTO comment (thread_id, parent_id, username, comment) "
+                        + "VALUES (?, ?, ?, ?)", Statement.RETURN_GENERATED_KEYS);
+                ps.setInt(1, comment.getThreadId());
+                ps.setInt(2, comment.getParentId());
+                ps.setString(3, comment.getUsername());
+                ps.setString(4, comment.getComment());
 
-            ps.executeUpdate();
+                ps.executeUpdate();
 
-            ResultSet keys = ps.getGeneratedKeys();
-            keys.first();
-            id = keys.getInt(1);
+                ResultSet keys = ps.getGeneratedKeys();
+                keys.first();
+                id = keys.getInt(1);
 
-            ps.close();
-            conn.close();
+                ps.close();
+                conn.close();
+            } else {
+                throw new UserNotLoggedInException();
+            }
         } catch(SQLException e) {
             e.printStackTrace();
         }
         return id;
+    }
+
+    @Override
+    public void editComment(Comment comment, String token) throws UserNotLoggedInException {
+        try {
+            if(tokenService.validateAuth(comment.getUsername(), token) || tokenService.validateAdminToken(token)) {
+                Connection conn = getConnection();
+                PreparedStatement ps = conn.prepareStatement("UPDATE comment SET comment = ? WHERE id = ? AND username = ?");
+
+                ps.setString(1, comment.getComment());
+                ps.setInt(2, comment.getId());
+                ps.setString(3, comment.getUsername());
+                ps.executeUpdate();
+
+                ps.close();
+                conn.close();
+            } else {
+                throw new UserNotLoggedInException();
+            }
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void deleteComment(Comment comment, String token) throws UserNotLoggedInException {
+        comment.setComment("Comment deleted by user");
+        editComment(comment, token);
     }
 }

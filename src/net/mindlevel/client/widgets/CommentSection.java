@@ -55,8 +55,8 @@ public class CommentSection extends Composite {
     private void addNestedComments(Comment parent, int level) {
         for(Comment c : comments) {
             if(c.getParentId() == parent.getId() && c != parent) {
+                c.setLevel(level);
                 ReadBox readBox = new ReadBox(c);
-                readBox.addStyleName("comment-level-" + (level <= MAX_COMMENT_DEPTH ? level : MAX_COMMENT_DEPTH));
                 p.add(readBox);
                 addNestedComments(c, level+1);
             }

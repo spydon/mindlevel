@@ -56,12 +56,12 @@ public class TokenServiceImpl extends DBConnector implements TokenService {
         return token;
     }
 
-    public boolean validateAuth(String user, String token) {
+    public boolean validateAuth(String username, String token) {
         boolean isValid = false;
         try {
             Connection conn = getConnection();
             PreparedStatement ps = conn.prepareStatement("SELECT username FROM user WHERE username=? && token=?");
-            ps.setString(1, user);
+            ps.setString(1, username);
             ps.setString(2, token);
             ResultSet rs = ps.executeQuery();
             if(rs.next()) {

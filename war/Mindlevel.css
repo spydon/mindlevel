@@ -414,9 +414,15 @@ header {
 
 .comment-button {
     position: absolute;
-    bottom: 5px;
+    bottom: 3px;
     right: 5px;
 }
+
+/* .comment-edit-button { */
+/* 	position: absolute; */
+/* 	bottom: 5px; */
+/* 	right: 25px; */
+/* } */
 
 .comment-content {
     width: 100%;
@@ -427,7 +433,8 @@ header {
 	text-align: left;
 /* 	max-width: 300px; */
     margin: 5px;
-    margin-bottom: 15px;
+    margin-top: 0px;
+    margin-bottom: 32px;
     width: 300px;
     word-break: break-word;
 }

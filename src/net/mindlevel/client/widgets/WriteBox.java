@@ -29,9 +29,9 @@ public class WriteBox extends Composite {
             .create(CommentService.class);
 
     /**
-     * Constructs an CommentBox with the given caption on the check.
+     * Constructs a WriteBox answering the parent comment
      *
-     * @param caption the caption to be displayed with the check box
+     * @param parent the parent to be answered
      */
     public WriteBox(final Comment parent) {
         container = new VerticalPanel();
@@ -62,11 +62,13 @@ public class WriteBox extends Composite {
                                                         UserTools.getUsername(),
                                                         textArea.getText(),
                                                         parent.getId());
-                    commentService.addComment(comment, new AsyncCallback<Integer>() {
+                    commentService.addComment(comment, UserTools.getToken(), new AsyncCallback<Integer>() {
 
                         @Override
                         public void onSuccess(Integer id) {
                             comment.setId(id);
+                            comment.setLevel(1);
+                            //comment.setLevel(comment.getLevel() < CommentSection.MAX_COMMENT_DEPTH ? 1 : 0); //The relative level of the comment to the parent
                             ReadBox rb = new ReadBox(comment);
 
                             container.add(rb);

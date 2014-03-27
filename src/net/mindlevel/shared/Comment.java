@@ -7,14 +7,16 @@ public class Comment implements Serializable{
     private String username, comment;
     private int id;
     private int timestamp;
-    private int parentId = 0; //If parentId is 0 the comment is a direct comment and not a reply to somebody else.
+    private int parentId; //If parentId is 0 the comment is a direct comment and not a reply to somebody else.
     private int threadId;
+    private int level;
 
     protected Comment() {}
 
     public Comment(int threadId) { //To add non-existing parent comment
         this.id = 0;
         this.parentId = 0;
+        setLevel(0);
         this.setThreadId(threadId);
     }
 
@@ -88,5 +90,13 @@ public class Comment implements Serializable{
 
     public void setThreadId(int threadId) {
         this.threadId = threadId;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void setLevel(int level) {
+        this.level = level;
     }
 }
