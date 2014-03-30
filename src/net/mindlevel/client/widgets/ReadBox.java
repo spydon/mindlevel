@@ -85,9 +85,11 @@ public class ReadBox extends Composite {
                 }
             }
         });
-        Button editButton = new Button("Edit");
+
+        HorizontalPanel buttonPanel = new HorizontalPanel();
 
         if(UserTools.getUsername() == comment.getUsername()) {
+            Button editButton = new Button("Edit");
             editButton.addClickHandler(new ClickHandler() {
 
                 @Override
@@ -98,10 +100,9 @@ public class ReadBox extends Composite {
                     parent.remove(rb);
                 }
             });
+            buttonPanel.add(editButton);
         }
 
-        HorizontalPanel buttonPanel = new HorizontalPanel();
-        buttonPanel.add(editButton);
         buttonPanel.add(replyButton);
 
         HTML commentText = new HTML(htmlEscape(comment.getComment()));

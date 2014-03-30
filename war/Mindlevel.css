@@ -75,6 +75,10 @@ h1 {
 	z-index: 5;
 }
 
+.gwt-DialogBox {
+	z-index: 10000 !important;
+}
+
 .center-button {
     margin-left: auto;
     margin-right: auto;

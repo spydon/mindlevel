@@ -19,10 +19,7 @@ import net.mindlevel.shared.Mission;
 
 import org.cobogw.gwt.user.client.ui.Rating;
 
-import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.GWT;
-import com.google.gwt.event.dom.client.BlurEvent;
-import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -30,8 +27,6 @@ import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
 import com.google.gwt.event.dom.client.LoadEvent;
 import com.google.gwt.event.dom.client.LoadHandler;
-import com.google.gwt.event.dom.client.MouseDownEvent;
-import com.google.gwt.event.dom.client.MouseDownHandler;
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.user.client.History;
@@ -59,9 +54,7 @@ public class Picture {
     private int nativeWidth, nativeHeight;
     private boolean validated = true;
     private boolean notFound = false;
-    private boolean activeArrow = false;
     private final HTML title, description, location, owner, tags, date, mission, category, link, score;
-    private Canvas keyUpHack;
     private final VerticalPanel ratingPanel = new VerticalPanel();
     private final VerticalPanel commentPanel = new VerticalPanel();
     private HorizontalPanel metaPanel;
@@ -131,7 +124,7 @@ public class Picture {
             Timer resizeTimer = new Timer() {
                 @Override
                 public void run() {
-                    adjustContentSize();
+                    adjustImageSize();
                 }
               };
             @Override
@@ -166,50 +159,35 @@ public class Picture {
         image.setStylePrimaryName("picture");
         leftArrow.setStylePrimaryName("arrow-left");
         rightArrow.setStylePrimaryName("arrow-right");
+
+        image.addClickHandler(new ClickHandler() {
+            /**
+             * Fired when the user clicks on the sendButton.
+             */
+            @Override
+            public void onClick(ClickEvent event) {
+                randomImage();
+            }
+        });
+
         picturePanel.add(leftArrow);
         picturePanel.add(image);
         picturePanel.add(rightArrow);
         containerPanel.add(picturePanel);
-        leftArrow.addMouseDownHandler(new MouseDownHandler() {
-            @Override
-            public void onMouseDown(MouseDownEvent event) {
-                activeArrow = true;
-            }
-        });
         leftArrow.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
                 prevImage();
-                activeArrow = false;
-            }
-        });
-        rightArrow.addMouseDownHandler(new MouseDownHandler() {
-            @Override
-            public void onMouseDown(MouseDownEvent event) {
-                activeArrow = true;
             }
         });
         rightArrow.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
                 nextImage();
-                activeArrow = false;
             }
         });
         ImageHandler imageHandler = new ImageHandler();
-        image.addClickHandler(imageHandler);
-        keyUpHack = Canvas.createIfSupported();
-        keyUpHack.setSize("0px", "0px");
-        keyUpHack.addKeyUpHandler(imageHandler);
-        keyUpHack.addBlurHandler(new BlurHandler() {
-            @Override
-            public void onBlur(BlurEvent event) {
-                if(!UserTools.isAdmin() && !activeArrow)
-                    arrowFocus();
-                else if(activeArrow)
-                    activeArrow = false;
-            }
-        });
+        RootPanel.get().addDomHandler(imageHandler, KeyUpEvent.getType());
         metaPanel = new HorizontalPanel();
         metaPanel.addStyleName("metapanel");
         VerticalPanel infoPanel = new VerticalPanel();
@@ -228,7 +206,7 @@ public class Picture {
         metaPanel.add(infoPanel);
         metaPanel.add(descriptionContainer);
 
-        //Get rid of this somehow
+        //TODO: Get rid of this somehow
         VerticalPanel centerHack = new VerticalPanel();
         if(UserTools.isLoggedIn()) {
             if(validated) {
@@ -250,26 +228,18 @@ public class Picture {
         appArea.add(containerPanel);
         appArea.add(centerHack);
         appArea.add(metaPanel);
-        appArea.add(keyUpHack);
         appArea.add(commentPanel);
-        arrowFocus();
         loadImage(id, false);
     }
 
-    class ImageHandler implements ClickHandler, KeyUpHandler {
-        /**
-         * Fired when the user clicks on the sendButton.
-         */
-        @Override
-        public void onClick(ClickEvent event) {
-            randomImage();
-        }
+    class ImageHandler implements KeyUpHandler {
         /**
          * Fired when the user types in the nameField.
          */
         @Override
         public void onKeyUp(KeyUpEvent event) {
-            if(!notFound) {
+            boolean isTextArea = event.getNativeEvent().getEventTarget().toString().startsWith("textarea",1);
+            if(!notFound && !isTextArea) {
                 if (event.getNativeKeyCode() == KeyCodes.KEY_RIGHT && id < imageCount) {
                     nextImage();
                 } else if (event.getNativeKeyCode() == KeyCodes.KEY_LEFT && id > 1) {
@@ -277,17 +247,8 @@ public class Picture {
                 } else if (event.getNativeKeyCode() == 'R') {
                     randomImage();
                 } else if (event.getNativeKeyCode() == 'H') {
-                    Button closeButton =
-                            HandyTools.showDialogBox("Shortcuts",
-                                    new HTML("Right/Left Arrow - Browse pictures</br>R - Random picture</br>H - Show this help"));
-                    closeButton.addClickHandler(new ClickHandler() {
-
-                        @Override
-                        public void onClick(ClickEvent event) {
-                            Mindlevel.forceFocus = true;
-                            arrowFocus();
-                        }
-                    });
+                    HandyTools.showDialogBox("Shortcuts",
+                            new HTML("Right/Left Arrow - Browse pictures</br>R - Random picture</br>H - Show this help"));
                 }
             }
         }
@@ -295,31 +256,18 @@ public class Picture {
 
     private void randomImage() {
         loadImage(-1, true);
-        arrowFocus();
     }
 
     private void nextImage() {
-        if (id < imageCount)
+        if (id < imageCount) {
             loadImage(++id, true);
-        arrowFocus();
+        }
     }
 
     private void prevImage() {
-        if (id > 1)
+        if (id > 1) {
             loadImage(--id, true);
-        arrowFocus();
-    }
-
-    private void arrowFocus() {
-        /** A timer to make setFocus after a blurEvent possible. */
-        Timer t = new Timer() {
-            @Override
-            public void run() {
-                if(Mindlevel.forceFocus)
-                    keyUpHack.setFocus(true);
-            }
-        };
-        t.schedule(0);
+        }
     }
 
     private void loadImage(final int id, final boolean relative) {
@@ -479,27 +427,6 @@ public class Picture {
         }
 
         image.setPixelSize(width, height);
-    }
-
-    private void adjustContentSize() { //All this should be done in CSS
-//        if (Window.getClientWidth() >= 520) {
-//            if(picturePanel.getWidgetCount() != 3) {
-//                arrowPanel.remove(leftArrow);
-//                arrowPanel.remove(rightArrow);
-//                picturePanel.remove(image);
-//                picturePanel.add(leftArrow);
-//                picturePanel.add(image);
-//                picturePanel.add(rightArrow);
-//            }
-//        } else {
-//            if(picturePanel.getWidgetCount() == 3) {
-//                picturePanel.remove(leftArrow);
-//                picturePanel.remove(rightArrow);
-//                arrowPanel.add(leftArrow);
-//                arrowPanel.add(rightArrow);
-//            }
-//        }
-        adjustImageSize();
     }
 
     private void hideFields() {

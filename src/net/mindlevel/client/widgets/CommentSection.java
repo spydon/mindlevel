@@ -52,6 +52,7 @@ public class CommentSection extends Composite {
         });
     }
 
+    //Use iterator
     private void addNestedComments(Comment parent, int level) {
         for(Comment c : comments) {
             if(c.getParentId() == parent.getId() && c != parent) {

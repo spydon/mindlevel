@@ -78,12 +78,8 @@ public class UserTools {
      * @return username
      * @throws UserNotLoggedInException
      */
-    // TODO: Decide whether this sort of exception throwing should be used in this application or not
     public static String getUsername() { //throws UserNotLoggedInException {
-        String username = Mindlevel.user.getUsername();
-//        if(username == null) {
-//            throw new UserNotLoggedInException();
-//        }
+        String username = isLoggedIn() ? Mindlevel.user.getUsername() : "";
         return username;
     }
 

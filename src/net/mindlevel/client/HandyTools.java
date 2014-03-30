@@ -15,7 +15,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class HandyTools {
 
-    public static Button showDialogBox(String title, HTML text) {
+    public static void showDialogBox(String title, HTML text) {
         Mindlevel.forceFocus = false;
         final DialogBox db = new DialogBox();
         db.setText(title);
@@ -33,7 +33,6 @@ public class HandyTools {
         db.add(dbPanel);
         db.center();
         closeButton.setFocus(true);
-        return closeButton;
     }
 
     public static void notLoggedInBox() {

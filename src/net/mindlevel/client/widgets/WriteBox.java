@@ -1,6 +1,7 @@
 package net.mindlevel.client.widgets;
 
 import net.mindlevel.client.HandyTools;
+import net.mindlevel.client.Mindlevel;
 import net.mindlevel.client.UserTools;
 import net.mindlevel.client.services.CommentService;
 import net.mindlevel.client.services.CommentServiceAsync;
@@ -44,11 +45,24 @@ public class WriteBox extends Composite {
 
         // Give the overall composite a style name.
         setStyleName("comment-box");
+        if(parent.getId() == 0) {
+            addStyleName("comment-level-0");
+        }
     }
 
     private void init(final Comment parent) {
         final TextArea textArea = new TextArea();
         textArea.addStyleName("comment-textarea");
+
+        textArea.addClickHandler(new ClickHandler() {
+
+            @Override
+            public void onClick(ClickEvent arg0) {
+                Mindlevel.forceFocus = false;
+                textArea.setFocus(true);
+                System.out.println(Mindlevel.forceFocus);
+            }
+        });
 
         HorizontalPanel buttonPanel = new HorizontalPanel();
         Button reply = new Button("Comment");
