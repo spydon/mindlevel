@@ -11,13 +11,10 @@ import net.mindlevel.client.services.MissionService;
 import net.mindlevel.client.services.MissionServiceAsync;
 import net.mindlevel.client.services.PictureService;
 import net.mindlevel.client.services.PictureServiceAsync;
-import net.mindlevel.client.services.RatingService;
-import net.mindlevel.client.services.RatingServiceAsync;
 import net.mindlevel.client.widgets.CommentSection;
+import net.mindlevel.client.widgets.VotingSection;
 import net.mindlevel.shared.MetaImage;
 import net.mindlevel.shared.Mission;
-
-import org.cobogw.gwt.user.client.ui.Rating;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -61,7 +58,6 @@ public class Picture {
     private HorizontalPanel picturePanel;
     private final Button validate = new Button("Validate");
     private final Button delete = new Button("Delete");
-    private final Rating rating = new Rating(0,5,1,"../images/star.png","../images/stardeselected.png","../images/starhover.png",32,32);
 
     /**
      * Create a remote service proxy to talk to the server-side picture
@@ -76,13 +72,6 @@ public class Picture {
      */
     private final MissionServiceAsync missionService = GWT
             .create(MissionService.class);
-
-    /**
-     * Create a remote service proxy to talk to the server-side rating
-     * service.
-     */
-    private final RatingServiceAsync ratingService = GWT
-            .create(RatingService.class);
 
     /**
      * Create a remote service proxy to talk to the server-side metaupload
@@ -135,23 +124,7 @@ public class Picture {
         });
 
         if(UserTools.isLoggedIn() && validated) {
-            getVoteValue();
-            rating.addClickHandler(new ClickHandler() {
-                @Override
-                public void onClick(ClickEvent event) {
-                    ratingService.setVoteValue(Mindlevel.user.getToken(), realId, rating.getValue(), new AsyncCallback<Void>() {
-                        @Override
-                        public void onFailure(Throwable caught) {
-                            HandyTools.showDialogBox("Error", new HTML("The voting doesn't work at the moment, please try again later." + caught.getMessage()));
-                        }
 
-                        @Override
-                        public void onSuccess(Void result) {
-                            getVoteValue();
-                        }
-                    });
-                }
-            });
         }
         VerticalPanel containerPanel = new VerticalPanel();
         picturePanel = new HorizontalPanel();
@@ -209,14 +182,7 @@ public class Picture {
         metaPanel.add(infoPanel);
         metaPanel.add(descriptionContainer);
 
-        //TODO: Get rid of this somehow
-        VerticalPanel centerHack = new VerticalPanel();
         if(UserTools.isLoggedIn()) {
-            if(validated) {
-                ratingPanel.add(rating);
-                centerHack.add(ratingPanel);
-                centerHack.add(score);
-            }
             if(UserTools.isModerator()) {
                 validate.addStyleName("center-button");
                 if(!validated) {
@@ -232,7 +198,9 @@ public class Picture {
         backPanel.setVisible(false);
         backPanel.add(title);
         backPanel.add(containerPanel);
-        backPanel.add(centerHack);
+        if(validated) {
+            backPanel.add(ratingPanel);
+        }
         backPanel.add(metaPanel);
         backPanel.add(commentPanel);
         appArea.add(backPanel);
@@ -321,9 +289,7 @@ public class Picture {
                 //If the image is validated, fetch the votevalue, else add validation button
                 realId = metaImage.getId();
                 History.newItem("picture=" + realId, false);
-                if(UserTools.isLoggedIn() && validated) {
-                    getVoteValue();
-                } else if(UserTools.isModerator()){
+                if(UserTools.isModerator()){
                     validate.addClickHandler(new ClickHandler() {
 
                         @Override
@@ -376,12 +342,13 @@ public class Picture {
                         + metaImage.getDescription());
                 tags.setHTML(buildTagHTML(metaImage.getTags()));
                 date.setHTML("<b>Creation date: </b>" + metaImage.getDate());
-                if(validated)
+                if(validated) {
                     link.setHTML("<b>Link: </b>" + HandyTools.getAnchor("picture", Integer.toString(realId), "Right click to copy"));
-                else
+                } else {
                     link.setHTML("<b>Link: </b><a href=./Mindlevel.html#picture="+realId+"&validated=false>Right click to copy</a>");
+                }
                 fetchMission(metaImage.getMissionId());
-                getScore(realId);
+                ratingPanel.add(new VotingSection(realId));
                 commentPanel.add(new CommentSection(metaImage.getThreadId()));
                 backPanel.setVisible(true);
                 HandyTools.setLoading(false);
@@ -451,26 +418,6 @@ public class Picture {
         delete.setVisible(false);
     }
 
-    private void getVoteValue() {
-        ratingService.getVoteValue(Mindlevel.user.getUsername(), realId, new AsyncCallback<Integer>() {
-            @Override
-            public void onFailure(Throwable caught) {
-                HandyTools.showDialogBox("Error", new HTML("Something went wrong while loading the votes."));
-            }
-
-            @Override
-            public void onSuccess(Integer result) {
-                if(result != 0) {
-                    rating.setValue((int)result);
-                    rating.setReadOnly(true);
-                } else {
-                    rating.setValue(0);
-                    rating.setReadOnly(false);
-                }
-            }
-        });
-    }
-
     private void fetchMission(int id) {
         missionService.getMission(id, true, new AsyncCallback<Mission>() {
             @Override
@@ -494,31 +441,5 @@ public class Picture {
 
     public int getId() {
         return id;
-    }
-
-    private void getScore(final int id) {
-        ratingService.getScore(id, new AsyncCallback<Double>() {
-
-            @Override
-            public void onFailure(Throwable caught) {
-                score.setHTML("<b>Score: </b> No votes yet.");
-            }
-
-            @Override
-            public void onSuccess(final Double totalScore) {
-                ratingService.getVoteNumber(id, new AsyncCallback<Integer>() {
-
-                    @Override
-                    public void onFailure(Throwable caught) {
-                        score.setHTML("<b>Score: </b> No votes yet.");
-                    }
-
-                    @Override
-                    public void onSuccess(Integer votes) {
-                        score.setHTML("<b>Score: </b>" + totalScore + "/5 of " + votes + " votes");
-                    }
-                });
-            }
-        });
     }
 }

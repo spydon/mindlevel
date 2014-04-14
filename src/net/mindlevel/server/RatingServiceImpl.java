@@ -11,6 +11,12 @@ import net.mindlevel.shared.User;
 //import com.yourdomain.projectname.client.User;
 @SuppressWarnings("serial")
 public class RatingServiceImpl extends DBConnector implements RatingService {
+
+    private final static int upVoteValue = 10;
+    private final static int upVoteCost = 1;
+    private final static int downVoteValue = 10;
+    private final static int downVoteCost = 10;
+
     @Override
     public int getVoteValue(String username, int pictureId) throws IllegalArgumentException{
         int value = 0;
@@ -33,7 +39,7 @@ public class RatingServiceImpl extends DBConnector implements RatingService {
     }
 
     @Override
-    public void setVoteValue(String token, int pictureId, int value) throws IllegalArgumentException {
+    public void setVoteValue(String token, int pictureId, boolean isUpVote) throws IllegalArgumentException {
         try {
             Connection conn = getConnection();
             User user = new UserServiceImpl().getUserFromToken(token);
@@ -42,19 +48,38 @@ public class RatingServiceImpl extends DBConnector implements RatingService {
             precheck.setInt(2, pictureId);
             ResultSet rs = precheck.executeQuery();
             if(!rs.first()) {
+
+                //Insert the rating to keep track of which votes that have been cast
                 PreparedStatement ps = conn.prepareStatement("INSERT INTO rating "
                         + "(username, picture_id, score) values (?,?,?) "
                         + "on duplicate key update score=values(score)");
                 ps.setString(1, user.getUsername());
                 ps.setInt(2, pictureId);
-                ps.setInt(3, value);
+                ps.setInt(3, isUpVote ? upVoteValue : downVoteValue);
                 ps.executeUpdate();
                 ps.close();
+
+                //Update the receivers score
+                PreparedStatement ps2 = conn.prepareStatement("UPDATE user u "
+                        + "INNER JOIN user_picture p ON u.username = p.username "
+                        + "SET score = score + ? WHERE p.picture_id = ?");
+                ps2.setInt(1, isUpVote ? upVoteValue : downVoteValue);
+                ps2.setInt(2, pictureId);
+                ps2.executeUpdate();
+                ps2.close();
+
+                //Update the givers score
+                PreparedStatement ps3 = conn.prepareStatement("UPDATE user u "
+                        + "SET score = score + ? WHERE u.username = ?");
+                ps3.setInt(1, isUpVote ? upVoteCost : downVoteCost);
+                ps3.setString(2, user.getUsername());
+                ps3.executeUpdate();
+                ps3.close();
+
+                conn.close();
             } else {
-                throw new IllegalArgumentException("You've already voted on this picture...");
+                throw new IllegalArgumentException("You've already voted on this picture");
             }
-            precheck.close();
-            conn.close();
         } catch(SQLException e) {
             e.printStackTrace();
         }
@@ -89,12 +114,19 @@ public class RatingServiceImpl extends DBConnector implements RatingService {
     }
 
     @Override
-    public int getVoteNumber(int id) throws IllegalArgumentException {
+    public int getVoteNumber(int id, boolean countUpVotes, boolean countDownVotes) throws IllegalArgumentException {
         int total = 0;
         try {
             Connection conn = getConnection();
+            String constraint = "";
+
+            if(countUpVotes && !countDownVotes) {
+                constraint = "AND score > 0";
+            } else if(!countUpVotes && countDownVotes) {
+                constraint = "AND score < 0";
+            }
             PreparedStatement ps = conn.prepareStatement("SELECT count(*) AS vote_number "
-                    + "FROM rating WHERE picture_id=?");
+                    + "FROM rating WHERE picture_id=? " + constraint);
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             if(rs.first())
