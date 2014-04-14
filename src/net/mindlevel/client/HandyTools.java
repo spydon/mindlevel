@@ -2,11 +2,14 @@ package net.mindlevel.client;
 
 import java.util.ArrayList;
 
+import net.mindlevel.client.widgets.LoadingElement;
+
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.shared.DateTimeFormat;
 import com.google.gwt.i18n.shared.DefaultDateTimeFormatInfo;
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.HTML;
@@ -15,8 +18,17 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class HandyTools {
 
+    private static VerticalPanel loadingPanel;
+
+    public static void initTools() {
+        loadingPanel = new VerticalPanel();
+        loadingPanel.setStylePrimaryName("loading_panel");
+        loadingPanel.setVisible(false);
+        loadingPanel.add(new LoadingElement());
+        RootPanel.get().add(loadingPanel);
+    }
+
     public static void showDialogBox(String title, HTML text) {
-        Mindlevel.forceFocus = false;
         final DialogBox db = new DialogBox();
         db.setText(title);
         final Button closeButton = new Button("Ok");
@@ -33,10 +45,21 @@ public class HandyTools {
         db.add(dbPanel);
         db.center();
         closeButton.setFocus(true);
+        text.addClickHandler(new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent arg0) {
+                db.hide();
+            }
+        });
+    }
+
+    public static void setLoading(boolean isLoading) {
+        loadingPanel.setVisible(isLoading);
     }
 
     public static void notLoggedInBox() {
-        HandyTools.showDialogBox("Error", new HTML("You must be logged in to comment<br /><a href=\"#login\">Login</a> or <a href=\"#register\">Register</a>"));
+        String lastPage = History.getToken();
+        HandyTools.showDialogBox("Error", new HTML("You must be logged in to comment<br /><a href=\"#login&session=" + lastPage + "\">Login</a> or <a href=\"#register&session=" + lastPage + "\">Register</a>"));
     }
 
 

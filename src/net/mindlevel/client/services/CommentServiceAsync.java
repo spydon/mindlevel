@@ -16,5 +16,5 @@ public interface CommentServiceAsync {
     void addComment(Comment comment, String token, AsyncCallback<Integer> callback);
     void editComment(Comment comment, String token, AsyncCallback<Void> callback);
     void deleteComment(Comment comment, String token, AsyncCallback<Void> callback);
-
+    void getCommentCount(int threadId, AsyncCallback<Integer> asyncCallback);
 }

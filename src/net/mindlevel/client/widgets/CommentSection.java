@@ -8,7 +8,10 @@ import net.mindlevel.client.services.CommentServiceAsync;
 import net.mindlevel.shared.Comment;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -30,19 +33,44 @@ public class CommentSection extends Composite {
         p = new VerticalPanel();
         comments = new ArrayList<Comment>();
 
+        p.add(new WriteBox(new Comment(threadId)));
+
         // All composites must call initWidget() in their constructors.
         initWidget(p);
 
-        // Give the overall composite a style name.
-        setStyleName("comment-section");
-        commentService.getComments(threadId, new AsyncCallback<ArrayList<Comment>>() {
+        commentService.getCommentCount(threadId, new AsyncCallback<Integer>() {
 
             @Override
-            public void onSuccess(ArrayList<Comment> oldComments) {
-                comments.addAll(oldComments);
-                p.add(new WriteBox(new Comment(threadId)));
-                if(comments.size() > 0)
-                    addNestedComments(new Comment(threadId), 0);
+            public void onSuccess(Integer count) {
+                if(count > 0) {
+                    final Button b = new Button("Show comments (" + count + ")");
+                    b.setStylePrimaryName("comment-button-show-all");
+                    b.addClickHandler(new ClickHandler() {
+
+                        @Override
+                        public void onClick(ClickEvent arg0) {
+                            final LoadingElement l = new LoadingElement();
+                            b.removeFromParent();
+                            p.add(l);
+                            commentService.getComments(threadId, new AsyncCallback<ArrayList<Comment>>() {
+
+                                @Override
+                                public void onSuccess(ArrayList<Comment> oldComments) {
+                                    l.removeFromParent();
+                                    comments.addAll(oldComments);
+                                    addNestedComments(new Comment(threadId), 0);
+                                }
+
+                                @Override
+                                public void onFailure(Throwable caught) {
+                                    l.removeFromParent();
+                                    HandyTools.showDialogBox("Error", new HTML(caught.getMessage()));
+                                }
+                            });
+                        }
+                    });
+                    p.add(b);
+                }
             }
 
             @Override
@@ -50,6 +78,9 @@ public class CommentSection extends Composite {
                 HandyTools.showDialogBox("Error", new HTML(caught.getMessage()));
             }
         });
+
+        // Give the overall composite a style name.
+        setStyleName("comment-section");
     }
 
     //Use iterator
@@ -62,5 +93,9 @@ public class CommentSection extends Composite {
                 addNestedComments(c, level+1);
             }
         }
+    }
+
+    public CommentSection getOuter() {
+        return this;
     }
 }

@@ -105,4 +105,25 @@ public class CommentServiceImpl extends DBConnector implements CommentService {
         comment.setComment("Comment deleted by user");
         editComment(comment, token);
     }
+
+    @Override
+    public Integer getCommentCount(int threadId) {
+        int numberOfComments = 0;
+        try {
+            Connection conn = getConnection();
+            PreparedStatement ps = conn.prepareStatement("SELECT count(*) as count FROM comment WHERE thread_id = ?");
+            ps.setInt(1, threadId);
+            ResultSet rs = ps.executeQuery();
+            if(rs.next()) {
+                numberOfComments = rs.getInt("count");
+            }
+
+            rs.close();
+            ps.close();
+            conn.close();
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }
+        return numberOfComments;
+    }
 }

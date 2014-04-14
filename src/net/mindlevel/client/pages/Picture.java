@@ -44,8 +44,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 public class Picture {
     private final RootPanel appArea;
     private final String notFoundPath = "../images/notfound.jpg";
-    private final String loadingPath = "../images/loading.gif";
-    private final Image image = new Image(loadingPath);
+    private final Image image = new Image();
     private final Image leftArrow = new Image("../images/icons/left2.svg");
     private final Image rightArrow = new Image("../images/icons/right2.svg");
     private int id = 0;
@@ -55,6 +54,7 @@ public class Picture {
     private boolean validated = true;
     private boolean notFound = false;
     private final HTML title, description, location, owner, tags, date, mission, category, link, score;
+    private final VerticalPanel backPanel = new VerticalPanel();
     private final VerticalPanel ratingPanel = new VerticalPanel();
     private final VerticalPanel commentPanel = new VerticalPanel();
     private HorizontalPanel metaPanel;
@@ -187,7 +187,10 @@ public class Picture {
             }
         });
         ImageHandler imageHandler = new ImageHandler();
-        RootPanel.get().addDomHandler(imageHandler, KeyUpEvent.getType());
+        if(!Mindlevel.hasKeyUpHandler) {
+            RootPanel.get().addDomHandler(imageHandler, KeyUpEvent.getType());
+            Mindlevel.hasKeyUpHandler = true;
+        }
         metaPanel = new HorizontalPanel();
         metaPanel.addStyleName("metapanel");
         VerticalPanel infoPanel = new VerticalPanel();
@@ -216,19 +219,23 @@ public class Picture {
             }
             if(UserTools.isModerator()) {
                 validate.addStyleName("center-button");
-                if(!validated)
+                if(!validated) {
                     infoPanel.add(validate);
+                }
             }
             if(UserTools.isAdmin()) {
                 delete.addStyleName("center-button");
                 infoPanel.add(delete);
             }
         }
-        appArea.add(title);
-        appArea.add(containerPanel);
-        appArea.add(centerHack);
-        appArea.add(metaPanel);
-        appArea.add(commentPanel);
+
+        backPanel.setVisible(false);
+        backPanel.add(title);
+        backPanel.add(containerPanel);
+        backPanel.add(centerHack);
+        backPanel.add(metaPanel);
+        backPanel.add(commentPanel);
+        appArea.add(backPanel);
         loadImage(id, false);
     }
 
@@ -238,8 +245,9 @@ public class Picture {
          */
         @Override
         public void onKeyUp(KeyUpEvent event) {
-            boolean isTextArea = event.getNativeEvent().getEventTarget().toString().startsWith("textarea",1);
-            if(!notFound && !isTextArea) {
+            boolean isTextArea = event.getNativeEvent().getEventTarget().toString().toLowerCase().contains("textarea");
+            boolean isPicture = History.getToken().contains("picture");
+            if(!notFound && !isTextArea && isPicture) {
                 if (event.getNativeKeyCode() == KeyCodes.KEY_RIGHT && id < imageCount) {
                     nextImage();
                 } else if (event.getNativeKeyCode() == KeyCodes.KEY_LEFT && id > 1) {
@@ -271,7 +279,7 @@ public class Picture {
     }
 
     private void loadImage(final int id, final boolean relative) {
-        setImageUrl(loadingPath);
+        HandyTools.setLoading(true);
         commentPanel.clear();
         pictureService.get(id, relative, validated, new AsyncCallback<MetaImage>() {
             @Override
@@ -375,6 +383,8 @@ public class Picture {
                 fetchMission(metaImage.getMissionId());
                 getScore(realId);
                 commentPanel.add(new CommentSection(metaImage.getThreadId()));
+                backPanel.setVisible(true);
+                HandyTools.setLoading(false);
             }
         });
     }

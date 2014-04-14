@@ -30,7 +30,7 @@ import com.google.gwt.user.client.ui.RootPanel;
  */
 public class Mindlevel implements EntryPoint, ValueChangeHandler<String> {
     public static User user;
-    public static boolean forceFocus = true;
+    public static boolean hasKeyUpHandler = false;
     private final String[] pages =
             {"home", "missions", "pictures", "highscore",
             "about", "chat", "login", "logout",
@@ -42,7 +42,7 @@ public class Mindlevel implements EntryPoint, ValueChangeHandler<String> {
     @Override
     public void onModuleLoad() {
         History.addValueChangeHandler(this);
-
+        HandyTools.initTools();
         for(String page:pages)
             connectListener(page);
         new QuoteHandler(RootPanel.get("quote"));
@@ -63,7 +63,6 @@ public class Mindlevel implements EntryPoint, ValueChangeHandler<String> {
                 if(!lastPage.equals("") && (name.equals("login") || name.equals("logout"))) { //|| name.equals("register")))
                     History.newItem(name + "&session=" + lastPage);
                 } else if(name.equals("pictures")) { //This should be done in the parser, but how to avoid duplicate picture history? (both #pictures and #picture=3)
-                    forceFocus = true;
                     clearScreen();
                     new Picture(getAppArea(true), 0, true);
                 } else {
@@ -79,10 +78,8 @@ public class Mindlevel implements EntryPoint, ValueChangeHandler<String> {
                 clearScreen();
                 new Home(getAppArea(true));
             } else if(parameters.equals("register")) {
-                forceFocus = false;
                 new Registration();
             } else if(parameters.equals("login")) {
-                forceFocus = false;
                 new Login("home");
             } else if(parameters.equals("logout")) {
                 clearScreen();
@@ -100,7 +97,6 @@ public class Mindlevel implements EntryPoint, ValueChangeHandler<String> {
                 clearScreen();
                 new Missions(getAppArea(true), true);
             } else if(parameters.equals("pictures")) {
-                forceFocus = true;
                 clearScreen();
                 new Picture(getAppArea(true), 0, true);
             } else if(parameters.equals("about")) {
@@ -130,7 +126,6 @@ public class Mindlevel implements EntryPoint, ValueChangeHandler<String> {
                 if(tokens[i].contains("picture")) {
                     try {
                         int pictureId = Integer.parseInt(getValue(tokens[i]));
-                        forceFocus = true;
                         clearScreen();
                         new Picture(getAppArea(true), pictureId, validated);
                     } catch (NumberFormatException nfe) {
@@ -156,7 +151,6 @@ public class Mindlevel implements EntryPoint, ValueChangeHandler<String> {
                     }
                     break;
                 } else if(parameters.contains("login")  && !UserTools.isLoggedIn()) {
-                    forceFocus = false;
                     new Login(session);
                     break;
                 } else if(parameters.contains("logout") && UserTools.isLoggedIn()) {

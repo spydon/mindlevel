@@ -1,7 +1,6 @@
 package net.mindlevel.client.widgets;
 
 import net.mindlevel.client.HandyTools;
-import net.mindlevel.client.Mindlevel;
 import net.mindlevel.client.UserTools;
 import net.mindlevel.client.services.CommentService;
 import net.mindlevel.client.services.CommentServiceAsync;
@@ -54,16 +53,6 @@ public class WriteBox extends Composite {
         final TextArea textArea = new TextArea();
         textArea.addStyleName("comment-textarea");
 
-        textArea.addClickHandler(new ClickHandler() {
-
-            @Override
-            public void onClick(ClickEvent arg0) {
-                Mindlevel.forceFocus = false;
-                textArea.setFocus(true);
-                System.out.println(Mindlevel.forceFocus);
-            }
-        });
-
         HorizontalPanel buttonPanel = new HorizontalPanel();
         Button reply = new Button("Comment");
         reply.addClickHandler(new ClickHandler() {
@@ -71,7 +60,6 @@ public class WriteBox extends Composite {
             @Override
             public void onClick(ClickEvent event) {
                 if(UserTools.isLoggedIn()) {
-                    //panel.clear();
                     final Comment comment = new Comment(parent.getThreadId(),
                                                         UserTools.getUsername(),
                                                         textArea.getText(),
@@ -81,10 +69,13 @@ public class WriteBox extends Composite {
                         @Override
                         public void onSuccess(Integer id) {
                             comment.setId(id);
-                            comment.setLevel(1);
-                            //comment.setLevel(comment.getLevel() < CommentSection.MAX_COMMENT_DEPTH ? 1 : 0); //The relative level of the comment to the parent
-                            ReadBox rb = new ReadBox(comment);
+                            if(parent.getId() == 0) {
+                                comment.setLevel(0);
+                            } else {
+                                comment.setLevel(1);
+                            }
 
+                            ReadBox rb = new ReadBox(comment);
                             container.add(rb);
                             VerticalPanel commentThread = (VerticalPanel) container.getParent().getParent();
                             int position = commentThread.getWidgetIndex(container.getParent());

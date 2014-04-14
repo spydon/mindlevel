@@ -18,4 +18,5 @@ public interface CommentService extends RemoteService {
     Integer addComment(Comment comment, String token) throws UserNotLoggedInException;
     void editComment(Comment comment, String token) throws UserNotLoggedInException;
     void deleteComment(Comment comment, String token) throws UserNotLoggedInException;
+    Integer getCommentCount(int threadId);
 }

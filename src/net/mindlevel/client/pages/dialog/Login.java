@@ -1,6 +1,5 @@
 package net.mindlevel.client.pages.dialog;
 
-import net.mindlevel.client.Mindlevel;
 import net.mindlevel.client.UserTools;
 import net.mindlevel.client.services.LoginService;
 import net.mindlevel.client.services.LoginServiceAsync;
@@ -41,7 +40,6 @@ public class Login {
     }
 
     private void init() {
-        Mindlevel.forceFocus = false;
         final Button sendButton = new Button("Login");
         final TextBox userField = new TextBox();
         final PasswordTextBox passField = new PasswordTextBox();
@@ -80,7 +78,6 @@ public class Login {
             @Override
             public void onClick(ClickEvent event) {
                 loginBox.hide();
-                Mindlevel.forceFocus = true;
             }
         });
 

@@ -211,18 +211,18 @@ header {
     color: darkblue;
 }
 
-/* .sendButton { */
-/*     margin-left: auto; */
-/*     margin-right: auto; */
-/*     display: block; */
-/*     font-size: 16pt; */
-/* } */
-
 .about {
     text-align: left;
     max-width: 300px;
 }
 
+.loading_panel {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    margin-top: -23px;
+    margin-left: -22px;
+}
 .picture-title {
     font-size: 20pt;
     margin: 10px;
@@ -420,6 +420,10 @@ header {
     position: absolute;
     bottom: 3px;
     right: 5px;
+}
+
+.comment-button-show-all {
+	margin-bottom: 20px;
 }
 
 /* .comment-edit-button { */
