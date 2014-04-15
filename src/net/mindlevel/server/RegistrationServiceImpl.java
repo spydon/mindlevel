@@ -13,10 +13,9 @@ import net.mindlevel.shared.FieldVerifier;
 public class RegistrationServiceImpl extends DBConnector implements RegistrationService {
 
     @Override
-    public String register(String username, String password, boolean adult) throws IllegalArgumentException {
-        int result = 0;
+    public void register(String username, String email, String password, boolean adult) throws IllegalArgumentException {
         username.toLowerCase();
-        if (!FieldVerifier.isValidName(username)) {
+        if (!FieldVerifier.isValidName(username) || !FieldVerifier.isValidEmail(email)) {
             // If the input is not valid, throw an IllegalArgumentException back to
             // the client.
             throw new IllegalArgumentException(
@@ -24,20 +23,23 @@ public class RegistrationServiceImpl extends DBConnector implements Registration
         }
         try {
             Connection conn = getConnection();
-            PreparedStatement ps = conn.prepareStatement("INSERT INTO user (username, password, adult, token, last_login) "
-                    + "values (?, SHA2(CONCAT(SHA2(?, 512),SHA2(?, 512)),512), ?, UUID(), UNIX_TIMESTAMP())");
+            PreparedStatement ps = conn.prepareStatement("INSERT INTO user (username, email, password, adult, token, last_login) "
+                    + "values (?, ?, SHA2(CONCAT(SHA2(?, 512),SHA2(?, 512)),512), ?, UUID(), UNIX_TIMESTAMP())");
             ps.setString(1, escapeHtml4(username));
-            ps.setString(2, escapeHtml4(username));
-            ps.setString(3, password);
-            ps.setBoolean(4, adult);
-            result = ps.executeUpdate();
+            ps.setString(2, escapeHtml4(email));
+            ps.setString(3, escapeHtml4(username));
+            ps.setString(4, password);
+            ps.setBoolean(5, adult);
+            int result = ps.executeUpdate();
+            if(result != 1) {
+                throw new IllegalArgumentException(
+                        "Username already taken.");
+            };
             ps.close();
             conn.close();
         } catch(SQLException e) {
-//            e.printStackTrace();
             throw new IllegalArgumentException(
                     "Username already taken.");
         }
-        return result + " row changed";
     }
 }

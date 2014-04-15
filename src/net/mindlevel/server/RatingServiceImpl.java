@@ -43,9 +43,12 @@ public class RatingServiceImpl extends DBConnector implements RatingService {
         try {
             Connection conn = getConnection();
             User user = new UserServiceImpl().getUserFromToken(token);
-            PreparedStatement precheck = conn.prepareStatement("SELECT picture_id FROM rating WHERE username = ? AND picture_id = ?");
+            PreparedStatement precheck = conn.prepareStatement("SELECT u.username, r.picture_id FROM user u "
+                    + "LEFT JOIN rating r ON u.username = r.username "
+                    + "WHERE u.username = ? AND (r.picture_id = ? OR u.score <= ?");
             precheck.setString(1, user.getUsername());
             precheck.setInt(2, pictureId);
+            precheck.setInt(3, isUpVote ? upVoteCost : downVoteCost);
             ResultSet rs = precheck.executeQuery();
             if(!rs.first()) {
 

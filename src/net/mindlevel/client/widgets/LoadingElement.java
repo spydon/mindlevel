@@ -8,7 +8,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 public class LoadingElement extends Composite {
 
     private final VerticalPanel loadingPanel;
-    private static String loadingPath;
+    public static String loadingPath = "../images/loading.gif";;
 
     /**
      * Constructs an CommentBox with the given caption on the check.
@@ -17,7 +17,6 @@ public class LoadingElement extends Composite {
      */
     public LoadingElement() {
         loadingPanel = new VerticalPanel();
-        loadingPath = "../images/loading.gif";
         loadingPanel.add(new HTML("LOAAAAADING!"));
         loadingPanel.add(new Image(loadingPath));
 

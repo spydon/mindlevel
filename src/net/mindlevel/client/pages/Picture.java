@@ -12,6 +12,7 @@ import net.mindlevel.client.services.MissionServiceAsync;
 import net.mindlevel.client.services.PictureService;
 import net.mindlevel.client.services.PictureServiceAsync;
 import net.mindlevel.client.widgets.CommentSection;
+import net.mindlevel.client.widgets.LoadingElement;
 import net.mindlevel.client.widgets.VotingSection;
 import net.mindlevel.shared.MetaImage;
 import net.mindlevel.shared.Mission;
@@ -81,6 +82,7 @@ public class Picture {
             .create(MetaUploadService.class);
 
     public Picture(RootPanel appArea, int id, boolean validated) {
+        HandyTools.setLoading(true);
         this.appArea = appArea;
         this.id = id;
         this.validated = validated;
@@ -247,8 +249,9 @@ public class Picture {
     }
 
     private void loadImage(final int id, final boolean relative) {
-        HandyTools.setLoading(true);
+        ratingPanel.clear();
         commentPanel.clear();
+        setImageUrl(LoadingElement.loadingPath);
         pictureService.get(id, relative, validated, new AsyncCallback<MetaImage>() {
             @Override
             public void onFailure(Throwable caught) {

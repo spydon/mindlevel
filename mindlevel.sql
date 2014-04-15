@@ -40,6 +40,56 @@ INSERT INTO `category` VALUES (1,'adventurous'),(2,'artistic'),(3,'funny'),(4,'k
 UNLOCK TABLES;
 
 --
+-- Table structure for table `captcha`
+--
+
+DROP TABLE IF EXISTS `captcha`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `captcha` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `question` varchar(32) NOT NULL,
+  `solution` varchar(32) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `captcha`
+--
+
+LOCK TABLES `captcha` WRITE;
+/*!40000 ALTER TABLE `captcha` DISABLE KEYS */;
+/*!40000 ALTER TABLE `captcha` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `captcha`
+--
+
+DROP TABLE IF EXISTS `delivered_captcha`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `delivered_captcha` (
+  `id` int(11) NOT NULL,
+  `token` varchar(64) DEFAULT NULL,
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`, `token`),
+  KEY `id` (`id`),
+  CONSTRAINT `delivered_captcha_ibfk_1` FOREIGN KEY (`id`) REFERENCES `captcha` (`id`) ON UPDATE CASCADE ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `captcha`
+--
+
+LOCK TABLES `delivered_captcha` WRITE;
+/*!40000 ALTER TABLE `delivered_captcha` DISABLE KEYS */;
+/*!40000 ALTER TABLE `delivered_captcha` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `comment_thread`
 --
 
@@ -258,16 +308,19 @@ DROP TABLE IF EXISTS `user`;
 CREATE TABLE `user` (
   `username` varchar(64) NOT NULL,
   `password` varchar(128) NOT NULL,
-  `location` varchar(256) DEFAULT NULL,
-  `about` text,
+  `location` varchar(256) DEFAULT '',
+  `about` text NOT NULL DEFAULT '',
   `adult` tinyint(1) NOT NULL DEFAULT '0',
   `permission_id` int(11) DEFAULT '0',
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `token` varchar(64) DEFAULT NULL,
   `last_login` int(11) DEFAULT NULL,
-  `picture` varchar(64) DEFAULT NULL,
+  `picture` varchar(64) DEFAULT '../pictures/default.jpg',
   `picture_adult` tinyint(1) DEFAULT '0',
-  `name` varchar(64) DEFAULT NULL,
+  `name` varchar(64) DEFAULT '',
+  `score` int(11) DEFAULT '5',
+  `email` varchar(128) NOT NULL,
+  `validated` tinyint(1) NOT NULL DEFAULT '0',
   PRIMARY KEY (`username`),
   KEY `permission_id` (`permission_id`),
   CONSTRAINT `user_ibfk_1` FOREIGN KEY (`permission_id`) REFERENCES `permission` (`id`) ON UPDATE CASCADE

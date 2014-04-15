@@ -21,7 +21,7 @@ public class UserServiceImpl extends DBConnector implements UserService {
         try {
             Connection conn = getConnection();
             PreparedStatement ps = conn.prepareStatement("SELECT username, name, permission_id As permission, "
-                    + "adult, location, created, about, picture, last_login FROM user WHERE username = ?");
+                    + "adult, location, created, about, picture, score, last_login FROM user WHERE username = ?");
             ps.setString(1, username);
             ResultSet rs = ps.executeQuery();
             if(rs.next()) {
@@ -33,6 +33,7 @@ public class UserServiceImpl extends DBConnector implements UserService {
                 user.setCreated(rs.getString("created"));
                 user.setAbout(rs.getString("about"));
                 user.setPicture(rs.getString("picture"));
+                user.setScore(rs.getInt("score"));
                 user.setLastLogin(rs.getLong("last_login"));
             } else {
                 throw new IllegalArgumentException("No such user.");
@@ -52,7 +53,7 @@ public class UserServiceImpl extends DBConnector implements UserService {
         try {
             Connection conn = getConnection();
             PreparedStatement ps = conn.prepareStatement("SELECT username, name, permission_id As permission, "
-                    + "token, adult, location, created, about, picture, last_login FROM user WHERE token = ?");
+                    + "token, adult, location, created, about, picture, score, last_login FROM user WHERE token = ?");
             ps.setString(1, token);
             ResultSet rs = ps.executeQuery();
             if(rs.next()) {
@@ -65,6 +66,7 @@ public class UserServiceImpl extends DBConnector implements UserService {
                 user.setCreated(rs.getString("created"));
                 user.setAbout(rs.getString("about"));
                 user.setPicture(rs.getString("picture"));
+                user.setScore(rs.getInt("score"));
                 user.setLastLogin(rs.getLong("last_login"));
             } else {
                 throw new IllegalArgumentException("No such user.");
@@ -85,7 +87,7 @@ public class UserServiceImpl extends DBConnector implements UserService {
             Connection conn = getConnection();
             users.clear();
             PreparedStatement ps = conn.prepareStatement("SELECT username, name, permission_id As permission, "
-                    + "adult, location, created, about, picture, last_login FROM user ORDER BY username LIMIT ?,?");
+                    + "adult, location, created, about, picture, score, last_login FROM user ORDER BY username LIMIT ?,?");
             ps.setInt(1, start);
             ps.setInt(2, end);
             ResultSet rs = ps.executeQuery();
@@ -99,6 +101,7 @@ public class UserServiceImpl extends DBConnector implements UserService {
                 user.setCreated(rs.getString("created"));
                 user.setAbout(rs.getString("about"));
                 user.setPicture(rs.getString("picture"));
+                user.setScore(rs.getInt("score"));
                 user.setLastLogin(rs.getLong("last_login"));
                 users.add(user);
             }
@@ -155,7 +158,7 @@ public class UserServiceImpl extends DBConnector implements UserService {
             Connection conn = getConnection();
             users.clear();
             PreparedStatement ps = conn.prepareStatement("SELECT username, name, permission_id As permission, "
-                    + "adult, location, created, about, picture, last_login FROM user ORDER BY username");
+                    + "adult, location, created, about, picture, score, last_login FROM user ORDER BY username");
             ResultSet rs = ps.executeQuery();
             while(rs.next()) {
                 User user = new User();
@@ -167,6 +170,7 @@ public class UserServiceImpl extends DBConnector implements UserService {
                 user.setCreated(rs.getString("created"));
                 user.setAbout(rs.getString("about"));
                 user.setPicture(rs.getString("picture"));
+                user.setScore(rs.getInt("score"));
                 user.setLastLogin(rs.getLong("last_login"));
                 users.add(user);
             }

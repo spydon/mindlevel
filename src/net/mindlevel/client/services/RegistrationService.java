@@ -8,5 +8,5 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
  */
 @RemoteServiceRelativePath("reg")
 public interface RegistrationService extends RemoteService {
-	String register(String login, String password, boolean adult) throws IllegalArgumentException;
+    void register(String login, String email, String password, boolean adult) throws IllegalArgumentException;
 }

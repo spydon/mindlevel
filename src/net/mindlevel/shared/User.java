@@ -8,6 +8,7 @@ public class User implements Serializable{
     private String token;
     private boolean adult;
     private int permission;
+    private int score;
     private String name, location, about, created;
     private long lastLogin;
     private String pictureUrl;
@@ -33,13 +34,12 @@ public class User implements Serializable{
         return token;
     }
 
-    public void setScore(String scoreName, int score) {
-//        scores.put(scoreName, score);
+    public void setScore(int score) {
+        this.score = score;
     }
 
-    public int getScore(String scoreName) {
-//        return scores.get(scoreName);
-        return 0;
+    public int getScore() {
+        return score;
     }
 
     public void setToken(String token) {

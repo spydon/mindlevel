@@ -201,10 +201,12 @@ header {
 .infopanel {
     text-align: left; !important;
     padding: 10px;
-    border-radius: 10px;
+/*     border-radius: 10px; */
 /*     margin: 0px 0px 10px; */
     box-shadow: 0px 4px 4px #000;
-    background: #199fd2;
+    background: lightsteelblue; /*#D65E2F;  199fd2 */
+/*     opacity: 0.7; */
+    
 }
 
 .metapanel a {
@@ -399,6 +401,10 @@ header {
     text-align: center;
 }
 
+.captcha-question {
+	margin: 5px;
+}
+
 /**
 *   COMMENTS
 */
@@ -411,7 +417,7 @@ header {
 /*     border-radius: 5px; */
     margin-bottom: 10px;
     box-shadow: 0px 4px 4px #000;
-    background: #bae2f1;
+    background: lightsteelblue;
     min-width: 400px;
     max-width: 600px;
 }

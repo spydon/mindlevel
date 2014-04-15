@@ -106,7 +106,7 @@
     <url-pattern>/mindlevel/category</url-pattern>
   </servlet-mapping>
   
-    <servlet>
+  <servlet>
     <servlet-name>commentServlet</servlet-name>
     <servlet-class>net.mindlevel.server.CommentServiceImpl</servlet-class>
   </servlet>
@@ -114,6 +114,16 @@
   <servlet-mapping>
     <servlet-name>commentServlet</servlet-name>
     <url-pattern>/mindlevel/comment</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>captchaServlet</servlet-name>
+    <servlet-class>net.mindlevel.server.CaptchaServiceImpl</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>captchaServlet</servlet-name>
+    <url-pattern>/mindlevel/captcha</url-pattern>
   </servlet-mapping>
   
   <context-param>
