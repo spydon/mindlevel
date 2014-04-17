@@ -1,4 +1,4 @@
-package net.mindlevel.client.pages;
+package net.mindlevel.client.pages.dialog;
 
 import net.mindlevel.client.HandyTools;
 import net.mindlevel.client.services.CaptchaService;
@@ -64,7 +64,6 @@ public class Registration {
         final DialogBox registrationBox = new DialogBox(true);
         final Button lbCloseButton = new Button("Close");
         final Label textToServerLabel = new Label();
-        final HTML serverResponse = new HTML();
         //lbCloseButton.getElement().setId("closeButton");
         VerticalPanel loginPanel = new VerticalPanel();
         Grid gridPanel = new Grid(6, 2);
@@ -76,7 +75,7 @@ public class Registration {
         // on different places
         HorizontalPanel errorPanel = new HorizontalPanel();
         errorPanel.add(errorLabel);
-        errorPanel.add(serverResponse);
+        errorLabel.addStyleName("serverResponseLabelError");
 
         // Add the nameField and sendButton to the RootPanel
         // Use RootPanel.get() to get the entire body element
@@ -133,36 +132,7 @@ public class Registration {
             public void onKeyUp(KeyUpEvent event) {
                 if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
                     sendButton.setEnabled(false);
-                    captchaService.verify(captcha.getAnswer(), captcha.getToken(), new AsyncCallback<Boolean>() {
-
-                        @Override
-                        public void onFailure(Throwable caught) {
-                            // Show the RPC error message to the user
-                            registrationBox.setText("Failure");
-                            serverResponse.addStyleName("serverResponseLabelError");
-                            //serverResponseLabel.setHTML(SERVER_ERROR);
-                            serverResponse.setHTML(caught.getMessage());
-                            registrationBox.center();
-                            lbCloseButton.setFocus(true);
-                            sendButton.setEnabled(true);
-                        }
-
-                        @Override
-                        public void onSuccess(Boolean isValid) {
-                            if(isValid) {
-                                sendCredentials();
-                            } else {
-                                // Show the RPC error message to the user
-                                registrationBox.setText("Failure");
-                                serverResponse.addStyleName("serverResponseLabelError");
-                                //serverResponseLabel.setHTML(SERVER_ERROR);
-                                serverResponse.setHTML("The captcha answer was invalid");
-                                registrationBox.center();
-                                lbCloseButton.setFocus(true);
-                                sendButton.setEnabled(true);
-                            }
-                        }
-                    });
+                    sendCredentials();
                 }
             }
 
@@ -172,16 +142,16 @@ public class Registration {
             private void sendCredentials() {
                 // First, we validate the input.
                 errorLabel.setText("");
-                String username = userField.getText();
-                String email = emailField.getText();
-                String password = passField.getText();
-                String password2 = passField2.getText();
-                boolean adult = adultBox.getValue();
+                final String username = userField.getText();
+                final String email = emailField.getText();
+                final String password = passField.getText();
+                final String password2 = passField2.getText();
+                final boolean adult = adultBox.getValue();
 
                 // Then, we send the input to the server.
                 sendButton.setEnabled(false);
                 textToServerLabel.setText(username);
-                serverResponse.setText("");
+                errorLabel.setText("");
                 if(!FieldVerifier.isValidName(username)) {
                     errorLabel.setText("The username is not valid.");
                     sendButton.setEnabled(true);
@@ -192,29 +162,53 @@ public class Registration {
                     errorLabel.setText("That is not a valid email.");
                     sendButton.setEnabled(true);
                 } else {
-                    username.toLowerCase();
-                    regService.register(username, email, password, adult,
-                            new AsyncCallback<Void>() {
-                                @Override
-                                public void onFailure(Throwable caught) {
-                                    // Show the RPC error message to the user
-                                    registrationBox.setText("Failure");
-                                    serverResponse.addStyleName("serverResponseLabelError");
-                                    //serverResponseLabel.setHTML(SERVER_ERROR);
-                                    serverResponse.setHTML(caught.getMessage());
-                                    registrationBox.center();
-                                    lbCloseButton.setFocus(true);
-                                    sendButton.setEnabled(true);
-                                }
+                    captchaService.verify(captcha.getAnswer(), captcha.getToken(), new AsyncCallback<Boolean>() {
 
-                                @Override
-                                public void onSuccess(Void result) {
-                                    serverResponse.removeStyleName("serverResponseLabelError");
-                                    serverResponse.setHTML("Congratulations, you are now registered!");
-                                    registrationBox.hide();
-                                    HandyTools.showDialogBox("Success!", serverResponse);
-                                }
-                            });
+                        @Override
+                        public void onFailure(Throwable caught) {
+                            // Show the RPC error message to the user
+                            registrationBox.setText("Failure");
+                            errorLabel.setText(caught.getMessage());
+                            registrationBox.center();
+                            lbCloseButton.setFocus(true);
+                            sendButton.setEnabled(true);
+                        }
+
+                        @Override
+                        public void onSuccess(Boolean isValid) {
+                            if(isValid) {
+                                username.toLowerCase();
+                                regService.register(username, email, password, adult,
+                                        new AsyncCallback<Void>() {
+                                            @Override
+                                            public void onFailure(Throwable caught) {
+                                                // Show the RPC error message to the user
+                                                registrationBox.setText("Failure");
+                                                //serverResponseLabel.setHTML(SERVER_ERROR);
+                                                errorLabel.setText(caught.getMessage());
+                                                registrationBox.center();
+                                                lbCloseButton.setFocus(true);
+                                                sendButton.setEnabled(true);
+                                            }
+
+                                            @Override
+                                            public void onSuccess(Void result) {
+                                                errorLabel.removeStyleName("serverResponseLabelError");
+                                                errorLabel.setText("Congratulations, you are now registered!");
+                                                registrationBox.hide();
+                                                HandyTools.showDialogBox("Success!", new HTML("Congratulations, you are now registered!"));
+                                            }
+                                        });
+                            } else {
+                                // Show the RPC error message to the user
+                                registrationBox.setText("Failure");
+                                errorLabel.setText("The captcha answer was invalid");
+                                registrationBox.center();
+                                lbCloseButton.setFocus(true);
+                                sendButton.setEnabled(true);
+                            }
+                        }
+                    });
                 }
             }
         }

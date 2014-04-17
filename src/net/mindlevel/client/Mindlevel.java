@@ -8,9 +8,9 @@ import net.mindlevel.client.pages.MissionProfile;
 import net.mindlevel.client.pages.Missions;
 import net.mindlevel.client.pages.Picture;
 import net.mindlevel.client.pages.Profile;
-import net.mindlevel.client.pages.Registration;
 import net.mindlevel.client.pages.dialog.Login;
 import net.mindlevel.client.pages.dialog.Logout;
+import net.mindlevel.client.pages.dialog.Registration;
 import net.mindlevel.shared.User;
 
 import com.google.gwt.core.client.EntryPoint;
@@ -60,7 +60,11 @@ public class Mindlevel implements EntryPoint, ValueChangeHandler<String> {
             @Override
             public void onBrowserEvent(Event event) {
                 String lastPage = History.getToken();
-                if(!lastPage.equals("") && (name.equals("login") || name.equals("logout"))) { //|| name.equals("register")))
+                if((!lastPage.equals("") &&
+                    !lastPage.equals("login") &&
+                    !lastPage.equals("logout") &&
+                    !lastPage.equals("register"))
+                    && (name.equals("login") || name.equals("logout"))) {
                     History.newItem(name + "&session=" + lastPage);
                 } else if(name.equals("pictures")) { //This should be done in the parser, but how to avoid duplicate picture history? (both #pictures and #picture=3)
                     clearScreen();

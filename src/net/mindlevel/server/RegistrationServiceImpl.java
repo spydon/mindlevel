@@ -23,8 +23,8 @@ public class RegistrationServiceImpl extends DBConnector implements Registration
         }
         try {
             Connection conn = getConnection();
-            PreparedStatement ps = conn.prepareStatement("INSERT INTO user (username, email, password, adult, token, last_login) "
-                    + "values (?, ?, SHA2(CONCAT(SHA2(?, 512),SHA2(?, 512)),512), ?, UUID(), UNIX_TIMESTAMP())");
+            PreparedStatement ps = conn.prepareStatement("INSERT INTO user (username, email, password, adult) "
+                    + "values (?, ?, SHA2(CONCAT(SHA2(?, 512),SHA2(?, 512)),512), ?)");
             ps.setString(1, escapeHtml4(username));
             ps.setString(2, escapeHtml4(email));
             ps.setString(3, escapeHtml4(username));

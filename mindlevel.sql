@@ -49,7 +49,7 @@ DROP TABLE IF EXISTS `captcha`;
 CREATE TABLE `captcha` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `question` varchar(32) NOT NULL,
-  `solution` varchar(32) NOT NULL,
+  `answer` varchar(32) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -60,6 +60,7 @@ CREATE TABLE `captcha` (
 
 LOCK TABLES `captcha` WRITE;
 /*!40000 ALTER TABLE `captcha` DISABLE KEYS */;
+INSERT INTO `captcha` (question, answer) VALUES ('five','5'),('100+56','156'),('five+4','9');
 /*!40000 ALTER TABLE `captcha` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -309,7 +310,7 @@ CREATE TABLE `user` (
   `username` varchar(64) NOT NULL,
   `password` varchar(128) NOT NULL,
   `location` varchar(256) DEFAULT '',
-  `about` text NOT NULL DEFAULT '',
+  `about` varchar(2048) NOT NULL DEFAULT '',
   `adult` tinyint(1) NOT NULL DEFAULT '0',
   `permission_id` int(11) DEFAULT '0',
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -333,9 +334,9 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES ('system','ThisIsALoginBlock','','',1,1,'2013-12-29 09:32:13',NULL,1390255104,'',1,'');
-INSERT INTO `user` VALUES ('spydon','6b753344106bdd9ee9358ec03a62762d9e12bc2fa865ab37e296c37f2d0956341d95f9e1362c1a9798ce6f22dd5c0060788979dd92b964e2ec7bf1daa9232e86'
-                            ,'Test','test',1,1,'2013-12-29 09:32:13',NULL,1390255104,'test.jpg',1,'');
+INSERT INTO `user` (username, password, adult, permission_id, email, validated)  VALUES ('system','ThisIsALoginBlock',1,1,'noemail@system.com',1);
+INSERT INTO `user` (username, password, adult, permission_id, email, validated) VALUES ('spydon','6b753344106bdd9ee9358ec03a62762d9e12bc2fa865ab37e296c37f2d0956341d95f9e1362c1a9798ce6f22dd5c0060788979dd92b964e2ec7bf1daa9232e86'
+                            ,1,1,'admin@mindlevel.net',1);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 

@@ -31,7 +31,7 @@ public class CaptchaElement extends Composite {
     public CaptchaElement() {
         b = new VerticalPanel();
         p = new HorizontalPanel();
-        b.add(new Label("Captcha"));
+        b.add(new Label("Prove you're not a robot:"));
         b.add(p);
         tb.setWidth("50px");
         captchaService.get(new AsyncCallback<Captcha>() {
@@ -51,7 +51,6 @@ public class CaptchaElement extends Composite {
                 HandyTools.showDialogBox("Error", new HTML(arg0.getMessage()));
             }
         });
-
         // All composites must call initWidget() in their constructors.
         initWidget(b);
     }
