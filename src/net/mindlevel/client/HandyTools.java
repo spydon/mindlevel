@@ -1,14 +1,16 @@
 package net.mindlevel.client;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import net.mindlevel.client.widgets.LoadingElement;
+import net.mindlevel.shared.UserTools;
 
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.i18n.shared.DateTimeFormat;
-import com.google.gwt.i18n.shared.DefaultDateTimeFormatInfo;
+import com.google.gwt.i18n.client.DateTimeFormat;
+import com.google.gwt.i18n.client.DefaultDateTimeFormatInfo;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
@@ -81,20 +83,26 @@ public class HandyTools {
     }
 
     //Unix time to a readable date
-    public static String unixToDate(long unixtime) {
-        java.util.Date date = new java.util.Date(unixtime*1000);
+    public static Date unixToDate(long unixTime) {
         DefaultDateTimeFormatInfo info = new DefaultDateTimeFormatInfo();
         DateTimeFormat dtf = new DateTimeFormat("EEE, d MMM yyyy HH:mm:ss", info) {};
-        return dtf.format(date);
+        String converted = dtf.format(new Date(unixTime*1000));
+        return dtf.parse(converted);
+    }
+
+    public static String formatDate(Date timestamp) {
+        DateTimeFormat dtf = DateTimeFormat.getFormat("yyyy-MM-dd HH:mm:ss");
+        return dtf.format(timestamp);
     }
 
     public static String getCategoryAnchors(ArrayList<String> categories) {
         String categoryAnchors = "";
         for(String category : categories)
-            if(categories.indexOf(category) != 0)
+            if(categories.indexOf(category) != 0) {
                 categoryAnchors += ", " + getAnchor("category", category, category);
-            else
+            } else {
                 categoryAnchors = getAnchor("category", category, category);
+            }
         return categoryAnchors;
     }
 

@@ -15,7 +15,7 @@ public class GreetingServiceImpl extends RemoteServiceServlet implements
     @Override
     public String greetServer(String input) throws IllegalArgumentException {
         // Verify that the input is valid.
-        if (!FieldVerifier.isValidName(input)) {
+        if (!FieldVerifier.isValidUsername(input)) {
             // If the input is not valid, throw an IllegalArgumentException back to
             // the client.
             throw new IllegalArgumentException(

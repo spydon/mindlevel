@@ -152,7 +152,7 @@ public class Registration {
                 sendButton.setEnabled(false);
                 textToServerLabel.setText(username);
                 errorLabel.setText("");
-                if(!FieldVerifier.isValidName(username)) {
+                if(!FieldVerifier.isValidUsername(username)) {
                     errorLabel.setText("The username is not valid.");
                     sendButton.setEnabled(true);
                 } else if (!FieldVerifier.isValidPassword(password, password2)) {

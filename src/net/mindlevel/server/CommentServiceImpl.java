@@ -34,7 +34,7 @@ public class CommentServiceImpl extends DBConnector implements CommentService {
                         rs.getString("username"),
                         rs.getString("comment"),
                         rs.getInt("parent_id"),
-                        rs.getInt("timestamp"));
+                        rs.getTimestamp("timestamp"));
                 comments.add(comment);
 
             }

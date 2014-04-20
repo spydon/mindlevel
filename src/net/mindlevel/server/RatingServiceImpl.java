@@ -13,9 +13,9 @@ import net.mindlevel.shared.User;
 public class RatingServiceImpl extends DBConnector implements RatingService {
 
     private final static int upVoteValue = 10;
-    private final static int upVoteCost = 1;
+    private final static int upVoteCost = -1;
     private final static int downVoteValue = 10;
-    private final static int downVoteCost = 10;
+    private final static int downVoteCost = -10;
 
     @Override
     public int getVoteValue(String username, int pictureId) throws IllegalArgumentException{
@@ -45,7 +45,7 @@ public class RatingServiceImpl extends DBConnector implements RatingService {
             User user = new UserServiceImpl().getUserFromToken(token);
             PreparedStatement precheck = conn.prepareStatement("SELECT u.username, r.picture_id FROM user u "
                     + "LEFT JOIN rating r ON u.username = r.username "
-                    + "WHERE u.username = ? AND (r.picture_id = ? OR u.score <= ?");
+                    + "WHERE u.username = ? AND (r.picture_id = ? OR u.score <= ?)");
             precheck.setString(1, user.getUsername());
             precheck.setInt(2, pictureId);
             precheck.setInt(3, isUpVote ? upVoteCost : downVoteCost);

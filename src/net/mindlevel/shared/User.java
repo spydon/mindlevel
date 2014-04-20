@@ -1,6 +1,7 @@
 package net.mindlevel.shared;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class User implements Serializable{
     private static final long serialVersionUID = 1L;
@@ -9,18 +10,11 @@ public class User implements Serializable{
     private boolean adult;
     private int permission;
     private int score;
-    private String name, location, about, created;
-    private long lastLogin;
+    private String name, location, about;
+    private Date created, lastLogin;
     private String pictureUrl;
-//  private final HashMap<String, Integer> scores = new HashMap<String, Integer>();
-    //TODO: Change this datastructure
 
-    public User() {
-//        scores.put("crazy", 0);
-//        scores.put("nice", 0);
-//        scores.put("inventive", 0);
-//        scores.put("artistic", 0);
-    }
+    public User() {}
 
     public String getUsername() {
         return username;
@@ -62,11 +56,11 @@ public class User implements Serializable{
         this.about = description;
     }
 
-    public String getCreated() {
+    public Date getCreated() {
         return created;
     }
 
-    public void setCreated(String created) {
+    public void setCreated(Date created) {
         this.created = created;
     }
 
@@ -90,11 +84,11 @@ public class User implements Serializable{
         this.adult = adult;
     }
 
-    public long getLastLogin() {
+    public Date getLastLogin() {
         return lastLogin;
     }
 
-    public void setLastLogin(long lastLogin) {
+    public void setLastLogin(Date lastLogin) {
         this.lastLogin = lastLogin;
     }
 

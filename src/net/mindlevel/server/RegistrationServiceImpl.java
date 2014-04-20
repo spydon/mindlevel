@@ -14,8 +14,8 @@ public class RegistrationServiceImpl extends DBConnector implements Registration
 
     @Override
     public void register(String username, String email, String password, boolean adult) throws IllegalArgumentException {
-        username.toLowerCase();
-        if (!FieldVerifier.isValidName(username) || !FieldVerifier.isValidEmail(email)) {
+        username = username.toLowerCase();
+        if (!FieldVerifier.isValidUsername(username) || !FieldVerifier.isValidEmail(email)) {
             // If the input is not valid, throw an IllegalArgumentException back to
             // the client.
             throw new IllegalArgumentException(

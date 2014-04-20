@@ -66,15 +66,16 @@ public class Profile {
                 user = userinfo;
                 History.newItem("user="+user.getUsername());
                 String special = "";
-                if(user.isModerator())
+                if(user.isModerator()) {
                     special = user.isAdmin() ? "(Admin)" : "(Moderator)";
+                }
 
                 infoPanel.add(new HTML("<b>Nick:</b> " + user.getUsername() + " " + special));
                 infoPanel.add(new HTML("<b>Name:</b> " + user.getName()));
                 infoPanel.add(new HTML("<b>Score:</b> " + user.getScore()));
                 infoPanel.add(new HTML("<b>Location:</b> " + user.getLocation()));
                 infoPanel.add(new HTML("<b>About:</b> " + user.getAbout()));
-                infoPanel.add(new HTML("<b>Last log in:</b> " + HandyTools.unixToDate(user.getLastLogin())));
+                infoPanel.add(new HTML("<b>Last log in:</b> " + HandyTools.formatDate(user.getLastLogin())));
 
                 final Image profilePicture = new Image("./pictures/" + userinfo.getPicture());
                 profilePicture.setVisible(false);

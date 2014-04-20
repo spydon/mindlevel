@@ -126,6 +126,16 @@
     <url-pattern>/mindlevel/captcha</url-pattern>
   </servlet-mapping>
   
+  <servlet>
+    <servlet-name>newsServlet</servlet-name>
+    <servlet-class>net.mindlevel.server.NewsServiceImpl</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>newsServlet</servlet-name>
+    <url-pattern>/mindlevel/news</url-pattern>
+  </servlet-mapping>
+  
   <context-param>
     <!-- max size of the upload request -->
     <param-name>maxSize</param-name>

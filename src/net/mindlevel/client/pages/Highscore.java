@@ -1,6 +1,5 @@
 package net.mindlevel.client.pages;
 
-import java.util.Date;
 import java.util.List;
 
 import net.mindlevel.client.HandyTools;
@@ -8,10 +7,8 @@ import net.mindlevel.client.services.UserService;
 import net.mindlevel.client.services.UserServiceAsync;
 import net.mindlevel.shared.User;
 
-import com.google.gwt.cell.client.DateCell;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.cellview.client.CellTable;
-import com.google.gwt.user.cellview.client.Column;
 import com.google.gwt.user.cellview.client.HasKeyboardSelectionPolicy.KeyboardSelectionPolicy;
 import com.google.gwt.user.cellview.client.SimplePager;
 import com.google.gwt.user.cellview.client.TextColumn;
@@ -39,7 +36,9 @@ public class Highscore {
     }
 
     public void init() {
-        table.setPageSize(3);
+        table.setPageSize(10);
+        //Set style name of the table
+        table.setStyleName("pointer-table");
         table.addCellPreviewHandler(new Handler<User>() {
 
             @Override
@@ -79,16 +78,23 @@ public class Highscore {
         };
         table.addColumn(adultColumn, "Adult");
 
-        // Add a date column to show the birthday.
-        DateCell dateCell = new DateCell();
-        Column<User, Date> dateColumn = new Column<User, Date>(dateCell) {
+        // Add a date column to show the last logged in date.
+        TextColumn<User> dateColumn = new TextColumn<User>() {
             @Override
-            public Date getValue(User user) {
-                return new Date(user.getLastLogin());
+            public String getValue(User user) {
+                return HandyTools.formatDate(user.getLastLogin());
             }
         };
-        dateColumn.setSortable(true);
         table.addColumn(dateColumn, "Last login");
+
+        // Add a date column to show the last logged in date.
+        TextColumn<User> scoreColumn = new TextColumn<User>() {
+            @Override
+            public String getValue(User user) {
+                return "" + user.getScore();
+            }
+        };
+        table.addColumn(scoreColumn, "Score");
 
         // Manages the pages
         final SimplePager pager = new SimplePager();

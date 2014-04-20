@@ -1,12 +1,13 @@
 package net.mindlevel.shared;
 
 import java.io.Serializable;
+import java.util.Date;
 
-public class Comment implements Serializable{
+public class Comment implements Serializable {
     private static final long serialVersionUID = 1L;
     private String username, comment;
     private int id;
-    private int timestamp;
+    private Date timestamp;
     private int parentId; //If parentId is 0 the comment is a direct comment and not a reply to somebody else.
     private int threadId;
     private int level;
@@ -25,7 +26,7 @@ public class Comment implements Serializable{
                    String username,
                    String comment,
                    int parentId,
-                   int timestamp) {
+                   Date timestamp) {
         this.setId(id);
         this.setThreadId(threadId);
         this.setUsername(username);
@@ -44,11 +45,11 @@ public class Comment implements Serializable{
         this.setParentId(parentId);
     }
 
-    public int getTimestamp() {
+    public Date getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(int timestamp) {
+    public void setTimestamp(Date timestamp) {
         this.timestamp = timestamp;
     }
 

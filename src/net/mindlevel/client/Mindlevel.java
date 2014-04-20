@@ -12,6 +12,7 @@ import net.mindlevel.client.pages.dialog.Login;
 import net.mindlevel.client.pages.dialog.Logout;
 import net.mindlevel.client.pages.dialog.Registration;
 import net.mindlevel.shared.User;
+import net.mindlevel.shared.UserTools;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.dom.client.Element;

@@ -27,7 +27,7 @@ public class UploadServiceImpl extends UploadAction {
 
     private static final long serialVersionUID = 1L;
     private static final int PICTURE_MAXWIDTH = 800;
-    private static final int THUMB_MAXWIDTH = 64;
+    private static final int THUMB_MAXWIDTH = 128;
     Hashtable<String, String> receivedContentTypes = new Hashtable<String, String>();
     /**
      * Maintain a list with received files and their content types.

@@ -2,11 +2,11 @@ package net.mindlevel.client.pages;
 
 import net.mindlevel.client.HandyTools;
 import net.mindlevel.client.Mindlevel;
-import net.mindlevel.client.UserTools;
 import net.mindlevel.client.pages.dialog.Upload;
 import net.mindlevel.client.services.MissionService;
 import net.mindlevel.client.services.MissionServiceAsync;
 import net.mindlevel.shared.Mission;
+import net.mindlevel.shared.UserTools;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;

@@ -6,7 +6,6 @@ import java.util.List;
 
 import net.mindlevel.client.HandyTools;
 import net.mindlevel.client.Mindlevel;
-import net.mindlevel.client.UserTools;
 import net.mindlevel.client.services.CategoryService;
 import net.mindlevel.client.services.CategoryServiceAsync;
 import net.mindlevel.client.services.MissionService;
@@ -15,6 +14,7 @@ import net.mindlevel.client.services.TokenService;
 import net.mindlevel.client.services.TokenServiceAsync;
 import net.mindlevel.shared.FieldVerifier;
 import net.mindlevel.shared.Mission;
+import net.mindlevel.shared.UserTools;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;

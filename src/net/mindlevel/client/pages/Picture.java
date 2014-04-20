@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import net.mindlevel.client.HandyTools;
 import net.mindlevel.client.Mindlevel;
-import net.mindlevel.client.UserTools;
 import net.mindlevel.client.services.MetaUploadService;
 import net.mindlevel.client.services.MetaUploadServiceAsync;
 import net.mindlevel.client.services.MissionService;
@@ -16,6 +15,7 @@ import net.mindlevel.client.widgets.LoadingElement;
 import net.mindlevel.client.widgets.VotingSection;
 import net.mindlevel.shared.MetaImage;
 import net.mindlevel.shared.Mission;
+import net.mindlevel.shared.UserTools;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -258,6 +258,8 @@ public class Picture {
                 setImageUrl(notFoundPath);
                 hideFields();
                 notFound = true;
+                backPanel.setVisible(true);
+                HandyTools.setLoading(false);
             }
 
             @Override

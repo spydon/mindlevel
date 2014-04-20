@@ -19,6 +19,6 @@ public class VotingSection extends Composite {
         initWidget(backPanel);
 
         // Give the overall composite a style name.
-        setStyleName("voting-section");
+        setStyleName("vote-section");
     }
 }

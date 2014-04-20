@@ -149,6 +149,33 @@ INSERT INTO comment (id, username, parent_id, thread_id) VALUES (0, 'system', 0,
 UNLOCK TABLES;
 
 --
+-- Table structure for table `news`
+--
+
+DROP TABLE IF EXISTS `news`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `news` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `username` varchar(64) NOT NULL,
+  `content` text NOT NULL,
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `username` (`username`),
+  CONSTRAINT `news_ibfk_2` FOREIGN KEY (`username`) REFERENCES `user` (`username`) ON UPDATE CASCADE ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `news`
+--
+
+LOCK TABLES `news` WRITE;
+/*!40000 ALTER TABLE `news` DISABLE KEYS */;
+/*!40000 ALTER TABLE `news` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `mission`
 --
 
@@ -315,7 +342,7 @@ CREATE TABLE `user` (
   `permission_id` int(11) DEFAULT '0',
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `token` varchar(64) DEFAULT NULL,
-  `last_login` int(11) DEFAULT NULL,
+  `last_login` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `picture` varchar(64) DEFAULT '../pictures/default.jpg',
   `picture_adult` tinyint(1) DEFAULT '0',
   `name` varchar(64) DEFAULT '',

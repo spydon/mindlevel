@@ -1,13 +1,13 @@
-package net.mindlevel.client;
+package net.mindlevel.shared;
 
 import java.util.Date;
 
+import net.mindlevel.client.HandyTools;
+import net.mindlevel.client.Mindlevel;
 import net.mindlevel.client.exception.UserNotLoggedInException;
 import net.mindlevel.client.pages.Admin;
 import net.mindlevel.client.services.UserService;
 import net.mindlevel.client.services.UserServiceAsync;
-import net.mindlevel.shared.Normalizer;
-import net.mindlevel.shared.User;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Cookies;

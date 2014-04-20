@@ -3,12 +3,12 @@ package net.mindlevel.client.pages;
 import java.util.List;
 
 import net.mindlevel.client.HandyTools;
-import net.mindlevel.client.UserTools;
 import net.mindlevel.client.pages.dialog.MissionSuggestion;
 import net.mindlevel.client.services.MissionService;
 import net.mindlevel.client.services.MissionServiceAsync;
 import net.mindlevel.shared.Mission;
 import net.mindlevel.shared.Normalizer;
+import net.mindlevel.shared.UserTools;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -50,7 +50,10 @@ public class Missions {
 
     public void init() {
         //Sets how many elements to show on each page
-        table.setPageSize(3);
+        table.setPageSize(10);
+
+        //Set style name of the table
+        table.setStyleName("pointer-table");
 
         //Makes it possible to get to the mission profiles by clicking the row of the mission
         table.addCellPreviewHandler(new Handler<Mission>() {
@@ -60,7 +63,6 @@ public class Missions {
                 boolean isClick = "click".equals(event.getNativeEvent().getType());
                 if(isClick) {
                     new MissionProfile(appArea, event.getValue().getId(), validated);
-                    //Window.Location.assign("/?mission="+event.getValue().getId());
                 }
             }
         });
@@ -89,10 +91,11 @@ public class Missions {
         TextColumn<Mission> adultColumn = new TextColumn<Mission>() {
             @Override
             public String getValue(Mission mission) {
-                if(mission.getAdult())
+                if(mission.getAdult()) {
                     return "Yes";
-                else
+                } else {
                     return "No";
+                }
             }
         };
         table.addColumn(adultColumn, "Adult Only?");
