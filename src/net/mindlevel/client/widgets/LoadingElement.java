@@ -17,10 +17,13 @@ public class LoadingElement extends Composite {
      */
     public LoadingElement() {
         loadingPanel = new VerticalPanel();
-        loadingPanel.add(new HTML("LOAAAAADING!"));
+        HTML loadingText = new HTML("Loading");
+        loadingText.addStyleName("loading-text");
         loadingPanel.add(new Image(loadingPath));
+        loadingPanel.add(loadingText);
 
         // All composites must call initWidget() in their constructors.
         initWidget(loadingPanel);
+        setStyleName("loading-element");
     }
 }

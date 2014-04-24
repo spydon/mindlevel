@@ -92,8 +92,9 @@ public class MissionSuggestion {
                 ArrayList<String> categories = new ArrayList<String>();
                 for(ListBox categoryLB : categoryList) {
                     String category = categoryLB.getItemText(categoryLB.getSelectedIndex());
-                    if(!categories.contains(category) && !categoryLB.isEnabled())
+                    if(!categories.contains(category) && (!categoryLB.isEnabled() || categoryList.size() == 1)) {
                         categories.add(category);
+                    }
                 }
 
                 if(UserTools.isLoggedIn()) {

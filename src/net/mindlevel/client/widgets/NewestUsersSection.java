@@ -1,11 +1,11 @@
 package net.mindlevel.client.widgets;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import net.mindlevel.client.HandyTools;
-import net.mindlevel.client.services.NewsService;
-import net.mindlevel.client.services.NewsServiceAsync;
-import net.mindlevel.shared.News;
+import net.mindlevel.client.services.UserService;
+import net.mindlevel.client.services.UserServiceAsync;
+import net.mindlevel.shared.User;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -13,36 +13,27 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-public class NewsSection extends Composite {
+public class NewestUsersSection extends Composite {
 
     private final VerticalPanel p;
 
-    private final NewsServiceAsync newsService = GWT
-            .create(NewsService.class);
+    private final UserServiceAsync userService = GWT
+            .create(UserService.class);
 
     /**
      * Constructs a CommentSection that controls a number of ReadBox and WriteBox
      *
      */
-    public NewsSection(final int number) {
+    public NewestUsersSection(final int number) {
         p = new VerticalPanel();
-        HTML header = new HTML("News");
+        HTML header = new HTML("Newest users");
         final LoadingElement l = new LoadingElement();
-        header.addStyleName("news-header");
+        header.addStyleName("users-header");
         p.add(header);
         p.add(l);
 
-        newsService.getNews(number, new AsyncCallback<ArrayList<News>>() {
 
-            @Override
-            public void onSuccess(ArrayList<News> news) {
-                if(news.size() > 0) {
-                    for(News n : news) {
-                        p.add(new NewsElement(n));
-                    }
-                }
-                l.removeFromParent();
-            }
+        userService.getNewestUsers(number, new AsyncCallback<List<User>>() {
 
             @Override
             public void onFailure(Throwable caught) {
@@ -50,12 +41,22 @@ public class NewsSection extends Composite {
                 caught.printStackTrace();
                 HandyTools.showDialogBox("Error", new HTML(caught.getMessage()));
             }
+
+            @Override
+            public void onSuccess(List<User> users) {
+                if(users.size() > 0) {
+                    for(User u : users) {
+                        p.add(new UserElement(u));
+                    }
+                }
+                l.removeFromParent();
+            }
         });
 
         // All composites must call initWidget() in their constructors.
         initWidget(p);
 
         // Give the overall composite a style name.
-        setStyleName("news-section");
+        setStyleName("users-section");
     }
 }

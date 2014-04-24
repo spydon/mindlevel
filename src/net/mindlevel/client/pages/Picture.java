@@ -161,7 +161,7 @@ public class Picture {
                 nextImage();
             }
         });
-        ImageHandler imageHandler = new ImageHandler();
+        NavigationHandler imageHandler = new NavigationHandler();
         if(!Mindlevel.hasKeyUpHandler) {
             RootPanel.get().addDomHandler(imageHandler, KeyUpEvent.getType());
             Mindlevel.hasKeyUpHandler = true;
@@ -209,15 +209,14 @@ public class Picture {
         loadImage(id, false);
     }
 
-    class ImageHandler implements KeyUpHandler {
+    class NavigationHandler implements KeyUpHandler {
         /**
          * Fired when the user types in the nameField.
          */
         @Override
         public void onKeyUp(KeyUpEvent event) {
-            boolean isTextArea = event.getNativeEvent().getEventTarget().toString().toLowerCase().contains("textarea");
             boolean isPicture = History.getToken().contains("picture");
-            if(!notFound && !isTextArea && isPicture) {
+            if(!notFound && !Mindlevel.isTextAreaFocused && isPicture) {
                 if (event.getNativeKeyCode() == KeyCodes.KEY_RIGHT && id < imageCount) {
                     nextImage();
                 } else if (event.getNativeKeyCode() == KeyCodes.KEY_LEFT && id > 1) {
@@ -252,7 +251,7 @@ public class Picture {
         ratingPanel.clear();
         commentPanel.clear();
         setImageUrl(LoadingElement.loadingPath);
-        pictureService.get(id, relative, validated, new AsyncCallback<MetaImage>() {
+        pictureService.get(id, relative, UserTools.isAdult(), validated, new AsyncCallback<MetaImage>() {
             @Override
             public void onFailure(Throwable caught) {
                 setImageUrl(notFoundPath);
@@ -267,22 +266,25 @@ public class Picture {
                 ratingPanel.setVisible(true);
                 setImageUrl("../pictures/" + metaImage.getFilename());
                 imageCount = metaImage.getImageCount();
-                if(id == 0)
+                if(id == 0) {
                     setId(imageCount);
-                else if(!relative || id == -1)
+                } else if(!relative || id == -1) {
                     setId(metaImage.getRelativeId());
+                }
 
                 //Check if the left arrow is needed
-                if (getId() == 1)
+                if (getId() == 1) {
                     leftArrow.addStyleName("hidden");
-                else if(leftArrow.getStyleName().contains("hidden"))
+                } else if(leftArrow.getStyleName().contains("hidden")) {
                     leftArrow.removeStyleName("hidden");
+                }
 
                 //Check if the right arrow is needed
-                if (getId() == imageCount)
+                if (getId() == imageCount) {
                     rightArrow.addStyleName("hidden");
-                else if(rightArrow.getStyleName().contains("hidden"))
+                } else if(rightArrow.getStyleName().contains("hidden")) {
                     rightArrow.removeStyleName("hidden");
+                }
 
                 //If it is a 'notfound' picture
                 if (imageCount == 0) {

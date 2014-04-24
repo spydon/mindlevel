@@ -119,14 +119,14 @@ public class Highscore {
                         updateRowData(start, result);
                     }
                 };
-                // The remote service that should be implemented
-                highscoreService.getUsers(start, length, callback);
+                highscoreService.getHighscore(start, length, callback);
             }
         };
         countUsers();
         provider.addDataDisplay(table);
         appArea.add(table);
         appArea.add(pager);
+        appArea.add(new HTML("(Click on the table to get more information about a user)"));
     }
 
     private void countUsers() {

@@ -54,7 +54,7 @@ public class UpdateProfile {
         final TextArea aboutTA = new TextArea();
         aboutTA.setStylePrimaryName("about-textarea");
         aboutTA.setText(user.getAbout());
-        Label adultL = new Label("Adult");
+        Label adultL = new Label("Adult/Show NSFW");
         final CheckBox adultCB = new CheckBox();
         adultCB.setValue(user.isAdult());
         Button uploadB = new Button("Finish editing");

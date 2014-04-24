@@ -45,7 +45,7 @@ public class UserServiceImpl extends DBConnector implements UserService {
             PreparedStatement ps = conn.prepareStatement("SELECT username, name, permission_id As permission, "
                     + "token, adult, location, created, about, picture, score, last_login FROM user WHERE token = ?");
             ps.setString(1, token);
-            ArrayList<User> users = queryUsers(ps, false);
+            ArrayList<User> users = queryUsers(ps, true);
             if(users.size() > 0) {
                 user = users.get(0);
             } else {
@@ -59,14 +59,31 @@ public class UserServiceImpl extends DBConnector implements UserService {
         return user;
     }
 
-    private final ArrayList<User> users = new ArrayList<User>();
     @Override
     public List<User> getUsers(int start, int end) throws IllegalArgumentException {
+        ArrayList<User> users = new ArrayList<User>();
         try {
             Connection conn = getConnection();
-            users.clear();
             PreparedStatement ps = conn.prepareStatement("SELECT username, name, permission_id As permission, "
                     + "adult, location, created, about, picture, score, last_login FROM user WHERE username <> 'system' ORDER BY username LIMIT ?,?");
+            ps.setInt(1, start);
+            ps.setInt(2, end);
+            users.addAll(queryUsers(ps, false));
+            ps.close();
+            conn.close();
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }
+        return users;
+    }
+
+    @Override
+    public List<User> getHighscore(int start, int end) throws IllegalArgumentException {
+        ArrayList<User> users = new ArrayList<User>();
+        try {
+            Connection conn = getConnection();
+            PreparedStatement ps = conn.prepareStatement("SELECT username, name, permission_id As permission, "
+                    + "adult, location, created, about, picture, score, last_login FROM user WHERE username <> 'system' ORDER BY score desc LIMIT ?,?");
             ps.setInt(1, start);
             ps.setInt(2, end);
             users.addAll(queryUsers(ps, false));
@@ -118,9 +135,9 @@ public class UserServiceImpl extends DBConnector implements UserService {
 
     @Override
     public List<User> getUsers() throws IllegalArgumentException {
+        ArrayList<User> users = new ArrayList<User>();
         try {
             Connection conn = getConnection();
-            users.clear();
             PreparedStatement ps = conn.prepareStatement("SELECT username, name, permission_id As permission, "
                     + "adult, location, created, about, picture, score, last_login FROM user "
                     + "WHERE username <> 'system' ORDER BY username");
@@ -139,7 +156,7 @@ public class UserServiceImpl extends DBConnector implements UserService {
         try {
             Connection conn = getConnection();
             PreparedStatement ps = conn.prepareStatement("SELECT username, name, location, picture, score, last_login FROM user "
-                    + "WHERE username <> 'system' ORDER BY created desc LIMIT 0,?");
+                    + "WHERE username <> 'system' ORDER BY last_login desc LIMIT 0,?");
             ps.setInt(1, number);
             ResultSet rs = ps.executeQuery();
             while(rs.next()) {

@@ -1,14 +1,19 @@
 package net.mindlevel.client.widgets;
 
 import net.mindlevel.client.HandyTools;
+import net.mindlevel.client.Mindlevel;
 import net.mindlevel.client.services.CommentService;
 import net.mindlevel.client.services.CommentServiceAsync;
 import net.mindlevel.shared.Comment;
 import net.mindlevel.shared.UserTools;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.event.dom.client.FocusEvent;
+import com.google.gwt.event.dom.client.FocusHandler;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.Composite;
@@ -52,6 +57,22 @@ public class WriteBox extends Composite {
     private void init(final Comment parent) {
         final TextArea textArea = new TextArea();
         textArea.addStyleName("comment-textarea");
+
+        textArea.addFocusHandler(new FocusHandler() {
+
+            @Override
+            public void onFocus(FocusEvent arg0) {
+                Mindlevel.isTextAreaFocused = true;
+            }
+        });
+
+        textArea.addBlurHandler(new BlurHandler() {
+
+            @Override
+            public void onBlur(BlurEvent arg0) {
+                Mindlevel.isTextAreaFocused = false;
+            }
+        });
 
         HorizontalPanel buttonPanel = new HorizontalPanel();
         Button reply = new Button("Comment");
@@ -107,8 +128,9 @@ public class WriteBox extends Composite {
             }
         });
         buttonPanel.add(reply);
-        if(parent.getId() != 0)
+        if(parent.getId() != 0) {
             buttonPanel.add(cancel);
+        }
 //        buttonPanel.addStyleName("comment-button");
 
         panel.add(textArea);

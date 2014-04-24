@@ -32,6 +32,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 public class Mindlevel implements EntryPoint, ValueChangeHandler<String> {
     public static User user;
     public static boolean hasKeyUpHandler = false;
+    public static boolean isTextAreaFocused = false;
     private final String[] pages =
             {"home", "missions", "pictures", "highscore",
             "about", "chat", "login", "logout",
@@ -44,8 +45,9 @@ public class Mindlevel implements EntryPoint, ValueChangeHandler<String> {
     public void onModuleLoad() {
         History.addValueChangeHandler(this);
         HandyTools.initTools();
-        for(String page:pages)
+        for(String page:pages) {
             connectListener(page);
+        }
         new QuoteHandler(RootPanel.get("quote"));
         keepLoggedIn();
         History.fireCurrentHistoryState();

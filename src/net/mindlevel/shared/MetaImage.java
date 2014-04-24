@@ -53,6 +53,10 @@ public class MetaImage implements Serializable{
         this.filename = filename;
     }
 
+    public String getThumbnail() {
+        return filename.replace("scaled", "thumb");
+    }
+
     public int getImageCount() {
         return imageCount;
     }

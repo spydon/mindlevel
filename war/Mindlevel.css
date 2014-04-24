@@ -1,24 +1,7 @@
-/** Add css rules here for your application. */
-
-/* } :not(.loadingPicture) */
-
 body * { 
-/*     transition:all .4s ease-in-out;  */
-/*     -o-transition:all .4s ease-in-out;  */
-/*     -moz-transition:all .4s ease-in-out;  */
-/*     -webkit-transition:all .4s ease-in-out; */
     margin-left: auto;
     margin-right: auto;
 }
-
-/* td { */
-/*     text-align: center; */
-/* } */
-
-/* table { */
-/*     margin-left: auto; */
-/*     margin-right: auto; */
-/* } */
 
 td[style] {
     text-align: center;
@@ -75,6 +58,10 @@ h1 {
 	z-index: 5;
 }
 
+.gwt-MenuItem:hover {
+    cursor: pointer;
+}
+
 .gwt-DialogBox {
 	z-index: 10000 !important;
 }
@@ -92,6 +79,7 @@ h1 {
 
 .menu img {
     height: 35px;
+/*     transition:all .2s;  */
 }
 
 .menu img:hover {
@@ -105,8 +93,7 @@ h1 {
     cursor: pointer;
     height: 35px;
     margin-top: -10px;
-    transition: none;
-/*     transition:all .03s ease-out-in; */
+    transition:none;
 }
 
 .menu ul {
@@ -125,7 +112,6 @@ h1 {
 
 .menu a:hover > .pageName {
     transition: none;
-/*     visibility: visible; */
     display: block;
     margin-left: -27px;
 }
@@ -138,7 +124,6 @@ h1 {
     transition: none;
     position: absolute;
     display: none;
-/*     visibility: hidden; */
     color: black;
     text-align: center;
     width: 100px;
@@ -159,17 +144,9 @@ header {
     position: fixed;
     z-index: 3;
     opacity: 0.9;
-/*     min-height: 35px; */
     min-height: 55px;
     width: 100%;
     background-color: #199fd2;
-/*     background:-moz-linear-gradient(top,  #199fd2 0%, #2C3539 150%); */
-/*     background:-webkit-gradient(linear, left top, left bottom, color-stop(0%,#199fd2), color-stop(150%,#2C3539)); */
-/*     background:-webkit-linear-gradient(top,  #199fd2 0%,#2C3539 150%); */
-/*     background:-o-linear-gradient(top, #199fd2 0%,#2C3539 150%); */
-/*     background:-ms-linear-gradient(top, #199fd2 0%,#2C3539 150%); */
-/*     background:linear-gradient(top,  #199fd2 0%,#2C3539 150%); */
-/*     filter:progid:DXImageTransform.Microsoft.gradient( startColorstr='#199fd2', endColorstr='#30576e',GradientType=0);     */
     color: white;
     margin: 0px;
     box-shadow: 0px 2px 2px #09103D;
@@ -218,13 +195,23 @@ header {
     max-width: 300px;
 }
 
-.loading_panel {
+.loading-panel {
     position: fixed;
     top: 50%;
     left: 50%;
     margin-top: -23px;
     margin-left: -22px;
 }
+
+.loading-text {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.loading-element {
+    width: 100%;
+}
+
 .picture-title {
     font-size: 20pt;
     margin: 10px;
@@ -314,6 +301,7 @@ header {
 
 .arrow-right:active {
     width: 125px;
+    margin-left: 3px;
 /*     transition: all .2s ease-out-in;  */
 }
 
@@ -325,6 +313,7 @@ header {
 
 .arrow-left:active {
     width: 125px;
+    margin-right: 3px;
 /*     transition: all .2s ease-out-in;  */
 }
 
@@ -406,7 +395,11 @@ header {
 }
 
 .captcha-question {
-	margin: 5px;
+    margin: 5px;
+}
+
+.home-panel {
+    width: 100%;
 }
 
 /**
@@ -508,8 +501,6 @@ header {
 
 .vote-total {
     font-weight: bold;
-    -webkit-animation-name: bounceInDown;
-    animation-name: bounceInDown;
 }
 
 .vote-total-last {
@@ -551,35 +542,83 @@ header {
 }
 
 /**
-*   Last login section
+*   Users section
 */
 
-.last-login-section {
+.users-section {
     text-align: left;
     max-width: 200px;
-    border: 1px solid black;
+    margin-bottom: 15px;
 }
 
-.last-login-element {
+.user-element {
     text-align: left;
     width: 100%;
-    min-height: 50px;
+    height: 50px;
+    transition:background-color 1s;
 }
 
-.last-login-element .gwt-HTML {
+.user-element:hover {
+    cursor: pointer;
+    background-color: lightsteelblue;
+    transition: none;
+}
+
+.user-element .gwt-HTML {
     width: 160px;
     text-align: left;
 }
 
-.last-logins-header {
+.users-header {
     font-size: large;
     font-weight: bold;
     margin-bottom: 10px;
 }
 
-.last-login-image {
+.user-element .user-image {
     width: 50px;
     margin-right: 5px;
+}
+
+.user-element .user-image:hover {
+    cursor: pointer;
+    opacity: 0.7;
+}
+
+/**
+*   Last pictures section
+*/
+
+.last-picture-section {
+    text-align: left;
+    max-width: 200px;
+}
+
+.last-picture-element {
+    text-align: left;
+    width: 100%;
+    min-height: 50px;
+    margin-bottom: 10px;
+}
+
+.last-picture-element .gwt-HTML {
+    width: 160px;
+    text-align: left;
+}
+
+.last-picture-header {
+    font-size: large;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.last-picture {
+    width: 180px;
+}
+
+.last-picture:hover {
+    cursor: pointer;
+    opacity: 0.7;
 }
 
 /** RESPONSIVE CSS */

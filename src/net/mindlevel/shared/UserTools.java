@@ -38,6 +38,10 @@ public class UserTools {
         return isLoggedIn() && Mindlevel.user.isModerator();
     }
 
+    public static boolean isAdult() {
+        return isLoggedIn() && Mindlevel.user.isAdult();
+    }
+
     public static void setLoggedIn(User user) {
         Mindlevel.user = user;
         Date date = new Date();
@@ -48,7 +52,6 @@ public class UserTools {
         HandyTools.setRightView(true, Normalizer.capitalizeName(user.getUsername()));
         if(user.isAdmin()) {
             new Admin(Mindlevel.getAppArea(true));
-            //Mindlevel.forceFocus = false;
         }
     }
 

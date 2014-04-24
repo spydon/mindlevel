@@ -1,5 +1,7 @@
 package net.mindlevel.client.services;
 
+import java.util.ArrayList;
+
 import net.mindlevel.shared.MetaImage;
 
 import com.google.gwt.user.client.rpc.RemoteService;
@@ -10,7 +12,8 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
  */
 @RemoteServiceRelativePath("picture")
 public interface PictureService extends RemoteService {
-    MetaImage get(int id, boolean relative, boolean validated) throws IllegalArgumentException;
+    MetaImage get(int id, boolean relative, boolean adult, boolean validated) throws IllegalArgumentException;
+    ArrayList<MetaImage> getLastPictures(int number, boolean adult, boolean validated) throws IllegalArgumentException;
     void validate(int pictureId, String token) throws IllegalArgumentException;
     void deleteTags(int pictureId, String token) throws IllegalArgumentException;
     void delete(int pictureId, String token) throws IllegalArgumentException;

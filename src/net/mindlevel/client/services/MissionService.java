@@ -12,8 +12,8 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
  */
 @RemoteServiceRelativePath("mission")
 public interface MissionService extends RemoteService {
-    List<Mission> getMissions(int start, int end, boolean validated) throws IllegalArgumentException;
-    int getMissionCount(boolean validated) throws IllegalArgumentException;
+    List<Mission> getMissions(int start, int end, boolean adult, boolean validated) throws IllegalArgumentException;
+    int getMissionCount(boolean adult, boolean validated) throws IllegalArgumentException;
     Mission getMission(int id, boolean validated) throws IllegalArgumentException;
     void uploadMission(Mission mission, String token) throws IllegalArgumentException;
     void validateMission(int missionId, String username, String token) throws IllegalArgumentException;

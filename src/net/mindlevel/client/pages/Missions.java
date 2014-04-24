@@ -151,13 +151,14 @@ public class Missions {
                             updateRowData(start, result);
                     }
                 };
-                missionService.getMissions(start, length, validated, callback);
+                missionService.getMissions(start, length, UserTools.isAdult(), validated, callback);
             }
         };
 
         countMissions();
         provider.addDataDisplay(table);
         appArea.add(table);
+        appArea.add(new HTML("(Click on the table to get more information about a mission)"));
         appArea.add(pager);
 
         if(UserTools.isLoggedIn()) {
@@ -174,7 +175,7 @@ public class Missions {
     }
 
     private void countMissions() {
-        missionService.getMissionCount(validated, new AsyncCallback<Integer>() {
+        missionService.getMissionCount(UserTools.isAdult(), validated, new AsyncCallback<Integer>() {
             @Override
             public void onFailure(Throwable caught) {
                 HandyTools.showDialogBox("Error", new HTML(caught.getMessage()));

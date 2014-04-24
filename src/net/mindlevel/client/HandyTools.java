@@ -24,11 +24,15 @@ public class HandyTools {
 
     public static void initTools() {
         loadingPanel = new VerticalPanel();
-        loadingPanel.setStylePrimaryName("loading_panel");
+        loadingPanel.setStylePrimaryName("loading-panel");
         loadingPanel.setVisible(false);
         loadingPanel.add(new LoadingElement());
         RootPanel.get().add(loadingPanel);
     }
+
+    public static native Element activeElement() /*-{
+        return $doc.activeElement;
+    }-*/;
 
     public static void showDialogBox(String title, HTML text) {
         final DialogBox db = new DialogBox();
@@ -73,7 +77,7 @@ public class HandyTools {
         RootPanel.get("profile").getElement().setInnerHTML(username);
         RootPanel.get("hideprofile").setStyleName("superhidden", !logIn);
         RootPanel.get("hidechat").setStyleName("superhidden", !logIn);
-        RootPanel.get("adminmenu").setStyleName("superhidden", !logIn && !UserTools.isAdmin());
+        RootPanel.get("adminmenu").setStyleName("superhidden", !UserTools.isAdmin()); //!logIn &&
         RootPanel.get("apparea").setStyleName("adminbar", logIn && UserTools.isAdmin());
     }
 

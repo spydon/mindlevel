@@ -19,7 +19,7 @@ public class MissionServiceImpl extends DBConnector implements MissionService {
     private final CategoryServiceImpl categoryService = new CategoryServiceImpl();
 
     @Override
-    public List<Mission> getMissions(int start, int end, boolean validated)
+    public List<Mission> getMissions(int start, int end, boolean adult, boolean validated)
             throws IllegalArgumentException, NoSuchElementException {
         ArrayList<Mission> missions = new ArrayList<Mission>();
 
@@ -35,11 +35,14 @@ public class MissionServiceImpl extends DBConnector implements MissionService {
                                         + "mission.timestamp "
                                         + "FROM mission "
                                         + "WHERE validated = ? "
+                                        + "AND (adult = ? OR ADULT = ?)"
                                         + "ORDER BY mission.name "
                                         + "LIMIT ?,?");
             ps.setBoolean(1, validated);
-            ps.setInt(2, start);
-            ps.setInt(3, end);
+            ps.setBoolean(2, false);
+            ps.setBoolean(3, adult);
+            ps.setInt(4, start);
+            ps.setInt(5, end);
             ResultSet rs = ps.executeQuery();
 
             while(rs.next()) {
@@ -64,12 +67,14 @@ public class MissionServiceImpl extends DBConnector implements MissionService {
     }
 
     @Override
-    public int getMissionCount(boolean validated) throws IllegalArgumentException {
+    public int getMissionCount(boolean adult, boolean validated) throws IllegalArgumentException {
         int count = 0;
         try {
             Connection conn = getConnection();
-            PreparedStatement ps = conn.prepareStatement("SELECT COUNT(*) AS count FROM mission WHERE validated = ?");
+            PreparedStatement ps = conn.prepareStatement("SELECT COUNT(*) AS count FROM mission WHERE validated = ? AND (adult = ? OR ADULT = ?)");
             ps.setBoolean(1, validated);
+            ps.setBoolean(2, false);
+            ps.setBoolean(3, adult);
             ResultSet rs = ps.executeQuery();
             if(rs.first()) {
                 count = rs.getInt("count");

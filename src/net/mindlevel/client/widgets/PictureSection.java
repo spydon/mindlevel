@@ -1,11 +1,12 @@
 package net.mindlevel.client.widgets;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import net.mindlevel.client.HandyTools;
-import net.mindlevel.client.services.UserService;
-import net.mindlevel.client.services.UserServiceAsync;
-import net.mindlevel.shared.User;
+import net.mindlevel.client.services.PictureService;
+import net.mindlevel.client.services.PictureServiceAsync;
+import net.mindlevel.shared.MetaImage;
+import net.mindlevel.shared.UserTools;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -13,27 +14,27 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-public class LastLoginsSection extends Composite {
+public class PictureSection extends Composite {
 
     private final VerticalPanel p;
 
-    private final UserServiceAsync userService = GWT
-            .create(UserService.class);
+    private final PictureServiceAsync pictureService = GWT
+            .create(PictureService.class);
 
     /**
      * Constructs a CommentSection that controls a number of ReadBox and WriteBox
      *
      */
-    public LastLoginsSection(final int number) {
+    public PictureSection(final int number, boolean validated) {
         p = new VerticalPanel();
-        HTML header = new HTML("Last logins");
+        HTML header = new HTML("Last finished missions");
         final LoadingElement l = new LoadingElement();
-        header.addStyleName("users-header");
+        header.addStyleName("last-picture-header");
         p.add(header);
         p.add(l);
 
-
-        userService.getLastLogins(number, new AsyncCallback<List<User>>() {
+        pictureService.getLastPictures(number, UserTools.isAdult(), validated,
+                new AsyncCallback<ArrayList<MetaImage>>() {
 
             @Override
             public void onFailure(Throwable caught) {
@@ -43,10 +44,10 @@ public class LastLoginsSection extends Composite {
             }
 
             @Override
-            public void onSuccess(List<User> users) {
-                if(users.size() > 0) {
-                    for(User u : users) {
-                        p.add(new UserElement(u));
+            public void onSuccess(ArrayList<MetaImage> pictures) {
+                if(pictures.size() > 0) {
+                    for(MetaImage m : pictures) {
+                        p.add(new PictureElement(m));
                     }
                 }
                 l.removeFromParent();
@@ -57,6 +58,6 @@ public class LastLoginsSection extends Composite {
         initWidget(p);
 
         // Give the overall composite a style name.
-        setStyleName("users-section");
+        setStyleName("last-picture-section");
     }
 }
