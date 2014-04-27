@@ -8,9 +8,13 @@ import net.mindlevel.client.pages.MissionProfile;
 import net.mindlevel.client.pages.Missions;
 import net.mindlevel.client.pages.Picture;
 import net.mindlevel.client.pages.Profile;
+import net.mindlevel.client.pages.Search;
 import net.mindlevel.client.pages.dialog.Login;
 import net.mindlevel.client.pages.dialog.Logout;
 import net.mindlevel.client.pages.dialog.Registration;
+import net.mindlevel.shared.Category;
+import net.mindlevel.shared.Constraint;
+import net.mindlevel.shared.SearchType;
 import net.mindlevel.shared.User;
 import net.mindlevel.shared.UserTools;
 
@@ -45,11 +49,14 @@ public class Mindlevel implements EntryPoint, ValueChangeHandler<String> {
     public void onModuleLoad() {
         History.addValueChangeHandler(this);
         HandyTools.initTools();
+        keepLoggedIn();
+    }
+
+    public void init() {
         for(String page:pages) {
             connectListener(page);
         }
         new QuoteHandler(RootPanel.get("quote"));
-        keepLoggedIn();
         History.fireCurrentHistoryState();
     }
 
@@ -69,9 +76,6 @@ public class Mindlevel implements EntryPoint, ValueChangeHandler<String> {
                     !lastPage.equals("register"))
                     && (name.equals("login") || name.equals("logout"))) {
                     History.newItem(name + "&session=" + lastPage);
-                } else if(name.equals("pictures")) { //This should be done in the parser, but how to avoid duplicate picture history? (both #pictures and #picture=3)
-                    clearScreen();
-                    new Picture(getAppArea(true), 0, true);
                 } else {
                     History.newItem(name);
                 }
@@ -106,7 +110,7 @@ public class Mindlevel implements EntryPoint, ValueChangeHandler<String> {
             } else if(parameters.equals("pictures")) {
                 clearScreen();
                 new Picture(getAppArea(true), 0, true);
-            } else if(parameters.equals("about")) {
+            }  else if(parameters.equals("about")) {
                 clearScreen();
                 new About(getAppArea(true));
             } else {
@@ -130,7 +134,7 @@ public class Mindlevel implements EntryPoint, ValueChangeHandler<String> {
                 }
             }
             for(int i = 0; i < tokens.length; i++) {
-                if(tokens[i].contains("picture")) {
+                if(tokens[i].startsWith("picture")) {
                     try {
                         int pictureId = Integer.parseInt(getValue(tokens[i]));
                         clearScreen();
@@ -141,12 +145,12 @@ public class Mindlevel implements EntryPoint, ValueChangeHandler<String> {
                         HandyTools.showDialogBox("Error", new HTML("Couldn't find a picture with that id. :("));
                     }
                     break;
-                } else if(tokens[i].contains("user")) {
+                } else if(tokens[i].startsWith("user")) {
                     String userId = getValue(tokens[i]).toLowerCase();
                     clearScreen();
                     new Profile(getAppArea(true), userId);
                     break;
-                } else if(tokens[i].contains("mission")) {
+                } else if(tokens[i].startsWith("mission")) {
                     try {
                         int missionId = Integer.parseInt(getValue(tokens[i]));
                         clearScreen();
@@ -157,10 +161,30 @@ public class Mindlevel implements EntryPoint, ValueChangeHandler<String> {
                         HandyTools.showDialogBox("Error", new HTML("Couldn't find a mission with that id. :("));
                     }
                     break;
-                } else if(parameters.contains("login")  && !UserTools.isLoggedIn()) {
+                } else if(parameters.startsWith("search")) {
+                    Constraint constraint = new Constraint();
+                    for(int j = 0; j < tokens.length; j++) {
+                        if(tokens[j].startsWith("type")) {
+                            constraint.setType(SearchType.valueOf(getValue(tokens[j]).toUpperCase()));
+                        } else if(tokens[j].startsWith("c=")) {
+                            constraint.setCategory(Category.valueOf(getValue(tokens[j]).toUpperCase()));
+                        } else if(tokens[j].startsWith("u=")) {
+                            constraint.setUsername(getValue(tokens[j]));
+                        } else if(tokens[j].startsWith("p=")) {
+                            constraint.setPictureTitle(getValue(tokens[j]));
+                        } else if(tokens[j].startsWith("m=")) {
+                            constraint.setMission(getValue(tokens[j]));
+                        }
+                    }
+                    constraint.setAdult(UserTools.isAdult());
+                    constraint.setToken(UserTools.getToken());
+                    clearScreen();
+                    new Search(getAppArea(true), "Search", constraint);
+
+                } else if(parameters.startsWith("login")  && !UserTools.isLoggedIn()) {
                     new Login(session);
                     break;
-                } else if(parameters.contains("logout") && UserTools.isLoggedIn()) {
+                } else if(parameters.startsWith("logout") && UserTools.isLoggedIn()) {
                     clearScreen();
                     new Logout(session);
                     break;
@@ -187,10 +211,12 @@ public class Mindlevel implements EntryPoint, ValueChangeHandler<String> {
     }
 
     private void keepLoggedIn() {
-        if(Cookies.getCookie("mindlevel")!=null)
-            UserTools.keepLoggedIn(Cookies.getCookie("mindlevel"));
-        else
+        if(Cookies.getCookie("mindlevel")!=null) {
+            UserTools.keepLoggedIn(Cookies.getCookie("mindlevel"), this);
+        } else {
             UserTools.setLoggedOff();
+            init();
+        }
     }
 
     private String getValue(String token) {

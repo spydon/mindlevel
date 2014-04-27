@@ -21,6 +21,10 @@ h1 {
     text-align: center;
 }
 
+.fullwidth {
+	width: 100%;
+}
+
 .margin {
     margin-top: 80px;
 }
@@ -398,8 +402,20 @@ header {
     margin: 5px;
 }
 
+.captcha-margin {
+	margin-bottom: 10px;
+}
+
 .home-panel {
     width: 100%;
+}
+
+/** 
+*   SEARCH
+*/
+
+.search-box {
+    width: 95%; /* TODO: Bug? */
 }
 
 /**
@@ -451,7 +467,7 @@ header {
 }
 
 .comment-thumbnail {
-	z-index: 1;
+    z-index: 1;
     cursor: pointer;
     margin: 0;
     float: left;
@@ -542,6 +558,18 @@ header {
 }
 
 /**
+*   Gallery section
+*/
+
+.gallery-section {
+    max-width: 90%;
+}
+
+.gallery-section .last-picture-element {
+    float: left;
+}
+
+/**
 *   Users section
 */
 
@@ -596,7 +624,6 @@ header {
 
 .last-picture-element {
     text-align: left;
-    width: 100%;
     min-height: 50px;
     margin-bottom: 10px;
 }

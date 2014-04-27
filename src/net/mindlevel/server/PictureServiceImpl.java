@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import net.mindlevel.client.services.PictureService;
+import net.mindlevel.shared.Category;
+import net.mindlevel.shared.Constraint;
 import net.mindlevel.shared.MetaImage;
 
 @SuppressWarnings("serial")
@@ -27,19 +29,36 @@ public class PictureServiceImpl extends DBConnector implements PictureService {
     }
 
     @Override
-    public ArrayList<MetaImage> getLastPictures(int number, boolean adult, boolean validated) throws IllegalArgumentException {
+    public ArrayList<MetaImage> getPictures(int start, int offset, Constraint constraint) throws IllegalArgumentException {
         Connection conn = getConnection();
         ArrayList<MetaImage> pictures = new ArrayList<MetaImage>();
+
+        if(!constraint.isValidated()) {
+            if(!new TokenServiceImpl().validateAdminToken(constraint.getToken())) {
+                throw new IllegalArgumentException("You are not authorized to do that...");
+            }
+        }
         PreparedStatement ps;
         try {
-            ps = conn.prepareStatement("SELECT id, filename, title, location, mission_id, owner, "
-                    + "description, adult, score, thread_id, timestamp FROM picture "
-                    + "WHERE validated = ? AND (adult = ? OR adult = ?)"
-                    + "ORDER BY timestamp desc LIMIT ?");
-            ps.setBoolean(1, validated);
-            ps.setBoolean(2, false);
-            ps.setBoolean(3, adult);
-            ps.setInt(4, number);
+            ps = conn.prepareStatement("SELECT p.id, filename, title, location, mission_id, owner, "
+                    + "description, adult, score, thread_id, timestamp FROM picture p "
+                    + "INNER JOIN (SELECT distinct picture_id FROM user_picture WHERE username LIKE ?) tag "
+                    + "ON p.id = tag.picture_id "
+                    + "INNER JOIN (SELECT distinct m.id FROM mission m "
+                    + "INNER JOIN mission_category mc ON m.id = mc.mission_id "
+                    + "INNER JOIN category c ON mc.category_id = c.id WHERE c.name LIKE ?) mission "
+                    + "ON p.mission_id = mission.id "
+                    + "WHERE validated = ? AND "
+                    + "adult LIKE ? AND "
+                    + "title LIKE ? "
+                    + "ORDER BY timestamp desc LIMIT ?,?");
+            ps.setString(1, "%" + (constraint.getCategory() == Category.ALL ? "" : constraint.getCategory().toString().toLowerCase()) + "%");
+            ps.setString(2, "%" + constraint.getUsername() + "%");
+            ps.setBoolean(3, constraint.isValidated());
+            ps.setString(4, constraint.isAdult() ? "%" : "0");
+            ps.setString(5, "%" + constraint.getPictureTitle() + "%");
+            ps.setInt(6, start);
+            ps.setInt(7, offset);
             ResultSet rs = ps.executeQuery();
             while(rs.next()) {
                 MetaImage picture = new MetaImage();
@@ -47,7 +66,7 @@ public class PictureServiceImpl extends DBConnector implements PictureService {
                 picture = new MetaImage(rs.getString("filename"), rs.getString("title"),
                         rs.getString("location"), rs.getInt("mission_id"),
                         rs.getString("owner"), rs.getString("description"),
-                        getTags(id, validated),
+                        getTags(id, constraint.isValidated()),
                         rs.getBoolean("adult"));
                 picture.setScore(rs.getInt("score"));
                 picture.setThreadId(rs.getInt("thread_id"));

@@ -60,14 +60,14 @@ public class UserServiceImpl extends DBConnector implements UserService {
     }
 
     @Override
-    public List<User> getUsers(int start, int end) throws IllegalArgumentException {
+    public List<User> getUsers(int start, int offset) throws IllegalArgumentException {
         ArrayList<User> users = new ArrayList<User>();
         try {
             Connection conn = getConnection();
             PreparedStatement ps = conn.prepareStatement("SELECT username, name, permission_id As permission, "
                     + "adult, location, created, about, picture, score, last_login FROM user WHERE username <> 'system' ORDER BY username LIMIT ?,?");
             ps.setInt(1, start);
-            ps.setInt(2, end);
+            ps.setInt(2, offset);
             users.addAll(queryUsers(ps, false));
             ps.close();
             conn.close();

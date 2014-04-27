@@ -40,7 +40,6 @@ public class Login {
     }
 
     private void init() {
-        final Button sendButton = new Button("Login");
         final TextBox userField = new TextBox();
         final PasswordTextBox passField = new PasswordTextBox();
         passField.setWidth("162px");
@@ -48,6 +47,7 @@ public class Login {
         final Label userLabel = new Label("User: ");
         final Label passLabel = new Label("Pass: ");
         final DialogBox loginBox = new DialogBox(true);
+        final Button loginButton = new Button("Login");
         final Button closeButton = new Button("Close");
         final Label textToServerLabel = new Label();
         final HTML serverResponse = new HTML();
@@ -56,7 +56,8 @@ public class Login {
         Grid gridPanel = new Grid(3, 2);
 
         // We can add style names to widgets
-        sendButton.addStyleName("sendButton");
+        loginButton.addStyleName("fullwidth");
+        closeButton.addStyleName("fullwidth");
 
         // Add the nameField and sendButton to the RootPanel
         // Use RootPanel.get() to get the entire body element
@@ -67,7 +68,8 @@ public class Login {
         gridPanel.setWidget(2, 0, errorLabel);
         gridPanel.setWidget(2, 1, serverResponse);
         HorizontalPanel buttonPanel = new HorizontalPanel();
-        buttonPanel.add(sendButton);
+        buttonPanel.addStyleName("fullwidth");
+        buttonPanel.add(loginButton);
         buttonPanel.add(closeButton);
         loginPanel.add(gridPanel);
         loginPanel.add(buttonPanel);
@@ -112,7 +114,7 @@ public class Login {
                 String password = passField.getText();
 
                 // Then, we send the input to the server.
-                sendButton.setEnabled(false);
+                loginButton.setEnabled(false);
                 textToServerLabel.setText(username);
                 serverResponse.setText("");
                 loginService.login(username, password,
@@ -127,7 +129,7 @@ public class Login {
                                 serverResponse.setHTML(caught.getMessage());
                                 loginBox.center();
                                 closeButton.setFocus(true);
-                                sendButton.setEnabled(true);
+                                loginButton.setEnabled(true);
                             }
 
                             @Override
@@ -142,7 +144,7 @@ public class Login {
 
         // Add a handler to send the name to the server
         LoginHandler handler = new LoginHandler();
-        sendButton.addClickHandler(handler);
+        loginButton.addClickHandler(handler);
         userField.addKeyUpHandler(handler);
         passField.addKeyUpHandler(handler);
 

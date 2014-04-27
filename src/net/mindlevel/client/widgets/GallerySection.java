@@ -7,38 +7,30 @@ import net.mindlevel.client.services.PictureService;
 import net.mindlevel.client.services.PictureServiceAsync;
 import net.mindlevel.shared.Constraint;
 import net.mindlevel.shared.MetaImage;
-import net.mindlevel.shared.UserTools;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.VerticalPanel;
 
-public class PictureSection extends Composite {
+public class GallerySection extends Composite {
 
-    private final VerticalPanel p;
+    private final FlowPanel p;
 
     private final PictureServiceAsync pictureService = GWT
             .create(PictureService.class);
 
     /**
-     * Constructs a CommentSection that controls a number of ReadBox and WriteBox
+     * Constructs a GallerySection that controls a number of PictureElements
      *
      */
-    public PictureSection(final int number, boolean validated) {
-        p = new VerticalPanel();
-        HTML header = new HTML("Last finished missions");
+    public GallerySection(final Constraint constraint) {
+        p = new FlowPanel();
         final LoadingElement l = new LoadingElement();
-        header.addStyleName("last-picture-header");
-        p.add(header);
         p.add(l);
-        Constraint constraint = new Constraint();
-        constraint.setValidated(validated);
-        constraint.setAdult(UserTools.isAdult());
-        constraint.setToken(UserTools.getToken());
 
-        pictureService.getPictures(0, number, constraint,
+        pictureService.getPictures(0, 4, constraint,
                 new AsyncCallback<ArrayList<MetaImage>>() {
 
             @Override
@@ -63,6 +55,6 @@ public class PictureSection extends Composite {
         initWidget(p);
 
         // Give the overall composite a style name.
-        setStyleName("last-picture-section");
+        setStyleName("gallery-section");
     }
 }

@@ -46,8 +46,8 @@ public class Registration {
     }
 
     private void init() {
-        final Button sendButton = new Button("Register");
         final CaptchaElement captcha = new CaptchaElement();
+        captcha.addStyleName("captcha-margin");
         final TextBox userField = new TextBox();
         final TextBox emailField = new TextBox();
         final PasswordTextBox passField = new PasswordTextBox();
@@ -62,14 +62,16 @@ public class Registration {
         final Label passLabel2 = new Label("Retype Pass: ");
         final Label adultLabel = new Label("Are you 18+?");
         final DialogBox registrationBox = new DialogBox(true);
-        final Button lbCloseButton = new Button("Close");
+        final Button regButton = new Button("Register");
+        final Button closeButton = new Button("Close");
         final Label textToServerLabel = new Label();
         //lbCloseButton.getElement().setId("closeButton");
         VerticalPanel loginPanel = new VerticalPanel();
         Grid gridPanel = new Grid(6, 2);
 
         // We can add style names to widgets
-        sendButton.addStyleName("sendButton");
+        regButton.addStyleName("fullwidth");
+        closeButton.addStyleName("fullwidth");
 
         // Add a panel for the errorLabels, so they don't appear
         // on different places
@@ -91,8 +93,9 @@ public class Registration {
         gridPanel.setWidget(4, 1, adultBox);
         gridPanel.setWidget(5, 1, errorPanel);
         HorizontalPanel buttonPanel = new HorizontalPanel();
-        buttonPanel.add(sendButton);
-        buttonPanel.add(lbCloseButton);
+        buttonPanel.addStyleName("fullwidth");
+        buttonPanel.add(regButton);
+        buttonPanel.add(closeButton);
         loginPanel.add(gridPanel);
         loginPanel.add(captcha);
         loginPanel.add(buttonPanel);
@@ -107,7 +110,7 @@ public class Registration {
 
         // Create the popup dialog box
         // Add a handler to close the loginBox
-        lbCloseButton.addClickHandler(new ClickHandler() {
+        closeButton.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
                 registrationBox.hide();
@@ -121,7 +124,7 @@ public class Registration {
              */
             @Override
             public void onClick(ClickEvent event) {
-                sendButton.setEnabled(false);
+                regButton.setEnabled(false);
                 sendCredentials();
             }
 
@@ -131,7 +134,7 @@ public class Registration {
             @Override
             public void onKeyUp(KeyUpEvent event) {
                 if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
-                    sendButton.setEnabled(false);
+                    regButton.setEnabled(false);
                     sendCredentials();
                 }
             }
@@ -149,18 +152,18 @@ public class Registration {
                 final boolean adult = adultBox.getValue();
 
                 // Then, we send the input to the server.
-                sendButton.setEnabled(false);
+                regButton.setEnabled(false);
                 textToServerLabel.setText(username);
                 errorLabel.setText("");
                 if(!FieldVerifier.isValidUsername(username)) {
                     errorLabel.setText("The username is not valid.");
-                    sendButton.setEnabled(true);
+                    regButton.setEnabled(true);
                 } else if (!FieldVerifier.isValidPassword(password, password2)) {
                     errorLabel.setText("The passwords does not match.");
-                    sendButton.setEnabled(true);
+                    regButton.setEnabled(true);
                 } else if (!FieldVerifier.isValidEmail(email)) {
                     errorLabel.setText("That is not a valid email.");
-                    sendButton.setEnabled(true);
+                    regButton.setEnabled(true);
                 } else {
                     captchaService.verify(captcha.getAnswer(), captcha.getToken(), new AsyncCallback<Boolean>() {
 
@@ -170,8 +173,8 @@ public class Registration {
                             registrationBox.setText("Failure");
                             errorLabel.setText(caught.getMessage());
                             registrationBox.center();
-                            lbCloseButton.setFocus(true);
-                            sendButton.setEnabled(true);
+                            closeButton.setFocus(true);
+                            regButton.setEnabled(true);
                         }
 
                         @Override
@@ -187,8 +190,8 @@ public class Registration {
                                                 //serverResponseLabel.setHTML(SERVER_ERROR);
                                                 errorLabel.setText(caught.getMessage());
                                                 registrationBox.center();
-                                                lbCloseButton.setFocus(true);
-                                                sendButton.setEnabled(true);
+                                                closeButton.setFocus(true);
+                                                regButton.setEnabled(true);
                                             }
 
                                             @Override
@@ -204,8 +207,8 @@ public class Registration {
                                 registrationBox.setText("Failure");
                                 errorLabel.setText("The captcha answer was invalid");
                                 registrationBox.center();
-                                lbCloseButton.setFocus(true);
-                                sendButton.setEnabled(true);
+                                closeButton.setFocus(true);
+                                regButton.setEnabled(true);
                             }
                         }
                     });
@@ -215,7 +218,7 @@ public class Registration {
 
         // Add a handler to send the name to the server
         SendHandler handler = new SendHandler();
-        sendButton.addClickHandler(handler);
+        regButton.addClickHandler(handler);
         userField.addKeyUpHandler(handler);
         passField.addKeyUpHandler(handler);
     }

@@ -61,7 +61,7 @@ public class UserTools {
         HandyTools.setRightView(false, "");
     }
 
-    public static void keepLoggedIn(String token) {
+    public static void keepLoggedIn(String token, final Mindlevel ml) {
         userService.getUserFromToken(token, new AsyncCallback<User>() {
             @Override
             public void onFailure(Throwable caught) {
@@ -72,6 +72,7 @@ public class UserTools {
             @Override
             public void onSuccess(User user) {
                 setLoggedIn(user);
+                ml.init();
             }
         });
     }
@@ -87,7 +88,7 @@ public class UserTools {
     }
 
     public static String getToken() {
-        return Mindlevel.user.getToken();
+        return Mindlevel.user == null ? "" : Mindlevel.user.getToken();
     }
 
     public static String getDefaultThumbnail() {
