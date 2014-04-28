@@ -12,6 +12,7 @@ import net.mindlevel.client.pages.Search;
 import net.mindlevel.client.pages.dialog.Login;
 import net.mindlevel.client.pages.dialog.Logout;
 import net.mindlevel.client.pages.dialog.Registration;
+import net.mindlevel.client.pages.dialog.SearchBox;
 import net.mindlevel.shared.Category;
 import net.mindlevel.shared.Constraint;
 import net.mindlevel.shared.SearchType;
@@ -40,7 +41,7 @@ public class Mindlevel implements EntryPoint, ValueChangeHandler<String> {
     private final String[] pages =
             {"home", "missions", "pictures", "highscore",
             "about", "chat", "login", "logout",
-            "register", "profile"};
+            "register", "profile", "search"};
 
     /**
      * This is the entry point method.
@@ -49,15 +50,11 @@ public class Mindlevel implements EntryPoint, ValueChangeHandler<String> {
     public void onModuleLoad() {
         History.addValueChangeHandler(this);
         HandyTools.initTools();
-        keepLoggedIn();
-    }
-
-    public void init() {
         for(String page:pages) {
             connectListener(page);
         }
         new QuoteHandler(RootPanel.get("quote"));
-        History.fireCurrentHistoryState();
+        keepLoggedIn();
     }
 
     /**
@@ -65,15 +62,18 @@ public class Mindlevel implements EntryPoint, ValueChangeHandler<String> {
      */
     private void connectListener(final String name) {
         Element e = RootPanel.get(name).getElement();
-        DOM.sinkEvents(e, Event.ONMOUSEDOWN);
+        DOM.sinkEvents(e, Event.ONMOUSEUP);
         DOM.setEventListener(e, new EventListener() {
             @Override
             public void onBrowserEvent(Event event) {
                 String lastPage = History.getToken();
-                if((!lastPage.equals("") &&
+                if(lastPage.equals(name)) {
+                    History.fireCurrentHistoryState();
+                } else if((!lastPage.equals("") &&
                     !lastPage.equals("login") &&
                     !lastPage.equals("logout") &&
-                    !lastPage.equals("register"))
+                    !lastPage.equals("register") &&
+                    !lastPage.equals("search"))
                     && (name.equals("login") || name.equals("logout"))) {
                     History.newItem(name + "&session=" + lastPage);
                 } else {
@@ -92,6 +92,8 @@ public class Mindlevel implements EntryPoint, ValueChangeHandler<String> {
                 new Registration();
             } else if(parameters.equals("login")) {
                 new Login("home");
+            } else if(parameters.equals("search")) {
+                new SearchBox();
             } else if(parameters.equals("logout")) {
                 clearScreen();
                 new Logout("home");
@@ -167,7 +169,11 @@ public class Mindlevel implements EntryPoint, ValueChangeHandler<String> {
                         if(tokens[j].startsWith("type")) {
                             constraint.setType(SearchType.valueOf(getValue(tokens[j]).toUpperCase()));
                         } else if(tokens[j].startsWith("c=")) {
-                            constraint.setCategory(Category.valueOf(getValue(tokens[j]).toUpperCase()));
+                            try {
+                                constraint.setCategory(Category.valueOf(getValue(tokens[j]).toUpperCase()));
+                            } catch(IllegalArgumentException e) {
+                                constraint.setCategory(Category.ALL);
+                            }
                         } else if(tokens[j].startsWith("u=")) {
                             constraint.setUsername(getValue(tokens[j]));
                         } else if(tokens[j].startsWith("p=")) {
@@ -199,10 +205,13 @@ public class Mindlevel implements EntryPoint, ValueChangeHandler<String> {
 
     public static RootPanel getAppArea(boolean margin) {
         RootPanel appArea = RootPanel.get("apparea");
-        if(margin)
-            appArea.setStylePrimaryName("margin");
-        else
-            appArea.setStylePrimaryName("nomargin");
+        if(margin) {
+            appArea.addStyleName("margin");
+            appArea.removeStyleName("nomargin");
+        } else {
+            appArea.addStyleName("nomargin");
+            appArea.removeStyleName("margin");
+        }
         return appArea;
     }
 
@@ -212,10 +221,10 @@ public class Mindlevel implements EntryPoint, ValueChangeHandler<String> {
 
     private void keepLoggedIn() {
         if(Cookies.getCookie("mindlevel")!=null) {
-            UserTools.keepLoggedIn(Cookies.getCookie("mindlevel"), this);
+            UserTools.keepLoggedIn(Cookies.getCookie("mindlevel"));
         } else {
             UserTools.setLoggedOff();
-            init();
+            History.fireCurrentHistoryState();
         }
     }
 
@@ -225,7 +234,6 @@ public class Mindlevel implements EntryPoint, ValueChangeHandler<String> {
 
     @Override
     public void onValueChange(ValueChangeEvent<String> event) {
-        String token = event.getValue();
-        parseToken(token);
+        parseToken(event.getValue());
     }
 }

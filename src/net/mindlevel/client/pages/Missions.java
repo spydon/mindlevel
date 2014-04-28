@@ -82,7 +82,7 @@ public class Missions {
         TextColumn<Mission> categoryColumn = new TextColumn<Mission>() {
             @Override
             public String getValue(Mission mission) {
-                return Normalizer.listToString(mission.getCategories());
+                return Normalizer.categoriesToString(mission.getCategories());
             }
         };
         table.addColumn(categoryColumn, "Categories");
@@ -114,7 +114,7 @@ public class Missions {
         TextColumn<Mission> createdColumn = new TextColumn<Mission>() {
             @Override
             public String getValue(Mission mission) {
-                return Normalizer.normalizeDate(mission.getTimestamp());
+                return HandyTools.formatDate(mission.getCreated());
             }
         };
         table.addColumn(createdColumn, "Created");

@@ -5,8 +5,9 @@ import java.util.ArrayList;
 
 public class MetaImage implements Serializable{
     private static final long serialVersionUID = 1L;
-    private String title, description, location, filename, owner, date, token, category;
+    private String title, description, location, filename, owner, date, token;
     private ArrayList<String> tags;
+    private ArrayList<Category> categories;
     private boolean adult = false;
     private int imageCount = Integer.MAX_VALUE;
     private int id;
@@ -129,12 +130,12 @@ public class MetaImage implements Serializable{
         return token;
     }
 
-    public String getCategory() {
-        return category;
+    public ArrayList<Category> getCategories() {
+        return categories;
     }
 
-    public void setCategory(String category) {
-        this.category = category;
+    public void setCategories(ArrayList<Category> categories) {
+        this.categories = categories;
     }
 
     public void setMissionId(int missionId) {

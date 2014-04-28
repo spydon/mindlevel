@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 import net.mindlevel.client.services.MissionService;
+import net.mindlevel.shared.Category;
+import net.mindlevel.shared.Constraint;
 import net.mindlevel.shared.Mission;
 
 @SuppressWarnings("serial")
@@ -19,30 +21,46 @@ public class MissionServiceImpl extends DBConnector implements MissionService {
     private final CategoryServiceImpl categoryService = new CategoryServiceImpl();
 
     @Override
-    public List<Mission> getMissions(int start, int end, boolean adult, boolean validated)
+    public List<Mission> getMissions(int start, int offset, boolean adult, boolean validated)
             throws IllegalArgumentException, NoSuchElementException {
+        Constraint constraint = new Constraint();
+        constraint.setAdult(adult);
+        constraint.setValidated(validated);
+        return getMissions(start, offset, constraint);
+    }
+
+    @Override
+    public List<Mission> getMissions(int start, int offset, Constraint constraint)
+            throws IllegalArgumentException {
         ArrayList<Mission> missions = new ArrayList<Mission>();
 
         try {
             Connection conn = getConnection();
             PreparedStatement ps =
                     conn.prepareStatement("SELECT "
-                                        + "mission.id, "
-                                        + "mission.name, "
-                                        + "mission.description, "
-                                        + "mission.adult, "
-                                        + "mission.creator, "
-                                        + "mission.timestamp "
-                                        + "FROM mission "
+                                        + "m.id, "
+                                        + "m.name, "
+                                        + "m.description, "
+                                        + "m.adult, "
+                                        + "m.creator, "
+                                        + "m.timestamp "
+                                        + "FROM mission m "
+                                        + "INNER JOIN (SELECT distinct m2.id FROM mission m2 "
+                                        + "INNER JOIN mission_category mc ON m2.id = mc.mission_id "
+                                        + "INNER JOIN category c ON mc.category_id = c.id WHERE c.name LIKE ?) m3 "
+                                        + "ON m.id = m3.id "
                                         + "WHERE validated = ? "
-                                        + "AND (adult = ? OR ADULT = ?)"
-                                        + "ORDER BY mission.name "
+                                        + "AND adult LIKE ? "
+                                        + "AND (name LIKE ? OR description LIKE ?) "
+                                        + "ORDER BY m.name "
                                         + "LIMIT ?,?");
-            ps.setBoolean(1, validated);
-            ps.setBoolean(2, false);
-            ps.setBoolean(3, adult);
-            ps.setInt(4, start);
-            ps.setInt(5, end);
+            ps.setString(1, "%" + (constraint.getCategory() == Category.ALL ? "" : constraint.getCategory().toString().toLowerCase()) + "%");
+            ps.setBoolean(2, constraint.isValidated());
+            ps.setString(3, constraint.isAdult() ? "%" : "0");
+            ps.setString(4, "%" + constraint.getMission() + "%");
+            ps.setString(5, "%" + constraint.getMission() + "%");
+            ps.setInt(6, start);
+            ps.setInt(7, offset);
             ResultSet rs = ps.executeQuery();
 
             while(rs.next()) {
@@ -53,7 +71,7 @@ public class MissionServiceImpl extends DBConnector implements MissionService {
                         rs.getString("creator"),
                         rs.getBoolean("adult"));
                 mission.setId(rs.getInt("id"));
-                mission.setTimestamp(rs.getString("timestamp"));
+                mission.setCreated(rs.getTimestamp("timestamp"));
                 missions.add(mission);
             }
 
@@ -114,7 +132,7 @@ public class MissionServiceImpl extends DBConnector implements MissionService {
                         rs.getString("creator"),
                         rs.getBoolean("adult"));
                 mission.setId(rs.getInt("id"));
-                mission.setTimestamp(rs.getString("timestamp"));
+                mission.setCreated(rs.getDate("timestamp"));
             }
             rs.close();
             ps.close();
@@ -173,8 +191,9 @@ public class MissionServiceImpl extends DBConnector implements MissionService {
                     checkId.setString(2, mission.getDescription());
                     checkId.setString(3, mission.getCreator());
                     ResultSet rsCheck = checkId.executeQuery();
-                    if(rsCheck.next())
+                    if(rsCheck.next()) {
                         categoryService.connectCategories(rsCheck.getInt("id"), mission.getCategories());
+                    }
                     conn.close();
                 } else {
                     throw new IllegalArgumentException("The mission already exists or is already suggested by you.");

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import net.mindlevel.client.widgets.LoadingElement;
+import net.mindlevel.shared.Category;
+import net.mindlevel.shared.Normalizer;
 import net.mindlevel.shared.UserTools;
 
 import com.google.gwt.dom.client.Element;
@@ -35,7 +37,7 @@ public class HandyTools {
     }-*/;
 
     public static void showDialogBox(String title, HTML text) {
-        final DialogBox db = new DialogBox();
+        final DialogBox db = new DialogBox(true);
         db.setText(title);
         final Button closeButton = new Button("Ok");
         closeButton.addClickHandler(new ClickHandler() {
@@ -65,7 +67,7 @@ public class HandyTools {
 
     public static void notLoggedInBox() {
         String lastPage = History.getToken();
-        HandyTools.showDialogBox("Error", new HTML("You must be logged in to comment<br /><a href=\"#login&session=" + lastPage + "\">Login</a> or <a href=\"#register&session=" + lastPage + "\">Register</a>"));
+        HandyTools.showDialogBox("Error", new HTML("You must be logged in to do that <br /><a href=\"#login&session=" + lastPage + "\">Login</a> or <a href=\"#register&session=" + lastPage + "\">Register</a>"));
     }
 
 
@@ -99,14 +101,16 @@ public class HandyTools {
         return dtf.format(timestamp);
     }
 
-    public static String getCategoryAnchors(ArrayList<String> categories) {
+    public static String getCategoryAnchors(ArrayList<Category> categories) {
         String categoryAnchors = "";
-        for(String category : categories)
-            if(categories.indexOf(category) != 0) {
-                categoryAnchors += ", " + getAnchor("category", category, category);
+        for(Category categoryObj : categories) {
+            String category = categoryObj.toString().toLowerCase();
+            if(categories.indexOf(categoryObj) != 0) {
+                categoryAnchors += ", " + getAnchor("search&type=picture&c", category, Normalizer.capitalizeName(category));
             } else {
-                categoryAnchors = getAnchor("category", category, category);
+                categoryAnchors = getAnchor("search&type=picture&c", category, Normalizer.capitalizeName(category));
             }
+        }
         return categoryAnchors;
     }
 

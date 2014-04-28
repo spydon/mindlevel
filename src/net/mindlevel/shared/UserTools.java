@@ -11,6 +11,7 @@ import net.mindlevel.client.services.UserServiceAsync;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Cookies;
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HTML;
 
@@ -61,18 +62,19 @@ public class UserTools {
         HandyTools.setRightView(false, "");
     }
 
-    public static void keepLoggedIn(String token, final Mindlevel ml) {
+    public static void keepLoggedIn(String token) {
         userService.getUserFromToken(token, new AsyncCallback<User>() {
             @Override
             public void onFailure(Throwable caught) {
                 HandyTools.showDialogBox("Error", new HTML(caught.getMessage()));
                 setLoggedOff();
+                History.fireCurrentHistoryState();
             }
 
             @Override
             public void onSuccess(User user) {
                 setLoggedIn(user);
-                ml.init();
+                History.fireCurrentHistoryState();
             }
         });
     }

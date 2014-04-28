@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import net.mindlevel.client.services.UserService;
+import net.mindlevel.shared.Constraint;
 import net.mindlevel.shared.User;
 
 @SuppressWarnings("serial")
@@ -61,13 +62,20 @@ public class UserServiceImpl extends DBConnector implements UserService {
 
     @Override
     public List<User> getUsers(int start, int offset) throws IllegalArgumentException {
+        return getUsers(start, offset, new Constraint());
+    }
+
+    @Override
+    public List<User> getUsers(int start, int offset, Constraint constraint) throws IllegalArgumentException {
         ArrayList<User> users = new ArrayList<User>();
         try {
             Connection conn = getConnection();
             PreparedStatement ps = conn.prepareStatement("SELECT username, name, permission_id As permission, "
-                    + "adult, location, created, about, picture, score, last_login FROM user WHERE username <> 'system' ORDER BY username LIMIT ?,?");
-            ps.setInt(1, start);
-            ps.setInt(2, offset);
+                    + "adult, location, created, about, picture, score, last_login FROM user WHERE username <> 'system'"
+                    + "AND username LIKE ? ORDER BY username LIMIT ?,?");
+            ps.setString(1, "%" + constraint.getUsername() + "%");
+            ps.setInt(2, start);
+            ps.setInt(3, offset);
             users.addAll(queryUsers(ps, false));
             ps.close();
             conn.close();

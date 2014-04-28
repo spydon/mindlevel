@@ -2,6 +2,8 @@ package net.mindlevel.client.services;
 
 import java.util.List;
 
+import net.mindlevel.shared.Category;
+
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
@@ -10,6 +12,6 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
  */
 @RemoteServiceRelativePath("category")
 public interface CategoryService extends RemoteService {
-    List<String> getCategories();
+    List<Category> getCategories();
     //List<String> getCategories(int userId);
 }

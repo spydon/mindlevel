@@ -46,7 +46,7 @@ public class NewestUsersSection extends Composite {
             public void onSuccess(List<User> users) {
                 if(users.size() > 0) {
                     for(User u : users) {
-                        p.add(new UserElement(u));
+                        p.add(new UserElement(u, true));
                     }
                 }
                 l.removeFromParent();

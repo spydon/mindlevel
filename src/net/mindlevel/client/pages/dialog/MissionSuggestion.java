@@ -12,8 +12,10 @@ import net.mindlevel.client.services.MissionService;
 import net.mindlevel.client.services.MissionServiceAsync;
 import net.mindlevel.client.services.TokenService;
 import net.mindlevel.client.services.TokenServiceAsync;
+import net.mindlevel.shared.Category;
 import net.mindlevel.shared.FieldVerifier;
 import net.mindlevel.shared.Mission;
+import net.mindlevel.shared.Normalizer;
 import net.mindlevel.shared.UserTools;
 
 import com.google.gwt.core.client.GWT;
@@ -89,11 +91,11 @@ public class MissionSuggestion {
         uploadB.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-                ArrayList<String> categories = new ArrayList<String>();
+                ArrayList<Category> categories = new ArrayList<Category>();
                 for(ListBox categoryLB : categoryList) {
                     String category = categoryLB.getItemText(categoryLB.getSelectedIndex());
                     if(!categories.contains(category) && (!categoryLB.isEnabled() || categoryList.size() == 1)) {
-                        categories.add(category);
+                        categories.add(Category.valueOf(category.toUpperCase()));
                     }
                 }
 
@@ -205,16 +207,17 @@ public class MissionSuggestion {
 
     private void getCategories(final ListBox categoryLB) {
         if(categories == null) {
-            categoryService.getCategories(new AsyncCallback<List<String>>() {
+            categoryService.getCategories(new AsyncCallback<List<Category>>() {
                 @Override
                 public void onFailure(Throwable caught) {
                     HandyTools.showDialogBox("Error", new HTML("Could not load categories, try reloading the page."));
                 }
 
                 @Override
-                public void onSuccess(List<String> result) {
+                public void onSuccess(List<Category> result) {
                     categories = new ArrayList<String>();
-                    for(String category : result) {
+                    for(Category categoryObj : result) {
+                        String category = Normalizer.capitalizeName(categoryObj.toString());
                         categoryLB.addItem(category);
                         categories.add(category);
                     }

@@ -76,20 +76,24 @@ public class UploadProfilePicture {
         uploadB.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-                userService.setProfilePicture(filename, adultCB.getValue(), Mindlevel.user.getUsername(), Mindlevel.user.getToken(), new AsyncCallback<Void>() {
-                    @Override
-                    public void onFailure(Throwable caught) {
-                        HandyTools.showDialogBox("Error", new HTML(caught.getMessage()));
-                    }
+                if (!filename.equals("")) {
+                    userService.setProfilePicture(filename, adultCB.getValue(), Mindlevel.user.getUsername(), Mindlevel.user.getToken(), new AsyncCallback<Void>() {
+                        @Override
+                        public void onFailure(Throwable caught) {
+                            HandyTools.showDialogBox("Error", new HTML(caught.getMessage()));
+                        }
 
-                    @Override
-                    public void onSuccess(Void msg) {
-                        popup.hide();
-                        Mindlevel.user.setPicture(filename);
-                        HandyTools.showDialogBox("Success", new HTML("<h1>Successfully updated your profile picture</h1>"));
-                        History.fireCurrentHistoryState();
-                    }
-                });
+                        @Override
+                        public void onSuccess(Void msg) {
+                            popup.hide();
+                            Mindlevel.user.setPicture(filename);
+                            HandyTools.showDialogBox("Success", new HTML("<h1>Successfully updated your profile picture</h1>"));
+                            History.fireCurrentHistoryState();
+                        }
+                    });
+                } else {
+                    HandyTools.showDialogBox("Error", new HTML("You probably forgot to press 'send' on the picture"));
+                }
             }
         });
         Button closeB = new Button("Close");

@@ -44,14 +44,25 @@ public class RatingServiceImpl extends DBConnector implements RatingService {
         try {
             Connection conn = getConnection();
             User user = new UserServiceImpl().getUserFromToken(token);
-            PreparedStatement precheck = conn.prepareStatement("SELECT u.username, r.picture_id FROM user u "
+            //Check if user has already voted
+            PreparedStatement precheck1 = conn.prepareStatement("SELECT u.username, r.picture_id FROM user u "
                     + "LEFT JOIN rating r ON u.username = r.username "
-                    + "WHERE u.username = ? AND (r.picture_id = ? OR u.score < ?)");
-            precheck.setString(1, user.getUsername());
-            precheck.setInt(2, pictureId);
-            precheck.setInt(3, isUpVote ? -1*upVoteCost : -1*downVoteCost);
-            ResultSet rs = precheck.executeQuery();
-            if(!rs.first()) {
+                    + "WHERE u.username = ? AND r.picture_id = ?");
+            precheck1.setString(1, user.getUsername());
+            precheck1.setInt(2, pictureId);
+
+            //Check if user has enough score to vote
+
+            PreparedStatement precheck2 = conn.prepareStatement("SELECT username FROM user "
+                    + "WHERE username = ? AND score > ?");
+            precheck2.setString(1, user.getUsername());
+            precheck2.setInt(2, isUpVote ? -1*upVoteCost : -1*downVoteCost);
+
+            ResultSet rs1 = precheck1.executeQuery();
+            ResultSet rs2 = precheck2.executeQuery();
+            boolean hasVoted = rs1.first();
+            boolean hasScore = rs2.first();
+            if(!hasVoted && hasScore) {
 
                 //Insert the rating to keep track of which votes that have been cast
                 PreparedStatement ps = conn.prepareStatement("INSERT INTO rating "
@@ -81,6 +92,8 @@ public class RatingServiceImpl extends DBConnector implements RatingService {
                 ps3.close();
 
                 conn.close();
+            } else if(!hasScore){
+                throw new IllegalArgumentException("I'm afraid you've don't have enough score to cast that vote.");
             } else {
                 throw new IllegalArgumentException("You've already voted on this picture");
             }

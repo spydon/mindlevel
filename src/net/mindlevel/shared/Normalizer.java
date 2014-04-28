@@ -5,6 +5,7 @@ import java.util.List;
 public class Normalizer {
 
     public static String capitalizeName(String name) {
+        name = name.toLowerCase();
         String nameList[] = name.split(" ");
         String capitalizedName = "";
         for(int x = 0; x<nameList.length; x++) {
@@ -13,19 +14,31 @@ public class Normalizer {
                 char letter = Character.toUpperCase(tmpName.charAt(0));
                 tmpName = Character.toString(letter).concat(tmpName.substring(1));
                 capitalizedName = capitalizedName.concat(tmpName);
-                if(!(x==nameList.length-1))
+                if(!(x==nameList.length-1)) {
                     capitalizedName = capitalizedName.concat(" ");
+                }
             }
         }
         return capitalizedName;
     }
 
+    @Deprecated
     public static String normalizeDate(String date) {
         int end = date.indexOf(".");
         if (end != -1)
             return date.substring(0, end);
         else
             return date;
+    }
+
+    public static String categoriesToString(List<Category> items) {
+        String readable = "";
+        if(items.size() > 0) {
+            for(Category item : items)
+                readable += ", " + capitalizeName(item.toString());
+            readable = readable.substring(2);
+        }
+        return readable;
     }
 
     public static String listToString(List<String> items) {

@@ -62,7 +62,7 @@ public class MissionProfile {
         missionPanel.setStylePrimaryName("profile-panel");
         missionPanel.add(new HTML("<b>MissionID</b> " + missionId));
         missionPanel.add(new HTML("<b>Name</b> " + mission.getName()));
-        missionPanel.add(new HTML("<b>Categories</b> " + mission.getCategories())); //TODO: Do this differently?
+        missionPanel.add(new HTML("<b>Categories</b> " + HandyTools.getCategoryAnchors(mission.getCategories())));
         missionPanel.add(new HTML("<b>Description</b> " + mission.getDescription()));
         if(UserTools.isLoggedIn() && validated) {
             Button uploadButton = new Button("Upload completed mission");

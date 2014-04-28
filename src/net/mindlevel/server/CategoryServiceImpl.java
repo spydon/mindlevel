@@ -8,19 +8,20 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import net.mindlevel.client.services.CategoryService;
+import net.mindlevel.shared.Category;
 //import com.yourdomain.projectname.client.User;
 @SuppressWarnings("serial")
 public class CategoryServiceImpl extends DBConnector implements CategoryService {
 
     @Override
-    public ArrayList<String> getCategories() {
-        ArrayList<String> categories = new ArrayList<String>();
+    public ArrayList<Category> getCategories() {
+        ArrayList<Category> categories = new ArrayList<Category>();
         try {
             Connection conn = getConnection();
             PreparedStatement ps = conn.prepareStatement("SELECT name FROM category");
             ResultSet rs = ps.executeQuery();
             while(rs.next()) {
-                categories.add(rs.getString("name"));
+                categories.add(Category.valueOf(rs.getString("name").toUpperCase()));
             }
             rs.close();
             ps.close();
@@ -31,15 +32,14 @@ public class CategoryServiceImpl extends DBConnector implements CategoryService 
         return categories;
     }
 
-    //TODO: Mission id is not fixed
     //TODO: Get a better name for this
     //Already check authentication and this is not visible outside server
-    public void connectCategories(int missionId, ArrayList<String> categories) {
-        ArrayList<String> knownCategories = getCategories();
-        for(String category : categories) {
-            category = category.toLowerCase();
-            for(String knownCategory : knownCategories) {
-                if(knownCategory.equals(category)) {
+    public void connectCategories(int missionId, ArrayList<Category> categories) {
+        ArrayList<Category> knownCategories = getCategories();
+        for(Category categoryObj : categories) {
+            String category = categoryObj.toString().toLowerCase();
+            for(Category knownCategory : knownCategories) {
+                if(knownCategory.equals(categoryObj)) {
                     Connection conn = getConnection();
                     PreparedStatement ps;
                     int result = 0;
@@ -96,8 +96,8 @@ public class CategoryServiceImpl extends DBConnector implements CategoryService 
 
     //Gets the categories for a specific mission
     //@Override
-    public ArrayList<String> getCategories(int id) {
-        ArrayList<String> categories = new ArrayList<String>();
+    public ArrayList<Category> getCategories(int id) {
+        ArrayList<Category> categories = new ArrayList<Category>();
         try {
             Connection conn = getConnection();
             PreparedStatement ps = conn.prepareStatement("SELECT name FROM category "
@@ -106,7 +106,7 @@ public class CategoryServiceImpl extends DBConnector implements CategoryService 
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             while(rs.next()) {
-                categories.add(rs.getString("name"));
+                categories.add(Category.valueOf(rs.getString("name").toUpperCase()));
             }
             rs.close();
             ps.close();

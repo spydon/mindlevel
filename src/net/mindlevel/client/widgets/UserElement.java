@@ -12,39 +12,53 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Grid;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class UserElement extends Composite
 implements HasClickHandlers {
 
-    private final Grid backPanel;
+    private Panel backPanel;
 
     /**
      * Constructs an NewsElement with the given news displayed.
      *
      * @param caption the caption to be displayed with the check box
      */
-    public UserElement(final User user) {
-        backPanel = new Grid(1,2);
+    public UserElement(final User user, final boolean isSimple) {
         ClickHandler handler = new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
                 History.newItem("user=" + user.getUsername());
             }
         };
-        Image image = new Image("pictures/" + user.getThumbnail());
+
+
+        HTML username = new HTML(HandyTools.getAnchor("user", user.getUsername(), user.getUsername() + "(" + user.getScore() + ")"));
+        Image image;
+        if(isSimple) {
+            backPanel = new Grid(1,2);
+            image = new Image("pictures/" + user.getThumbnail());
+            ((Grid)backPanel).setWidget(0, 0, image);
+            ((Grid)backPanel).setWidget(0, 1, username);
+        } else {
+            backPanel = new VerticalPanel();
+            image = new Image("pictures/" + user.getPicture());
+            backPanel.add(image);
+            backPanel.add(username);
+            backPanel.add(new HTML("Location: " + user.getLocation()));
+            backPanel.add(new HTML("Last log in: " + HandyTools.formatDate(user.getLastLogin())));
+        }
+
         image.addStyleName("user-image");
         image.addClickHandler(handler);
         addClickHandler(handler);
 
-        HTML username = new HTML(HandyTools.getAnchor("user", user.getUsername(), user.getUsername() + "(" + user.getScore() + ")"));
-
-        backPanel.setWidget(0, 0, image);
-        backPanel.setWidget(0, 1, username);
-
         // All composites must call initWidget() in their constructors.
         initWidget(backPanel);
+
         // Give the overall composite a style name.
-        setStyleName("user-element");
+        setStyleName(isSimple ? "simple-user-element" : "user-element");
     }
 
     @Override

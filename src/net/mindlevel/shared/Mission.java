@@ -2,16 +2,18 @@ package net.mindlevel.shared;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Mission implements Serializable{
     private static final long serialVersionUID = 1L;
-    private String name, description, creator, timestamp;
+    private String name, description, creator;
+    private Date created;
     private int id;
     private boolean adult;
-    private ArrayList<String> categories;
+    private ArrayList<Category> categories;
 
     public Mission(String name,
-                   ArrayList<String> categories,
+                   ArrayList<Category> categories,
                    String description,
                    String creator,
                    boolean adult) {
@@ -65,19 +67,19 @@ public class Mission implements Serializable{
         this.creator = creator;
     }
 
-    public String getTimestamp() {
-        return timestamp;
+    public Date getCreated() {
+        return created;
     }
 
-    public void setTimestamp(String timestamp) {
-        this.timestamp = timestamp;
+    public void setCreated(Date created) {
+        this.created = created;
     }
 
-    public ArrayList<String> getCategories() {
+    public ArrayList<Category> getCategories() {
         return categories;
     }
 
-    public void setCategories(ArrayList<String> categories) {
+    public void setCategories(ArrayList<Category> categories) {
         this.categories = categories;
     }
 }

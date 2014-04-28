@@ -107,6 +107,9 @@ public class UploadServiceImpl extends UploadAction {
         if(sourceImage.getWidth() > scaledWidth) {
             float scale = scaledWidth / (float) sourceImage.getWidth();
             int scaledHeight = (int) (sourceImage.getHeight() * scale);
+            if(scaledHeight > scaledWidth*3) {
+                throw new IllegalArgumentException("That image is more than three times as tall as wide. Computer says NO!");
+            }
             Image scaledImage = sourceImage.getScaledInstance(
                scaledWidth,
                scaledHeight,

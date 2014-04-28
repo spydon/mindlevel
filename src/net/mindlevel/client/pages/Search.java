@@ -2,13 +2,15 @@ package net.mindlevel.client.pages;
 
 import net.mindlevel.client.pages.dialog.SearchBox;
 import net.mindlevel.client.widgets.GallerySection;
+import net.mindlevel.client.widgets.MissionSection;
+import net.mindlevel.client.widgets.UserSection;
 import net.mindlevel.shared.Constraint;
 
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-public class Search extends Page{
+public class Search {
     private final VerticalPanel backPanel;
 
     public Search(RootPanel appArea, String title, Constraint constraint) {
@@ -18,7 +20,7 @@ public class Search extends Page{
         appArea.add(backPanel);
         switch(constraint.getType()) {
         case ALL:
-            init();
+            new SearchBox();
         case MISSION:
             missionSearch(constraint);
             break;
@@ -32,8 +34,8 @@ public class Search extends Page{
     }
 
     private void userSearch(Constraint constraint) {
-        // TODO Auto-generated method stub
-
+        UserSection usersSection = new UserSection(constraint);
+        backPanel.add(usersSection);
     }
 
     private void pictureSearch(Constraint constraint) {
@@ -42,12 +44,7 @@ public class Search extends Page{
     }
 
     private void missionSearch(Constraint constraint) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    protected void init() {
-        new SearchBox();
+        MissionSection missionSection = new MissionSection(constraint);
+        backPanel.add(missionSection);
     }
 }

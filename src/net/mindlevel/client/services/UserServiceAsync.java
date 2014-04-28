@@ -2,6 +2,7 @@ package net.mindlevel.client.services;
 
 import java.util.List;
 
+import net.mindlevel.shared.Constraint;
 import net.mindlevel.shared.User;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
@@ -13,6 +14,8 @@ public interface UserServiceAsync {
     void getUser(String userId, AsyncCallback<User> callback)
             throws IllegalArgumentException;
     void getUsers(int start, int end, AsyncCallback<List<User>> callback)
+            throws IllegalArgumentException;
+    void getUsers(int start, int end, Constraint constraint, AsyncCallback<List<User>> callback)
             throws IllegalArgumentException;
     void getHighscore(int start, int end, AsyncCallback<List<User>> callback)
             throws IllegalArgumentException;

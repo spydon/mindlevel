@@ -52,8 +52,8 @@ public class PictureServiceImpl extends DBConnector implements PictureService {
                     + "adult LIKE ? AND "
                     + "title LIKE ? "
                     + "ORDER BY timestamp desc LIMIT ?,?");
-            ps.setString(1, "%" + (constraint.getCategory() == Category.ALL ? "" : constraint.getCategory().toString().toLowerCase()) + "%");
-            ps.setString(2, "%" + constraint.getUsername() + "%");
+            ps.setString(1, "%" + constraint.getUsername() + "%");
+            ps.setString(2, "%" + (constraint.getCategory() == Category.ALL ? "" : constraint.getCategory().toString().toLowerCase()) + "%");
             ps.setBoolean(3, constraint.isValidated());
             ps.setString(4, constraint.isAdult() ? "%" : "0");
             ps.setString(5, "%" + constraint.getPictureTitle() + "%");
@@ -66,8 +66,9 @@ public class PictureServiceImpl extends DBConnector implements PictureService {
                 picture = new MetaImage(rs.getString("filename"), rs.getString("title"),
                         rs.getString("location"), rs.getInt("mission_id"),
                         rs.getString("owner"), rs.getString("description"),
-                        getTags(id, constraint.isValidated()),
+                        getTags(id),
                         rs.getBoolean("adult"));
+                picture.setCategories(getCategories(id));
                 picture.setScore(rs.getInt("score"));
                 picture.setThreadId(rs.getInt("thread_id"));
                 picture.setId(id);
@@ -144,7 +145,7 @@ public class PictureServiceImpl extends DBConnector implements PictureService {
             image = new MetaImage(rs.getString("filename"), rs.getString("title"),
                                   rs.getString("location"), rs.getInt("mission_id"),
                                   rs.getString("owner"), rs.getString("description"),
-                                  getTags(realId, validated),
+                                  getTags(realId),
                                   rs.getBoolean("adult"));
             image.setScore(rs.getInt("score"));
             image.setThreadId(rs.getInt("thread_id"));
@@ -181,7 +182,7 @@ public class PictureServiceImpl extends DBConnector implements PictureService {
         }
     }
 
-    private ArrayList<String> getTags(int id, boolean validated) throws SQLException {
+    private ArrayList<String> getTags(int id) throws SQLException {
         Connection conn = getConnection();
         PreparedStatement ps = conn.prepareStatement(
                 "SELECT username FROM user_picture WHERE picture_id=?");
@@ -196,6 +197,25 @@ public class PictureServiceImpl extends DBConnector implements PictureService {
         ps.close();
         conn.close();
         return tags;
+    }
+
+    private ArrayList<Category> getCategories(int id) throws SQLException {
+        Connection conn = getConnection();
+        PreparedStatement ps = conn.prepareStatement(
+                "SELECT c.name FROM mission m "
+                        + "INNER JOIN mission_category mc ON m.id = mc.mission_id "
+                        + "INNER JOIN category c ON mc.category_id = c.id WHERE m.id = ?");
+
+        ps.setInt(1, id);
+        ResultSet rs = ps.executeQuery();
+        ArrayList<Category> categories = new ArrayList<Category>();
+        while(rs.next()) {
+            categories.add(Category.valueOf(rs.getString("name").toUpperCase()));
+        }
+        rs.close();
+        ps.close();
+        conn.close();
+        return categories;
     }
 
     @Override

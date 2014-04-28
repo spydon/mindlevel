@@ -116,7 +116,6 @@ public class Upload {
                 } else {
                     HandyTools.showDialogBox("Error", new HTML("You probably forgot to upload the picture or fill out the mission!"));
                 }
-
             }
         });
         Button helpB = new Button("Help");
@@ -178,9 +177,15 @@ public class Upload {
             @Override
             public void onClick(ClickEvent event) {
                 Cell cell = t.getCellForEvent(event);
-                t.insertRow(cell.getRowIndex()+1);
-                createTagRow(cell.getRowIndex()+1);
-                tagField.setEnabled(false);
+                SuggestBox box = (SuggestBox)(t.getWidget(cell.getRowIndex(), 1));
+                if(!box.getText().equals("")) {
+                    t.insertRow(cell.getRowIndex()+1);
+                    createTagRow(cell.getRowIndex()+1);
+                    tagField.setEnabled(false);
+                    box.setStyleName("error-background", false);
+                } else {
+                    box.setStyleName("error-background", true);
+                }
             }
         });
         delTagB.addClickHandler(new ClickHandler() {

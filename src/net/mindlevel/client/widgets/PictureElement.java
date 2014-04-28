@@ -1,7 +1,9 @@
 package net.mindlevel.client.widgets;
 
 import net.mindlevel.client.HandyTools;
+import net.mindlevel.shared.Category;
 import net.mindlevel.shared.MetaImage;
+import net.mindlevel.shared.Normalizer;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -32,6 +34,7 @@ public class PictureElement extends Composite {
         });
         HTML title = new HTML("Title: " + HandyTools.getAnchor("picture", "" + metaImage.getId(), metaImage.getTitle()));
         HTML tags = new HTML();
+        HTML categories = new HTML();
         for(String tag : metaImage.getTags()) {
             if(!tags.getHTML().equals("")) {
                 tags.setHTML(tags.getHTML() + ", ");
@@ -40,9 +43,19 @@ public class PictureElement extends Composite {
             }
             tags.setHTML(tags.getHTML() + HandyTools.getAnchor("user", tag, tag));
         }
+        for(Category category : metaImage.getCategories()) {
+            if(!categories.getHTML().equals("")) {
+                categories.setHTML(categories.getHTML() + ", ");
+            } else {
+                categories.setHTML("Categories: ");
+            }
+            String categoryName = Normalizer.capitalizeName(category.toString());
+            categories.setHTML(categories.getHTML() + HandyTools.getAnchor("search&type=picture&c", categoryName.toLowerCase(), categoryName));
+        }
 
         backPanel.add(image);
         backPanel.add(title);
+        backPanel.add(categories);
         backPanel.add(tags);
 
         // All composites must call initWidget() in their constructors.
