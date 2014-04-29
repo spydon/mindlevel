@@ -61,10 +61,11 @@ public class ReadBox extends Composite {
         VerticalPanel rightPanel = new VerticalPanel();
         final VerticalPanel replyPanel = new VerticalPanel();
 
-        if(!user.getThumbnail().equals(""))
+        if(!user.getThumbnail().equals("")) {
             picture = new Image("./pictures/" + user.getThumbnail());
-        else
+        } else {
             picture = new Image("./pictures/" + UserTools.getDefaultThumbnail());
+        }
         picture.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
@@ -80,6 +81,7 @@ public class ReadBox extends Composite {
             public void onClick(ClickEvent event) {
                 if(UserTools.isLoggedIn()) {
                     replyPanel.add(new WriteBox(comment));
+                    HandyTools.scrollDown();
                 } else {
                     HandyTools.notLoggedInBox();
                 }

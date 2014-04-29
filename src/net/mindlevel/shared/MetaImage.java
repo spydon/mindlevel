@@ -13,25 +13,24 @@ public class MetaImage implements Serializable{
     private int id;
     private int relativeId;
     private int score;
-    private int missionId;
     private int threadId;
+    private Mission mission;
 
     public MetaImage() {
         this.filename = "notfound.jpg";
         this.imageCount = 0;
         this.relativeId = 0;
         this.id = 0;
-        this.missionId = 0;
     }
 
     public MetaImage(String filename, String title, String location,
-                     int missionId, String owner, String description, ArrayList<String> tags,
+                     Mission mission, String owner, String description, ArrayList<String> tags,
                      boolean adult) {
         this.filename = filename;
         this.setId(id);
         this.title = title;
         this.location = location;
-        this.missionId = missionId;
+        this.mission = mission;
         this.owner = owner;
         this.description = description;
         this.tags = tags;
@@ -138,12 +137,12 @@ public class MetaImage implements Serializable{
         this.categories = categories;
     }
 
-    public void setMissionId(int missionId) {
-        this.missionId = missionId;
+    public void setMission(Mission mission) {
+        this.mission = mission;
     }
 
-    public int getMissionId() {
-        return missionId;
+    public Mission getMission() {
+        return mission;
     }
 
     public void setScore(int score) {

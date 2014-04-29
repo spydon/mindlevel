@@ -52,7 +52,7 @@ public class PictureSection extends Composite {
             public void onSuccess(ArrayList<MetaImage> pictures) {
                 if(pictures.size() > 0) {
                     for(MetaImage m : pictures) {
-                        p.add(new PictureElement(m));
+                        p.add(new PictureElement(m, true));
                     }
                 }
                 l.removeFromParent();

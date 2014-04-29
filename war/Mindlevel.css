@@ -578,6 +578,7 @@ header {
 }
 
 .gallery-section .last-picture-element {
+    height: 230px;
     float: left;
 }
 
@@ -680,7 +681,6 @@ header {
 
 .last-picture-element {
     text-align: left;
-    height: 185px;
     margin-bottom: 10px;
 }
 

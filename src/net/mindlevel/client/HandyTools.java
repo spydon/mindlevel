@@ -14,6 +14,7 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.i18n.client.DefaultDateTimeFormatInfo;
 import com.google.gwt.user.client.History;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.HTML;
@@ -35,6 +36,10 @@ public class HandyTools {
     public static native Element activeElement() /*-{
         return $doc.activeElement;
     }-*/;
+
+    public static void scrollDown() {
+        Window.scrollTo(0, Window.getClientHeight()+250);
+    }
 
     public static void showDialogBox(String title, HTML text) {
         final DialogBox db = new DialogBox(true);

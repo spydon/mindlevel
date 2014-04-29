@@ -354,7 +354,7 @@ public class Picture {
                 } else {
                     link.setHTML("<b>Link: </b><a href=./Mindlevel.html#picture="+realId+"&validated=false>Right click to copy</a>");
                 }
-                fetchMission(metaImage.getMissionId());
+                fetchMission(metaImage.getMission().getId());
                 ratingPanel.add(new VotingSection(realId));
                 commentPanel.add(new CommentSection(metaImage.getThreadId()));
                 backPanel.setVisible(true);

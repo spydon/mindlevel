@@ -45,7 +45,7 @@ public class MetaUploadServiceImpl extends DBConnector implements
             ps.setString(4, htmlEscape(metaImage.getDescription()));
             ps.setBoolean(5, metaImage.isAdult());
             ps.setString(6, htmlEscape(metaImage.getOwner()));
-            ps.setInt(7, metaImage.getMissionId());
+            ps.setInt(7, metaImage.getMission().getId());
             ps.setInt(8, threadId);
 
             ps.executeUpdate();

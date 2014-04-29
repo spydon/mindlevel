@@ -106,6 +106,7 @@ public class WriteBox extends Composite {
                                 container.clear();
                                 container.getParent().removeFromParent();
                             }
+                            HandyTools.scrollDown();
                         }
 
                         @Override

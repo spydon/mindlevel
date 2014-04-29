@@ -17,6 +17,7 @@ import net.mindlevel.client.services.UserService;
 import net.mindlevel.client.services.UserServiceAsync;
 import net.mindlevel.shared.FieldVerifier;
 import net.mindlevel.shared.MetaImage;
+import net.mindlevel.shared.Mission;
 import net.mindlevel.shared.User;
 
 import com.google.gwt.core.client.GWT;
@@ -108,7 +109,7 @@ public class Upload {
             @Override
             public void onClick(ClickEvent event) {
                 MetaImage metaImage = new MetaImage(filename, titleTB.getText(),
-                        locationTB.getText(), missionId, Mindlevel.user.getUsername(), descriptionTA.getText(),
+                        locationTB.getText(), new Mission(missionId), Mindlevel.user.getUsername(), descriptionTA.getText(),
                         getTags(), adultCB.getValue());
                 metaImage.setToken(Mindlevel.user.getToken());
                 if(FieldVerifier.isValidMetaImage(metaImage)) {

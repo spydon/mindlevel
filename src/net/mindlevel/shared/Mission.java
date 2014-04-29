@@ -24,7 +24,16 @@ public class Mission implements Serializable{
         this.adult = adult;
     }
 
-    protected Mission() {
+    public Mission(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public Mission(int id) {
+        this.id = id;
+    }
+
+    public Mission() {
     }
 
     public String getName() {

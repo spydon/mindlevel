@@ -12,6 +12,7 @@ import net.mindlevel.client.services.PictureService;
 import net.mindlevel.shared.Category;
 import net.mindlevel.shared.Constraint;
 import net.mindlevel.shared.MetaImage;
+import net.mindlevel.shared.Mission;
 
 @SuppressWarnings("serial")
 public class PictureServiceImpl extends DBConnector implements PictureService {
@@ -64,11 +65,11 @@ public class PictureServiceImpl extends DBConnector implements PictureService {
                 MetaImage picture = new MetaImage();
                 int id = rs.getInt("id");
                 picture = new MetaImage(rs.getString("filename"), rs.getString("title"),
-                        rs.getString("location"), rs.getInt("mission_id"),
+                        rs.getString("location"), getMission(rs.getInt("mission_id")),
                         rs.getString("owner"), rs.getString("description"),
                         getTags(id),
                         rs.getBoolean("adult"));
-                picture.setCategories(getCategories(id));
+                picture.setCategories(getCategories(rs.getInt("mission_id")));
                 picture.setScore(rs.getInt("score"));
                 picture.setThreadId(rs.getInt("thread_id"));
                 picture.setId(id);
@@ -143,7 +144,7 @@ public class PictureServiceImpl extends DBConnector implements PictureService {
         if(rs.first()) {
             int realId = rs.getInt("id");
             image = new MetaImage(rs.getString("filename"), rs.getString("title"),
-                                  rs.getString("location"), rs.getInt("mission_id"),
+                                  rs.getString("location"), getMission(rs.getInt("mission_id")),
                                   rs.getString("owner"), rs.getString("description"),
                                   getTags(realId),
                                   rs.getBoolean("adult"));
@@ -199,14 +200,32 @@ public class PictureServiceImpl extends DBConnector implements PictureService {
         return tags;
     }
 
-    private ArrayList<Category> getCategories(int id) throws SQLException {
+    private Mission getMission(int missionId) throws SQLException {
+        Connection conn = getConnection();
+        PreparedStatement ps = conn.prepareStatement(
+                "SELECT id, name FROM mission WHERE id = ?");
+
+        ps.setInt(1, missionId);
+        ResultSet rs = ps.executeQuery();
+        Mission mission = new Mission();
+        if(rs.next()) {
+            mission.setId(rs.getInt("id"));
+            mission.setName(rs.getString("name"));
+        }
+        rs.close();
+        ps.close();
+        conn.close();
+        return mission;
+    }
+
+    private ArrayList<Category> getCategories(int missionId) throws SQLException {
         Connection conn = getConnection();
         PreparedStatement ps = conn.prepareStatement(
                 "SELECT c.name FROM mission m "
                         + "INNER JOIN mission_category mc ON m.id = mc.mission_id "
                         + "INNER JOIN category c ON mc.category_id = c.id WHERE m.id = ?");
 
-        ps.setInt(1, id);
+        ps.setInt(1, missionId);
         ResultSet rs = ps.executeQuery();
         ArrayList<Category> categories = new ArrayList<Category>();
         while(rs.next()) {
