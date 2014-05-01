@@ -9,9 +9,11 @@ import net.mindlevel.client.pages.Missions;
 import net.mindlevel.client.pages.Picture;
 import net.mindlevel.client.pages.Profile;
 import net.mindlevel.client.pages.Search;
+import net.mindlevel.client.pages.Terms;
 import net.mindlevel.client.pages.dialog.Login;
 import net.mindlevel.client.pages.dialog.Logout;
 import net.mindlevel.client.pages.dialog.Registration;
+import net.mindlevel.client.pages.dialog.ReportBox;
 import net.mindlevel.client.pages.dialog.SearchBox;
 import net.mindlevel.shared.Category;
 import net.mindlevel.shared.Constraint;
@@ -23,6 +25,7 @@ import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
@@ -36,7 +39,7 @@ import com.google.gwt.user.client.ui.RootPanel;
  */
 public class Mindlevel implements EntryPoint, ValueChangeHandler<String> {
     public static User user;
-    public static boolean hasKeyUpHandler = false;
+    public static HandlerRegistration navigationHandlerRegistration = null;
     public static boolean isTextAreaFocused = false;
     private final String[] pages =
             {"home", "missions", "pictures", "highscore",
@@ -112,9 +115,14 @@ public class Mindlevel implements EntryPoint, ValueChangeHandler<String> {
             } else if(parameters.equals("pictures")) {
                 clearScreen();
                 new Picture(getAppArea(true), 0, true);
-            }  else if(parameters.equals("about")) {
+            } else if(parameters.equals("about")) {
                 clearScreen();
                 new About(getAppArea(true));
+            } else if(parameters.equals("terms")) {
+                clearScreen();
+                new Terms(getAppArea(true));
+            } else if(parameters.equals("report")) {
+                new ReportBox();
             } else {
                 clearScreen();
                 new Home(getAppArea(true));

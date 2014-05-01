@@ -59,6 +59,7 @@ public class CommentSection extends Composite {
                                     l.removeFromParent();
                                     comments.addAll(oldComments);
                                     addNestedComments(new Comment(threadId), 0);
+                                    HandyTools.scrollDown();
                                 }
 
                                 @Override

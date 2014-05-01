@@ -55,19 +55,21 @@ public class Registration {
         passField.setWidth("162px");
         passField2.setWidth("162px");
         final CheckBox adultBox = new CheckBox();
+        final CheckBox termsBox = new CheckBox();
         final Label errorLabel = new Label();
         final Label userLabel = new Label("User: ");
         final Label emailLabel = new Label("Email: ");
         final Label passLabel = new Label("Pass: ");
         final Label passLabel2 = new Label("Retype Pass: ");
         final Label adultLabel = new Label("Are you 18+?");
+        final Label termsLabel = new HTML("Accept the <a href=\"#terms\">terms</a>?");
         final DialogBox registrationBox = new DialogBox(true);
         final Button regButton = new Button("Register");
         final Button closeButton = new Button("Close");
         final Label textToServerLabel = new Label();
         //lbCloseButton.getElement().setId("closeButton");
         VerticalPanel loginPanel = new VerticalPanel();
-        Grid gridPanel = new Grid(6, 2);
+        Grid gridPanel = new Grid(7, 2);
 
         // We can add style names to widgets
         regButton.addStyleName("fullwidth");
@@ -91,7 +93,9 @@ public class Registration {
         gridPanel.setWidget(3, 1, emailField);
         gridPanel.setWidget(4, 0, adultLabel);
         gridPanel.setWidget(4, 1, adultBox);
-        gridPanel.setWidget(5, 1, errorPanel);
+        gridPanel.setWidget(5, 0, termsLabel);
+        gridPanel.setWidget(5, 1, termsBox);
+        gridPanel.setWidget(6, 1, errorPanel);
         HorizontalPanel buttonPanel = new HorizontalPanel();
         buttonPanel.addStyleName("fullwidth");
         buttonPanel.add(regButton);
@@ -145,6 +149,7 @@ public class Registration {
             private void sendCredentials() {
                 // First, we validate the input.
                 errorLabel.setText("");
+                termsBox.removeStyleName("error-background");
                 final String username = userField.getText();
                 final String email = emailField.getText();
                 final String password = passField.getText();
@@ -163,6 +168,10 @@ public class Registration {
                     regButton.setEnabled(true);
                 } else if (!FieldVerifier.isValidEmail(email)) {
                     errorLabel.setText("That is not a valid email.");
+                    regButton.setEnabled(true);
+                } else if (!termsBox.getValue()) {
+                    errorLabel.setText("Terms of usage not accepted.");
+                    termsBox.addStyleName("error-background");
                     regButton.setEnabled(true);
                 } else {
                     captchaService.verify(captcha.getAnswer(), captcha.getToken(), new AsyncCallback<Boolean>() {

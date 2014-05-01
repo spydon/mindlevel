@@ -63,7 +63,7 @@ h1 {
 }
 
 .gwt-MenuBarPopup {
-	z-index: 5;
+    z-index: 5;
 }
 
 .gwt-MenuItem:hover {
@@ -193,13 +193,18 @@ header {
     
 }
 
-.metapanel a {
+.meta-panel a {
     color: darkblue;
 }
 
 .about {
     text-align: left;
     max-width: 300px;
+}
+
+.terms {
+    text-align: left;
+    max-width: 500px;
 }
 
 .search-icon {
@@ -215,8 +220,8 @@ header {
     position: fixed;
     top: 50%;
     left: 50%;
-    margin-top: -23px;
-    margin-left: -22px;
+    margin-top: -11px;
+    margin-left: -110px;
 }
 
 .loading-text {
@@ -226,6 +231,10 @@ header {
 
 .loading-element {
     width: 100%;
+}
+
+.report-text-area {
+    height: 125px;
 }
 
 .picture-title {
@@ -238,6 +247,7 @@ header {
     margin: 5px 20px 5px;
     max-width: 300px;
     text-align: left;
+    word-wrap: break-word;
 }
 
 .picture-description * {
@@ -578,7 +588,7 @@ header {
 }
 
 .gallery-section .last-picture-element {
-    height: 230px;
+    width: 230px;
     float: left;
 }
 
@@ -696,8 +706,7 @@ header {
 }
 
 .last-picture {
-    max-width: 180px;
-    max-height: 134px;
+    width: 180px;
 }
 
 .last-picture:hover {
@@ -706,6 +715,14 @@ header {
 }
 
 /** RESPONSIVE CSS */
+@media only screen and (max-width: 800px), only screen and (max-device-width: 800px) {
+    .home-panel > tbody > tr > td {
+        width: 100%;
+        float: left;
+        clear: both; 
+    }
+}
+
 @media only screen and (max-width: 520px), only screen and (max-device-width: 520px) {
     
     #loginMenu li {
@@ -722,6 +739,12 @@ header {
     .picture-panel {
         position: relative;
         width: 100%;
+    }
+    
+    .meta-panel > tbody > tr > td  {
+        width: 100%;
+        float: left;
+        clear: both; 
     }
     
     .picture {
@@ -797,7 +820,7 @@ header {
         display: block;
     }
     
-    .metapanel {
+    .meta-panel {
         display: block;
         position: relative;
     }
@@ -810,9 +833,6 @@ header {
         top: 6px;
     }
     
-/*     #apparea > .about { */
-/*         margin: 10px; */
-/*     } */
 }
 
 @media only screen and (max-width: 300px), only screen and (max-device-width: 300px) {

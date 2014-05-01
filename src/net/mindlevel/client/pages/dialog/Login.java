@@ -26,7 +26,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 public class Login {
 
     /**
-     * Create a remote service proxy to talk to the server-side Greeting
+     * Create a remote service proxy to talk to the server-side login
      * service.
      */
     private final LoginServiceAsync loginService = GWT

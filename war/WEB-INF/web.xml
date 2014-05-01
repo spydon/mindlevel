@@ -127,6 +127,16 @@
   </servlet-mapping>
   
   <servlet>
+    <servlet-name>reportServlet</servlet-name>
+    <servlet-class>net.mindlevel.server.ReportServiceImpl</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>reportServlet</servlet-name>
+    <url-pattern>/mindlevel/report</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
     <servlet-name>newsServlet</servlet-name>
     <servlet-class>net.mindlevel.server.NewsServiceImpl</servlet-class>
   </servlet>

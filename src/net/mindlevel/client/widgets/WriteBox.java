@@ -80,7 +80,9 @@ public class WriteBox extends Composite {
 
             @Override
             public void onClick(ClickEvent event) {
-                if(UserTools.isLoggedIn()) {
+                if(textArea.getText().equals("")) {
+                    HandyTools.showDialogBox("No text", new HTML("Your comment is empty..."));
+                } else if(UserTools.isLoggedIn()) {
                     final Comment comment = new Comment(parent.getThreadId(),
                                                         UserTools.getUsername(),
                                                         textArea.getText(),

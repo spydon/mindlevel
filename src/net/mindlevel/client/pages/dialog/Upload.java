@@ -7,6 +7,7 @@ import gwtupload.client.PreloadedImage.OnLoadPreloadedImageHandler;
 import gwtupload.client.SingleUploader;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import net.mindlevel.client.HandyTools;
@@ -149,12 +150,13 @@ public class Upload {
         return t;
     }
 
-    private ArrayList<String> getTags() {
-        ArrayList<String> tags = new ArrayList<String>();
+    private HashSet<String> getTags() {
+        HashSet<String> tags = new HashSet<String>();
         for(int x = 0; x<tagList.size(); x++) {
             String text = tagList.get(x).getText();
-            if(!text.equals(""))
+            if(!text.equals("")) {
                 tags.add(text);
+            }
         }
         return tags;
     }

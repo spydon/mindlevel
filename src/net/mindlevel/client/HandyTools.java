@@ -38,7 +38,7 @@ public class HandyTools {
     }-*/;
 
     public static void scrollDown() {
-        Window.scrollTo(0, Window.getClientHeight()+250);
+        Window.scrollTo(0, Window.getScrollTop()+200);
     }
 
     public static void showDialogBox(String title, HTML text) {

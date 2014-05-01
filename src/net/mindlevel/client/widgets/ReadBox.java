@@ -73,13 +73,16 @@ public class ReadBox extends Composite {
             }
         });
         HTML userLabel = new HTML("#" + comment.getId() + " " + HandyTools.getAnchor("user", user.getUsername(), user.getUsername()));
-        if(comment.getParentId() != 0)
+        if(comment.getParentId() != 0) {
             userLabel = new HTML(userLabel.getHTML() + " comments on #" + comment.getParentId());
+        }
         Button replyButton = new Button("Reply");
         replyButton.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-                if(UserTools.isLoggedIn()) {
+                if(replyPanel.getWidgetCount() > 0) {
+                    HandyTools.showDialogBox("Already replying", new HTML("You are already replying to this comment."));
+                } else if(UserTools.isLoggedIn()) {
                     replyPanel.add(new WriteBox(comment));
                     HandyTools.scrollDown();
                 } else {

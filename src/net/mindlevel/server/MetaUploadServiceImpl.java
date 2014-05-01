@@ -6,7 +6,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
+import java.util.HashSet;
 
 import net.mindlevel.client.services.MetaUploadService;
 import net.mindlevel.shared.FieldVerifier;
@@ -78,10 +78,12 @@ public class MetaUploadServiceImpl extends DBConnector implements
         return threadId;
     }
 
-    private void uploadTags(String owner, ArrayList<String> tags, int pictureId, boolean validated)
+    private void uploadTags(String owner, HashSet<String> tags, int pictureId, boolean validated)
             throws SQLException {
-        if (!tags.contains(owner))
+        if (!tags.contains(owner)) {
             tags.add(owner);
+        }
+
         UserServiceImpl userService = new UserServiceImpl();
         for (String username : tags) {
             if(userService.userExists(username.toLowerCase())) {

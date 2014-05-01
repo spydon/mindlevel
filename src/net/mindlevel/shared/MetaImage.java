@@ -1,13 +1,13 @@
 package net.mindlevel.shared;
 
 import java.io.Serializable;
-import java.util.ArrayList;
+import java.util.HashSet;
 
 public class MetaImage implements Serializable{
     private static final long serialVersionUID = 1L;
     private String title, description, location, filename, owner, date, token;
-    private ArrayList<String> tags;
-    private ArrayList<Category> categories;
+    private HashSet<String> tags;
+    private HashSet<Category> categories;
     private boolean adult = false;
     private int imageCount = Integer.MAX_VALUE;
     private int id;
@@ -24,7 +24,7 @@ public class MetaImage implements Serializable{
     }
 
     public MetaImage(String filename, String title, String location,
-                     Mission mission, String owner, String description, ArrayList<String> tags,
+                     Mission mission, String owner, String description, HashSet<String> tags,
                      boolean adult) {
         this.filename = filename;
         this.setId(id);
@@ -89,11 +89,11 @@ public class MetaImage implements Serializable{
         this.adult = adult;
     }
 
-    public ArrayList<String> getTags() {
+    public HashSet<String> getTags() {
         return tags;
     }
 
-    public void setTags(ArrayList<String> tags) {
+    public void setTags(HashSet<String> tags) {
         this.tags = tags;
     }
 
@@ -129,11 +129,11 @@ public class MetaImage implements Serializable{
         return token;
     }
 
-    public ArrayList<Category> getCategories() {
+    public HashSet<Category> getCategories() {
         return categories;
     }
 
-    public void setCategories(ArrayList<Category> categories) {
+    public void setCategories(HashSet<Category> categories) {
         this.categories = categories;
     }
 

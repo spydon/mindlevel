@@ -96,6 +96,8 @@ public class MissionProfile {
                                 @Override
                                 public void onSuccess(Void result) {
                                     HandyTools.showDialogBox("Success!", new HTML("\"" + mission.getName() + "\" is now validated! :)"));
+                                    appArea.clear();
+                                    new Missions(appArea, false);
                                 }
                             });
                 }

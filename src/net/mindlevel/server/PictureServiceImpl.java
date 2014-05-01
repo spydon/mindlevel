@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Random;
 
 import net.mindlevel.client.services.PictureService;
@@ -87,13 +88,13 @@ public class PictureServiceImpl extends DBConnector implements PictureService {
     private int getImageCount(boolean validated, boolean adult) throws IllegalArgumentException, SQLException {
         int imageCount = Integer.MAX_VALUE;
         Connection conn = getConnection();
-        PreparedStatement ps = conn.prepareStatement("SELECT COUNT(*) FROM picture WHERE validated = ? AND (adult = ? OR adult = ?)");
+        PreparedStatement ps = conn.prepareStatement("SELECT COUNT(*) FROM picture WHERE validated = ? AND adult LIKE ?");
         ps.setBoolean(1, validated);
-        ps.setBoolean(2, false);
-        ps.setBoolean(3, adult);
+        ps.setString(2, adult ? "%" : "0");
         ResultSet rs = ps.executeQuery();
-        if(rs.next())
+        if(rs.next()) {
             imageCount = rs.getInt(1);
+        }
         rs.close();
         ps.close();
         conn.close();
@@ -103,9 +104,10 @@ public class PictureServiceImpl extends DBConnector implements PictureService {
     private MetaImage setMetaImageProps(int id, boolean relative, int imageCount, boolean adult, boolean validated)
             throws IllegalArgumentException, SQLException {
         if(imageCount==0) {
-            return new MetaImage();
+            throw new IllegalArgumentException("No such picture...");
+//            return new MetaImage();
         }
-        adult = true; //Flip if adult pictures shouldn't be shown even if you know the full link
+//        adult = true; //Flip if adult pictures shouldn't be shown even if you know the full link
         Connection conn = getConnection();
         MetaImage image = new MetaImage();
         PreparedStatement ps;
@@ -118,27 +120,24 @@ public class PictureServiceImpl extends DBConnector implements PictureService {
         if(relative) {
             ps = conn.prepareStatement("SELECT id, filename, title, location, mission_id, owner, "
                     + "description, adult, ? AS relative_id, score, thread_id, timestamp FROM picture "
-                    + "WHERE validated = ? AND (adult = ? OR adult = ?)"
+                    + "WHERE validated = ? AND adult LIKE ? "
                     + "ORDER BY timestamp LIMIT ?,1");
             ps.setInt(1, id);
             ps.setBoolean(2, validated);
-            ps.setBoolean(3, false);
-            ps.setBoolean(4, adult);
-            ps.setInt(5, id-1);
+            ps.setString(3, adult ? "%" : "0");
+            ps.setInt(4, id-1);
         } else {
             ps = conn.prepareStatement("SELECT id, filename, title, location, mission_id, owner, "
                     + "description, adult, (SELECT COUNT(id) FROM picture "
-                    + "WHERE id <= ? AND validated = ? AND (adult = ? OR adult = ?)) AS relative_id, "
+                    + "WHERE id <= ? AND validated = ? AND adult LIKE ?) AS relative_id, "
                     + "score, thread_id, timestamp FROM picture "
-                    + "WHERE id = ? AND validated = ? AND (adult = ? OR adult = ?)");
+                    + "WHERE id = ? AND validated = ? AND adult LIKE ?");
             ps.setInt(1, id);
             ps.setBoolean(2, validated);
-            ps.setBoolean(3, false);
-            ps.setBoolean(4, adult);
-            ps.setInt(5, id);
-            ps.setBoolean(6, validated);
-            ps.setBoolean(7, false);
-            ps.setBoolean(8, adult);
+            ps.setString(3, adult ? "%" : "0");
+            ps.setInt(4, id);
+            ps.setBoolean(5, validated);
+            ps.setString(6, adult ? "%" : "0");
         }
         ResultSet rs = ps.executeQuery();
         if(rs.first()) {
@@ -183,13 +182,13 @@ public class PictureServiceImpl extends DBConnector implements PictureService {
         }
     }
 
-    private ArrayList<String> getTags(int id) throws SQLException {
+    private HashSet<String> getTags(int id) throws SQLException {
         Connection conn = getConnection();
         PreparedStatement ps = conn.prepareStatement(
                 "SELECT username FROM user_picture WHERE picture_id=?");
         ps.setInt(1, id);
         ResultSet rs = ps.executeQuery();
-        ArrayList<String> tags = new ArrayList<String>();
+        HashSet<String> tags = new HashSet<String>();
         while(rs.next()) {
             String username = rs.getString("username");
             tags.add(username);
@@ -218,7 +217,7 @@ public class PictureServiceImpl extends DBConnector implements PictureService {
         return mission;
     }
 
-    private ArrayList<Category> getCategories(int missionId) throws SQLException {
+    private HashSet<Category> getCategories(int missionId) throws SQLException {
         Connection conn = getConnection();
         PreparedStatement ps = conn.prepareStatement(
                 "SELECT c.name FROM mission m "
@@ -227,7 +226,7 @@ public class PictureServiceImpl extends DBConnector implements PictureService {
 
         ps.setInt(1, missionId);
         ResultSet rs = ps.executeQuery();
-        ArrayList<Category> categories = new ArrayList<Category>();
+        HashSet<Category> categories = new HashSet<Category>();
         while(rs.next()) {
             categories.add(Category.valueOf(rs.getString("name").toUpperCase()));
         }

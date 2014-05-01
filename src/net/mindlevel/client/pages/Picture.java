@@ -1,6 +1,6 @@
 package net.mindlevel.client.pages;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 
 import net.mindlevel.client.HandyTools;
 import net.mindlevel.client.Mindlevel;
@@ -125,9 +125,6 @@ public class Picture {
             }
         });
 
-        if(UserTools.isLoggedIn() && validated) {
-
-        }
         VerticalPanel containerPanel = new VerticalPanel();
         picturePanel = new HorizontalPanel();
         picturePanel.setStylePrimaryName("picture-panel");
@@ -162,12 +159,12 @@ public class Picture {
             }
         });
         NavigationHandler imageHandler = new NavigationHandler();
-        if(!Mindlevel.hasKeyUpHandler) {
-            RootPanel.get().addDomHandler(imageHandler, KeyUpEvent.getType());
-            Mindlevel.hasKeyUpHandler = true;
+        if(Mindlevel.navigationHandlerRegistration != null) {
+            Mindlevel.navigationHandlerRegistration.removeHandler();
         }
+        Mindlevel.navigationHandlerRegistration = RootPanel.get().addDomHandler(imageHandler, KeyUpEvent.getType());
         metaPanel = new HorizontalPanel();
-        metaPanel.addStyleName("metapanel");
+        metaPanel.addStyleName("meta-panel");
         VerticalPanel infoPanel = new VerticalPanel();
 
         SimplePanel descriptionContainer = new SimplePanel();
@@ -211,7 +208,7 @@ public class Picture {
 
     class NavigationHandler implements KeyUpHandler {
         /**
-         * Fired when the user types in the nameField.
+         * Fired when the user types.
          */
         @Override
         public void onKeyUp(KeyUpEvent event) {
@@ -312,7 +309,13 @@ public class Picture {
                                 @Override
                                 public void onSuccess(Void result) {
                                     HandyTools.showDialogBox("Success", new HTML("Great success!"));
-                                    nextImage();
+                                    if (id < imageCount) {
+                                        nextImage();
+                                    } else if (id > 1) {
+                                        prevImage();
+                                    } else {
+                                        randomImage();
+                                    };
                                 }
                             });
                         }
@@ -363,14 +366,16 @@ public class Picture {
         });
     }
 
-    private String buildTagHTML(ArrayList<String> tags) {
+    private String buildTagHTML(HashSet<String> tags) {
+        String separator = ",&nbsp;";
         String tagHtml = "<b>Tags: </b>";
-        if(tags!=null)
+        if(tags!=null && !tags.isEmpty()) {
             for(String tag : tags) {
                 tagHtml = tagHtml.concat(HandyTools.getAnchor("user", tag, tag));
-                if(tags.get(tags.size()-1)!=tag)
-                    tagHtml = tagHtml.concat(",&nbsp;");
+                tagHtml = tagHtml.concat(separator);
             }
+            tagHtml = tagHtml.substring(0, tagHtml.length()-separator.length());
+        }
         return tagHtml;
     }
 

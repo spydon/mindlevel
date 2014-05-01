@@ -24,7 +24,7 @@ public class PictureElement extends Composite {
      */
     public PictureElement(final MetaImage metaImage, boolean isSimple) {
         backPanel = new VerticalPanel();
-        Image image = new Image("pictures/" + metaImage.getFilename());
+        Image image = new Image("pictures/" + metaImage.getThumbnail());
         image.addStyleName("last-picture");
         image.addClickHandler(new ClickHandler() {
             @Override
