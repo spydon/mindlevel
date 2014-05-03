@@ -19,4 +19,5 @@ public interface MissionService extends RemoteService {
     Mission getMission(int id, boolean validated) throws IllegalArgumentException;
     void uploadMission(Mission mission, String token) throws IllegalArgumentException;
     void validateMission(int missionId, String username, String token) throws IllegalArgumentException;
+    void deleteMission(int missionId, String username, String token) throws IllegalArgumentException;
 }

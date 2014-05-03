@@ -5,8 +5,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Date;
 
 import net.mindlevel.client.services.LoginService;
+import net.mindlevel.shared.Ban;
 import net.mindlevel.shared.FieldVerifier;
 import net.mindlevel.shared.User;
 //import com.yourdomain.projectname.client.User;
@@ -22,6 +24,13 @@ public class LoginServiceImpl extends DBConnector implements LoginService {
             // the client.
             throw new IllegalArgumentException(
                     "The username must be at least 4 characters long, but not longer than 20.");
+        }
+        Ban ban = getBan(username);
+        if (ban.isBanned()) {
+            // If the user is banned, throw an IllegalArgumentException back to
+            // the client.
+            throw new IllegalArgumentException(
+                    "You are banned until " + ServerTools.shortenDate(ban.getExpiry()) + " because of \"" + ban.getReason() + "\"");
         }
         try {
             Connection conn = getConnection();
@@ -53,5 +62,28 @@ public class LoginServiceImpl extends DBConnector implements LoginService {
             e.printStackTrace();
         }
         return user;
+    }
+
+    private Ban getBan(String username) {
+        Ban ban = null;
+        try {
+            Connection conn = getConnection();
+            PreparedStatement ps = conn.prepareStatement("SELECT username, reason, expires "
+                    + "FROM ban "
+                    + "WHERE username = ? ORDER BY expires desc LIMIT 0,1");
+            ps.setString(1, username);
+            ResultSet rs = ps.executeQuery();
+            if(rs.first()) {
+                ban = new Ban(username, rs.getString("reason"), rs.getTimestamp("expires"));
+            } else {
+                ban = new Ban(username, "Not ever banned", new Date(0));
+            }
+            rs.close();
+            ps.close();
+            conn.close();
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }
+        return ban;
     }
 }

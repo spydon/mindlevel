@@ -125,7 +125,6 @@ public class Login {
                                 loginBox.setText("Failure");
                                 serverResponse
                                         .addStyleName("serverResponseLabelError");
-                                // serverResponseLabel.setHTML(SERVER_ERROR);
                                 serverResponse.setHTML(caught.getMessage());
                                 loginBox.center();
                                 closeButton.setFocus(true);
@@ -148,12 +147,13 @@ public class Login {
         userField.addKeyUpHandler(handler);
         passField.addKeyUpHandler(handler);
 
-        // Focus the cursor on the name field when the app loads
-        userField.setFocus(true);
+
 
         loginBox.setWidget(loginPanel);
         loginBox.setText("Login");
         loginBox.setAnimationEnabled(true);
         loginBox.center();
+
+        userField.setFocus(true);
     }
 }

@@ -221,8 +221,9 @@ public class Upload {
             @Override
             public void onSuccess(List<User> users) {
                 userOracle.clear();
-                for(User user : users)
+                for(User user : users) {
                     userOracle.add(user.getUsername());
+                }
                 educatedUserOracle = true;
             }
         });

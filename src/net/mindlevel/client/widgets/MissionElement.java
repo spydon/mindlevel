@@ -1,6 +1,8 @@
 package net.mindlevel.client.widgets;
 
 import net.mindlevel.client.HandyTools;
+import net.mindlevel.client.Mindlevel;
+import net.mindlevel.client.pages.MissionProfile;
 import net.mindlevel.shared.Category;
 import net.mindlevel.shared.Mission;
 import net.mindlevel.shared.Normalizer;
@@ -9,10 +11,10 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.event.shared.HandlerRegistration;
-import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Panel;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class MissionElement extends Composite
@@ -29,12 +31,13 @@ implements HasClickHandlers {
         ClickHandler handler = new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-                History.newItem("mission=" + mission.getId());
+                RootPanel appArea = Mindlevel.getAppArea(true);
+                new MissionProfile(appArea, mission);
             }
         };
 
 
-        HTML missionName = new HTML("<h1>" + HandyTools.getAnchor("mission", "" + mission.getId(), mission.getName()) + "</h1>");
+        HTML missionName = new HTML("<h1>" + mission.getName() + "</h1>");
         backPanel = new VerticalPanel();
 
         HTML categories = new HTML();

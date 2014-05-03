@@ -589,15 +589,18 @@ header {
 
 .gallery-section .last-picture-element {
     width: 230px;
-    float: left;
+/*     float: left; */
+    display: inline-block;
 }
 
 .gallery-section .user-element {
-    float: left;
+/*     float: left; */
+    display: inline-block;
 }
 
 .gallery-section .mission-element {
-    float: left;
+/*     float: left; */
+    display: inline-block;
 }
 
 /**
@@ -669,16 +672,23 @@ header {
 */
 
 .mission-element {
-    text-align: left;
     min-height: 50px;
     margin-bottom: 10px;
     padding: 10px;
+}
+
+.mission-element .gwt-HTML, .mission-element h1 {
+    text-align: left;
 }
 
 .mission-element:hover {
     cursor: pointer;
     background: lightsteelblue;
 }
+
+.suggest-mission-button {
+    margin-top: 15px;
+} 
 
 /**
 *   Last pictures section
@@ -774,6 +784,10 @@ header {
     
     .arrow-right:active {
         width: 60px;
+    }
+    
+    .search-icon {
+        margin-top: -10px;
     }
 }
 

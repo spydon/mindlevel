@@ -17,20 +17,39 @@ import com.google.gwt.user.client.ui.HTML;
 public class MissionSection extends Composite {
 
     private final FlowPanel p;
+    private final LoadingElement l = new LoadingElement();
+    private final Constraint constraint;
+    private final int start;
+    private final int offset;
 
     private final MissionServiceAsync missionService = GWT
             .create(MissionService.class);
 
     /**
-     * Constructs a MissionSection that controls a number of ReadBox and WriteBox
+     * Constructs a MissionSection that controls a number of MissionElement
      *
      */
     public MissionSection(final Constraint constraint) {
-        p = new FlowPanel();
-        final LoadingElement l = new LoadingElement();
-        p.add(l);
+        this(0, 100, constraint);
+    }
 
-        missionService.getMissions(0, 100, constraint,
+    public MissionSection(int start, int offset, Constraint constraint) {
+        this.constraint = constraint;
+        this.start = start;
+        this.offset = offset;
+        p = new FlowPanel();
+        p.add(l);
+        init();
+
+        // All composites must call initWidget() in their constructors.
+        initWidget(p);
+
+        // Give the overall composite a style name.
+        setStyleName("gallery-section");
+    }
+
+    public void init() {
+        missionService.getMissions(start, offset, constraint,
                 new AsyncCallback<List<Mission>>() {
 
             @Override
@@ -50,11 +69,5 @@ public class MissionSection extends Composite {
                 l.removeFromParent();
             }
         });
-
-        // All composites must call initWidget() in their constructors.
-        initWidget(p);
-
-        // Give the overall composite a style name.
-        setStyleName("gallery-section");
     }
 }

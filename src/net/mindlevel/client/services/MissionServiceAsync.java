@@ -20,4 +20,5 @@ public interface MissionServiceAsync {
     void getMission(int missionId, boolean validated, AsyncCallback<Mission> asyncCallback);
     void uploadMission(Mission mission, String token, AsyncCallback<Void> asyncCallback);
     void validateMission(int missionId, String username, String token, AsyncCallback<Void> asyncCallback);
+    void deleteMission(int missionId, String username, String token, AsyncCallback<Void> asyncCallback);
 }

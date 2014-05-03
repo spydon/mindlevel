@@ -20,10 +20,11 @@ public class TokenServiceImpl extends DBConnector implements TokenService {
             ps.setString(1, username);
             ps.setString(2, password);
             ResultSet rs = ps.executeQuery();
-            if(rs.next())
+            if(rs.next()) {
                 token = rs.getString("token");
-            else
+            } else {
                 throw new IllegalArgumentException("Wrong username/password!");
+            }
             rs.close();
             ps.close();
             conn.close();
@@ -44,10 +45,11 @@ public class TokenServiceImpl extends DBConnector implements TokenService {
             PreparedStatement ps2 = conn.prepareStatement("SELECT token FROM user WHERE username = ?");
             ps2.setString(1, username);
             ResultSet rs = ps2.executeQuery();
-            if(result == 1 && rs.first())
+            if(result == 1 && rs.first()) {
                 token = rs.getString("token");
-            else
+            } else {
                 throw new IllegalArgumentException("Something went wrong!");
+            }
             ps.close();
             conn.close();
         } catch(SQLException e) {
@@ -60,7 +62,7 @@ public class TokenServiceImpl extends DBConnector implements TokenService {
         boolean isValid = false;
         try {
             Connection conn = getConnection();
-            PreparedStatement ps = conn.prepareStatement("SELECT username FROM user WHERE username=? && token=?");
+            PreparedStatement ps = conn.prepareStatement("SELECT username FROM user WHERE username=? && token=? && token IS NOT NULL");
             ps.setString(1, username);
             ps.setString(2, token);
             ResultSet rs = ps.executeQuery();
@@ -122,6 +124,22 @@ public class TokenServiceImpl extends DBConnector implements TokenService {
             int result = ps.executeUpdate();
             if(result != 1)
                 throw new IllegalArgumentException("You are already logged out...");
+            ps.close();
+            conn.close();
+        } catch(SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void invalidateUserToken(String username) throws IllegalArgumentException {
+        try {
+            Connection conn = getConnection();
+            PreparedStatement ps = conn.prepareStatement("UPDATE user SET token=NULL WHERE username=?");
+            ps.setString(1, username);
+            int result = ps.executeUpdate();
+            if(result != 1) {
+                throw new IllegalArgumentException("That user does not exist...");
+            }
             ps.close();
             conn.close();
         } catch(SQLException e) {

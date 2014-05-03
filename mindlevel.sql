@@ -149,7 +149,7 @@ INSERT INTO comment (id, username, parent_id, thread_id) VALUES (0, 'system', 0,
 UNLOCK TABLES;
 
 --
--- Table structure for table `category`
+-- Table structure for table `report`
 --
 
 DROP TABLE IF EXISTS `report`;
@@ -173,6 +173,34 @@ CREATE TABLE `report` (
 LOCK TABLES `report` WRITE;
 /*!40000 ALTER TABLE `report` DISABLE KEYS */;
 /*!40000 ALTER TABLE `report` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `ban`
+--
+
+DROP TABLE IF EXISTS `ban`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `ban` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `username` varchar(64) NOT NULL,
+  `reason` varchar(1024) NOT NULL,
+  `expires` timestamp,
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  KEY `username` (`username`),
+  CONSTRAINT `ban_ibfk_1` FOREIGN KEY (`username`) REFERENCES `user` (`username`) ON UPDATE CASCADE ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `ban`
+--
+
+LOCK TABLES `ban` WRITE;
+/*!40000 ALTER TABLE `ban` DISABLE KEYS */;
+/*!40000 ALTER TABLE `ban` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --

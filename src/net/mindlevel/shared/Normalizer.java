@@ -22,15 +22,6 @@ public class Normalizer {
         return capitalizedName;
     }
 
-    @Deprecated
-    public static String normalizeDate(String date) {
-        int end = date.indexOf(".");
-        if (end != -1)
-            return date.substring(0, end);
-        else
-            return date;
-    }
-
     public static String categoriesToString(List<Category> items) {
         String readable = "";
         if(items.size() > 0) {

@@ -100,7 +100,7 @@ public class MissionSuggestion {
                 }
 
                 if(UserTools.isLoggedIn()) {
-                    Mission mission = new Mission(titleTB.getText(), categories, descriptionTA.getText(), UserTools.getUsername(), adultCB.getValue());
+                    Mission mission = new Mission(titleTB.getText(), categories, descriptionTA.getText(), UserTools.getUsername(), adultCB.getValue(), false);
                     if(FieldVerifier.isValidMission(mission)) {
                         missionUpload(mission);
                     } else {

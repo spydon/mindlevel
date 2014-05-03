@@ -4,24 +4,26 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Mission implements Serializable{
+public class Mission implements Serializable {
     private static final long serialVersionUID = 1L;
     private String name, description, creator;
     private Date created;
     private int id;
-    private boolean adult;
+    private boolean adult, validated;
     private ArrayList<Category> categories;
 
     public Mission(String name,
                    ArrayList<Category> categories,
                    String description,
                    String creator,
-                   boolean adult) {
+                   boolean adult,
+                   boolean validated) {
         this.name = name;
         this.categories = categories;
         this.description = description;
         this.creator = creator;
         this.adult = adult;
+        this.validated = validated;
     }
 
     public Mission(int id, String name) {
@@ -90,5 +92,13 @@ public class Mission implements Serializable{
 
     public void setCategories(ArrayList<Category> categories) {
         this.categories = categories;
+    }
+
+    public boolean isValidated() {
+        return validated;
+    }
+
+    public void setValidated(boolean validated) {
+        this.validated = validated;
     }
 }

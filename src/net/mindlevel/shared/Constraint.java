@@ -12,6 +12,7 @@ public class Constraint implements Serializable {
     private String username = "";
     private String mission = "";
     private String pictureTitle = "";
+    private String sortingColumn = "";
     private boolean validated = true;
     private boolean adult = false;
     private Category category = Category.ALL;
@@ -28,6 +29,7 @@ public class Constraint implements Serializable {
                       Category category,
                       boolean validated,
                       boolean adult,
+                      String sortingColumn,
                       Date newerThan,
                       Date olderThan) {
         this.setType(type);
@@ -38,6 +40,7 @@ public class Constraint implements Serializable {
         this.setCategory(category);
         this.setValidated(validated);
         this.setAdult(adult);
+        this.setSortingColumn(sortingColumn);
         this.setNewerThen(newerThan);
         this.setOlderThen(olderThan);
     }
@@ -120,5 +123,13 @@ public class Constraint implements Serializable {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public String getSortingColumn() {
+        return sortingColumn;
+    }
+
+    public void setSortingColumn(String sortingColumn) {
+        this.sortingColumn = sortingColumn;
     }
 }

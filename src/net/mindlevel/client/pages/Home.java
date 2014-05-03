@@ -5,6 +5,7 @@ import net.mindlevel.client.widgets.NewestUsersSection;
 import net.mindlevel.client.widgets.NewsSection;
 import net.mindlevel.client.widgets.PictureSection;
 
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -14,6 +15,7 @@ public class Home extends Page{
     private final HorizontalPanel backPanel;
 
     public Home(RootPanel appArea) {
+        History.newItem("home", false);
         this.appArea = appArea;
         this.backPanel = new HorizontalPanel();
         init();

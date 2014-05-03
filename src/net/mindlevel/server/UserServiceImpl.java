@@ -7,7 +7,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import net.mindlevel.client.services.UserService;
@@ -236,6 +238,29 @@ public class UserServiceImpl extends DBConnector implements UserService {
             conn.close();
         } catch(SQLException e) {
             e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public Void banUser(String username, String reason, Date expiry, String adminName, String token) throws IllegalArgumentException {
+        try {
+            Connection conn = getConnection();
+            PreparedStatement ps = conn.prepareStatement("INSERT INTO ban (username, reason, expires) VALUES (?, ?, ?)");
+            TokenServiceImpl tokenService = new TokenServiceImpl();
+            if(tokenService.validateAuth(adminName, token) && tokenService.validateAdminToken(token)) {
+                ps.setString(1, username);
+                ps.setString(2, reason);
+                ps.setTimestamp(3, new Timestamp(expiry.getTime()));
+                ps.executeUpdate();
+                tokenService.invalidateUserToken(username);
+            } else {
+                throw new IllegalArgumentException("Seems like you are trying to do something dodgy. This was logged.");
+            }
+            ps.close();
+            conn.close();
+        } catch(SQLException e) {
+            throw new IllegalArgumentException("That user does not exist.");
         }
         return null;
     }

@@ -1,5 +1,6 @@
 package net.mindlevel.client.services;
 
+import java.util.Date;
 import java.util.List;
 
 import net.mindlevel.shared.Constraint;
@@ -25,6 +26,8 @@ public interface UserServiceAsync {
     void getUserFromToken(String token, AsyncCallback<User> asyncCallback);
     void setProfilePicture(String filename, boolean adult, String username, String token, AsyncCallback<Void> asyncCallback);
     void updateProfile(String realName, String location, String about, boolean adult, String username, String token, AsyncCallback<Void> asyncCallback);
+    void banUser(String username, String reason, Date expiry, String adminName, String token, AsyncCallback<Void> asyncCallback)
+            throws IllegalArgumentException;
     void getLastLogins(int number, AsyncCallback<List<User>> callback)
             throws IllegalArgumentException;
     void getNewestUsers(int number, AsyncCallback<List<User>> callback)

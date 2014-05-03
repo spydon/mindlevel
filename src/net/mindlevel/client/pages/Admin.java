@@ -1,5 +1,7 @@
 package net.mindlevel.client.pages;
 
+import net.mindlevel.client.pages.dialog.BanBox;
+
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -46,8 +48,7 @@ public class Admin {
         menu.addItem("Ban", new Command() {
             @Override
             public void execute() {
-                clearScreen();
-
+                new BanBox();
             }
         });
         menu.addItem("Validation", validationMenu);

@@ -41,6 +41,7 @@ public class MissionServiceImpl extends DBConnector implements MissionService {
                                         + "m.id, "
                                         + "m.name, "
                                         + "m.description, "
+                                        + "m.validated, "
                                         + "m.adult, "
                                         + "m.creator, "
                                         + "m.timestamp "
@@ -52,15 +53,16 @@ public class MissionServiceImpl extends DBConnector implements MissionService {
                                         + "WHERE validated = ? "
                                         + "AND adult LIKE ? "
                                         + "AND (name LIKE ? OR description LIKE ?) "
-                                        + "ORDER BY m.name "
+                                        + "ORDER BY ? "
                                         + "LIMIT ?,?");
             ps.setString(1, "%" + (constraint.getCategory() == Category.ALL ? "" : constraint.getCategory().toString().toLowerCase()) + "%");
             ps.setBoolean(2, constraint.isValidated());
             ps.setString(3, constraint.isAdult() ? "%" : "0");
             ps.setString(4, "%" + constraint.getMission() + "%");
             ps.setString(5, "%" + constraint.getMission() + "%");
-            ps.setInt(6, start);
-            ps.setInt(7, offset);
+            ps.setString(6, constraint.getSortingColumn().equals("") ? "name" : constraint.getSortingColumn());
+            ps.setInt(7, start);
+            ps.setInt(8, offset);
             ResultSet rs = ps.executeQuery();
 
             while(rs.next()) {
@@ -69,7 +71,8 @@ public class MissionServiceImpl extends DBConnector implements MissionService {
                         categoryService.getCategories(rs.getInt("id")),
                         rs.getString("description"),
                         rs.getString("creator"),
-                        rs.getBoolean("adult"));
+                        rs.getBoolean("adult"),
+                        rs.getBoolean("validated"));
                 mission.setId(rs.getInt("id"));
                 mission.setCreated(rs.getTimestamp("timestamp"));
                 missions.add(mission);
@@ -117,6 +120,7 @@ public class MissionServiceImpl extends DBConnector implements MissionService {
                                         + "mission.name, "
                                         + "mission.description, "
                                         + "mission.adult, "
+                                        + "mission.validated, "
                                         + "mission.creator, "
                                         + "mission.timestamp "
                                         + "FROM mission "
@@ -130,9 +134,12 @@ public class MissionServiceImpl extends DBConnector implements MissionService {
                         categoryService.getCategories(rs.getInt("id")),
                         rs.getString("description"),
                         rs.getString("creator"),
-                        rs.getBoolean("adult"));
+                        rs.getBoolean("adult"),
+                        rs.getBoolean("validated"));
                 mission.setId(rs.getInt("id"));
                 mission.setCreated(rs.getDate("timestamp"));
+            } else {
+                throw new IllegalArgumentException("No such mission...");
             }
             rs.close();
             ps.close();
@@ -232,6 +239,34 @@ public class MissionServiceImpl extends DBConnector implements MissionService {
                 conn.close();
                 if (result != 1)
                     throw new IllegalArgumentException("Unknown error.");
+            } else {
+                throw new IllegalArgumentException(
+                        "You are not logged in, you sneaky bastard! ;)");
+            }
+        } catch(SQLException e) {
+            e.printStackTrace();
+            throw new IllegalArgumentException(
+                    "Something went wrong.");
+        }
+    }
+
+    @Override
+    public void deleteMission(int missionId, String username, String token)
+            throws IllegalArgumentException {
+        try {
+            if(new TokenServiceImpl().validateAdminToken(token) &&
+               new TokenServiceImpl().validateAuth(username, token)) {
+                Connection conn = getConnection();
+                PreparedStatement deleteMission = conn.prepareStatement(
+                        "DELETE FROM mission WHERE id = ?");
+                deleteMission.setInt(1, missionId);
+
+                int result = deleteMission.executeUpdate();
+                deleteMission.close();
+                conn.close();
+                if (result != 1) {
+                    throw new IllegalArgumentException("Unknown error.");
+                }
             } else {
                 throw new IllegalArgumentException(
                         "You are not logged in, you sneaky bastard! ;)");
