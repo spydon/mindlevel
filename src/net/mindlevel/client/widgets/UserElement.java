@@ -1,8 +1,10 @@
 package net.mindlevel.client.widgets;
 
 import net.mindlevel.client.HandyTools;
+import net.mindlevel.client.Mindlevel;
 import net.mindlevel.shared.User;
 
+import com.google.gwt.dom.client.AnchorElement;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;
@@ -29,7 +31,10 @@ implements HasClickHandlers {
         ClickHandler handler = new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-                History.newItem("user=" + user.getUsername());
+                AnchorElement eventTarget = (AnchorElement)event.getNativeEvent().getEventTarget().cast();
+                if(eventTarget == null || !eventTarget.getTagName().equals("A")) {
+                    History.newItem("user=" + user.getUsername());
+                }
             }
         };
 
@@ -38,12 +43,12 @@ implements HasClickHandlers {
         Image image;
         if(isSimple) {
             backPanel = new Grid(1,2);
-            image = new Image("pictures/" + user.getThumbnail());
+            image = new Image(Mindlevel.PATH + "pictures/" + user.getThumbnail());
             ((Grid)backPanel).setWidget(0, 0, image);
             ((Grid)backPanel).setWidget(0, 1, username);
         } else {
             backPanel = new VerticalPanel();
-            image = new Image("pictures/" + user.getPicture());
+            image = new Image(Mindlevel.PATH + "pictures/" + user.getPicture());
             backPanel.add(image);
             backPanel.add(username);
             backPanel.add(new HTML("Location: " + user.getLocation()));

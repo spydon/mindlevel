@@ -6,7 +6,11 @@ import net.mindlevel.client.pages.dialog.UpdateProfile;
 import net.mindlevel.client.pages.dialog.UploadProfilePicture;
 import net.mindlevel.client.services.UserService;
 import net.mindlevel.client.services.UserServiceAsync;
+import net.mindlevel.client.widgets.GallerySection;
+import net.mindlevel.shared.Constraint;
+import net.mindlevel.shared.SearchType;
 import net.mindlevel.shared.User;
+import net.mindlevel.shared.UserTools;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -30,6 +34,7 @@ public class Profile {
     private final static int PICTURE_MAXWIDTH = 150;
     private final static int PICTURE_MAXHEIGHT = 300;
     private User user;
+    private String username = "system";
 
     /**
      * Create a remote service proxy to talk to the server-side user
@@ -70,16 +75,18 @@ public class Profile {
                     special = user.isAdmin() ? "(Admin)" : "(Moderator)";
                 }
 
-                infoPanel.add(new HTML("<b>Nick:</b> " + user.getUsername() + " " + special));
+                username = user.getUsername();
+                infoPanel.add(new HTML("<b>Nick:</b> " + username + " " + special));
                 infoPanel.add(new HTML("<b>Name:</b> " + user.getName()));
                 infoPanel.add(new HTML("<b>Score:</b> " + user.getScore()));
                 infoPanel.add(new HTML("<b>Location:</b> " + user.getLocation()));
                 infoPanel.add(new HTML("<b>About:</b> " + user.getAbout()));
                 infoPanel.add(new HTML("<b>Last log in:</b> " + HandyTools.formatDate(user.getLastLogin())));
+                infoPanel.addStyleName("profile-info-panel");
 
-                final Image profilePicture = new Image("./pictures/" + userinfo.getPicture());
+                final Image profilePicture = new Image(Mindlevel.PATH + "pictures/" + userinfo.getPicture());
                 profilePicture.setVisible(false);
-                profilePicture.setStylePrimaryName("profile-picture");
+                profilePicture.addStyleName("profile-picture");
                 profilePicture.addLoadHandler(new LoadHandler() {
 
                     @Override
@@ -119,7 +126,27 @@ public class Profile {
                 }
                 profilePanel.add(picturePanel);
                 profilePanel.add(infoPanel);
+
+                final Button galleryButton = new Button("Show finished missions");
+                galleryButton.addStyleName("profile-gallery-button");
+                galleryButton.addClickHandler(new ClickHandler() {
+
+                    @Override
+                    public void onClick(ClickEvent arg0) {
+                        Constraint constraint = new Constraint();
+                        constraint.setUsername(username);
+                        constraint.setValidated(true);
+                        constraint.setType(SearchType.PICTURE);
+                        constraint.setToken(UserTools.getToken());
+                        constraint.setAdult(UserTools.isAdult());
+                        GallerySection gallerySection = new GallerySection(constraint);
+                        appArea.add(new HTML("<h1>Finished missions by " + username + "</h>"));
+                        appArea.add(gallerySection);
+                        galleryButton.removeFromParent();
+                    }
+                });
                 appArea.add(profilePanel);
+                appArea.add(galleryButton);
 
             }
         });

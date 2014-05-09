@@ -9,6 +9,7 @@ import net.mindlevel.client.HandyTools;
 import net.mindlevel.client.Mindlevel;
 import net.mindlevel.client.services.UserService;
 import net.mindlevel.client.services.UserServiceAsync;
+import net.mindlevel.client.widgets.LoadingElement;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -110,6 +111,7 @@ public class UploadProfilePicture {
         return t;
     }
 
+    private final LoadingElement l = new LoadingElement();
     // Load the image in the document and in the case of success attach it to the viewer
     private final IUploader.OnFinishUploaderHandler onFinishUploaderHandler = new IUploader.OnFinishUploaderHandler() {
         @Override
@@ -117,11 +119,10 @@ public class UploadProfilePicture {
             if (uploader.getStatus() == Status.SUCCESS) {
                 new PreloadedImage(uploader.getServerInfo().getFileUrl(), showImage);
                 panel.remove(defaultUploader);
+                panel.insert(l, 2);
                 // The server sends useful information to the client by default
 //                UploadedInfo info = uploader.getServerInfo();
 
-                System.out.println("Server message " + uploader.getServerMessage().getMessage());
-//                filename = info.getFileName();
                 filename = uploader.getServerMessage().getMessage();
             }
         }
@@ -131,8 +132,10 @@ public class UploadProfilePicture {
     private final OnLoadPreloadedImageHandler showImage = new OnLoadPreloadedImageHandler() {
         @Override
         public void onLoad(PreloadedImage image) {
+            l.removeFromParent();
             image.setWidth("150px");
             panelImages.add(image);
+            popup.center();
         }
     };
 

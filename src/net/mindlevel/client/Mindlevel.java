@@ -10,6 +10,7 @@ import net.mindlevel.client.pages.Picture;
 import net.mindlevel.client.pages.Profile;
 import net.mindlevel.client.pages.Search;
 import net.mindlevel.client.pages.Terms;
+import net.mindlevel.client.pages.Tutorial;
 import net.mindlevel.client.pages.dialog.Login;
 import net.mindlevel.client.pages.dialog.Logout;
 import net.mindlevel.client.pages.dialog.Registration;
@@ -41,6 +42,7 @@ public class Mindlevel implements EntryPoint, ValueChangeHandler<String> {
     public static User user;
     public static HandlerRegistration navigationHandlerRegistration = null;
     public static boolean isTextAreaFocused = false;
+    public static String PATH = "./";
     private final String[] pages =
             {"home", "missions", "pictures", "highscore",
             "about", "chat", "login", "logout",
@@ -121,7 +123,10 @@ public class Mindlevel implements EntryPoint, ValueChangeHandler<String> {
             } else if(parameters.equals("terms")) {
                 clearScreen();
                 new Terms(getAppArea(true));
-            } else if(parameters.equals("report")) {
+            } else if(parameters.equals("tutorial")) {
+                clearScreen();
+                new Tutorial(getAppArea(true));
+            }else if(parameters.equals("report")) {
                 new ReportBox();
             } else {
                 clearScreen();

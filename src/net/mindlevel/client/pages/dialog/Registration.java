@@ -164,7 +164,7 @@ public class Registration {
                     errorLabel.setText("The username is not valid.");
                     regButton.setEnabled(true);
                 } else if (!FieldVerifier.isValidPassword(password, password2)) {
-                    errorLabel.setText("The passwords does not match.");
+                    errorLabel.setText("The password is not valid.");
                     regButton.setEnabled(true);
                 } else if (!FieldVerifier.isValidEmail(email)) {
                     errorLabel.setText("That is not a valid email.");
@@ -174,7 +174,7 @@ public class Registration {
                     termsBox.addStyleName("error-background");
                     regButton.setEnabled(true);
                 } else {
-                    captchaService.verify(captcha.getAnswer(), captcha.getToken(), new AsyncCallback<Boolean>() {
+                    captchaService.verify(captcha.getAnswer().toLowerCase(), captcha.getToken(), new AsyncCallback<Boolean>() {
 
                         @Override
                         public void onFailure(Throwable caught) {
@@ -205,10 +205,9 @@ public class Registration {
 
                                             @Override
                                             public void onSuccess(Void result) {
-                                                errorLabel.removeStyleName("serverResponseLabelError");
-                                                errorLabel.setText("Congratulations, you are now registered!");
                                                 registrationBox.hide();
-                                                HandyTools.showDialogBox("Success!", new HTML("Congratulations, you are now registered!"));
+                                                HandyTools.showDialogBox("Success!", new HTML("Welcome, you are now registered!"
+                                                        + "<p>You might want to check out the <a href=\"#tutorial\">#tutorial</a>"));
                                             }
                                         });
                             } else {

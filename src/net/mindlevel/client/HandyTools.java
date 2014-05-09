@@ -66,6 +66,10 @@ public class HandyTools {
         });
     }
 
+    public static void showDialogBox(String title, String text) {
+        showDialogBox(title, new HTML(text));
+    }
+
     public static void setLoading(boolean isLoading) {
         loadingPanel.setVisible(isLoading);
     }

@@ -1,6 +1,7 @@
 package net.mindlevel.client.widgets;
 
 import net.mindlevel.client.HandyTools;
+import net.mindlevel.client.Mindlevel;
 import net.mindlevel.client.services.RatingService;
 import net.mindlevel.client.services.RatingServiceAsync;
 import net.mindlevel.shared.UserTools;
@@ -17,8 +18,8 @@ import com.google.gwt.user.client.ui.Image;
 public class VoteButton extends Composite {
 
     private final Grid p;
-    private final String upVotePath = "../images/icons/vote-up.svg";
-    private final String downVotePath = "../images/icons/vote-down.svg";
+    private final String upVotePath = Mindlevel.PATH + "images/icons/vote-up.svg";
+    private final String downVotePath = Mindlevel.PATH + "images/icons/vote-down.svg";
 
     private final RatingServiceAsync ratingService = GWT
             .create(RatingService.class);

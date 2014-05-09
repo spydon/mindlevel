@@ -290,11 +290,18 @@ header {
 
 .profile-panel * {
     text-align: left;
-    max-width: 400px;
+}
+
+.profile-info-panel {
+    max-width: 300px;
 }
 
 .profile-picture {
     margin-right: 15px;
+}
+
+.profile-gallery-button {
+    margin-top: 15px;
 }
 
 .about-textarea {
@@ -658,7 +665,7 @@ header {
 }
 
 .simple-user-element .user-image {
-    width: 50px;
+    width: 80px;
     margin-right: 5px;
 }
 
@@ -841,11 +848,11 @@ header {
     
     .infopanel {}
     
-    .picture-description {
-        float: left;
-        position: absolute;
-        top: 6px;
-    }
+/*     .picture-description { */
+/*         float: left; */
+/*         position: absolute; */
+/*         top: 6px; */
+/*     } */
     
 }
 

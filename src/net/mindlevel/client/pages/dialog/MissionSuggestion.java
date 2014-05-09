@@ -94,7 +94,7 @@ public class MissionSuggestion {
                 ArrayList<Category> categories = new ArrayList<Category>();
                 for(ListBox categoryLB : categoryList) {
                     String category = categoryLB.getItemText(categoryLB.getSelectedIndex());
-                    if(!categories.contains(category) && (!categoryLB.isEnabled() || categoryList.size() == 1)) {
+                    if(!categories.contains(category)) { //&& (!categoryLB.isEnabled() || categoryList.size() == 1)
                         categories.add(Category.valueOf(category.toUpperCase()));
                     }
                 }
@@ -190,17 +190,19 @@ public class MissionSuggestion {
             public void onClick(ClickEvent event) {
                 Cell cell = t.getCellForEvent(event);
                 categoryList.remove(categoryLB);
-                if(t.getRowCount() > 6)
+                if(t.getRowCount() > 6) {
                     t.removeRow(cell.getRowIndex());
-                else
+                } else {
                     categoryLB.setItemSelected(0, false);
+                }
             }
         });
         categoryLB.addKeyUpHandler(new KeyUpHandler() {
             @Override
             public void onKeyUp(KeyUpEvent event) {
-                if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER)
+                if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
                     newTagB.click();
+                }
             }
         });
     }
@@ -224,8 +226,9 @@ public class MissionSuggestion {
                 }
             });
         } else {
-            for(String category : categories)
+            for(String category : categories) {
                 categoryLB.addItem(category);
+            }
         }
     }
 }

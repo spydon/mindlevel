@@ -46,6 +46,8 @@ public class GallerySection extends Composite {
                     for(MetaImage m : pictures) {
                         p.add(new PictureElement(m, false));
                     }
+                } else {
+                    p.add(new HTML("No pictures found."));
                 }
                 l.removeFromParent();
             }

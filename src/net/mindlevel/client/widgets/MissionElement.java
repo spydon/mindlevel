@@ -7,6 +7,7 @@ import net.mindlevel.shared.Category;
 import net.mindlevel.shared.Mission;
 import net.mindlevel.shared.Normalizer;
 
+import com.google.gwt.dom.client.AnchorElement;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.HasClickHandlers;
@@ -31,8 +32,11 @@ implements HasClickHandlers {
         ClickHandler handler = new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-                RootPanel appArea = Mindlevel.getAppArea(true);
-                new MissionProfile(appArea, mission);
+                AnchorElement eventTarget = (AnchorElement)event.getNativeEvent().getEventTarget().cast();
+                if(eventTarget == null || !eventTarget.getTagName().equals("A")) {
+                    RootPanel appArea = Mindlevel.getAppArea(true);
+                    new MissionProfile(appArea, mission);
+                }
             }
         };
 
@@ -48,7 +52,7 @@ implements HasClickHandlers {
                 categories.setHTML("Categories: ");
             }
             String categoryName = Normalizer.capitalizeName(category.toString());
-            categories.setHTML(categories.getHTML() + HandyTools.getAnchor("search&type=picture&c", categoryName.toLowerCase(), categoryName));
+            categories.setHTML(categories.getHTML() + HandyTools.getAnchor("search&type=mission&c", categoryName.toLowerCase(), categoryName));
         }
         backPanel.add(missionName);
         backPanel.add(new HTML("Creator: " + HandyTools.getAnchor("user", mission.getCreator(), mission.getCreator())));

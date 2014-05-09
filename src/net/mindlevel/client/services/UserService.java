@@ -20,7 +20,7 @@ public interface UserService extends RemoteService {
     List<User> getHighscore(int start, int end) throws IllegalArgumentException;
     List<User> getUsers() throws IllegalArgumentException;
     int getUserCount() throws IllegalArgumentException;
-    User getUserFromToken(String token);
+    User getUserFromToken(String token) throws IllegalArgumentException;
     Void setProfilePicture(String filename, boolean adult, String username, String token);
     Void updateProfile(String realName, String location, String about, boolean adult, String username, String token);
     Void banUser(String username, String reason, Date expiry, String adminName, String token) throws IllegalArgumentException;

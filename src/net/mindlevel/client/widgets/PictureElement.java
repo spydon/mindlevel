@@ -1,6 +1,7 @@
 package net.mindlevel.client.widgets;
 
 import net.mindlevel.client.HandyTools;
+import net.mindlevel.client.Mindlevel;
 import net.mindlevel.shared.Category;
 import net.mindlevel.shared.MetaImage;
 import net.mindlevel.shared.Normalizer;
@@ -24,7 +25,7 @@ public class PictureElement extends Composite {
      */
     public PictureElement(final MetaImage metaImage, boolean isSimple) {
         backPanel = new VerticalPanel();
-        Image image = new Image("pictures/" + metaImage.getThumbnail());
+        Image image = new Image(Mindlevel.PATH + "pictures/" + metaImage.getThumbnail());
         image.addStyleName("last-picture");
         image.addClickHandler(new ClickHandler() {
             @Override

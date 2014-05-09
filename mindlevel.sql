@@ -60,7 +60,10 @@ CREATE TABLE `captcha` (
 
 LOCK TABLES `captcha` WRITE;
 /*!40000 ALTER TABLE `captcha` DISABLE KEYS */;
-INSERT INTO `captcha` (question, answer) VALUES ('five','5'),('100+56','156'),('five+4','9');
+INSERT INTO `captcha` (question, answer) 
+VALUES ('five=','5'),('100+56=','156'),('five+4=','9'),('b4n4n4','banana'),
+('What goes tick-tock? A ','clock'),('Are you human?','yes'),('four minuz 2=','2'),
+('Do you like cats?','yes');
 /*!40000 ALTER TABLE `captcha` ENABLE KEYS */;
 UNLOCK TABLES;
 

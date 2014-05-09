@@ -43,8 +43,7 @@ public class UploadServiceImpl extends UploadAction {
         String response = "";
         for (FileItem item : sessionFiles) {
             if (false == item.isFormField() && item.getContentType().substring(0,5).equals("image")) {
-                String path = "pictures/";
-                //String fileName = item.getName().replaceAll("[\\\\/><\\|\\s\"'{}()\\[\\]]+", "_");
+                final String path = ServerTools.PATH + "pictures/";
                 String fileName = item.getName();
                 String extension = fileName.substring(fileName.lastIndexOf('.'), fileName.length());
                 String hashName = generateHash();

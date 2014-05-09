@@ -18,7 +18,7 @@ public class Chat {
 
     public void init() {
         int height = Window.getClientHeight()-RootPanel.get("topheader").getOffsetHeight();
-        final Frame iFrame = new Frame("http://webchat.freenode.net?nick="
+        final Frame iFrame = new Frame("https://webchat.freenode.net?nick="
                 + Mindlevel.user.getUsername()
                 + "&channels=mindlevel&uio=d4");
         iFrame.setHeight(height + "px");

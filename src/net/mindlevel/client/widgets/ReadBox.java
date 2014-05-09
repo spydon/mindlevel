@@ -2,6 +2,7 @@ package net.mindlevel.client.widgets;
 
 import static com.google.gwt.safehtml.shared.SafeHtmlUtils.htmlEscape;
 import net.mindlevel.client.HandyTools;
+import net.mindlevel.client.Mindlevel;
 import net.mindlevel.client.services.UserService;
 import net.mindlevel.client.services.UserServiceAsync;
 import net.mindlevel.shared.Comment;
@@ -62,9 +63,9 @@ public class ReadBox extends Composite {
         final VerticalPanel replyPanel = new VerticalPanel();
 
         if(!user.getThumbnail().equals("")) {
-            picture = new Image("./pictures/" + user.getThumbnail());
+            picture = new Image(Mindlevel.PATH + "pictures/" + user.getThumbnail());
         } else {
-            picture = new Image("./pictures/" + UserTools.getDefaultThumbnail());
+            picture = new Image(Mindlevel.PATH + "pictures/" + UserTools.getDefaultThumbnail());
         }
         picture.addClickHandler(new ClickHandler() {
             @Override

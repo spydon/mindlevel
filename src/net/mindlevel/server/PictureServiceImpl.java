@@ -54,7 +54,7 @@ public class PictureServiceImpl extends DBConnector implements PictureService {
                     + "adult LIKE ? AND "
                     + "title LIKE ? "
                     + "ORDER BY timestamp desc LIMIT ?,?");
-            ps.setString(1, "%" + constraint.getUsername() + "%");
+            ps.setString(1, constraint.getUsername().equals("") ? "%" : constraint.getUsername().toLowerCase() );
             ps.setString(2, "%" + (constraint.getCategory() == Category.ALL ? "" : constraint.getCategory().toString().toLowerCase()) + "%");
             ps.setBoolean(3, constraint.isValidated());
             ps.setString(4, constraint.isAdult() ? "%" : "0");

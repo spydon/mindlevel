@@ -34,7 +34,7 @@ public class LoginServiceImpl extends DBConnector implements LoginService {
         }
         try {
             Connection conn = getConnection();
-            PreparedStatement ps = conn.prepareStatement("SELECT username, adult, created, permission_id as permission "
+            PreparedStatement ps = conn.prepareStatement("SELECT username, adult, created, permission_id as permission, last_login "
                     + "FROM user "
                     + "WHERE username = ? AND password = SHA2(CONCAT(SHA2(?, 512),SHA2(?, 512)),512)");
             ps.setString(1, username);
@@ -48,6 +48,7 @@ public class LoginServiceImpl extends DBConnector implements LoginService {
                 user.setAdult(rs.getBoolean("adult"));
                 user.setCreated(rs.getTimestamp("created"));
                 user.setPermission(rs.getInt("permission"));
+                user.setLastLogin(rs.getTimestamp("last_login"));
                 PreparedStatement ps2 = conn.prepareStatement("UPDATE user SET last_login = DEFAULT WHERE username = ?");
                 ps2.setString(1, username);
                 ps2.executeUpdate();

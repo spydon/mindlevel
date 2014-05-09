@@ -16,6 +16,7 @@ import net.mindlevel.client.services.MetaUploadService;
 import net.mindlevel.client.services.MetaUploadServiceAsync;
 import net.mindlevel.client.services.UserService;
 import net.mindlevel.client.services.UserServiceAsync;
+import net.mindlevel.client.widgets.LoadingElement;
 import net.mindlevel.shared.FieldVerifier;
 import net.mindlevel.shared.MetaImage;
 import net.mindlevel.shared.Mission;
@@ -229,6 +230,8 @@ public class Upload {
         });
     }
 
+    private final LoadingElement l = new LoadingElement();
+
     // Load the image in the document and in the case of success attach it to the viewer
     private final IUploader.OnFinishUploaderHandler onFinishUploaderHandler = new IUploader.OnFinishUploaderHandler() {
         @Override
@@ -236,14 +239,11 @@ public class Upload {
             if (uploader.getStatus() == Status.SUCCESS) {
                 new PreloadedImage(uploader.getServerInfo().getFileUrl(), showImage);
                 panel.remove(defaultUploader);
+                panel.insert(l, 2);
                 // The server sends useful information to the client by default
 //                UploadedInfo info = uploader.getServerInfo();
-//                System.out.println("File name " + info.name);
-//                System.out.println("File content-type " + info.ctype);
-//                System.out.println("File size " + info.size);
 
                 // You can send any customized message and parse it
-                System.out.println("Server message " + uploader.getServerMessage().getMessage());
                 filename = uploader.getServerMessage().getMessage();
             }
         }
@@ -253,8 +253,10 @@ public class Upload {
     private final OnLoadPreloadedImageHandler showImage = new OnLoadPreloadedImageHandler() {
         @Override
         public void onLoad(PreloadedImage image) {
+            l.removeFromParent();
             image.setWidth("150px");
             panelImages.add(image);
+            popup.center();
         }
     };
 

@@ -41,10 +41,10 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class Picture {
     private final RootPanel appArea;
-    private final String notFoundPath = "../images/notfound.jpg";
+    private final String notFoundPath = Mindlevel.PATH + "images/notfound.jpg";
     private final Image image = new Image();
-    private final Image leftArrow = new Image("../images/icons/left2.svg");
-    private final Image rightArrow = new Image("../images/icons/right2.svg");
+    private final Image leftArrow = new Image(Mindlevel.PATH + "images/icons/left.svg");
+    private final Image rightArrow = new Image(Mindlevel.PATH + "images/icons/right.svg");
     private int id = 0;
     private int realId = 1;
     private int imageCount = Integer.MAX_VALUE;
@@ -261,7 +261,7 @@ public class Picture {
             @Override
             public void onSuccess(final MetaImage metaImage) {
                 ratingPanel.setVisible(true);
-                setImageUrl("../pictures/" + metaImage.getFilename());
+                setImageUrl(Mindlevel.PATH + "pictures/" + metaImage.getFilename());
                 imageCount = metaImage.getImageCount();
                 if(id == 0) {
                     setId(imageCount);
@@ -355,7 +355,7 @@ public class Picture {
                 if(validated) {
                     link.setHTML("<b>Link: </b>" + HandyTools.getAnchor("picture", Integer.toString(realId), "Right click to copy"));
                 } else {
-                    link.setHTML("<b>Link: </b><a href=./Mindlevel.html#picture="+realId+"&validated=false>Right click to copy</a>");
+                    link.setHTML("<b>Link: </b><a href=#picture="+realId+"&validated=false>Right click to copy</a>");
                 }
                 fetchMission(metaImage.getMission().getId());
                 ratingPanel.add(new VotingSection(realId));

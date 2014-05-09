@@ -222,7 +222,7 @@ public class UserServiceImpl extends DBConnector implements UserService {
             Connection conn = getConnection();
             PreparedStatement ps = conn.prepareStatement("UPDATE user SET picture = ?, picture_adult = ? WHERE username = ?");
             int result = 0;
-            File file = new File("./pictures/" + filename);
+            File file = new File(ServerTools.PATH + "pictures/" + filename);
             if(new TokenServiceImpl().validateAuth(username, token) && file.exists()) {
                 ps.setString(1, filename);
                 ps.setBoolean(2, adult);

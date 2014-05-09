@@ -65,6 +65,8 @@ public class MissionSection extends Composite {
                     for(Mission m : missions) {
                         p.add(new MissionElement(m));
                     }
+                } else {
+                    p.add(new HTML("No missions found."));
                 }
                 l.removeFromParent();
             }

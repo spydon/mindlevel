@@ -43,7 +43,7 @@ public class FieldVerifier {
     }
 
     public static boolean isValidPassword(String password, String password2) {
-        return password.equals(password2) && password.length() >= 4;
+        return password.equals(password2) && password.equals(password2) && password.length() >= 4;
     }
 
     public static boolean isValidMetaImage(MetaImage metaImage) {

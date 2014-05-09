@@ -1,5 +1,7 @@
 package net.mindlevel.client.widgets;
 
+import net.mindlevel.client.Mindlevel;
+
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Image;
@@ -8,7 +10,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 public class LoadingElement extends Composite {
 
     private final VerticalPanel loadingPanel;
-    public static String loadingPath = "../images/loading.gif";;
+    public static String loadingPath = Mindlevel.PATH + "images/loading.gif";;
 
     /**
      * Constructs an CommentBox with the given caption on the check.

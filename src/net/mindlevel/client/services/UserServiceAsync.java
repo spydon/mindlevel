@@ -23,7 +23,8 @@ public interface UserServiceAsync {
     void getUsers(AsyncCallback<List<User>> asyncCallback);
     void getUserCount(AsyncCallback<Integer> callback)
             throws IllegalArgumentException;
-    void getUserFromToken(String token, AsyncCallback<User> asyncCallback);
+    void getUserFromToken(String token, AsyncCallback<User> asyncCallback)
+            throws IllegalArgumentException;
     void setProfilePicture(String filename, boolean adult, String username, String token, AsyncCallback<Void> asyncCallback);
     void updateProfile(String realName, String location, String about, boolean adult, String username, String token, AsyncCallback<Void> asyncCallback);
     void banUser(String username, String reason, Date expiry, String adminName, String token, AsyncCallback<Void> asyncCallback)
