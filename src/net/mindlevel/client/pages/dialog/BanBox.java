@@ -53,7 +53,6 @@ public class BanBox {
         FlexTable t = new FlexTable();
         Label userL = new Label("Ban user: ");
 
-
         userBox.addStyleName("fullwidth");
         userBox.getElement().setPropertyString("placeholder", "User...");
         userBox.addKeyUpHandler(new KeyUpHandler() {
@@ -61,7 +60,13 @@ public class BanBox {
             @Override
             public void onKeyUp(KeyUpEvent event) {
                 if (event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
-                    ban();
+                    banButton.setEnabled(false);
+                    if(expiryPicker.getValue() != null && !userBox.getText().equals("") && !reasonArea.getText().equals("")) {
+                        ban();
+                    } else {
+                        banButton.setEnabled(true);
+                        HandyTools.showDialogBox("Error", "You forgot to fill out all the fields.");
+                    }
                 }
             }
         });
@@ -84,7 +89,12 @@ public class BanBox {
             @Override
             public void onClick(ClickEvent arg0) {
                 banButton.setEnabled(false);
-                ban();
+                if(expiryPicker.getValue() != null && !userBox.getText().equals("") && !reasonArea.getText().equals("")) {
+                    ban();
+                } else {
+                    banButton.setEnabled(true);
+                    HandyTools.showDialogBox("Error", "You forgot to fill out all the fields.");
+                }
             }
         });
 

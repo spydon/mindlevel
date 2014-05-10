@@ -46,6 +46,8 @@ public class UserSection extends Composite {
                     for(User u : users) {
                         p.add(new UserElement(u, false));
                     }
+                } else {
+                    p.add(new HTML("No users found."));
                 }
                 l.removeFromParent();
             }

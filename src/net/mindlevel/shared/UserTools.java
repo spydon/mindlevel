@@ -14,6 +14,7 @@ import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.RootPanel;
 
 
 public class UserTools {
@@ -59,6 +60,7 @@ public class UserTools {
     public static void setLoggedOff() {
         Cookies.removeCookie("mindlevel");
         Mindlevel.user = null;
+        RootPanel.get("chat-frame").getElement().setAttribute("src", "");
         HandyTools.setRightView(false, "");
     }
 

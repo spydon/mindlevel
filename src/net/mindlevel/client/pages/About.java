@@ -1,6 +1,7 @@
 package net.mindlevel.client.pages;
 
 import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.RootPanel;
 
 public class About {
@@ -12,28 +13,23 @@ public class About {
     }
 
     private void init() {
+        Image logo = new Image("./images/logo.png");
         HTML about = new HTML(
                 "<h1>About MindLevel</h1>"
-                        + "<p>It all started after a few months of backpacking in Australia "
-                        + "when it felt like my brain were going numb. I wanted a programming "
-                        + "project which I could exercise my brain muscles a bit on, but I also "
-                        + "wanted it to be something that wouldn't just die once I were done with it. "
-                        + "I thought it would be really cool to build something that had a bit of "
-                        + "a community around it.</p>"
-                        + "<p>After some deep thinking sessions(in Byron Bay) I came up with a question: "
-                        + "\"What do I like the most?\" The answer to that question is "
-                        + "not very hard to answer for people that have known me for a while. I "
-                        + "really like doing crazy and wild things. They can be completely random, "
-                        + "like climbing up a flagpole or something more planned like skydiving or highlining.</p> "
-                        + "<p>So I thought, there must be quite a few more crazy people out there in the "
-                        + "world, let's see if we can inspire them to be a little bit crazier and "
-                        + "live a little bit more on the edge. The idea of MindLevel was born.</p>"
-                        + "<p>So if you like to test your boundaries and meet other crazy people, MindLevel "
-                        + "is the place for you!</p>"
-                        + "<br />"
-                        + "For questions contact <a href=\"#user=spydon\">spydon</a>.<br />"
-                        + "<a href=\"#report\">Report</a> bugs, abuse and feature requests via the report form.");
+                + "<p>After a few months of backpacking I came to realize that my life at home was quite "
+                + "repetitive and boring. (Even though I was living in a student town full of life)</p>"
+                + "<p>In most peoples' day-to-day life they perform repetitive and seemingly pointless tasks, I'm sure "
+                + "you know what I'm talking about. Repetitive tasks that we've grown to think that we like, "
+                + "things that take up a lot of our time but don't add anything to our lives. </p>"
+                + "<p>The things that we wont remember when we grow old.</p>"
+                + "<p>I think that most people probably wouldn't even appreciate these parts of their lives if they "
+                + "had an easy option of doing something more exciting, something that will be worth remembering.</p>"
+                + "<p>This is my attempt of giving you that option.</p>"
+                + "<p>/<a href=\"#user=spydon\">spydon</a>.<br />"
+                + "<p>Tutorial at <a href=\"#tutorial\">#tutorial</a> <br />"
+                + "File bugs, abuse and feature requests at <a href=\"#report\">#report</a></p>");
         about.addStyleName("about");
+        appArea.add(logo);
         appArea.add(about);
     }
 }

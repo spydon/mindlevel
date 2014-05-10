@@ -315,7 +315,7 @@ public class Picture {
                                         prevImage();
                                     } else {
                                         randomImage();
-                                    };
+                                    }
                                 }
                             });
                         }
@@ -338,8 +338,13 @@ public class Picture {
                                 @Override
                                 public void onSuccess(Void result) {
                                     HandyTools.showDialogBox("Success", new HTML("Picture deleted!"));
-                                    nextImage();
-                                }
+                                    if (id < imageCount) {
+                                        nextImage();
+                                    } else if (id > 1) {
+                                        prevImage();
+                                    } else {
+                                        randomImage();
+                                    }                                }
                             });
                         }
                     });

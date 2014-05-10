@@ -39,15 +39,19 @@ public class FieldVerifier {
         if (name == null) {
             return false;
         }
+        if (alphaNum.exec(name) == null) {
+            return false;
+        }
         return name.length() > 3 && name.length() < 21;
     }
+
+    private static final RegExp alphaNum = RegExp.compile("^[a-zA-Z0-9]*$");
 
     public static boolean isValidPassword(String password, String password2) {
         return password.equals(password2) && password.equals(password2) && password.length() >= 4;
     }
 
     public static boolean isValidMetaImage(MetaImage metaImage) {
-
         return !metaImage.getFilename().equals("") && !metaImage.getOwner().equals("");
     }
 
@@ -61,6 +65,7 @@ public class FieldVerifier {
     );
 
     public static boolean isValidEmail(String email) {
+        email = email.toLowerCase();
         if (rfc2822.exec(email) == null) {
             return false;
         }

@@ -21,6 +21,10 @@ h1 {
     text-align: center;
 }
 
+#chat-frame {
+    width: 100%;
+}
+
 .fullwidth {
     width: 100%;
 }
@@ -199,6 +203,10 @@ header {
 
 .about {
     text-align: left;
+    max-width: 320px;
+}
+
+.about img {
     max-width: 300px;
 }
 
@@ -271,8 +279,11 @@ header {
     margin: 0px 0px 10px;
 }
 
+.mission-panel {
+    max-width: 400px;
+}
 .pointer-table {
-	cursor: pointer;
+    cursor: pointer;
 }
 
 .loadingPicture {
@@ -288,7 +299,7 @@ header {
 /*     max-height: 95%; */
 }
 
-.profile-panel * {
+.profile-panel *, .mission-panel * {
     text-align: left;
 }
 
@@ -300,7 +311,7 @@ header {
     margin-right: 15px;
 }
 
-.profile-gallery-button {
+.profile-gallery-button, .profile-gallery-header {
     margin-top: 15px;
 }
 
@@ -557,11 +568,11 @@ header {
 */
 
 .news-section {
-    max-width: 300px;
+    max-width: 320px;
 }
 
 .news-element {
-    max-width: 300px;
+    max-width: 320px;
     margin-bottom: 15px;
 }
 
@@ -613,6 +624,10 @@ header {
 /**
 *   Users section
 */
+
+.home-user-panel {
+    margin-right: 15px;
+}
 
 .users-section {
     text-align: left;
@@ -704,6 +719,7 @@ header {
 .last-picture-section {
     text-align: left;
     max-width: 200px;
+    margin-left: 50px;
 }
 
 .last-picture-element {
@@ -737,6 +753,11 @@ header {
         width: 100%;
         float: left;
         clear: both; 
+    }
+    
+    .home-user-panel, .last-picture-section {
+        margin-left: auto;
+        margin-right: auto;
     }
 }
 

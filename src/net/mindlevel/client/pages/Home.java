@@ -29,6 +29,7 @@ public class Home extends Page{
         NewsSection news = new NewsSection(3);
         LastLoginsSection lls = new LastLoginsSection(4);
         NewestUsersSection nsu = new NewestUsersSection(4);
+        userPanel.addStyleName("home-user-panel");
         userPanel.add(lls);
         userPanel.add(nsu);
         backPanel.add(ps);

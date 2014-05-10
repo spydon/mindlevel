@@ -34,6 +34,7 @@ import com.google.gwt.user.client.EventListener;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.SimplePanel;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
@@ -42,6 +43,7 @@ public class Mindlevel implements EntryPoint, ValueChangeHandler<String> {
     public static User user;
     public static HandlerRegistration navigationHandlerRegistration = null;
     public static boolean isTextAreaFocused = false;
+    public static SimplePanel chat = null;
     public static String PATH = "./";
     private final String[] pages =
             {"home", "missions", "pictures", "highscore",
@@ -89,6 +91,7 @@ public class Mindlevel implements EntryPoint, ValueChangeHandler<String> {
     }
 
     private void parseToken(String parameters) {
+        RootPanel.get("chat-frame").setStyleName("superhidden", true);
         if(!parameters.contains("=")) {
             if(parameters.equals("home") || parameters.equals("")) { //Empty is always home
                 clearScreen();

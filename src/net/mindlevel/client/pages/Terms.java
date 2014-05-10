@@ -22,7 +22,7 @@ public class Terms {
               + "Your email address will only be used to send you the mindlevel.net newsletter and to alert you "
               + "of any information that you have specifically requested to be notified about.</p> "
               + "<h2>Use of MindLevel.net</h2>"
-              + "<p>The MindLevel.net website hosts an image publication service which are equipped with "
+              + "<p>The MindLevel.net website hosts an image publication service which is equipped with "
               + "commenting facilities. While we invite you to share your opinions and questions in this way, they "
               + "must not be used to distribute spam messages, post commercial advertisements, or spread "
               + "links to illegal, malicious or dangerous websites. We do retain the right to moderate any image, comment or "
@@ -37,15 +37,15 @@ public class Terms {
               + "<h2>Copyright</h2>"
               + "<p>Any and all of the content presented on the MindLevel.net website is, unless explicitly stated "
               + "otherwise, subject to a copyright held by the original copyright holder of the content. The uploader "
-              + "is responsible for only uploading works that they own the copyright of or have the written permission "
-              + "from the copyright holder.</p>"
+              + "is responsible for only uploading works they hold the copyright of or have the written permission "
+              + "from the copyright holder of.</p>"
               + "<p>It is permissible to link to content from this site as long as the original source is clearly stated, "
               + "but the wholesale reproduction or partial modification of content is not permitted. Exceptions "
               + "are granted only if you receive prior written consent from either MindLevel.net or the uploader "
               + "of the content.</p>"
               + "<h2>Contacts</h2> "
               + "<p>Should you have any further questions or concerns about these Terms and Conditions, "
-              + "or if you encounter difficulties while navigating and using the site, please contact "
+              + "or should you encounter difficulties while navigating and using the site, please contact "
               + "info@mindlevel.net</p> ");
         terms.addStyleName("terms");
         appArea.add(terms);

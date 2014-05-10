@@ -22,6 +22,7 @@ public class Admin {
         validationMenu.addItem("Missions", new Command() {
             @Override
             public void execute() {
+                RootPanel.get("chat-frame").setStyleName("superhidden", true);
                 clearScreen();
                 new Missions(appArea, false);
             }
@@ -29,6 +30,7 @@ public class Admin {
         validationMenu.addItem("Pictures", new Command() {
             @Override
             public void execute() {
+                RootPanel.get("chat-frame").setStyleName("superhidden", true);
                 clearScreen();
                 new Picture(appArea, 0, false);
             }

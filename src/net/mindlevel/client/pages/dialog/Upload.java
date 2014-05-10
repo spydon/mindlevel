@@ -197,10 +197,12 @@ public class Upload {
             public void onClick(ClickEvent event) {
                 Cell cell = t.getCellForEvent(event);
                 tagList.remove(tagField.getText());
-                if(t.getRowCount() > 7)
+                if(t.getRowCount() > 8) {
                     t.removeRow(cell.getRowIndex());
-                else
+                } else {
+                    tagField.setEnabled(true);
                     tagField.setText("");
+                }
             }
         });
         tagField.addKeyUpHandler(new KeyUpHandler() {

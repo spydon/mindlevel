@@ -56,7 +56,7 @@ public class Profile {
         final HorizontalPanel profilePanel = new HorizontalPanel();
         final VerticalPanel picturePanel = new VerticalPanel();
         final VerticalPanel infoPanel = new VerticalPanel();
-        profilePanel.setStylePrimaryName("profile-panel");
+        profilePanel.addStyleName("profile-panel");
         userService.getUser(userId, new AsyncCallback<User>() {
             @Override
             public void onFailure(Throwable caught) {
@@ -140,7 +140,9 @@ public class Profile {
                         constraint.setToken(UserTools.getToken());
                         constraint.setAdult(UserTools.isAdult());
                         GallerySection gallerySection = new GallerySection(constraint);
-                        appArea.add(new HTML("<h1>Finished missions by " + username + "</h>"));
+                        HTML galleryHeader = new HTML("<h1>Finished missions by " + username + "</h>");
+                        galleryHeader.addStyleName("profile-gallery-header");
+                        appArea.add(galleryHeader);
                         appArea.add(gallerySection);
                         galleryButton.removeFromParent();
                     }
