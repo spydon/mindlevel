@@ -1,7 +1,5 @@
 package net.mindlevel.server;
 
-import static org.apache.commons.lang3.StringEscapeUtils.escapeHtml4;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -15,19 +13,23 @@ public class RegistrationServiceImpl extends DBConnector implements Registration
     @Override
     public void register(String username, String email, String password, boolean adult) throws IllegalArgumentException {
         username = username.toLowerCase();
-        if (!FieldVerifier.isValidUsername(username) || !FieldVerifier.isValidEmail(email)) {
+        if (!FieldVerifier.isValidUsername(username)) {
             // If the input is not valid, throw an IllegalArgumentException back to
             // the client.
             throw new IllegalArgumentException(
                     "Name must be at least 4 characters long, but not longer than 20.");
+        } else if(!FieldVerifier.isValidEmail(email)) {
+            throw new IllegalArgumentException(
+                    "That email was not formated correctly, try again.");
+
         }
         try {
             Connection conn = getConnection();
             PreparedStatement ps = conn.prepareStatement("INSERT INTO user (username, email, password, adult) "
                     + "values (?, ?, SHA2(CONCAT(SHA2(?, 512),SHA2(?, 512)),512), ?)");
-            ps.setString(1, escapeHtml4(username));
-            ps.setString(2, escapeHtml4(email));
-            ps.setString(3, escapeHtml4(username));
+            ps.setString(1, username);
+            ps.setString(2, email);
+            ps.setString(3, username);
             ps.setString(4, password);
             ps.setBoolean(5, adult);
             int result = ps.executeUpdate();

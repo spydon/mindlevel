@@ -1,6 +1,8 @@
 package net.mindlevel.client.pages;
 
 import net.mindlevel.client.pages.dialog.BanBox;
+import net.mindlevel.shared.Constraint;
+import net.mindlevel.shared.UserTools;
 
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.MenuBar;
@@ -24,7 +26,10 @@ public class Admin {
             public void execute() {
                 RootPanel.get("chat-frame").setStyleName("superhidden", true);
                 clearScreen();
-                new Missions(appArea, false);
+                Constraint constraint = new Constraint();
+                constraint.setAdult(UserTools.isAdult());
+                constraint.setValidated(false);
+                new Missions(appArea, constraint);
             }
         });
         validationMenu.addItem("Pictures", new Command() {

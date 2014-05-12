@@ -1,6 +1,5 @@
 package net.mindlevel.client.widgets;
 
-import static com.google.gwt.safehtml.shared.SafeHtmlUtils.htmlEscape;
 import net.mindlevel.client.HandyTools;
 import net.mindlevel.client.Mindlevel;
 import net.mindlevel.client.services.UserService;
@@ -49,7 +48,6 @@ public class ReadBox extends Composite {
                 // TODO Auto-generated method stub
             }
         });
-
 
         // All composites must call initWidget() in their constructors.
         initWidget(container);
@@ -111,7 +109,7 @@ public class ReadBox extends Composite {
 
         buttonPanel.add(replyButton);
 
-        HTML commentText = new HTML(htmlEscape(comment.getComment()));
+        HTML commentText = HandyTools.formatHtml(comment.getComment());
         rightPanel.add(userLabel);
         rightPanel.add(commentText);
         rightPanel.add(buttonPanel);

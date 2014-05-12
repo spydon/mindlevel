@@ -1,7 +1,5 @@
 package net.mindlevel.server;
 
-import static org.apache.commons.lang3.StringEscapeUtils.escapeHtml4;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,6 +11,7 @@ import java.util.NoSuchElementException;
 import net.mindlevel.client.services.MissionService;
 import net.mindlevel.shared.Category;
 import net.mindlevel.shared.Constraint;
+import net.mindlevel.shared.FieldVerifier;
 import net.mindlevel.shared.Mission;
 
 @SuppressWarnings("serial")
@@ -58,8 +57,8 @@ public class MissionServiceImpl extends DBConnector implements MissionService {
             ps.setString(1, "%" + (constraint.getCategory() == Category.ALL ? "" : constraint.getCategory().toString().toLowerCase()) + "%");
             ps.setBoolean(2, constraint.isValidated());
             ps.setString(3, constraint.isAdult() ? "%" : "0");
-            ps.setString(4, "%" + constraint.getMission() + "%");
-            ps.setString(5, "%" + constraint.getMission() + "%");
+            ps.setString(4, "%" + constraint.getMissionName() + "%");
+            ps.setString(5, "%" + constraint.getMissionName() + "%");
             ps.setString(6, constraint.getSortingColumn().equals("") ? "name" : constraint.getSortingColumn());
             ps.setInt(7, start);
             ps.setInt(8, offset);
@@ -153,6 +152,10 @@ public class MissionServiceImpl extends DBConnector implements MissionService {
     @Override
     public void uploadMission(Mission mission, String token) throws IllegalArgumentException {
         try {
+            String reason = FieldVerifier.isValidMission(mission);
+            if(!reason.equals("")) {
+                throw new IllegalArgumentException(reason);
+            }
             if(new TokenServiceImpl().validateAuth(mission.getCreator(), token)) {
                 Connection conn = getConnection();
                 PreparedStatement ps = conn.prepareStatement(
@@ -175,10 +178,10 @@ public class MissionServiceImpl extends DBConnector implements MissionService {
                             + "creator) "
                             + "values "
                             + "(?, ?, ?, ?)");
-                    insertMission.setString(1, escapeHtml4(mission.getName()));
-                    insertMission.setString(2, escapeHtml4(mission.getDescription()));
+                    insertMission.setString(1, mission.getName());
+                    insertMission.setString(2, mission.getDescription());
                     insertMission.setBoolean(3, mission.getAdult());
-                    insertMission.setString(4, escapeHtml4(mission.getCreator()));
+                    insertMission.setString(4, mission.getCreator());
 
                     int result = insertMission.executeUpdate();
                     insertMission.close();
@@ -231,14 +234,15 @@ public class MissionServiceImpl extends DBConnector implements MissionService {
                         + "WHERE "
                         + "id = ?");
                 validateMission.setBoolean(1, true);
-                validateMission.setString(2, escapeHtml4(username));
+                validateMission.setString(2, username);
                 validateMission.setInt(3, missionId);
 
                 int result = validateMission.executeUpdate();
                 validateMission.close();
                 conn.close();
-                if (result != 1)
+                if (result != 1) {
                     throw new IllegalArgumentException("Unknown error.");
+                }
             } else {
                 throw new IllegalArgumentException(
                         "You are not logged in, you sneaky bastard! ;)");

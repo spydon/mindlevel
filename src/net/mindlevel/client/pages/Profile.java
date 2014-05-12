@@ -77,10 +77,10 @@ public class Profile {
 
                 username = user.getUsername();
                 infoPanel.add(new HTML("<b>Nick:</b> " + username + " " + special));
-                infoPanel.add(new HTML("<b>Name:</b> " + user.getName()));
+                infoPanel.add(new HTML("<b>Name:</b> " + HandyTools.formatHtml(user.getName())));
                 infoPanel.add(new HTML("<b>Score:</b> " + user.getScore()));
-                infoPanel.add(new HTML("<b>Location:</b> " + user.getLocation()));
-                infoPanel.add(new HTML("<b>About:</b> " + user.getAbout()));
+                infoPanel.add(new HTML("<b>Location:</b> " + HandyTools.formatHtml(user.getLocation())));
+                infoPanel.add(new HTML("<b>About:</b><br>" + HandyTools.formatHtml(user.getAbout())));
                 infoPanel.add(new HTML("<b>Last log in:</b> " + HandyTools.formatDate(user.getLastLogin())));
                 infoPanel.addStyleName("profile-info-panel");
 

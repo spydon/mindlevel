@@ -51,7 +51,7 @@ implements HasClickHandlers {
             image = new Image(Mindlevel.PATH + "pictures/" + user.getPicture());
             backPanel.add(image);
             backPanel.add(username);
-            backPanel.add(new HTML("Location: " + user.getLocation()));
+            backPanel.add(new HTML("Location: " + HandyTools.formatHtml(user.getLocation())));
             backPanel.add(new HTML("Last log in: " + HandyTools.formatDate(user.getLastLogin())));
         }
 

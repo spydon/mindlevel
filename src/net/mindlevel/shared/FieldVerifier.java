@@ -24,40 +24,52 @@ import com.google.gwt.regexp.shared.RegExp;
  */
 public class FieldVerifier {
 
+    private static final RegExp alphaNum = RegExp.compile("^([a-zA-Z0-9_\\-.]+[ ])*[a-zA-Z0-9_\\-.]+$");
+
     /**
      * Verifies that the specified name is valid for our service.
-     *
-     * In this example, we only require that the name is at least four
-     * characters. In your application, you can use more complex checks to ensure
-     * that usernames, passwords, email addresses, URLs, and other fields have the
-     * proper syntax.
      *
      * @param name the name to validate
      * @return true if valid, false if invalid
      */
-    public static boolean isValidUsername(String name) {
+    public static boolean isValidName(String name) {
         if (name == null) {
             return false;
         }
         if (alphaNum.exec(name) == null) {
             return false;
         }
-        return name.length() > 3 && name.length() < 21;
+        return true;
     }
 
-    private static final RegExp alphaNum = RegExp.compile("^[a-zA-Z0-9]*$");
+    public static boolean isValidUsername(String username) {
+        return isValidName(username) && username.length() > 3 && username.length() < 21;
+    }
 
     public static boolean isValidPassword(String password, String password2) {
         return password.equals(password2) && password.equals(password2) && password.length() >= 4;
     }
 
-    public static boolean isValidMetaImage(MetaImage metaImage) {
-        return !metaImage.getFilename().equals("") && !metaImage.getOwner().equals("");
+    public static String isValidMetaImage(MetaImage metaImage) {
+        if(metaImage.getFilename().equals("")) {
+            return "You forgot to send the picture";
+        } else if (metaImage.getOwner().equals("")) {
+            return "Something seems wrong with your login.";
+        } else if (isValidName(metaImage.getTitle())) {
+            return "The title can only contain letters, numbers, space and dashes";
+        }
+        return "";
     }
 
-    public static boolean isValidMission(Mission mission) {
-        // TODO Auto-generated method stub
-        return true;
+    public static String isValidMission(Mission mission) {
+        if(mission.getCategories().size()>0 &&
+            !mission.getDescription().equals("") &&
+            !mission.getName().equals("")) {
+            return "You forgot to fill out one of the fields";
+        } else if(!isValidName(mission.getName())) {
+            return "The name can only contain letters, numbers and dashes.";
+        }
+        return "";
     }
 
     private static final RegExp rfc2822 = RegExp.compile(

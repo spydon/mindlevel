@@ -6,16 +6,7 @@
          xmlns="http://java.sun.com/xml/ns/javaee">
 
   <!-- Servlets -->
-  <servlet>
-    <servlet-name>greetServlet</servlet-name>
-    <servlet-class>net.mindlevel.server.GreetingServiceImpl</servlet-class>
-  </servlet>
-  
-  <servlet-mapping>
-    <servlet-name>greetServlet</servlet-name>
-    <url-pattern>/mindlevel/greet</url-pattern>
-  </servlet-mapping>
-  
+
   <servlet>
     <servlet-name>missionServlet</servlet-name>
     <servlet-class>net.mindlevel.server.MissionServiceImpl</servlet-class>

@@ -107,7 +107,8 @@ public class Mindlevel implements EntryPoint, ValueChangeHandler<String> {
                 new Logout("home");
             } else if(parameters.equals("chat")) {
                 clearScreen();
-                new Chat(getAppArea(false));
+                getAppArea(false);
+                new Chat();
             } else if(parameters.equals("profile")) {
                 clearScreen();
                 new Profile(getAppArea(true), Mindlevel.user.getUsername());
@@ -116,7 +117,9 @@ public class Mindlevel implements EntryPoint, ValueChangeHandler<String> {
                 new Highscore(getAppArea(true));
             } else if(parameters.equals("missions")) {
                 clearScreen();
-                new Missions(getAppArea(true), true);
+                Constraint constraint = new Constraint();
+                constraint.setAdult(UserTools.isAdult());
+                new Missions(getAppArea(true), constraint);
             } else if(parameters.equals("pictures")) {
                 clearScreen();
                 new Picture(getAppArea(true), 0, true);
@@ -195,7 +198,7 @@ public class Mindlevel implements EntryPoint, ValueChangeHandler<String> {
                         } else if(tokens[j].startsWith("p=")) {
                             constraint.setPictureTitle(getValue(tokens[j]));
                         } else if(tokens[j].startsWith("m=")) {
-                            constraint.setMission(getValue(tokens[j]));
+                            constraint.setMissionName(getValue(tokens[j]));
                         }
                     }
                     constraint.setAdult(UserTools.isAdult());

@@ -33,10 +33,14 @@ public class PictureElement extends Composite {
                 History.newItem("picture=" + metaImage.getId());
             }
         });
-        HTML title = new HTML("Title: " + HandyTools.getAnchor("picture", "" + metaImage.getId(), metaImage.getTitle()));
+        HTML title = new HTML("Title: "
+        + HandyTools.getAnchor("picture", "" + metaImage.getId(),
+                HandyTools.formatHtml(metaImage.getTitle()).toString()));
         HTML tags = new HTML();
         HTML categories = new HTML();
-        HTML mission = new HTML("Mission: " + HandyTools.getAnchor("mission", "" + metaImage.getMission().getId(), metaImage.getMission().getName()));
+        HTML mission = new HTML("Mission: "
+        + HandyTools.getAnchor("mission", "" + metaImage.getMission().getId(),
+                HandyTools.formatHtml(metaImage.getMission().getName()).toString()));
         for(String tag : metaImage.getTags()) {
             if(!tags.getHTML().equals("")) {
                 tags.setHTML(tags.getHTML() + ", ");

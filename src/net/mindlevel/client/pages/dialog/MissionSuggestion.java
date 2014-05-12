@@ -93,18 +93,21 @@ public class MissionSuggestion {
             public void onClick(ClickEvent event) {
                 ArrayList<Category> categories = new ArrayList<Category>();
                 for(ListBox categoryLB : categoryList) {
-                    String category = categoryLB.getItemText(categoryLB.getSelectedIndex());
+                    Category category = Category.valueOf(categoryLB.getItemText(categoryLB.getSelectedIndex()).toUpperCase());
                     if(!categories.contains(category)) { //&& (!categoryLB.isEnabled() || categoryList.size() == 1)
-                        categories.add(Category.valueOf(category.toUpperCase()));
+                        categories.add(category);
                     }
                 }
 
+                if(FieldVerifier.isValidName(titleTB.getText()))
+
                 if(UserTools.isLoggedIn()) {
                     Mission mission = new Mission(titleTB.getText(), categories, descriptionTA.getText(), UserTools.getUsername(), adultCB.getValue(), false);
-                    if(FieldVerifier.isValidMission(mission)) {
+                    String reason = FieldVerifier.isValidMission(mission);
+                    if(reason.equals("")) {
                         missionUpload(mission);
                     } else {
-                        HandyTools.showDialogBox("Error", new HTML("You probably forgot to fill out one of the fields!"));
+                        HandyTools.showDialogBox("Error", new HTML(reason));
                     }
                 } else {
                     HandyTools.notLoggedInBox();
@@ -142,7 +145,7 @@ public class MissionSuggestion {
 
             @Override
             public void onSuccess(Boolean result) {
-                missionService.uploadMission(mission, Mindlevel.user.getToken(), new AsyncCallback<Void>() {
+                missionService.uploadMission(mission, UserTools.getToken(), new AsyncCallback<Void>() {
                     @Override
                     public void onFailure(Throwable caught) {
                         HandyTools.showDialogBox("Error", new HTML(caught.getMessage()));

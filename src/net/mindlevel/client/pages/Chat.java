@@ -8,10 +8,8 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.RootPanel;
 
 public class Chat {
-    private final RootPanel appArea;
 
-    public Chat(RootPanel appArea) {
-        this.appArea = appArea;
+    public Chat() {
         init();
     }
 

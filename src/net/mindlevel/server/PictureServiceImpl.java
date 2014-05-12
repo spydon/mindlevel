@@ -52,15 +52,17 @@ public class PictureServiceImpl extends DBConnector implements PictureService {
                     + "ON p.mission_id = mission.id "
                     + "WHERE validated = ? AND "
                     + "adult LIKE ? AND "
-                    + "title LIKE ? "
+                    + "title LIKE ? AND "
+                    + "mission_id LIKE ? "
                     + "ORDER BY timestamp desc LIMIT ?,?");
             ps.setString(1, constraint.getUsername().equals("") ? "%" : constraint.getUsername().toLowerCase() );
             ps.setString(2, "%" + (constraint.getCategory() == Category.ALL ? "" : constraint.getCategory().toString().toLowerCase()) + "%");
             ps.setBoolean(3, constraint.isValidated());
             ps.setString(4, constraint.isAdult() ? "%" : "0");
             ps.setString(5, "%" + constraint.getPictureTitle() + "%");
-            ps.setInt(6, start);
-            ps.setInt(7, offset);
+            ps.setString(6, constraint.getMissionId()==0 ? "%" : constraint.getMissionId()+"");
+            ps.setInt(7, start);
+            ps.setInt(8, offset);
             ResultSet rs = ps.executeQuery();
             while(rs.next()) {
                 MetaImage picture = new MetaImage();

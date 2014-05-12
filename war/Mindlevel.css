@@ -762,6 +762,11 @@ header {
 }
 
 @media only screen and (max-width: 520px), only screen and (max-device-width: 520px) {
+    .profile-panel > tbody > tr > td {
+        width: 100%;
+        float: left;
+        clear: both; 
+    }
     
     #loginMenu li {
         display: block;

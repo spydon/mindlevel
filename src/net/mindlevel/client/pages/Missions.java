@@ -36,13 +36,12 @@ public class Missions {
             .create(MissionService.class);
 
     public Missions(RootPanel appArea) {
-        this(appArea, true);
+        this(appArea, new Constraint());
     }
 
-    public Missions(RootPanel appArea, boolean validated) {
+    public Missions(RootPanel appArea, Constraint constraint) {
         this.appArea = appArea;
-        constraint = new Constraint();
-        constraint.setValidated(validated);
+        this.constraint = constraint;
         init();
     }
 

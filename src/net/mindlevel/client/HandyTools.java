@@ -1,5 +1,7 @@
 package net.mindlevel.client;
 
+import static com.google.gwt.safehtml.shared.SafeHtmlUtils.htmlEscape;
+
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -125,5 +127,9 @@ public class HandyTools {
 
     public static String getAnchor(String type, String data, String name) {
         return data!=null ? "<a href=#"+type+"="+data+">"+name+"</a>" : "";
+    }
+
+    public static HTML formatHtml(String text) {
+        return new HTML(htmlEscape(text).replaceAll("\n", "<br>"));
     }
 }

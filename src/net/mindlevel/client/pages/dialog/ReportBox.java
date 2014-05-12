@@ -35,7 +35,7 @@ public class ReportBox {
 
 
     public ReportBox() {
-        popup = new DialogBox(true);
+        popup = new DialogBox(false);
         init();
     }
 

@@ -1,7 +1,5 @@
 package net.mindlevel.server;
 
-import static com.google.gwt.safehtml.shared.SafeHtmlUtils.htmlEscape;
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -24,7 +22,7 @@ public class MetaUploadServiceImpl extends DBConnector implements
 
     @Override
     public String upload(MetaImage metaImage, boolean validated) throws IllegalArgumentException{
-        if (!FieldVerifier.isValidMetaImage(metaImage))
+        if (!FieldVerifier.isValidMetaImage(metaImage).equals(""))
             // If the input is not valid, throw an IllegalArgumentException back to
             // the client.
             throw new IllegalArgumentException(
@@ -39,17 +37,17 @@ public class MetaUploadServiceImpl extends DBConnector implements
             PreparedStatement ps = conn.prepareStatement("INSERT INTO picture "
                     + "(filename, title, location, description, adult, owner, mission_id, thread_id) "
                     + "values(?, ?, ?, ?, ?, ?, ?, ?)");
-            ps.setString(1, htmlEscape(metaImage.getFilename()));
-            ps.setString(2, htmlEscape(metaImage.getTitle()));
-            ps.setString(3, htmlEscape(metaImage.getLocation()));
-            ps.setString(4, htmlEscape(metaImage.getDescription()));
+            ps.setString(1, metaImage.getFilename());
+            ps.setString(2, metaImage.getTitle());
+            ps.setString(3, metaImage.getLocation());
+            ps.setString(4, metaImage.getDescription());
             ps.setBoolean(5, metaImage.isAdult());
-            ps.setString(6, htmlEscape(metaImage.getOwner()));
+            ps.setString(6, metaImage.getOwner());
             ps.setInt(7, metaImage.getMission().getId());
             ps.setInt(8, threadId);
 
             ps.executeUpdate();
-            uploadTags(htmlEscape(metaImage.getOwner()), metaImage.getTags(),
+            uploadTags(metaImage.getOwner(), metaImage.getTags(),
                     getPictureID(metaImage.getFilename(), false), validated);
             ps.close();
             conn.close();
@@ -92,7 +90,7 @@ public class MetaUploadServiceImpl extends DBConnector implements
                         "INSERT INTO user_picture "
                         + "(picture_id, username) VALUES (?, ?)");
                 ps.setInt(1, pictureId);
-                ps.setString(2, htmlEscape(username));
+                ps.setString(2, username);
                 ps.executeUpdate();
                 ps.close();
                 conn.close();

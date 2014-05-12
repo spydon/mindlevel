@@ -1,7 +1,5 @@
 package net.mindlevel.server;
 
-import static org.apache.commons.lang3.StringEscapeUtils.escapeHtml4;
-
 import java.io.File;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -312,9 +310,9 @@ public class UserServiceImpl extends DBConnector implements UserService {
             PreparedStatement ps = conn.prepareStatement("UPDATE user SET name = ?, location = ?, about = ?, adult = ? WHERE username = ?");
             int result = 0;
             if(new TokenServiceImpl().validateAuth(username, token)) {
-                ps.setString(1, escapeHtml4(name));
-                ps.setString(2, escapeHtml4(location));
-                ps.setString(3, escapeHtml4(about));
+                ps.setString(1, name);
+                ps.setString(2, location);
+                ps.setString(3, about);
                 ps.setBoolean(4, adult);
                 ps.setString(5, username);
                 result = ps.executeUpdate();

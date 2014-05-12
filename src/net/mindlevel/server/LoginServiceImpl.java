@@ -19,7 +19,7 @@ public class LoginServiceImpl extends DBConnector implements LoginService {
     public User login(String username, String password) throws IllegalArgumentException {
         User user = new User();
         username = username.toLowerCase();
-        if (!FieldVerifier.isValidUsername(username)) {
+        if (!FieldVerifier.isValidName(username)) {
             // If the input is not valid, throw an IllegalArgumentException back to
             // the client.
             throw new IllegalArgumentException(

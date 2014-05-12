@@ -10,7 +10,8 @@ public class Constraint implements Serializable {
     /* Search preferences */
     private SearchType type = SearchType.ALL;
     private String username = "";
-    private String mission = "";
+    private int missionId = 0;
+    private String missionName = "";
     private String pictureTitle = "";
     private String sortingColumn = "";
     private boolean validated = true;
@@ -24,7 +25,7 @@ public class Constraint implements Serializable {
     public Constraint(SearchType type,
                       String token,
                       String username,
-                      String mission,
+                      int missionId,
                       String pictureTitle,
                       Category category,
                       boolean validated,
@@ -35,7 +36,7 @@ public class Constraint implements Serializable {
         this.setType(type);
         this.setToken(token);
         this.setUsername(username);
-        this.setMission(mission);
+        this.setMissionId(missionId);
         this.setPictureTitle(pictureTitle);
         this.setCategory(category);
         this.setValidated(validated);
@@ -93,12 +94,12 @@ public class Constraint implements Serializable {
         this.type = searchType;
     }
 
-    public String getMission() {
-        return mission;
+    public int getMissionId() {
+        return missionId;
     }
 
-    public void setMission(String mission) {
-        this.mission = mission;
+    public void setMissionId(int missionId) {
+        this.missionId = missionId;
     }
 
     public String getPictureTitle() {
@@ -131,5 +132,13 @@ public class Constraint implements Serializable {
 
     public void setSortingColumn(String sortingColumn) {
         this.sortingColumn = sortingColumn;
+    }
+
+    public String getMissionName() {
+        return missionName;
+    }
+
+    public void setMissionName(String missionName) {
+        this.missionName = missionName;
     }
 }

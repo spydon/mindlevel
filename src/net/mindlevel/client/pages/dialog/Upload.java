@@ -114,10 +114,11 @@ public class Upload {
                         locationTB.getText(), new Mission(missionId), Mindlevel.user.getUsername(), descriptionTA.getText(),
                         getTags(), adultCB.getValue());
                 metaImage.setToken(Mindlevel.user.getToken());
-                if(FieldVerifier.isValidMetaImage(metaImage)) {
+                String reason = FieldVerifier.isValidMetaImage(metaImage);
+                if(reason.equals("")) {
                     metaUpload(metaImage);
                 } else {
-                    HandyTools.showDialogBox("Error", new HTML("You probably forgot to upload the picture or fill out the mission!"));
+                    HandyTools.showDialogBox("Error", new HTML(reason));
                 }
             }
         });
@@ -125,7 +126,7 @@ public class Upload {
         helpB.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-                HandyTools.showDialogBox("Help", new HTML("None of the text fields are mandatory.</br>The picture can be up to 6MB.</br>It's not necessary to tag yourself."));
+                HandyTools.showDialogBox("Help", new HTML("Remember to press send on the picture before pressing upload.</br>The picture can be up to 6MB.</br>It's not necessary to tag yourself."));
             }
         });
         Button closeB = new Button("Close");

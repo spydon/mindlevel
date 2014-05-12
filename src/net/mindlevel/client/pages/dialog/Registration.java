@@ -156,7 +156,6 @@ public class Registration {
                 final String password2 = passField2.getText();
                 final boolean adult = adultBox.getValue();
 
-                // Then, we send the input to the server.
                 regButton.setEnabled(false);
                 textToServerLabel.setText(username);
                 errorLabel.setText("");
@@ -196,7 +195,6 @@ public class Registration {
                                             public void onFailure(Throwable caught) {
                                                 // Show the RPC error message to the user
                                                 registrationBox.setText("Failure");
-                                                //serverResponseLabel.setHTML(SERVER_ERROR);
                                                 errorLabel.setText(caught.getMessage());
                                                 registrationBox.center();
                                                 closeButton.setFocus(true);

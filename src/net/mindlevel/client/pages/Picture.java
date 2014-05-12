@@ -353,8 +353,8 @@ public class Picture {
                 title.setHTML(metaImage.getTitle());
                 location.setHTML("<b>Location: </b>" + metaImage.getLocation());
                 owner.setHTML("<b>Owner: </b>" + HandyTools.getAnchor("user", metaImage.getOwner(), metaImage.getOwner()));
-                description.setHTML("<h1>Description</h1>"
-                        + metaImage.getDescription());
+                description.setHTML("<h1>Description</h1><br>"
+                        + HandyTools.formatHtml(metaImage.getDescription()));
                 tags.setHTML(buildTagHTML(metaImage.getTags()));
                 date.setHTML("<b>Creation date: </b>" + metaImage.getDate());
                 if(validated) {
