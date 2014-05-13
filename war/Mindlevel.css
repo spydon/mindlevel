@@ -258,11 +258,6 @@ header {
     word-wrap: break-word;
 }
 
-.picture-description * {
-/*     text-align: left; */
-/*     vertical-align: top; */
-}
-
 .pictureInfo {
     min-width: 200px;
     margin: 5px 0px 0px;
@@ -605,8 +600,8 @@ header {
     max-width: 90%;
 }
 
-.gallery-section .last-picture-element {
-    width: 230px;
+.gallery-section .picture-element {
+/*     width: 230px; */
 /*     float: left; */
     display: inline-block;
 }
@@ -716,23 +711,23 @@ header {
 *   Last pictures section
 */
 
-.last-picture-section {
+.picture-section {
     text-align: left;
     max-width: 200px;
     margin-left: 50px;
 }
 
-.last-picture-element {
+.picture-element {
     text-align: left;
     margin-bottom: 10px;
 }
 
-.last-picture-element .gwt-HTML {
+.picture-element .gwt-HTML {
     width: 95%;
     text-align: left;
 }
 
-.last-picture-header {
+.picture-header {
     font-size: large;
     font-weight: bold;
     margin-bottom: 10px;

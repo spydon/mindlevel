@@ -49,7 +49,7 @@ public class Missions {
         constraint.setSortingColumn("timestamp desc");
         MissionSection missionSection = new MissionSection(current, stepSize, constraint);
         missionsContainer.add(missionSection);
-        appArea.add(new HTML("<h1>Missions</h1>"));
+        appArea.add(new HTML("<h1>Missions</h1><p>Click on a mission to see more information about it or to upload a picture.</p>"));
         appArea.add(missionsContainer);
 
         leftButton = new Button("<");

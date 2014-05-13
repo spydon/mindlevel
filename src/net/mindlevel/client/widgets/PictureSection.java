@@ -30,7 +30,7 @@ public class PictureSection extends Composite {
         p = new VerticalPanel();
         HTML header = new HTML("Last finished missions");
         final LoadingElement l = new LoadingElement();
-        header.addStyleName("last-picture-header");
+        header.addStyleName("picture-header");
         p.add(header);
         p.add(l);
         Constraint constraint = new Constraint();
@@ -63,6 +63,6 @@ public class PictureSection extends Composite {
         initWidget(p);
 
         // Give the overall composite a style name.
-        setStyleName("last-picture-section");
+        setStyleName("picture-section");
     }
 }

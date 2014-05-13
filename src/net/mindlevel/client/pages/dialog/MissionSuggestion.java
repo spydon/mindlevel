@@ -91,17 +91,15 @@ public class MissionSuggestion {
         uploadB.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-                ArrayList<Category> categories = new ArrayList<Category>();
-                for(ListBox categoryLB : categoryList) {
-                    Category category = Category.valueOf(categoryLB.getItemText(categoryLB.getSelectedIndex()).toUpperCase());
-                    if(!categories.contains(category)) { //&& (!categoryLB.isEnabled() || categoryList.size() == 1)
-                        categories.add(category);
-                    }
-                }
-
-                if(FieldVerifier.isValidName(titleTB.getText()))
-
                 if(UserTools.isLoggedIn()) {
+                    ArrayList<Category> categories = new ArrayList<Category>();
+                    for(ListBox categoryLB : categoryList) {
+                        Category category = Category.valueOf(categoryLB.getItemText(categoryLB.getSelectedIndex()).toUpperCase());
+                        if(!categories.contains(category)) { //&& (!categoryLB.isEnabled() || categoryList.size() == 1)
+                            categories.add(category);
+                        }
+                    }
+
                     Mission mission = new Mission(titleTB.getText(), categories, descriptionTA.getText(), UserTools.getUsername(), adultCB.getValue(), false);
                     String reason = FieldVerifier.isValidMission(mission);
                     if(reason.equals("")) {

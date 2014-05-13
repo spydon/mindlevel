@@ -129,7 +129,7 @@ public class HandyTools {
         return data!=null ? "<a href=#"+type+"="+data+">"+name+"</a>" : "";
     }
 
-    public static HTML formatHtml(String text) {
-        return new HTML(htmlEscape(text).replaceAll("\n", "<br>"));
+    public static String formatHtml(String text) {
+        return htmlEscape(text).replaceAll("\n", "<br>");
     }
 }

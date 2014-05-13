@@ -86,8 +86,8 @@ public class UploadProfilePicture {
 
                         @Override
                         public void onSuccess(Void msg) {
-                            popup.hide();
                             Mindlevel.user.setPicture(filename);
+                            popup.hide();
                             HandyTools.showDialogBox("Success", new HTML("<h1>Successfully updated your profile picture</h1>"));
                             History.fireCurrentHistoryState();
                         }

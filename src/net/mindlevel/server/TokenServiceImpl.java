@@ -121,13 +121,12 @@ public class TokenServiceImpl extends DBConnector implements TokenService {
             Connection conn = getConnection();
             PreparedStatement ps = conn.prepareStatement("UPDATE user SET token=NULL WHERE token=?");
             ps.setString(1, token);
-            int result = ps.executeUpdate();
-            if(result != 1)
-                throw new IllegalArgumentException("You are already logged out...");
+            ps.executeUpdate();
             ps.close();
             conn.close();
         } catch(SQLException e) {
             e.printStackTrace();
+            throw new IllegalArgumentException("Something went wrong, not sure what... Eat some icecream...");
         }
     }
 

@@ -205,7 +205,7 @@ public class Registration {
                                             public void onSuccess(Void result) {
                                                 registrationBox.hide();
                                                 HandyTools.showDialogBox("Success!", new HTML("Welcome, you are now registered!"
-                                                        + "<p>You might want to check out the <a href=\"#tutorial\">#tutorial</a>"));
+                                                        + "<p>You might want to check out the <a href=\"#tutorial\">#tutorial</a></p>"));
                                             }
                                         });
                             } else {

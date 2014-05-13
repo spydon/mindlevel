@@ -1,6 +1,6 @@
 package net.mindlevel.client.pages;
 
-import net.mindlevel.client.widgets.LastLoginsSection;
+import net.mindlevel.client.widgets.LoginsSection;
 import net.mindlevel.client.widgets.NewestUsersSection;
 import net.mindlevel.client.widgets.NewsSection;
 import net.mindlevel.client.widgets.PictureSection;
@@ -27,7 +27,7 @@ public class Home extends Page{
         VerticalPanel userPanel = new VerticalPanel();
         PictureSection ps = new PictureSection(3, true);
         NewsSection news = new NewsSection(3);
-        LastLoginsSection lls = new LastLoginsSection(4);
+        LoginsSection lls = new LoginsSection(4);
         NewestUsersSection nsu = new NewestUsersSection(4);
         userPanel.addStyleName("home-user-panel");
         userPanel.add(lls);

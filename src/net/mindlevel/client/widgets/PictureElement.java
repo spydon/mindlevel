@@ -73,6 +73,6 @@ public class PictureElement extends Composite {
         // All composites must call initWidget() in their constructors.
         initWidget(backPanel);
         // Give the overall composite a style name.
-        setStyleName("last-picture-element");
+        setStyleName("picture-element");
     }
 }

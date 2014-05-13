@@ -109,7 +109,7 @@ public class ReadBox extends Composite {
 
         buttonPanel.add(replyButton);
 
-        HTML commentText = HandyTools.formatHtml(comment.getComment());
+        HTML commentText = new HTML(HandyTools.formatHtml(comment.getComment()));
         rightPanel.add(userLabel);
         rightPanel.add(commentText);
         rightPanel.add(buttonPanel);

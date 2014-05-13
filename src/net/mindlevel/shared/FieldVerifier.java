@@ -55,16 +55,16 @@ public class FieldVerifier {
             return "You forgot to send the picture";
         } else if (metaImage.getOwner().equals("")) {
             return "Something seems wrong with your login.";
-        } else if (isValidName(metaImage.getTitle())) {
+        } else if (!isValidName(metaImage.getTitle())) {
             return "The title can only contain letters, numbers, space and dashes";
         }
         return "";
     }
 
     public static String isValidMission(Mission mission) {
-        if(mission.getCategories().size()>0 &&
-            !mission.getDescription().equals("") &&
-            !mission.getName().equals("")) {
+        if(mission.getCategories().size()==0 ||
+            mission.getDescription().equals("") ||
+            mission.getName().equals("")) {
             return "You forgot to fill out one of the fields";
         } else if(!isValidName(mission.getName())) {
             return "The name can only contain letters, numbers and dashes.";

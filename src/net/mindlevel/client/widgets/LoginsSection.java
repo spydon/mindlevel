@@ -13,7 +13,7 @@ import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-public class LastLoginsSection extends Composite {
+public class LoginsSection extends Composite {
 
     private final VerticalPanel p;
 
@@ -24,7 +24,7 @@ public class LastLoginsSection extends Composite {
      * Constructs a CommentSection that controls a number of ReadBox and WriteBox
      *
      */
-    public LastLoginsSection(final int number) {
+    public LoginsSection(final int number) {
         p = new VerticalPanel();
         HTML header = new HTML("Last logins");
         final LoadingElement l = new LoadingElement();
