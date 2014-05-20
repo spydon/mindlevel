@@ -17,7 +17,7 @@ public class Admin {
     }
 
     private void init() {
-        RootPanel.get("adminmenu").clear();
+        RootPanel.get("admin-menu").clear();
         MenuBar validationMenu = new MenuBar(true);
         validationMenu.setAutoOpen(true);
         validationMenu.setAnimationEnabled(true);
@@ -60,7 +60,7 @@ public class Admin {
         });
         menu.addItem("Validation", validationMenu);
 
-        RootPanel.get("adminmenu").add(menu);
+        RootPanel.get("admin-menu").add(menu);
     }
 
     private void clearScreen() {

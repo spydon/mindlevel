@@ -18,6 +18,7 @@ import net.mindlevel.shared.Mission;
 import net.mindlevel.shared.UserTools;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyCodes;
@@ -96,16 +97,16 @@ public class Picture {
         score = new HTML();
         link = new HTML();
         date = new HTML();
-        image.addStyleName("missionPicture");
+        image.addStyleName("mission-picture");
         title.addStyleName("picture-title");
-        location.addStyleName("pictureInfo");
-        tags.addStyleName("pictureInfo");
-        owner.addStyleName("pictureInfo");
-        category.addStyleName("pictureInfo");
-        mission.addStyleName("pictureInfo");
-        score.addStyleName("scoreInfo");
-        link.addStyleName("pictureInfo");
-        date.addStyleName("pictureInfo");
+        location.addStyleName("picture-info");
+        tags.addStyleName("picture-info");
+        owner.addStyleName("picture-info");
+        category.addStyleName("picture-info");
+        mission.addStyleName("picture-info");
+        score.addStyleName("score-info");
+        link.addStyleName("picture-info");
+        date.addStyleName("picture-info");
         Window.enableScrolling(true);
         init();
     }
@@ -171,7 +172,7 @@ public class Picture {
         descriptionContainer.addStyleName("picture-description");
         descriptionContainer.add(description);
 
-        infoPanel.addStyleName("infopanel");
+        infoPanel.addStyleName("info-panel");
         infoPanel.add(owner);
         infoPanel.add(mission);
         infoPanel.add(category);
@@ -212,8 +213,13 @@ public class Picture {
          */
         @Override
         public void onKeyUp(KeyUpEvent event) {
-            boolean isPicture = History.getToken().contains("picture");
-            if(!notFound && !Mindlevel.isTextAreaFocused && isPicture) {
+            String token = History.getToken();
+            boolean isPicture = token.contains("picture") && !token.contains("login") && !token.contains("register");
+
+            String tagName = ((Element) event.getNativeEvent().getEventTarget().cast()).getTagName();
+            System.out.println(tagName);
+            boolean isTextAreaFocused = tagName.equals("INPUT") || tagName.equals("TEXTAREA");
+            if(!notFound && !isTextAreaFocused && isPicture) {
                 if (event.getNativeKeyCode() == KeyCodes.KEY_RIGHT && id < imageCount) {
                     nextImage();
                 } else if (event.getNativeKeyCode() == KeyCodes.KEY_LEFT && id > 1) {
@@ -309,10 +315,10 @@ public class Picture {
                                 @Override
                                 public void onSuccess(Void result) {
                                     HandyTools.showDialogBox("Success", new HTML("Great success!"));
-                                    if (id < imageCount) {
-                                        nextImage();
-                                    } else if (id > 1) {
+                                    if (id > 1) {
                                         prevImage();
+                                    } else if (id < imageCount-1) {
+                                        nextImage();
                                     } else {
                                         randomImage();
                                     }
@@ -338,13 +344,14 @@ public class Picture {
                                 @Override
                                 public void onSuccess(Void result) {
                                     HandyTools.showDialogBox("Success", new HTML("Picture deleted!"));
-                                    if (id < imageCount) {
-                                        nextImage();
-                                    } else if (id > 1) {
+                                    if (id > 1) {
                                         prevImage();
+                                    } else if (id < imageCount) {
+                                        nextImage();
                                     } else {
                                         randomImage();
-                                    }                                }
+                                    }
+                               }
                             });
                         }
                     });

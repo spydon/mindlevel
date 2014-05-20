@@ -81,6 +81,9 @@ public class MissionProfile {
         missionPanel.add(new HTML("<b>Name:</b> " + mission.getName()));
         missionPanel.add(new HTML("<b>Categories:</b> " + HandyTools.getCategoryAnchors(mission.getCategories())));
         missionPanel.add(new HTML("<b>Description:</b><br>" + HandyTools.formatHtml(mission.getDescription())));
+
+        VerticalPanel buttonPanel = new VerticalPanel();
+        buttonPanel.addStyleName("button-panel");
         if(UserTools.isLoggedIn() && validated) {
             Button uploadButton = new Button("Upload completed mission");
             uploadButton.addStyleName("smallmargin");
@@ -91,7 +94,7 @@ public class MissionProfile {
                     new Upload(missionId, mission.getName());
                 }
             });
-            missionPanel.add(uploadButton);
+            buttonPanel.add(uploadButton);
         }
         if(UserTools.isAdmin()) {
             if(!validated) {
@@ -122,7 +125,7 @@ public class MissionProfile {
                                 });
                     }
                 });
-                missionPanel.add(validateButton);
+                buttonPanel.add(validateButton);
             }
 
             final SureBox sureBox = new SureBox();
@@ -175,7 +178,7 @@ public class MissionProfile {
                 }
 
             });
-            missionPanel.add(deleteButton);
+            buttonPanel.add(deleteButton);
         }
 
         final Button galleryButton = new Button("Show finished \"" + mission.getName() + "\"");
@@ -198,8 +201,9 @@ public class MissionProfile {
                 galleryButton.removeFromParent();
             }
         });
+        buttonPanel.add(galleryButton);
+        missionPanel.add(buttonPanel);
 
         appArea.add(missionPanel);
-        appArea.add(galleryButton);
     }
 }

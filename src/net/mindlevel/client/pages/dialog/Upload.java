@@ -165,8 +165,9 @@ public class Upload {
 
     private void createTagRow(final int row) {
         Label tagL = new Label("Tag ML user");
-        if(!educatedUserOracle)
+        if(!educatedUserOracle) {
             educateOracle();
+        }
         final SuggestBox tagField = new SuggestBox(this.userOracle);
         final Button newTagB = new Button("+");
         final Button delTagB = new Button("-");
@@ -240,14 +241,12 @@ public class Upload {
         @Override
         public void onFinish(IUploader uploader) {
             if (uploader.getStatus() == Status.SUCCESS) {
+                // You can send any customized message and parse it
+                filename = uploader.getServerMessage().getMessage();
+
                 new PreloadedImage(uploader.getServerInfo().getFileUrl(), showImage);
                 panel.remove(defaultUploader);
                 panel.insert(l, 2);
-                // The server sends useful information to the client by default
-//                UploadedInfo info = uploader.getServerInfo();
-
-                // You can send any customized message and parse it
-                filename = uploader.getServerMessage().getMessage();
             }
         }
     };
@@ -259,7 +258,9 @@ public class Upload {
             l.removeFromParent();
             image.setWidth("150px");
             panelImages.add(image);
-            popup.center();
+            if(popup.isShowing()) {
+                popup.center();
+            }
         }
     };
 
@@ -274,9 +275,7 @@ public class Upload {
             @Override
             public void onSuccess(String msg) {
                 popup.hide();
-                //panel.clear();
                 HandyTools.showDialogBox("Success", new HTML("<h1>"+msg+"</h1>"));
-                //init();
             }
         });
     }

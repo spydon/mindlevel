@@ -59,7 +59,8 @@ h1 {
 
 /** MENU START **/
 
-.adminmenu {
+.admin-menu {
+    background-color: pink;
     position: relative;
     z-index: 4;
     margin-bottom: 31px;
@@ -120,18 +121,18 @@ h1 {
     display: inline-block;
 }
 
-.menu a:hover > .pageName {
+.menu a:hover > .page-name {
     transition: none;
     display: block;
     margin-left: -27px;
 }
 
-.menu a:active .pageName {
+.menu a:active .page-name {
 /*     font-size: 90%; */
 /*     font-weight: bold; */
 }
 
-.pageName {
+.page-name {
     transition: none;
     position: absolute;
     display: none;
@@ -140,7 +141,7 @@ h1 {
     width: 100px;
 }
 
-#mainMenu {
+#main-menu {
     width: 100%;
     margin-left: auto;
     margin-right: auto;
@@ -186,7 +187,7 @@ header {
     text-decoration: underline;
 }
 
-.infopanel {
+.info-panel {
     text-align: left; !important;
     padding: 10px;
 /*     border-radius: 10px; */
@@ -195,6 +196,14 @@ header {
     background: lightsteelblue; /*#D65E2F;  199fd2 */
 /*     opacity: 0.7; */
     
+}
+
+.button-panel .gwt-Button {
+    width: 100%;
+}
+
+.gwt-DecoratedPopupPanel { 
+    z-index: 3;
 }
 
 .meta-panel a {
@@ -258,17 +267,17 @@ header {
     word-wrap: break-word;
 }
 
-.pictureInfo {
+.picture-info {
     min-width: 200px;
     margin: 5px 0px 0px;
     text-align: left;
 }
 
-.scoreInfo {
+.score-info {
     font-size: 12pt;
 }
 
-.missionPicture {
+.mission-picture {
     transition: none; 
     cursor: pointer;
     margin: 0px 0px 10px;
@@ -279,10 +288,6 @@ header {
 }
 .pointer-table {
     cursor: pointer;
-}
-
-.loadingPicture {
-    transition: none; 
 }
 
 .picture-panel * {
@@ -324,7 +329,7 @@ header {
     margin: 5px;
 }
 
-.serverResponseLabelError {
+.error-label {
     color: red;
 }
 
@@ -376,7 +381,7 @@ header {
     font-family: sans-serif;
 }
 
-#loginMenu {
+#login-menu {
     top: 0;
     right: 0;
     position:absolute;
@@ -392,10 +397,6 @@ header {
     top: 1px;
     left: 2px;
     color: black;
-/*     margin: 5px 10px 0px; */
-/*     padding: 0px; */
-/*     padding-top: 2px; */
-/*     margin-left: 2px; */
     text-align: left;
 }
 
@@ -404,22 +405,15 @@ header {
 }
 
 #logo {
-/*     width: 30%; */
     top: 10px;
     left: 0;
     position:absolute;
-/*     display: table-cell; */
     text-align: left;
-/*     padding: 5px; */
 }
 
 #logo > img {
     margin: 0px 0px 0px 10px;
     width: 64px;
-}
-
-#closeButton {
-    margin: 15px 6px 6px;
 }
 
 #apparea {
@@ -438,7 +432,7 @@ header {
 }
 
 .captcha-margin {
-	margin-bottom: 10px;
+    margin-bottom: 10px;
 }
 
 .home-panel {
@@ -459,10 +453,8 @@ header {
 
 /** ReadBox */
 .comment-box {
-	z-index: 2;
-	position: relative;
-/*     text-align: left !important; */
-/*     border-radius: 5px; */
+    z-index: 2;
+    position: relative;
     margin-bottom: 10px;
     box-shadow: 0px 4px 4px #000;
     background: lightsteelblue;
@@ -477,14 +469,8 @@ header {
 }
 
 .comment-button-show-all {
-	margin-bottom: 20px;
+    margin-bottom: 20px;
 }
-
-/* .comment-edit-button { */
-/* 	position: absolute; */
-/* 	bottom: 5px; */
-/* 	right: 25px; */
-/* } */
 
 .comment-content {
     width: 100%;
@@ -492,8 +478,7 @@ header {
 }
 
 .comment-text {
-	text-align: left;
-/* 	max-width: 300px; */
+    text-align: left;
     margin: 5px;
     margin-top: 0px;
     margin-bottom: 32px;
@@ -750,7 +735,7 @@ header {
         clear: both; 
     }
     
-    .home-user-panel, .last-picture-section {
+    .home-user-panel, .picture-section {
         margin-left: auto;
         margin-right: auto;
     }
@@ -817,6 +802,20 @@ header {
     .search-icon {
         margin-top: -10px;
     }
+    
+    .menu img:hover {
+        cursor: pointer;
+        height: 35px;
+        margin-top: 0px;
+        transition:none; 
+    }
+
+    .menu img:active {
+        cursor: pointer;
+        height: 30px;
+        margin-top: 5px;
+        transition:all .2s ease-in-out; 
+    }
 }
 
 @media only screen and (max-width: 420px), only screen and (max-device-width: 420px) {
@@ -825,20 +824,20 @@ header {
         padding-top: 10px;
     }
     
-    #mainMenu {
+    #main-menu {
         max-width: 210px;
         margin-left: 0;
         padding-bottom: 2px; 
     }
     
-    .menu a:hover > .pageName {
+    .menu a:hover > .page-name {
         background-color: rgba(255, 255, 255, 0.6);
         border: 1px solid white;
         border-radius: 2px;
         margin-top: 0px;
     }
     
-    .pageName:hover {
+    .page-name:hover {
         display: none !important;
     }
     
@@ -858,27 +857,7 @@ header {
         margin-top: 0px;
     }
         
-    .menu a:hover .pageName {
+    .menu a:hover .page-name {
         display: block;
-    }
-    
-    .meta-panel {
-        display: block;
-        position: relative;
-    }
-    
-    .infopanel {}
-    
-/*     .picture-description { */
-/*         float: left; */
-/*         position: absolute; */
-/*         top: 6px; */
-/*     } */
-    
-}
-
-@media only screen and (max-width: 300px), only screen and (max-device-width: 300px) {
-    #mainMenu {
-        max-width: 150px;
     }
 }

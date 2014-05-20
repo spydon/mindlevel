@@ -51,14 +51,19 @@ public class UploadServiceImpl extends UploadAction {
                 try {
                     //Write the image to uncompressed file
                     item.write(file);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    throw new IllegalArgumentException("Something went wrong when saving the picture");
+                }
+                // Save a list with the received files
+                receivedFiles.put(item.getFieldName(), file);
+                receivedContentTypes.put(item.getFieldName(), item.getContentType());
 
-                    // Save a list with the received files
-                    receivedFiles.put(item.getFieldName(), file);
-                    receivedContentTypes.put(item.getFieldName(), item.getContentType());
-
-                    // Decrease the size of the picture if needed
+                // Decrease the size of the picture if needed
+                try {
                     BufferedImage scaledImage = scaleImage(file, PICTURE_MAXWIDTH);
                     File scaledFile = new File(path + hashName + "_scaled" + extension);
+
                     if(ImageIO.write(scaledImage, extension.substring(1), scaledFile)) {
                         // Send a message with the filename to the client.
                         response = scaledFile.getName();
@@ -70,18 +75,16 @@ public class UploadServiceImpl extends UploadAction {
                     BufferedImage thumbImage = scaleImage(file, THUMB_MAXWIDTH);
                     File thumbFile = new File(path + hashName + "_thumb" + extension);
                     ImageIO.write(thumbImage, extension.substring(1), thumbFile);
-                } catch (Exception e) {
+                } catch (IOException e) {
                     e.printStackTrace();
+                    throw new IllegalArgumentException("Something went wrong when saving the picture");
                 }
             } else {
-                throw new IllegalArgumentException("Faulty file type");
+                throw new UploadActionException("Faulty file type");
             }
         }
 
-        /// Remove files from session because we have a copy of them
-//        removeSessionFileItems(request);
-
-        /// Send your customized message to the client.
+        // Send your customized message to the client.
         return response;
     }
 
@@ -101,25 +104,26 @@ public class UploadServiceImpl extends UploadAction {
         }
     }
 
-    private BufferedImage scaleImage(File image, int scaledWidth) throws IOException {
+    private BufferedImage scaleImage(File image, int scaledWidth) throws IOException, UploadActionException {
         BufferedImage sourceImage = ImageIO.read(image);
+        float scale = scaledWidth / (float) sourceImage.getWidth();
+        int scaledHeight = (int) (sourceImage.getHeight() * scale);
+        if(scaledHeight > scaledWidth*3) {
+            throw new IllegalArgumentException("That image is more than three times as tall as wide. Computer says NO!");
+        }
+
         if(sourceImage.getWidth() > scaledWidth) {
-            float scale = scaledWidth / (float) sourceImage.getWidth();
-            int scaledHeight = (int) (sourceImage.getHeight() * scale);
-            if(scaledHeight > scaledWidth*3) {
-                throw new IllegalArgumentException("That image is more than three times as tall as wide. Computer says NO!");
-            }
             Image scaledImage = sourceImage.getScaledInstance(
-               scaledWidth,
-               scaledHeight,
-               Image.SCALE_AREA_AVERAGING
-            );
+                    scaledWidth,
+                    scaledHeight,
+                    Image.SCALE_AREA_AVERAGING
+                    );
 
             BufferedImage bufferedImage = new BufferedImage(
-               scaledImage.getWidth(null),
-               scaledImage.getHeight(null),
-               BufferedImage.TYPE_INT_RGB
-            );
+                    scaledImage.getWidth(null),
+                    scaledImage.getHeight(null),
+                    BufferedImage.TYPE_INT_RGB
+                    );
             Graphics g = bufferedImage.createGraphics();
             g.drawImage(scaledImage, 0, 0, null);
             g.dispose();
@@ -127,8 +131,7 @@ public class UploadServiceImpl extends UploadAction {
         } else {
             return sourceImage;
         }
-
-     }
+    }
 
     private String generateHash() {
         return UUID.randomUUID().toString();

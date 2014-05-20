@@ -90,7 +90,7 @@ public class HandyTools {
         RootPanel.get("profile").getElement().setInnerHTML(username);
         RootPanel.get("hideprofile").setStyleName("superhidden", !logIn);
         RootPanel.get("hidechat").setStyleName("superhidden", !logIn);
-        RootPanel.get("adminmenu").setStyleName("superhidden", !UserTools.isAdmin()); //!logIn &&
+        RootPanel.get("admin-menu").setStyleName("superhidden", !UserTools.isAdmin()); //!logIn &&
         RootPanel.get("apparea").setStyleName("adminbar", logIn && UserTools.isAdmin());
     }
 

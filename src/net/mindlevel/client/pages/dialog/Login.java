@@ -81,6 +81,7 @@ public class Login {
             @Override
             public void onClick(ClickEvent event) {
                 loginBox.hide();
+                History.newItem(session, false);
             }
         });
 
@@ -125,7 +126,7 @@ public class Login {
                                 // Show the RPC error message to the user
                                 loginBox.setText("Failure");
                                 serverResponse
-                                        .addStyleName("serverResponseLabelError");
+                                        .addStyleName("error-label");
                                 serverResponse.setHTML(caught.getMessage());
                                 loginBox.center();
                                 closeButton.setFocus(true);

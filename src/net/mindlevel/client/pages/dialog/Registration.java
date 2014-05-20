@@ -79,7 +79,7 @@ public class Registration {
         // on different places
         HorizontalPanel errorPanel = new HorizontalPanel();
         errorPanel.add(errorLabel);
-        errorLabel.addStyleName("serverResponseLabelError");
+        errorLabel.addStyleName("error-label");
 
         // Add the nameField and sendButton to the RootPanel
         // Use RootPanel.get() to get the entire body element

@@ -42,7 +42,6 @@ import com.google.gwt.user.client.ui.SimplePanel;
 public class Mindlevel implements EntryPoint, ValueChangeHandler<String> {
     public static User user;
     public static HandlerRegistration navigationHandlerRegistration = null;
-    public static boolean isTextAreaFocused = false;
     public static SimplePanel chat = null;
     public static String PATH = "./";
     private final String[] pages =
