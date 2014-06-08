@@ -639,13 +639,15 @@ header {
     text-align: left;
     width: 100%;
     height: 50px;
-    transition:background-color 1s;
+    margin-left: 10px;
+    transition:all 1s;
 }
 
 .simple-user-element:hover {
     cursor: pointer;
     background-color: lightsteelblue;
-    transition: none;
+/*     transition: none; */
+    margin-left: 0px;
 }
 
 .simple-user-element .gwt-HTML {

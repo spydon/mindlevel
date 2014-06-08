@@ -217,7 +217,6 @@ public class Picture {
             boolean isPicture = token.contains("picture") && !token.contains("login") && !token.contains("register");
 
             String tagName = ((Element) event.getNativeEvent().getEventTarget().cast()).getTagName();
-            System.out.println(tagName);
             boolean isTextAreaFocused = tagName.equals("INPUT") || tagName.equals("TEXTAREA");
             if(!notFound && !isTextAreaFocused && isPicture) {
                 if (event.getNativeKeyCode() == KeyCodes.KEY_RIGHT && id < imageCount) {
