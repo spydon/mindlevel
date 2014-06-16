@@ -9,7 +9,17 @@
 	<classpathentry kind="lib" path="war/WEB-INF/lib/commons-lang3-3.2.1-javadoc.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/commons-lang3-3.2.1.jar"/>
 	<classpathentry kind="con" path="com.google.gwt.eclipse.core.GWT_CONTAINER/GWT (3)"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/gwtupload-1.0.0.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/gwt-dev.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/gwtupload-1.0.1.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/aopalliance.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/gin-2.1.2.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/guice-3.0.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/guice-assistedinject-3.0.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/gwtphonegap-3.5.0.0.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/gwtupload-1.0.0.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/javax.inject.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/mgwt-2.0.0-m2-alpha-javadoc.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/mgwt-2.0.0-m2-alpha-sources.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/mgwt-2.0.0-m2-alpha.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

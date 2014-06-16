@@ -16,6 +16,7 @@ import net.mindlevel.client.pages.dialog.Logout;
 import net.mindlevel.client.pages.dialog.Registration;
 import net.mindlevel.client.pages.dialog.ReportBox;
 import net.mindlevel.client.pages.dialog.SearchBox;
+import net.mindlevel.mobile.client.MindlevelMobile;
 import net.mindlevel.shared.Category;
 import net.mindlevel.shared.Constraint;
 import net.mindlevel.shared.SearchType;
@@ -32,6 +33,7 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.EventListener;
 import com.google.gwt.user.client.History;
+import com.google.gwt.user.client.Window.Navigator;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -54,13 +56,19 @@ public class Mindlevel implements EntryPoint, ValueChangeHandler<String> {
      */
     @Override
     public void onModuleLoad() {
-        History.addValueChangeHandler(this);
-        HandyTools.initTools();
-        for(String page:pages) {
-            connectListener(page);
+        String userAgent = Navigator.getUserAgent();
+        System.out.println(userAgent);
+        if(userAgent.contains("mobile")) {
+            History.addValueChangeHandler(this);
+            HandyTools.initTools();
+            for(String page:pages) {
+                connectListener(page);
+            }
+            new QuoteHandler(RootPanel.get("quote"));
+            keepLoggedIn();
+        } else {
+            new MindlevelMobile();
         }
-        new QuoteHandler(RootPanel.get("quote"));
-        keepLoggedIn();
     }
 
     /**
