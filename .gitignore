@@ -3,5 +3,6 @@ war/WEB-INF/classes/
 war/WEB-INF/deploy/
 war/mindlevel/
 war/mindlevel/mindlevel.nocache.js
+war/mindlevelmobile/
 war/pictures/
 .settings/

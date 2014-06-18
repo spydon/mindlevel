@@ -4,6 +4,8 @@ import net.mindlevel.mobile.client.presenter.MobileActivityMapper;
 import net.mindlevel.mobile.client.presenter.MobileActivityMapper.ActivityFactory;
 import net.mindlevel.mobile.client.view.HomeView;
 import net.mindlevel.mobile.client.view.HomeViewImpl;
+import net.mindlevel.mobile.client.view.PictureView;
+import net.mindlevel.mobile.client.view.PictureViewImpl;
 
 import com.google.gwt.activity.shared.ActivityManager;
 import com.google.gwt.activity.shared.ActivityMapper;
@@ -35,6 +37,7 @@ public class MindlevelClientModule extends AbstractGinModule {
         bind(AnimationMapper.class).to(MobileAnimationMapper.class);
 
         bind(HomeView.class).to(HomeViewImpl.class);
+        bind(PictureView.class).to(PictureViewImpl.class);
 
         install(new GinFactoryModuleBuilder().build(ActivityFactory.class));
         // Default place to let the app start without history

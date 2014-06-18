@@ -137,6 +137,16 @@
     <url-pattern>/mindlevel/news</url-pattern>
   </servlet-mapping>
   
+  <servlet>
+    <servlet-name>quoteServlet</servlet-name>
+    <servlet-class>net.mindlevel.server.QuoteServiceImpl</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>quoteServlet</servlet-name>
+    <url-pattern>/mindlevel/quote</url-pattern>
+  </servlet-mapping>
+  
   <context-param>
     <!-- max size of the upload request -->
     <param-name>maxSize</param-name>

@@ -22,7 +22,6 @@ public class MindlevelMobile {
     }
 
     public void onModuleLoad() {
-        RootPanel.get("topheader").setStyleName("superhidden", true);
         ViewPort viewPort = new MGWTSettings.ViewPort();
         viewPort.setUserScaleAble(false).setMinimumScale(1.0).setMinimumScale(1.0).setMaximumScale(1.0);
 

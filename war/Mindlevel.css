@@ -863,3 +863,12 @@ header {
         display: block;
     }
 }
+
+
+/**
+*   Mobile CSS (m-gwt)
+*/
+
+.mgwt-Button:hover {
+    cursor: pointer;
+} 

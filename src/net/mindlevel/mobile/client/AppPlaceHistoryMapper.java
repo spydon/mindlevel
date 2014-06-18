@@ -3,6 +3,7 @@ package net.mindlevel.mobile.client;
 import java.util.HashMap;
 
 import net.mindlevel.mobile.client.places.HomePlace;
+import net.mindlevel.mobile.client.places.PicturePlace;
 
 import com.google.gwt.place.shared.Place;
 import com.google.gwt.place.shared.PlaceHistoryMapper;
@@ -18,9 +19,12 @@ public class AppPlaceHistoryMapper implements PlaceHistoryMapper {
         placeMapper = new HashMap<String, Place>();
         tokenMapper = new HashMap<Place, String>();
 
-        HomePlace home = new HomePlace();
-        placeMapper.put("", home);
-        tokenMapper.put(home, "");
+        HomePlace homePlace = new HomePlace();
+        PicturePlace picturePlace = new PicturePlace();
+        placeMapper.put("", homePlace);
+        tokenMapper.put(homePlace, "");
+        placeMapper.put("picture", picturePlace);
+        tokenMapper.put(picturePlace, "picture");
     }
 
     @Override

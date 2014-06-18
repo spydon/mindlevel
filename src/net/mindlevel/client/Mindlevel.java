@@ -33,10 +33,10 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.EventListener;
 import com.google.gwt.user.client.History;
-import com.google.gwt.user.client.Window.Navigator;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
+import com.googlecode.mgwt.ui.client.MGWT;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
@@ -56,9 +56,8 @@ public class Mindlevel implements EntryPoint, ValueChangeHandler<String> {
      */
     @Override
     public void onModuleLoad() {
-        String userAgent = Navigator.getUserAgent();
-        System.out.println(userAgent);
-        if(userAgent.contains("mobile")) {
+        if(!MGWT.getFormFactor().isDesktop()) {
+            RootPanel.get("topheader").setStyleName("superhidden", false);
             History.addValueChangeHandler(this);
             HandyTools.initTools();
             for(String page:pages) {
@@ -67,6 +66,7 @@ public class Mindlevel implements EntryPoint, ValueChangeHandler<String> {
             new QuoteHandler(RootPanel.get("quote"));
             keepLoggedIn();
         } else {
+            RootPanel.get("topheader").setStyleName("superhidden", true);
             new MindlevelMobile();
         }
     }
