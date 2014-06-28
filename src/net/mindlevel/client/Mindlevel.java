@@ -24,6 +24,7 @@ import net.mindlevel.shared.User;
 import net.mindlevel.shared.UserTools;
 
 import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
@@ -57,7 +58,7 @@ public class Mindlevel implements EntryPoint, ValueChangeHandler<String> {
     @Override
     public void onModuleLoad() {
         if(!MGWT.getFormFactor().isDesktop()) {
-            RootPanel.get("topheader").setStyleName("superhidden", false);
+            Document.get().getElementById("topheader").removeClassName("superhidden");
             History.addValueChangeHandler(this);
             HandyTools.initTools();
             for(String page:pages) {
@@ -66,7 +67,7 @@ public class Mindlevel implements EntryPoint, ValueChangeHandler<String> {
             new QuoteHandler(RootPanel.get("quote"));
             keepLoggedIn();
         } else {
-            RootPanel.get("topheader").setStyleName("superhidden", true);
+            Document.get().getElementById("topheader").addClassName("superhidden");
             new MindlevelMobile();
         }
     }
@@ -75,7 +76,7 @@ public class Mindlevel implements EntryPoint, ValueChangeHandler<String> {
      * Connects mouse down listeners to HTML-elements.
      */
     private void connectListener(final String name) {
-        Element e = RootPanel.get(name).getElement();
+        Element e = Document.get().getElementById(name);
         DOM.sinkEvents(e, Event.ONMOUSEUP);
         DOM.setEventListener(e, new EventListener() {
             @Override

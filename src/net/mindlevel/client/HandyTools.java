@@ -10,6 +10,7 @@ import net.mindlevel.shared.Category;
 import net.mindlevel.shared.Normalizer;
 import net.mindlevel.shared.UserTools;
 
+import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -82,16 +83,29 @@ public class HandyTools {
     }
 
 
-    //TODO: This one is too confusing, rewrite!
     public static void setRightView(boolean logIn, String username) {
-        RootPanel.get("hidelogin").setStyleName("superhidden", logIn);
-        RootPanel.get("hidelogout").setStyleName("superhidden", !logIn);
-        RootPanel.get("hideregister").setStyleName("superhidden", logIn);
-        RootPanel.get("profile").getElement().setInnerHTML(username);
-        RootPanel.get("hideprofile").setStyleName("superhidden", !logIn);
-        RootPanel.get("hidechat").setStyleName("superhidden", !logIn);
-        RootPanel.get("admin-menu").setStyleName("superhidden", !UserTools.isAdmin()); //!logIn &&
-        RootPanel.get("apparea").setStyleName("adminbar", logIn && UserTools.isAdmin());
+        if(logIn) {
+            Document.get().getElementById("hidelogin").addClassName("superhidden");
+            Document.get().getElementById("hidelogout").removeClassName("superhidden");
+            Document.get().getElementById("hideregister").addClassName("superhidden");
+            Document.get().getElementById("profile").setInnerHTML(username);
+            Document.get().getElementById("hideprofile").removeClassName("superhidden");
+            Document.get().getElementById("hidechat").removeClassName("superhidden");
+        } else {
+            Document.get().getElementById("hidelogin").removeClassName("superhidden");
+            Document.get().getElementById("hidelogout").addClassName("superhidden");
+            Document.get().getElementById("hideregister").removeClassName("superhidden");
+            Document.get().getElementById("hideprofile").addClassName("superhidden");
+            Document.get().getElementById("hidechat").addClassName("superhidden");
+        }
+
+        if(UserTools.isAdmin()) {
+            Document.get().getElementById("admin-menu").removeClassName("superhidden");
+            Document.get().getElementById("apparea").addClassName("adminbar");
+        } else {
+            Document.get().getElementById("admin-menu").addClassName("superhidden");
+            Document.get().getElementById("apparea").removeClassName("adminbar");
+        }
     }
 
     public static void debugMsg(String msg) {

@@ -134,8 +134,10 @@ public class RatingServiceImpl extends DBConnector implements RatingService {
                 constraint = "AND score > 0";
             } else if(!countUpVotes && countDownVotes) {
                 constraint = "AND score < 0";
+            } else if(!countUpVotes && !countDownVotes) {
+                constraint = "AND score < 0 AND score > 0";
             }
-            PreparedStatement ps = conn.prepareStatement("SELECT count(*) AS vote_number "
+            PreparedStatement ps = conn.prepareStatement("SELECT SUM(score) AS vote_number "
                     + "FROM rating WHERE picture_id=? " + constraint);
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();

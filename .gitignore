@@ -6,3 +6,5 @@ war/mindlevel/mindlevel.nocache.js
 war/mindlevelmobile/
 war/pictures/
 .settings/
+src/net/mindlevel/External.gwt.xml
+

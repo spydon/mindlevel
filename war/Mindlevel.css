@@ -188,7 +188,7 @@ header {
 }
 
 .info-panel {
-    text-align: left; !important;
+    text-align: left;
     padding: 10px;
 /*     border-radius: 10px; */
 /*     margin: 0px 0px 10px; */
@@ -871,4 +871,26 @@ header {
 
 .mgwt-Button:hover {
     cursor: pointer;
-} 
+}
+
+.m-bar {
+    background-color: #199fd2 !important;
+    position: fixed !important;
+    bottom: 0px !important;
+}
+
+.m-carousel {
+    width: 100%;
+    height: calc(100% - 40px);
+}
+
+.m-image {
+    max-width: 100%;
+    height: calc(100% - 40px);
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.m-vote-total {
+    width: 20px;
+}

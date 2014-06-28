@@ -1,23 +1,20 @@
 package net.mindlevel.mobile.client;
 
-import net.mindlevel.mobile.client.places.HomePlace;
-import net.mindlevel.mobile.client.presenter.MobileActivityMapper;
-
-import com.google.gwt.core.client.GWT;
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.googlecode.mgwt.mvp.client.AnimatingActivityManager;
-import com.googlecode.mgwt.mvp.client.history.MGWTPlaceHistoryHandler;
+import com.google.gwt.user.client.ui.SimplePanel;
 import com.googlecode.mgwt.ui.client.MGWT;
 import com.googlecode.mgwt.ui.client.MGWTSettings;
 import com.googlecode.mgwt.ui.client.MGWTSettings.ViewPort;
-import com.googlecode.mgwt.ui.client.widget.animation.AnimationWidget;
 
-/**
- * Entry point classes define <code>onModuleLoad()</code>.
- */
 public class MindlevelMobile {
 
+    HistoryManager historyManager;
+    private final SimplePanel appArea;
+
     public MindlevelMobile() {
+        appArea = new SimplePanel();
+        historyManager = new HistoryManager(appArea);
         onModuleLoad();
     }
 
@@ -31,32 +28,21 @@ public class MindlevelMobile {
         settings.setFullscreen(true);
         settings.setPreventScrolling(true);
 
-        final MindlevelInjector injector = GWT.create(MindlevelInjector.class);
-        injector.inject(this);
-
         MGWT.applySettings(settings);
 
         // create an instance of AnimatableDisplay
-        AnimationWidget display = injector.getAnimationWidget();
+//        AnimationWidget display = injector.getAnimationWidget();
 
-        // Instantiate your activity mapper
-        MobileActivityMapper activityMapper = injector.getPhoneActivityMapper();
 
         // Instantiate your animationMapper
-        MobileAnimationMapper animationMapper = injector.getPhoneAnimationMapper();
-
-        // setup an activity manager for the display
-        AnimatingActivityManager activityManager =
-                injector.getAnimatingActivityManager();
-
-        // pass the display to the activity manager
-        activityManager.setDisplay(display);
+//        MobileAnimationMapper animationMapper = injector.getPhoneAnimationMapper();
+        History.addValueChangeHandler(historyManager);
 
         // add the display to the DOM
-        RootPanel.get().add(display);
-        MGWTPlaceHistoryHandler historyHandler = injector.getMGWTPlaceHistoryHandler();
+//        RootPanel.get().add(display);
 
-        historyHandler.register(injector.getPlaceController(), injector.getEventBus(), new HomePlace());
-        historyHandler.handleCurrentHistory();
+        RootPanel.get().add(appArea);
+
+        History.fireCurrentHistoryState();
     }
 }

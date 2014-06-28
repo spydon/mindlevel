@@ -71,7 +71,7 @@ public class VoteButton extends Composite {
 
             @Override
             public void onSuccess(Integer result) {
-                total.setHTML("" + (isUpVote ? 1 : -1)*result);
+                total.setHTML("" + result);
             }
 
             @Override
