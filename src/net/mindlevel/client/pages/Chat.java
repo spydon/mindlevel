@@ -1,6 +1,6 @@
 package net.mindlevel.client.pages;
 
-import net.mindlevel.shared.UserTools;
+import net.mindlevel.client.UserTools;
 
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;

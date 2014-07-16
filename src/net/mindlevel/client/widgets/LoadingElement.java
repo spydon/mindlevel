@@ -13,9 +13,8 @@ public class LoadingElement extends Composite {
     public static String loadingPath = Mindlevel.PATH + "images/loading.gif";;
 
     /**
-     * Constructs an CommentBox with the given caption on the check.
+     * Constructs an panel with a loading gif attached to it
      *
-     * @param caption the caption to be displayed with the check box
      */
     public LoadingElement() {
         loadingPanel = new VerticalPanel();

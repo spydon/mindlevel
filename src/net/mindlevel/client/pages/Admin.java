@@ -1,8 +1,8 @@
 package net.mindlevel.client.pages;
 
+import net.mindlevel.client.UserTools;
 import net.mindlevel.client.pages.dialog.BanBox;
 import net.mindlevel.shared.Constraint;
-import net.mindlevel.shared.UserTools;
 
 import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.MenuBar;

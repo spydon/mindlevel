@@ -107,7 +107,6 @@ public class PictureServiceImpl extends DBConnector implements PictureService {
             throws IllegalArgumentException, SQLException {
         if(imageCount==0) {
             throw new IllegalArgumentException("No such picture...");
-//            return new MetaImage();
         }
 //        adult = true; //Flip if adult pictures shouldn't be shown even if you know the full link
         Connection conn = getConnection();

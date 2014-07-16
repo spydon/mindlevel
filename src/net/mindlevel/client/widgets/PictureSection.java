@@ -3,11 +3,11 @@ package net.mindlevel.client.widgets;
 import java.util.ArrayList;
 
 import net.mindlevel.client.HandyTools;
+import net.mindlevel.client.UserTools;
 import net.mindlevel.client.services.PictureService;
 import net.mindlevel.client.services.PictureServiceAsync;
 import net.mindlevel.shared.Constraint;
 import net.mindlevel.shared.MetaImage;
-import net.mindlevel.shared.UserTools;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;

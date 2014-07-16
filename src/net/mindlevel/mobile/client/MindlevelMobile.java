@@ -30,16 +30,7 @@ public class MindlevelMobile {
 
         MGWT.applySettings(settings);
 
-        // create an instance of AnimatableDisplay
-//        AnimationWidget display = injector.getAnimationWidget();
-
-
-        // Instantiate your animationMapper
-//        MobileAnimationMapper animationMapper = injector.getPhoneAnimationMapper();
         History.addValueChangeHandler(historyManager);
-
-        // add the display to the DOM
-//        RootPanel.get().add(display);
 
         RootPanel.get().add(appArea);
 

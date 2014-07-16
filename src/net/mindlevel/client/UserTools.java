@@ -1,13 +1,13 @@
-package net.mindlevel.shared;
+package net.mindlevel.client;
 
 import java.util.Date;
 
-import net.mindlevel.client.HandyTools;
-import net.mindlevel.client.Mindlevel;
 import net.mindlevel.client.exception.UserNotLoggedInException;
 import net.mindlevel.client.pages.Admin;
 import net.mindlevel.client.services.UserService;
 import net.mindlevel.client.services.UserServiceAsync;
+import net.mindlevel.shared.Normalizer;
+import net.mindlevel.shared.User;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Cookies;
@@ -15,6 +15,7 @@ import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.googlecode.mgwt.ui.client.MGWT;
 
 
 public class UserTools {
@@ -51,9 +52,11 @@ public class UserTools {
         nowLong = nowLong + (1000 * 60 * 60 * 24 * 7);//seven days
         date.setTime(nowLong);
         Cookies.setCookie("mindlevel", user.getToken(), date);
-        HandyTools.setRightView(true, Normalizer.capitalizeName(user.getUsername()));
-        if(user.isAdmin()) {
-            new Admin(Mindlevel.getAppArea(true));
+        if(MGWT.getFormFactor().isDesktop()) {
+            HandyTools.setRightView(true, Normalizer.capitalizeName(user.getUsername()));
+            if(user.isAdmin()) {
+                new Admin(Mindlevel.getAppArea(true));
+            }
         }
     }
 

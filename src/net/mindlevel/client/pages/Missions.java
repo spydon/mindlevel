@@ -1,12 +1,12 @@
 package net.mindlevel.client.pages;
 
 import net.mindlevel.client.HandyTools;
+import net.mindlevel.client.UserTools;
 import net.mindlevel.client.pages.dialog.MissionSuggestion;
 import net.mindlevel.client.services.MissionService;
 import net.mindlevel.client.services.MissionServiceAsync;
 import net.mindlevel.client.widgets.MissionSection;
 import net.mindlevel.shared.Constraint;
-import net.mindlevel.shared.UserTools;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -16,11 +16,11 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
-import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.SimplePanel;
 
 public class Missions {
-    private final RootPanel appArea;
+    private final Panel appArea;
     private int current = 0;
     private int missionCount = 0;
     private int pageCount = 0;
@@ -35,11 +35,11 @@ public class Missions {
     private final MissionServiceAsync missionService = GWT
             .create(MissionService.class);
 
-    public Missions(RootPanel appArea) {
+    public Missions(Panel appArea) {
         this(appArea, new Constraint());
     }
 
-    public Missions(RootPanel appArea, Constraint constraint) {
+    public Missions(Panel appArea, Constraint constraint) {
         this.appArea = appArea;
         this.constraint = constraint;
         init();
@@ -49,7 +49,10 @@ public class Missions {
         constraint.setSortingColumn("timestamp desc");
         MissionSection missionSection = new MissionSection(current, stepSize, constraint);
         missionsContainer.add(missionSection);
-        appArea.add(new HTML("<h1>Missions</h1><p>Click on a mission to see more information about it or to upload a picture.</p>"));
+
+        HTML explanation = new HTML("<h1>Missions</h1><p>Click on a mission to see more information or to upload a picture.</p>");
+        explanation.addStyleName("max-95");
+        appArea.add(explanation);
         appArea.add(missionsContainer);
 
         leftButton = new Button("<");

@@ -21,7 +21,6 @@ import net.mindlevel.shared.Category;
 import net.mindlevel.shared.Constraint;
 import net.mindlevel.shared.SearchType;
 import net.mindlevel.shared.User;
-import net.mindlevel.shared.UserTools;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.dom.client.Document;
@@ -57,7 +56,8 @@ public class Mindlevel implements EntryPoint, ValueChangeHandler<String> {
      */
     @Override
     public void onModuleLoad() {
-        if(!MGWT.getFormFactor().isDesktop()) {
+        if(MGWT.getFormFactor().isDesktop()) {
+            RootPanel.get().addStyleName("desktop");
             Document.get().getElementById("topheader").removeClassName("superhidden");
             History.addValueChangeHandler(this);
             HandyTools.initTools();
@@ -67,6 +67,7 @@ public class Mindlevel implements EntryPoint, ValueChangeHandler<String> {
             new QuoteHandler(RootPanel.get("quote"));
             keepLoggedIn();
         } else {
+            RootPanel.get().addStyleName("mobile");
             Document.get().getElementById("topheader").addClassName("superhidden");
             new MindlevelMobile();
         }

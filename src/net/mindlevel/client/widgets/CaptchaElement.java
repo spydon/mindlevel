@@ -13,6 +13,8 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.googlecode.mgwt.ui.client.widget.form.FormEntry;
+import com.googlecode.mgwt.ui.client.widget.input.MTextBox;
 
 public class CaptchaElement extends Composite {
 
@@ -20,6 +22,8 @@ public class CaptchaElement extends Composite {
     private final HorizontalPanel p;
     private final Captcha captcha = new Captcha();
     private final TextBox tb = new TextBox();
+    private final MTextBox mtb = new MTextBox();
+    private final FormEntry formEntry = new FormEntry("", mtb);
 
     private final CaptchaServiceAsync captchaService = GWT
             .create(CaptchaService.class);
@@ -44,6 +48,7 @@ public class CaptchaElement extends Composite {
                 question.addStyleName("captcha-question");
                 p.add(question);
                 p.add(tb);
+                formEntry.setText(captcha.getQuestion());
             }
 
             @Override
@@ -55,8 +60,12 @@ public class CaptchaElement extends Composite {
         initWidget(b);
     }
 
+    public FormEntry getFormEntry() {
+        return formEntry;
+    }
+
     public String getAnswer() {
-        return tb.getText();
+        return tb.getText().equals("") ? mtb.getText() : tb.getText();
     }
 
     public String getToken() {

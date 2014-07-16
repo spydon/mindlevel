@@ -70,7 +70,7 @@ public class RatingServiceImpl extends DBConnector implements RatingService {
                         + "on duplicate key update score=values(score)");
                 ps.setString(1, user.getUsername());
                 ps.setInt(2, pictureId);
-                ps.setInt(3, isUpVote ? upVoteValue : downVoteValue);
+                ps.setInt(3, isUpVote ? 1 : -1);
                 ps.executeUpdate();
                 ps.close();
 

@@ -66,7 +66,6 @@ public class Registration {
         final DialogBox registrationBox = new DialogBox(true);
         final Button regButton = new Button("Register");
         final Button closeButton = new Button("Close");
-        final Label textToServerLabel = new Label();
         //lbCloseButton.getElement().setId("closeButton");
         VerticalPanel loginPanel = new VerticalPanel();
         Grid gridPanel = new Grid(7, 2);
@@ -157,8 +156,6 @@ public class Registration {
                 final boolean adult = adultBox.getValue();
 
                 regButton.setEnabled(false);
-                textToServerLabel.setText(username);
-                errorLabel.setText("");
                 if(!FieldVerifier.isValidUsername(username)) {
                     errorLabel.setText("The username is not valid.");
                     regButton.setEnabled(true);

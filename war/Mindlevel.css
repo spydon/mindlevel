@@ -1,4 +1,4 @@
-body * { 
+.desktop * { 
     margin-left: auto;
     margin-right: auto;
 }
@@ -8,13 +8,13 @@ td[style] {
     vertical-align: middle;
 }
 
-html, body {
+html, .desktop {
 /*     height: 100%; */
     margin: 0 !important;
     overflow-x: hidden;
 }
 
-h1 {
+.desktop h1 {
     font-size: 1em;
     font-weight: bold;
     margin: 0px 0px 5px;
@@ -27,6 +27,14 @@ h1 {
 
 .fullwidth {
     width: 100%;
+}
+
+.max-fullwidth {
+    max-width: 100%;
+}
+
+.max-95 {
+    max-width: 95%;
 }
 
 .margin {
@@ -864,13 +872,64 @@ header {
     }
 }
 
+/**
+*   Colours
+*/
+
+.gold {
+    color: gold;
+}
+
+.silver {
+    color: silver;
+}
+
+.bronze {
+    color: brown;
+}
+
 
 /**
 *   Mobile CSS (m-gwt)
 */
 
-.mgwt-Button:hover {
+.m-home {
+    margin: 10px;
+}
+
+.m-logo {
+    margin-bottom: 4px;
+}
+
+.m-quote {
+    margin: 4px;
+}
+
+.m-button:hover {
     cursor: pointer;
+}
+
+.m-center, m-center-all-children * {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.m-center-input > input, .m-center-input {
+    text-align: center;
+}
+
+.m-middle *, .m-middle {
+    vertical-align: middle !important; /*TODO: Fix the ugly hack */
+}
+
+.m-button-panel {
+    margin-left: 3px;
+    margin-right: 3px;    
+}
+
+.m-button {
+    width: 250px;
+    max-width: 100%;
 }
 
 .m-bar {
@@ -879,16 +938,27 @@ header {
     bottom: 0px !important;
 }
 
-.m-carousel {
+.m-image {
+    pointer-events: none;
     width: 100%;
-    height: calc(100% - 40px);
+/*     height: calc(100% - 40px); */
+/*     margin-left: auto; */
+/*     margin-right: auto; */
 }
 
-.m-image {
+.m-about {
+    width: 300px;
     max-width: 100%;
-    height: calc(100% - 40px);
-    margin-left: auto;
-    margin-right: auto;
+    text-align: left;
+}
+
+.m-about h1 {
+    text-align: center;
+}
+
+.m-margin {
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .m-vote-total {

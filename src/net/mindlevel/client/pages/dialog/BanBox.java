@@ -4,10 +4,10 @@ package net.mindlevel.client.pages.dialog;
 import java.util.List;
 
 import net.mindlevel.client.HandyTools;
+import net.mindlevel.client.UserTools;
 import net.mindlevel.client.services.UserService;
 import net.mindlevel.client.services.UserServiceAsync;
 import net.mindlevel.shared.User;
-import net.mindlevel.shared.UserTools;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;

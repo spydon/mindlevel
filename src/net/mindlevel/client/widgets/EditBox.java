@@ -1,10 +1,10 @@
 package net.mindlevel.client.widgets;
 
 import net.mindlevel.client.HandyTools;
+import net.mindlevel.client.UserTools;
 import net.mindlevel.client.services.CommentService;
 import net.mindlevel.client.services.CommentServiceAsync;
 import net.mindlevel.shared.Comment;
-import net.mindlevel.shared.UserTools;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;

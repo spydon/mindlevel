@@ -8,7 +8,6 @@ import java.util.Date;
 import net.mindlevel.client.widgets.LoadingElement;
 import net.mindlevel.shared.Category;
 import net.mindlevel.shared.Normalizer;
-import net.mindlevel.shared.UserTools;
 
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
