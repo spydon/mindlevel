@@ -25,6 +25,7 @@ import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.googlecode.mgwt.dom.client.event.tap.TapEvent;
 import com.googlecode.mgwt.dom.client.event.tap.TapHandler;
@@ -52,14 +53,15 @@ public class PictureView extends MPage {
     private BadImageButton voteDown;
 
     private int id = 0;
-    private int realId = 1;
+    private int realId = 0;
+    private int startId = 0;
     private int loadedId = Integer.MAX_VALUE;
     private int imageCount = 0;
     private final String notFoundPath = Mindlevel.PATH + "images/notfound.jpg";
     private boolean notFound = false;
     private boolean initialized = false;
 
-    private final ArrayList<MetaImage> loadedImages;
+    private final ArrayList<MetaImageElement> loadedImages;
 
     private final Label voteTotal = new Label("0");
 
@@ -90,19 +92,19 @@ public class PictureView extends MPage {
 
     public PictureView() {
         main = new RootFlexPanel();
+        loadedImages = new ArrayList<MetaImageElement>();
+    }
+
+    private void init() {
+        System.out.println("Init");
         bar = new ButtonBar();
         title = new HTML();
         carousel = new Carousel();
-        loadedImages = new ArrayList<MetaImage>();
 
 //        carousel.addStyleName("m-image-panel");
         bar.addStyleName("m-bar");
         voteTotal.addStyleName("m-vote-total");
-    }
 
-    private void init() {
-        initialized = true;
-        System.out.println("Init");
         previous = new PreviousitemImageButton();
         next = new NextitemImageButton();
         about = new AboutImageButton();
@@ -132,24 +134,30 @@ public class PictureView extends MPage {
 
             @Override
             public void onSelection(SelectionEvent<Integer> arg0) {
-                System.out.println("\nWhen do OnSelection get called?");
                 int imageNum = arg0.getSelectedItem();
-                MetaImage metaImage = loadedImages.get(imageNum);
+                System.out.println("Beginning of selection Real id: " + realId + " imageNum: " + imageNum);
 
-                setId(metaImage.getRelativeId());
 
-                System.out.println("SlideNum: " + imageNum + " ImageCount: " + imageCount + " Name: " + metaImage.getTitle());
+                MetaImageElement imageElement = loadedImages.get(imageNum);
+                MetaImage metaImage = imageElement.getMetaImage();
+
+                if(imageElement.isLoaded()) {
+                    loadedImages.get(imageNum).adjustSize();
+                }
+
+                id = metaImage.getRelativeId();
+                realId = metaImage.getId();
 
                 //Remember that the carousel is reversed compared to the website
                 //Check if the right arrow is needed
-                if (getId() == 1) {
+                if (id == 1) {
                     next.setVisible(false);
                 } else if(!next.isVisible()) {
                     next.setVisible(true);
                 }
 
                 //Check if the left arrow is needed
-                if (getId() == imageCount) {
+                if (id == imageCount || metaImage.getId() == startId) {
                     previous.setVisible(false);
                 } else if(!previous.isVisible()) {
                     previous.setVisible(true);
@@ -161,8 +169,7 @@ public class PictureView extends MPage {
                     next.setVisible(false);
                 }
 
-                //If the image is validated, fetch the votevalue, else add validation button
-                realId = metaImage.getId();
+                System.out.println("Real id in selection: " + realId);
                 History.newItem("picture=" + realId, false);
 
                 title.setHTML(metaImage.getTitle());
@@ -188,9 +195,12 @@ public class PictureView extends MPage {
             }
         });
 
+        initialized = true;
+
         bar.setJustification(Justification.CENTER);
         bar.add(previous);
         bar.add(voteDown);
+        bar.add(title);
         bar.add(voteTotal);
 //        bar.add(about);
         bar.add(voteUp);
@@ -231,10 +241,20 @@ public class PictureView extends MPage {
 
     private void show() {
         if(!initialized) {
+            startId = realId;
+            System.out.println("Going for init");
             init();
+            loadImage(realId, false);
+        } else if(loadedImages.get(carousel.getSelectedPage()).getMetaImage().getId() != realId) {
+            startId = realId;
+            System.out.println("Going for clear");
+            loadedId = Integer.MAX_VALUE;
+            loadedImages.clear();
+            carousel.clear();
+            loadImage(realId, false);
+        } else {
+            System.out.println("Going outside");
         }
-        System.out.println("Start id: " + id);
-        loadImage(id, false);
     }
 
     private void randomImage() {
@@ -242,14 +262,12 @@ public class PictureView extends MPage {
     }
 
     private void nextImage() {
-        System.out.println("LoadedSize: " + loadedImages.size() + " ImageCount: " + imageCount + " TriedPage: " + (carousel.getSelectedPage()+1));
         if (id > 1) {
             carousel.setSelectedPage((carousel.getSelectedPage()+1));
         }
     }
 
     private void prevImage() {
-        System.out.println("ID: " + id + " ImageCount: " + imageCount + " ");
         if (id < imageCount) {
             carousel.setSelectedPage(carousel.getSelectedPage()-1);
         }
@@ -266,11 +284,17 @@ public class PictureView extends MPage {
 
             @Override
             public void onSuccess(final MetaImage metaImage) {
+                System.out.println("Beginning of load Real id: " + realId);
+                SimplePanel imageContainer = new SimplePanel();
+                imageContainer.addStyleName("m-image-container");
+
                 MetaImageElement imageElement = new MetaImageElement(metaImage);
                 loadedId = (metaImage.getRelativeId() < loadedId) ? metaImage.getRelativeId() : loadedId;
                 imageCount = metaImage.getImageCount();
-                loadedImages.add(metaImage);
-                carousel.add(imageElement);
+                loadedImages.add(imageElement);
+
+                imageContainer.add(imageElement);
+                carousel.add(imageContainer);
 //                System.out.println("ImageCount: " + metaImage.getImageCount() + " ID: " + metaImage.getId() + " LoadedId: " + loadedId + " InCarousel: " + carousel.getScrollPanel().getPagesX().length());
                 carousel.refresh();
             }
@@ -320,11 +344,7 @@ public class PictureView extends MPage {
 
     @Override
     public void setId(int id) {
-        this.id = id;
-    }
-
-    public int getId() {
-        return id;
+        this.realId = id;
     }
 
     @Override

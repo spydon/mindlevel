@@ -37,7 +37,6 @@ implements HasClickHandlers {
             }
         };
 
-
         HTML missionName = new HTML("<h1>" + HandyTools.formatHtml(mission.getName()) + "</h1>");
         backPanel = new VerticalPanel();
 

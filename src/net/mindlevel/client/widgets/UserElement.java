@@ -47,12 +47,18 @@ implements HasClickHandlers {
             ((Grid)backPanel).setWidget(0, 0, image);
             ((Grid)backPanel).setWidget(0, 1, username);
         } else {
+            username.addStyleName("5px-top-margin");
             backPanel = new VerticalPanel();
             image = new Image(Mindlevel.PATH + "pictures/" + user.getPicture());
             backPanel.add(image);
             backPanel.add(username);
-            backPanel.add(new HTML("Location: " + HandyTools.formatHtml(user.getLocation())));
-            backPanel.add(new HTML("Last log in: " + HandyTools.formatDate(user.getLastLogin())));
+            if(!user.getName().equals("")) {
+                backPanel.add(new HTML("Name: " + user.getName()));
+            }
+            if(!user.getLocation().equals("")) {
+                backPanel.add(new HTML("Location: " + HandyTools.formatHtml(user.getLocation())));
+            }
+            backPanel.add(new HTML("Last log in: " + HandyTools.formatOnlyDate(user.getLastLogin())));
         }
 
         image.addStyleName("user-image");

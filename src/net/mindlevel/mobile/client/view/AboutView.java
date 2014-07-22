@@ -1,5 +1,7 @@
 package net.mindlevel.mobile.client.view;
 
+import net.mindlevel.client.widgets.QuoteElement;
+
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -19,6 +21,9 @@ public class AboutView extends MPage {
         Image logo = new Image("./images/logo.png");
         logo.addStyleName("m-logo");
 
+        QuoteElement quote = new QuoteElement();
+        quote.addStyleName("m-quote");
+
         HTML about = new HTML("<h1>About</h1><p>I think that most people probably wouldn't even appreciate the repetitive parts of their lives if they "
                             + "had an easy option of doing something more exciting, something that will be worth remembering.</p>"
                             + "<p>This is my attempt of giving you that option. /<a href=\"#user=spydon\">spydon</a></p>"
@@ -27,6 +32,7 @@ public class AboutView extends MPage {
         about.addStyleName("m-about");
 
         main.add(logo);
+        main.add(quote);
         main.add(about);
 //        main.add(new HTML("(Click on the table to get more information about a user)"));
     }

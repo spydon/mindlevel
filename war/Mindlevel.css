@@ -45,6 +45,10 @@ html, .desktop {
     margin-top: 110px;
 }
 
+.5px-top-margin {
+    margin-top: 5px;
+}
+
 .smallmargin {
     margin-top: 60px;
 }
@@ -909,6 +913,53 @@ header {
     cursor: pointer;
 }
 
+.m-picture-button {
+    background-image: url(./images/icons/pictures.svg);
+/*     background-size: 32px 32px; */
+    background-repeat: no-repeat;
+    background-position: left;
+}
+
+.m-highscore-button {
+    background-image: url(./images/icons/highscore.svg);
+    background-size: 48px 40px;
+    background-repeat: no-repeat;
+    background-position: left;
+}
+
+.m-mission-button {
+    background-image: url(./images/icons/missions.svg);
+    background-size: 48px 40px;
+    background-repeat: no-repeat;
+    background-position: left;
+}
+
+.m-search-button {
+    background-image: url(./images/icons/search.svg);
+    background-repeat: no-repeat;
+    background-position: left;
+}
+
+.m-about-button {
+    background-image: url(./images/icons/help.svg);
+    background-repeat: no-repeat;
+    background-position: left;
+}
+
+.m-login-button {
+    background-image: url(./images/icons/login.svg);
+/*     background-size: 48px 40px; */
+    background-repeat: no-repeat;
+    background-position: left;
+}
+
+.m-logout-button {
+    background-image: url(./images/icons/logout.svg);
+    background-size: 48px 48px;
+    background-repeat: no-repeat;
+    background-position: left;
+}
+
 .m-center, m-center-all-children * {
     margin-left: auto;
     margin-right: auto;
@@ -923,13 +974,16 @@ header {
 }
 
 .m-button-panel {
-    margin-left: 3px;
-    margin-right: 3px;    
+/*     margin-left: 3px; */
+/*     margin-right: 3px; */
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .m-button {
-    width: 250px;
+    width: 150px;
     max-width: 100%;
+    text-align: right !important;
 }
 
 .m-bar {
@@ -940,10 +994,26 @@ header {
 
 .m-image {
     pointer-events: none;
-    width: 100%;
-/*     height: calc(100% - 40px); */
-/*     margin-left: auto; */
-/*     margin-right: auto; */
+/*     max-height: 100%; */
+/*     max-width: 100%; */
+    margin-left: auto;
+    margin-right: auto;
+    vertical-align: middle;
+}
+
+.landscape .m-image {
+    max-width: 100%;
+    height: auto; 
+}
+
+.portrait .m-image {
+    max-width: auto;
+    height: 100%; 
+}
+
+.m-image-container {
+    max-height: calc(100% - 40px);
+    text-align: center;
 }
 
 .m-about {
@@ -954,6 +1024,12 @@ header {
 
 .m-about h1 {
     text-align: center;
+}
+
+.m-missions {
+    max-width: 300px;
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .m-margin {

@@ -15,7 +15,7 @@ public class Home extends Page{
     private final HorizontalPanel backPanel;
 
     public Home(RootPanel appArea) {
-        History.newItem("home", false);
+        History.newItem("", false);
         this.appArea = appArea;
         this.backPanel = new HorizontalPanel();
         init();

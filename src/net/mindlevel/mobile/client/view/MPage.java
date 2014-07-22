@@ -9,7 +9,6 @@ public abstract class MPage implements IsWidget {
     public abstract void setId(String id);
 
     public void setSession(String session) {
-        System.out.println("Session: " + session);
         this.session = session;
     }
 }

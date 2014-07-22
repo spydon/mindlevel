@@ -15,7 +15,6 @@ import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.googlecode.mgwt.ui.client.MGWT;
 
 
 public class UserTools {
@@ -52,11 +51,9 @@ public class UserTools {
         nowLong = nowLong + (1000 * 60 * 60 * 24 * 7);//seven days
         date.setTime(nowLong);
         Cookies.setCookie("mindlevel", user.getToken(), date);
-        if(MGWT.getFormFactor().isDesktop()) {
-            HandyTools.setRightView(true, Normalizer.capitalizeName(user.getUsername()));
-            if(user.isAdmin()) {
-                new Admin(Mindlevel.getAppArea(true));
-            }
+        HandyTools.setRightView(true, Normalizer.capitalizeName(user.getUsername()));
+        if(user.isAdmin() && Mindlevel.isDesktop()) {
+            new Admin(Mindlevel.getAppArea(true));
         }
     }
 

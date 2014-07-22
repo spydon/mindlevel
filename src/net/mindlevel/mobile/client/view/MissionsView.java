@@ -17,7 +17,7 @@ public class MissionsView extends MPage {
         main = new SimplePanel();
         main.add(appArea);
         main.addStyleName("desktop");
-        appArea.addStyleName("m-margin");
+        appArea.addStyleName("m-missions");
     }
 
     public void init() {

@@ -16,13 +16,17 @@ import net.mindlevel.client.pages.dialog.Logout;
 import net.mindlevel.client.pages.dialog.Registration;
 import net.mindlevel.client.pages.dialog.ReportBox;
 import net.mindlevel.client.pages.dialog.SearchBox;
+import net.mindlevel.client.services.PictureService;
+import net.mindlevel.client.services.PictureServiceAsync;
 import net.mindlevel.mobile.client.MindlevelMobile;
 import net.mindlevel.shared.Category;
 import net.mindlevel.shared.Constraint;
+import net.mindlevel.shared.MetaImage;
 import net.mindlevel.shared.SearchType;
 import net.mindlevel.shared.User;
 
 import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
@@ -33,6 +37,7 @@ import com.google.gwt.user.client.DOM;
 import com.google.gwt.user.client.Event;
 import com.google.gwt.user.client.EventListener;
 import com.google.gwt.user.client.History;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -46,18 +51,33 @@ public class Mindlevel implements EntryPoint, ValueChangeHandler<String> {
     public static HandlerRegistration navigationHandlerRegistration = null;
     public static SimplePanel chat = null;
     public static String PATH = "./";
+    private static boolean isDesktop = true;
+
+    private int pictureId = 0;
     private final String[] pages =
             {"home", "missions", "pictures", "highscore",
             "about", "chat", "login", "logout",
             "register", "profile", "search"};
 
     /**
+     * Create a remote service proxy to talk to the server-side picture
+     * service.
+     */
+    private final PictureServiceAsync pictureService = GWT
+            .create(PictureService.class);
+
+    /**
      * This is the entry point method.
      */
     @Override
     public void onModuleLoad() {
-        if(MGWT.getFormFactor().isDesktop()) {
+        if(!MGWT.getFormFactor().isDesktop() && !MGWT.getOsDetection().isAndroid2x() ) {
+            isDesktop = false;
+        }
+
+        if(isDesktop()) {
             RootPanel.get().addStyleName("desktop");
+            updatePictureId();
             Document.get().getElementById("topheader").removeClassName("superhidden");
             History.addValueChangeHandler(this);
             HandyTools.initTools();
@@ -65,12 +85,12 @@ public class Mindlevel implements EntryPoint, ValueChangeHandler<String> {
                 connectListener(page);
             }
             new QuoteHandler(RootPanel.get("quote"));
-            keepLoggedIn();
         } else {
             RootPanel.get().addStyleName("mobile");
             Document.get().getElementById("topheader").addClassName("superhidden");
             new MindlevelMobile();
         }
+        keepLoggedIn();
     }
 
     /**
@@ -92,6 +112,11 @@ public class Mindlevel implements EntryPoint, ValueChangeHandler<String> {
                     !lastPage.equals("search"))
                     && (name.equals("login") || name.equals("logout"))) {
                     History.newItem(name + "&session=" + lastPage);
+                } else if(name.equals("pictures")) {
+                    updatePictureId();
+                    History.newItem("picture=" + pictureId);
+                } else if(name.equals("home")) {
+                    History.newItem("");
                 } else {
                     History.newItem(name);
                 }
@@ -102,18 +127,18 @@ public class Mindlevel implements EntryPoint, ValueChangeHandler<String> {
     private void parseToken(String parameters) {
         RootPanel.get("chat-frame").setStyleName("superhidden", true);
         if(!parameters.contains("=")) {
-            if(parameters.equals("home") || parameters.equals("")) { //Empty is always home
+            if(parameters.equals("")) { //Empty is always home
                 clearScreen();
                 new Home(getAppArea(true));
             } else if(parameters.equals("register")) {
                 new Registration();
             } else if(parameters.equals("login")) {
-                new Login("home");
+                new Login(""); //Empty is always home
             } else if(parameters.equals("search")) {
                 new SearchBox();
             } else if(parameters.equals("logout")) {
                 clearScreen();
-                new Logout("home");
+                new Logout(""); //Empty is always home
             } else if(parameters.equals("chat")) {
                 clearScreen();
                 getAppArea(false);
@@ -141,7 +166,7 @@ public class Mindlevel implements EntryPoint, ValueChangeHandler<String> {
             } else if(parameters.equals("tutorial")) {
                 clearScreen();
                 new Tutorial(getAppArea(true));
-            }else if(parameters.equals("report")) {
+            } else if(parameters.equals("report")) {
                 new ReportBox();
             } else {
                 clearScreen();
@@ -252,8 +277,27 @@ public class Mindlevel implements EntryPoint, ValueChangeHandler<String> {
             UserTools.keepLoggedIn(Cookies.getCookie("mindlevel"));
         } else {
             UserTools.setLoggedOff();
-            History.fireCurrentHistoryState();
+            History.fireCurrentHistoryState(); //TODO: is this needed?
         }
+    }
+
+    private void updatePictureId() {
+        pictureService.get(0, true, UserTools.isAdult(), true, new AsyncCallback<MetaImage>() {
+
+            @Override
+            public void onFailure(Throwable caught) {
+                //Do nothing
+            }
+
+            @Override
+            public void onSuccess(final MetaImage metaImage) {
+                pictureId = metaImage.getId();
+            }
+        });
+    }
+
+    public static boolean isDesktop() {
+        return isDesktop;
     }
 
     private String getValue(String token) {

@@ -83,27 +83,29 @@ public class HandyTools {
 
 
     public static void setRightView(boolean logIn, String username) {
-        if(logIn) {
-            Document.get().getElementById("hidelogin").addClassName("superhidden");
-            Document.get().getElementById("hidelogout").removeClassName("superhidden");
-            Document.get().getElementById("hideregister").addClassName("superhidden");
-            Document.get().getElementById("profile").setInnerHTML(username);
-            Document.get().getElementById("hideprofile").removeClassName("superhidden");
-            Document.get().getElementById("hidechat").removeClassName("superhidden");
-        } else {
-            Document.get().getElementById("hidelogin").removeClassName("superhidden");
-            Document.get().getElementById("hidelogout").addClassName("superhidden");
-            Document.get().getElementById("hideregister").removeClassName("superhidden");
-            Document.get().getElementById("hideprofile").addClassName("superhidden");
-            Document.get().getElementById("hidechat").addClassName("superhidden");
-        }
+        if(Mindlevel.isDesktop()) {
+            if(logIn) {
+                Document.get().getElementById("hidelogin").addClassName("superhidden");
+                Document.get().getElementById("hidelogout").removeClassName("superhidden");
+                Document.get().getElementById("hideregister").addClassName("superhidden");
+                Document.get().getElementById("profile").setInnerHTML(username);
+                Document.get().getElementById("hideprofile").removeClassName("superhidden");
+                Document.get().getElementById("hidechat").removeClassName("superhidden");
+            } else {
+                Document.get().getElementById("hidelogin").removeClassName("superhidden");
+                Document.get().getElementById("hidelogout").addClassName("superhidden");
+                Document.get().getElementById("hideregister").removeClassName("superhidden");
+                Document.get().getElementById("hideprofile").addClassName("superhidden");
+                Document.get().getElementById("hidechat").addClassName("superhidden");
+            }
 
-        if(UserTools.isAdmin()) {
-            Document.get().getElementById("admin-menu").removeClassName("superhidden");
-            Document.get().getElementById("apparea").addClassName("adminbar");
-        } else {
-            Document.get().getElementById("admin-menu").addClassName("superhidden");
-            Document.get().getElementById("apparea").removeClassName("adminbar");
+            if(UserTools.isAdmin()) {
+                Document.get().getElementById("admin-menu").removeClassName("superhidden");
+                Document.get().getElementById("apparea").addClassName("adminbar");
+            } else {
+                Document.get().getElementById("admin-menu").addClassName("superhidden");
+                Document.get().getElementById("apparea").removeClassName("adminbar");
+            }
         }
     }
 
@@ -122,6 +124,11 @@ public class HandyTools {
 
     public static String formatDate(Date timestamp) {
         DateTimeFormat dtf = DateTimeFormat.getFormat("yyyy-MM-dd HH:mm:ss");
+        return dtf.format(timestamp);
+    }
+
+    public static String formatOnlyDate(Date timestamp) {
+        DateTimeFormat dtf = DateTimeFormat.getFormat("yyyy-MM-dd");
         return dtf.format(timestamp);
     }
 
