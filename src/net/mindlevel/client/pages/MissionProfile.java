@@ -76,7 +76,7 @@ public class MissionProfile {
         HandyTools.setLoading(false);
         appArea.clear();
         VerticalPanel missionPanel = new VerticalPanel();
-        missionPanel.setStylePrimaryName("mission-panel");
+        missionPanel.addStyleName("mission-panel");
         missionPanel.add(new HTML("<b>MissionID:</b> " + missionId));
         missionPanel.add(new HTML("<b>Name:</b> " + mission.getName()));
         missionPanel.add(new HTML("<b>Categories:</b> " + HandyTools.getCategoryAnchors(mission.getCategories())));

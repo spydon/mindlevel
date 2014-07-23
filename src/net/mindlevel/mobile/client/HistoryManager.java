@@ -13,6 +13,7 @@ import net.mindlevel.mobile.client.view.MissionsView;
 import net.mindlevel.mobile.client.view.PictureView;
 import net.mindlevel.mobile.client.view.RegisterView;
 import net.mindlevel.mobile.client.view.TermsView;
+import net.mindlevel.mobile.client.view.UploadView;
 import net.mindlevel.mobile.client.view.UserView;
 
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
@@ -39,6 +40,7 @@ public class HistoryManager implements ValueChangeHandler<String> {
         pageMapper.put("highscore", new HighscoreView());
         pageMapper.put("missions", new MissionsView());
         pageMapper.put("mission", new MissionView());
+        pageMapper.put("upload", new UploadView());
         pageMapper.put("user", new UserView());
         pageMapper.put("about", new AboutView());
         pageMapper.put("register", new RegisterView());
@@ -61,14 +63,19 @@ public class HistoryManager implements ValueChangeHandler<String> {
         } else {
             String session = "";
             if(token.contains("session")) {
-                int start = token.indexOf("session")+7;
+                int sessionIndex = token.indexOf("session");
+                int start = sessionIndex+8;
                 session = token.substring(start);
+                token = token.substring(0, sessionIndex-1);
+                System.out.println(token);
             }
             String[] parameters = token.split("=");
             if(pageMapper.containsKey(parameters[0])) {
                 appArea.clear();
                 MPage page = pageMapper.get(parameters[0]);
-                page.setId(parameters[1]);
+                if(parameters.length > 1) {
+                    page.setId(parameters[1]);
+                }
                 page.setSession(session);
                 appArea.add(page);
             }

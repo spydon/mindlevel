@@ -40,7 +40,6 @@ import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.SimplePanel;
 import com.googlecode.mgwt.ui.client.MGWT;
 
 /**
@@ -49,7 +48,7 @@ import com.googlecode.mgwt.ui.client.MGWT;
 public class Mindlevel implements EntryPoint, ValueChangeHandler<String> {
     public static User user;
     public static HandlerRegistration navigationHandlerRegistration = null;
-    public static SimplePanel chat = null;
+//    public static SimplePanel chat = null;
     public static String PATH = "./";
     private static boolean isDesktop = true;
 
@@ -74,6 +73,8 @@ public class Mindlevel implements EntryPoint, ValueChangeHandler<String> {
         if(!MGWT.getFormFactor().isDesktop() && !MGWT.getOsDetection().isAndroid2x() ) {
             isDesktop = false;
         }
+
+//        isDesktop = false;
 
         if(isDesktop()) {
             RootPanel.get().addStyleName("desktop");

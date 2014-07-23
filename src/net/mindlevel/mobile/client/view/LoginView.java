@@ -7,6 +7,9 @@ import net.mindlevel.client.widgets.QuoteElement;
 import net.mindlevel.shared.User;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.KeyCodes;
+import com.google.gwt.event.dom.client.KeyDownEvent;
+import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Image;
@@ -58,6 +61,15 @@ public class LoginView extends MPage {
 
         FormEntry userEntry = new FormEntry("Username: ", userField);
         FormEntry passEntry = new FormEntry("Password: ", passField);
+
+        passField.addKeyDownHandler(new KeyDownHandler() {
+            @Override
+            public void onKeyDown(KeyDownEvent event) {
+                if(event.getNativeKeyCode() == KeyCodes.KEY_ENTER) {
+                    authenticate();
+                }
+            }
+        });
 
 //        userField.addStyleName("m-center-input");
 //        passField.addStyleName("m-center-input");

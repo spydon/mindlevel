@@ -2,6 +2,7 @@ package net.mindlevel.mobile.client.view;
 
 import net.mindlevel.client.services.UserService;
 import net.mindlevel.client.services.UserServiceAsync;
+import net.mindlevel.client.widgets.LoadingElement;
 import net.mindlevel.client.widgets.UserElement;
 import net.mindlevel.shared.User;
 
@@ -9,7 +10,6 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.googlecode.mgwt.ui.client.widget.progress.ProgressBar;
 
 public class UserView extends MPage {
     protected VerticalPanel main;
@@ -30,7 +30,7 @@ public class UserView extends MPage {
 
     private void loadUser(String username) {
         main.clear();
-        final ProgressBar progress = new ProgressBar();
+        final LoadingElement progress = new LoadingElement();
         main.add(progress);
         userService.getUser(username, new AsyncCallback<User>() {
             @Override

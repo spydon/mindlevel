@@ -34,6 +34,6 @@ public class MindlevelMobile {
 
         RootPanel.get().add(appArea);
 
-        History.fireCurrentHistoryState();
+//        History.fireCurrentHistoryState();
     }
 }

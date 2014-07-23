@@ -96,7 +96,6 @@ public class PictureView extends MPage {
     }
 
     private void init() {
-        System.out.println("Init");
         bar = new ButtonBar();
         title = new HTML();
         carousel = new Carousel();
@@ -131,66 +130,69 @@ public class PictureView extends MPage {
         voteDown.addTapHandler(new VoteTapHandler(false));
 
         carousel.addSelectionHandler(new SelectionHandler<Integer>() {
-
+            int lastImageNum;
+            int imageNum = -1;
             @Override
             public void onSelection(SelectionEvent<Integer> arg0) {
-                int imageNum = arg0.getSelectedItem();
-                System.out.println("Beginning of selection Real id: " + realId + " imageNum: " + imageNum);
+                lastImageNum = imageNum;
+                imageNum = arg0.getSelectedItem();
+                if(lastImageNum != imageNum) {
+                    System.out.println("Beginning of selection Real id: " + realId + " imageNum: " + imageNum);
 
 
-                MetaImageElement imageElement = loadedImages.get(imageNum);
-                MetaImage metaImage = imageElement.getMetaImage();
+                    MetaImageElement imageElement = loadedImages.get(imageNum);
+                    MetaImage metaImage = imageElement.getMetaImage();
 
-                if(imageElement.isLoaded()) {
-                    loadedImages.get(imageNum).adjustSize();
-                }
-
-                id = metaImage.getRelativeId();
-                realId = metaImage.getId();
-
-                //Remember that the carousel is reversed compared to the website
-                //Check if the right arrow is needed
-                if (id == 1) {
-                    next.setVisible(false);
-                } else if(!next.isVisible()) {
-                    next.setVisible(true);
-                }
-
-                //Check if the left arrow is needed
-                if (id == imageCount || metaImage.getId() == startId) {
-                    previous.setVisible(false);
-                } else if(!previous.isVisible()) {
-                    previous.setVisible(true);
-                }
-
-                //If it is a 'notfound' picture
-                if (imageCount == 0) {
-                    previous.setVisible(false);
-                    next.setVisible(false);
-                }
-
-                System.out.println("Real id in selection: " + realId);
-                History.newItem("picture=" + realId, false);
-
-                title.setHTML(metaImage.getTitle());
-
-                ratingService.getVoteNumber(realId, true, true, new AsyncCallback<Integer>() {
-
-                    @Override
-                    public void onSuccess(Integer result) {
-                        voteTotal.setText("" + result);
+                    if(imageElement.isLoaded()) {
+                        loadedImages.get(imageNum).adjustSize();
                     }
 
-                    @Override
-                    public void onFailure(Throwable failure) {
-                        //Could not fetch vote number
-                    }
-                });
+                    id = metaImage.getRelativeId();
+                    realId = metaImage.getId();
 
-                //Load next image
-                if(loadedId > 1 && loadedImages.size() < imageNum+2) {
-                    System.out.println("Tries to load image");
-                    loadImage(loadedId-1, true);
+                    //Remember that the carousel is reversed compared to the website
+                    //Check if the right arrow is needed
+                    if (id == 1) {
+                        next.setVisible(false);
+                    } else if(!next.isVisible()) {
+                        next.setVisible(true);
+                    }
+
+                    //Check if the left arrow is needed
+                    if (id == imageCount || metaImage.getId() == startId) {
+                        previous.setVisible(false);
+                    } else if(!previous.isVisible()) {
+                        previous.setVisible(true);
+                    }
+
+                    //If it is a 'notfound' picture
+                    if (imageCount == 0) {
+                        previous.setVisible(false);
+                        next.setVisible(false);
+                    }
+
+                    System.out.println("Real id in selection: " + realId);
+                    History.newItem("picture=" + realId, false);
+
+                    title.setHTML(metaImage.getTitle());
+
+                    ratingService.getVoteNumber(realId, true, true, new AsyncCallback<Integer>() {
+
+                        @Override
+                        public void onSuccess(Integer result) {
+                            voteTotal.setText("" + result);
+                        }
+
+                        @Override
+                        public void onFailure(Throwable failure) {
+                            //Could not fetch vote number
+                        }
+                    });
+
+                    //Load next image
+                    if(loadedId > 1 && loadedImages.size() < imageNum+2) {
+                        loadImage(loadedId-1, true);
+                    }
                 }
             }
         });
@@ -242,18 +244,14 @@ public class PictureView extends MPage {
     private void show() {
         if(!initialized) {
             startId = realId;
-            System.out.println("Going for init");
             init();
             loadImage(realId, false);
         } else if(loadedImages.get(carousel.getSelectedPage()).getMetaImage().getId() != realId) {
             startId = realId;
-            System.out.println("Going for clear");
             loadedId = Integer.MAX_VALUE;
             loadedImages.clear();
             carousel.clear();
             loadImage(realId, false);
-        } else {
-            System.out.println("Going outside");
         }
     }
 

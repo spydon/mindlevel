@@ -970,7 +970,7 @@ header {
 }
 
 .m-middle *, .m-middle {
-    vertical-align: middle !important; /*TODO: Fix the ugly hack */
+    vertical-align: middle !important; /*TODO: Fix the ugly hack */ /* It's for the HighscoreSection */ 
 }
 
 .m-button-panel {
@@ -993,27 +993,28 @@ header {
 }
 
 .m-image {
+    display: table-cell;
+    vertical-align: middle;
     pointer-events: none;
 /*     max-height: 100%; */
 /*     max-width: 100%; */
     margin-left: auto;
     margin-right: auto;
-    vertical-align: middle;
+    text-align: center;
 }
 
-.landscape .m-image {
-    max-width: 100%;
-    height: auto; 
-}
+/* .landscape .m-image { */
+/*     max-width: 100%; */
+/*     height: auto;  */
+/* } */
 
-.portrait .m-image {
-    max-width: auto;
-    height: 100%; 
-}
+/* .portrait .m-image { */
+/*     max-width: auto; */
+/*     height: 100%;  */
+/* } */
 
 .m-image-container {
-    max-height: calc(100% - 40px);
-    text-align: center;
+/*     max-height: calc(100% - 45px); */
 }
 
 .m-about {
@@ -1030,6 +1031,42 @@ header {
     max-width: 300px;
     margin-top: 10px;
     margin-bottom: 10px;
+}
+
+.m-mission-description {
+    width: 300px;
+    max-width: 100%;
+    text-align: left;
+}
+
+.m-upload-button {
+    margin-top: 10px !important;
+    cursor: pointer;
+}
+
+.m-apply-button {
+    background-image: url(./images/icons/logout.svg);
+/*     background-size: 48px 48px; */
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.m-add-button {
+    background-image: url(./images/icons/add.svg);
+    background-size: 18px 18px;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.m-remove-button {
+    background-image: url(./images/icons/remove.svg);
+    background-size: 18px 18px;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.m-tagline {
+    max-width: 150px;
 }
 
 .m-margin {

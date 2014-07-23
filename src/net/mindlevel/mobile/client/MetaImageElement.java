@@ -4,6 +4,7 @@ import net.mindlevel.client.Mindlevel;
 import net.mindlevel.client.widgets.LoadingElement;
 import net.mindlevel.shared.MetaImage;
 
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Image;
@@ -45,7 +46,6 @@ public class MetaImageElement extends Image {
                 isLoaded = true;
             }
         });
-
     }
 
     public void adjustSize() {
@@ -54,15 +54,19 @@ public class MetaImageElement extends Image {
         int newWidth = 0;
         int newHeight = 0;
 
-        if(width/clientWidth > height/clientHeight) {
+        if((double)width/clientWidth > (double)height/clientHeight) {
             newWidth = clientWidth;
             newHeight = height*newWidth/width;
+            getElement().getStyle().setMarginTop((clientHeight-newHeight)/2, Unit.PX);
         } else {
             newHeight = clientHeight;
             newWidth = newHeight*width/height;
         }
 
-        setPixelSize(newWidth, newHeight);
+        width = newWidth;
+        height = newHeight;
+
+        setPixelSize(width, height);
     }
 
     public MetaImage getMetaImage() {

@@ -136,7 +136,7 @@ public class MissionServiceImpl extends DBConnector implements MissionService {
                         rs.getBoolean("adult"),
                         rs.getBoolean("validated"));
                 mission.setId(rs.getInt("id"));
-                mission.setCreated(rs.getDate("timestamp"));
+                mission.setCreated(rs.getTimestamp("timestamp"));
             } else {
                 throw new IllegalArgumentException("No such mission...");
             }
