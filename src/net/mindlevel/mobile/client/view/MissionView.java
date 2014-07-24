@@ -16,7 +16,7 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.googlecode.mgwt.dom.client.event.tap.TapEvent;
 import com.googlecode.mgwt.dom.client.event.tap.TapHandler;
-import com.googlecode.mgwt.ui.client.widget.button.Button;
+import com.googlecode.mgwt.ui.client.widget.button.image.UploadImageButton;
 
 public class MissionView extends MPage {
     protected VerticalPanel main;
@@ -34,9 +34,6 @@ public class MissionView extends MPage {
         main.addStyleName("m-margin");
     }
 
-    public void init() {
-    }
-
     private void loadMission(int id) {
         main.clear();
         final LoadingElement progress = new LoadingElement();
@@ -52,7 +49,10 @@ public class MissionView extends MPage {
                 main.clear();
                 MissionElement missionElement = new MissionElement(mission);
                 HTML missionDescription = new HTML("<h2>Description</h2>" + mission.getDescription());
-                Button uploadButton = new Button("Complete mission");
+                UploadImageButton uploadButton = new UploadImageButton();
+                uploadButton.setText("Complete mission");
+                uploadButton.setWidth("300px");
+
                 uploadButton.addTapHandler(new TapHandler() {
                     @Override
                     public void onTap(TapEvent event) {
@@ -65,7 +65,7 @@ public class MissionView extends MPage {
                 });
 
                 missionDescription.addStyleName("m-mission-description");
-                uploadButton.addStyleName("m-upload-button");
+                uploadButton.addStyleName("m-long-button");
 
                 main.add(missionElement);
                 main.add(missionDescription);
@@ -76,6 +76,7 @@ public class MissionView extends MPage {
 
     @Override
     public Widget asWidget() {
+        onLoad();
         return main;
     }
 

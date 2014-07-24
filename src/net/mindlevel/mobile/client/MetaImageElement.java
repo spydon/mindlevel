@@ -20,13 +20,14 @@ public class MetaImageElement extends Image {
 
     public MetaImageElement(MetaImage metaImage) {
 //        addStyleName("m-image-panel");
+        addStyleName("m-image");
         setMetaImage(metaImage);
         init();
     }
 
     private void init() {
-        removeStyleName("m-image");
         setUrl(LoadingElement.loadingPath);
+        adjustTopMargin(20);
 
         new ImageLoader().loadImage(Mindlevel.PATH + "pictures/" + metaImage.getFilename(), new AsyncCallback<IsImage>() {
 
@@ -37,7 +38,6 @@ public class MetaImageElement extends Image {
 
             @Override
             public void onSuccess(IsImage loaded) {
-                addStyleName("m-image");
                 width = loaded.getElement().getWidth();
                 height = loaded.getElement().getHeight();
 
@@ -57,16 +57,21 @@ public class MetaImageElement extends Image {
         if((double)width/clientWidth > (double)height/clientHeight) {
             newWidth = clientWidth;
             newHeight = height*newWidth/width;
-            getElement().getStyle().setMarginTop((clientHeight-newHeight)/2, Unit.PX);
         } else {
             newHeight = clientHeight;
             newWidth = newHeight*width/height;
         }
+        adjustTopMargin(newHeight);
 
         width = newWidth;
         height = newHeight;
 
         setPixelSize(width, height);
+    }
+
+    private void adjustTopMargin(int height) {
+        int clientHeight = Window.getClientHeight()-45;
+        getElement().getStyle().setMarginTop((clientHeight-height)/2, Unit.PX);
     }
 
     public MetaImage getMetaImage() {

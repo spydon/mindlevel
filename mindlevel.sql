@@ -360,7 +360,7 @@ CREATE TABLE `picture` (
   `validated` tinyint(1) NOT NULL DEFAULT '0',
   `owner` varchar(64) DEFAULT NULL,
   `mission_id` int(11) DEFAULT NULL,
-  `score` int(11) DEFAULT NULL,
+  `score` int(11) DEFAULT NULL DEFAULT '0',
   `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `thread_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),

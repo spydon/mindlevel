@@ -30,6 +30,7 @@ public class MissionsView extends MPage {
         if(!initialized) {
             init();
         }
+        onLoad();
         return main;
     }
 

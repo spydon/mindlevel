@@ -1,11 +1,11 @@
 package net.mindlevel.shared;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Mission implements Serializable {
-    private static final long serialVersionUID = 1L;
+import com.google.gwt.user.client.rpc.IsSerializable;
+
+public class Mission implements IsSerializable {
     private String name, description, creator;
     private Date created;
     private int id;

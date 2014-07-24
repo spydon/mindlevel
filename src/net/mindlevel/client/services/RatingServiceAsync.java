@@ -10,7 +10,7 @@ public interface RatingServiceAsync {
             throws IllegalArgumentException;
     void setVoteValue(String username, int pictureId, boolean isUpVote, AsyncCallback<Void> callback)
             throws IllegalArgumentException;
-    void getScore(int id, AsyncCallback<Double> callback)
+    void getScore(int id, AsyncCallback<Integer> callback)
             throws IllegalArgumentException;
     void getVoteNumber(int id, boolean countUpVotes, boolean countDownVotes, AsyncCallback<Integer> callback)
             throws IllegalArgumentException;

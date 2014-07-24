@@ -42,7 +42,8 @@ public class UserView extends MPage {
             @Override
             public void onSuccess(User user) {
                 main.remove(progress);
-                UserElement userElement = new UserElement(user, false);
+                UserElement userElement = new UserElement(user, false, true);
+                userElement.addStyleName("m-user-element");
                 main.add(userElement);
             }
         });
@@ -50,13 +51,13 @@ public class UserView extends MPage {
 
     @Override
     public Widget asWidget() {
+        onLoad();
         return main;
     }
 
     @Override
     public void setId(int id) {
-        // TODO Auto-generated method stub
-
+        //No user has number as ID
     }
 
     @Override

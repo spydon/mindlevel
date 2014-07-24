@@ -20,7 +20,8 @@ public class LoadingElement extends Composite {
         loadingPanel = new VerticalPanel();
         HTML loadingText = new HTML("Loading");
         loadingText.addStyleName("loading-text");
-        loadingPanel.add(new Image(loadingPath));
+        Image loadingImage = new Image(loadingPath);
+        loadingPanel.add(loadingImage);
         loadingPanel.add(loadingText);
 
         // All composites must call initWidget() in their constructors.

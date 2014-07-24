@@ -1,5 +1,10 @@
 package net.mindlevel.client.pages;
 
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Cookies;
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.RootPanel;
@@ -29,7 +34,18 @@ public class About {
                 + "<p>Tutorial at <a href=\"#tutorial\">#tutorial</a> <br />"
                 + "File bugs, abuse and feature requests at <a href=\"#report\">#report</a></p>");
         about.addStyleName("about");
+
+        Button swap = new Button("Swap to mobile version");
+        swap.addClickHandler(new ClickHandler() {
+            @Override
+            public void onClick(ClickEvent event) {
+                Cookies.setCookie("platform", "mobile");
+                Window.Location.reload();
+            }
+        });
+
         appArea.add(logo);
         appArea.add(about);
+        appArea.add(swap);
     }
 }

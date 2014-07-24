@@ -22,12 +22,15 @@ implements HasClickHandlers {
 
     private Panel backPanel;
 
-    /**
-     * Constructs an NewsElement with the given news displayed.
-     *
-     * @param caption the caption to be displayed with the check box
-     */
     public UserElement(final User user, final boolean isSimple) {
+        this(user, isSimple, false);
+    }
+
+    /**
+     * Constructs an UserElement with the given user displayed.
+     *
+     */
+    public UserElement(final User user, final boolean isSimple, final boolean includeAbout) {
         ClickHandler handler = new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
@@ -37,7 +40,6 @@ implements HasClickHandlers {
                 }
             }
         };
-
 
         HTML username = new HTML(HandyTools.getAnchor("user", user.getUsername(), user.getUsername() + "(" + user.getScore() + ")"));
         Image image;
@@ -53,12 +55,15 @@ implements HasClickHandlers {
             backPanel.add(image);
             backPanel.add(username);
             if(!user.getName().equals("")) {
-                backPanel.add(new HTML("Name: " + user.getName()));
+                backPanel.add(new HTML("<b>Name:</b> " + user.getName()));
             }
             if(!user.getLocation().equals("")) {
-                backPanel.add(new HTML("Location: " + HandyTools.formatHtml(user.getLocation())));
+                backPanel.add(new HTML("<b>Location:</b> " + HandyTools.formatHtml(user.getLocation())));
             }
-            backPanel.add(new HTML("Last log in: " + HandyTools.formatOnlyDate(user.getLastLogin())));
+            backPanel.add(new HTML("<b>Last log in:</b> " + HandyTools.formatOnlyDate(user.getLastLogin())));
+            if(includeAbout && !user.getAbout().equals("")) {
+                backPanel.add(new HTML("<b>About:</b> " + HandyTools.formatHtml(user.getAbout())));
+            }
         }
 
         image.addStyleName("user-image");

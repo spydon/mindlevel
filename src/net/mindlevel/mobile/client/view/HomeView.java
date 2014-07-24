@@ -108,7 +108,8 @@ public class HomeView extends MPage {
         logoutB.addTapHandler(new TapHandler() {
             @Override
             public void onTap(TapEvent event) {
-                History.newItem("logout");
+                UserTools.setLoggedOff();
+                setLoggedIn(false);
             }
         });
 
@@ -148,6 +149,8 @@ public class HomeView extends MPage {
                 pictureId = metaImage.getId();
             }
         });
+        onLoad();
+        setLoggedIn(UserTools.isLoggedIn());
         return main;
     }
 

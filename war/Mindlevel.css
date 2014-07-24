@@ -688,6 +688,7 @@ header {
 */
 
 .mission-element {
+    max-width: 300px;
     min-height: 50px;
     margin-bottom: 10px;
     padding: 10px;
@@ -901,6 +902,10 @@ header {
     margin: 10px;
 }
 
+.m-apparea {
+    margin-bottom: 45px;
+}
+
 .m-logo {
     margin-bottom: 4px;
 }
@@ -982,14 +987,29 @@ header {
 
 .m-button {
     width: 150px;
-    max-width: 100%;
+    max-width: 100% !important;
     text-align: right !important;
+}
+
+.m-long-button {
+/*     width: 100% !important; */
+    max-width: 100% !important;
+    margin: 5px;
 }
 
 .m-bar {
     background-color: #199fd2 !important;
     position: fixed !important;
     bottom: 0px !important;
+}
+
+.m-bar-title * {
+    text-shadow: none !important;
+}
+
+.m-user-element {
+    margin-top: 10px;
+    max-width: 300px;
 }
 
 .m-image {
@@ -1037,6 +1057,7 @@ header {
     width: 300px;
     max-width: 100%;
     text-align: left;
+    margin: 10px;
 }
 
 .m-upload-button {

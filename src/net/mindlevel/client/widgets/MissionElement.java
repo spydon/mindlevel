@@ -32,7 +32,8 @@ implements HasClickHandlers {
             public void onClick(ClickEvent event) {
                 AnchorElement eventTarget = (AnchorElement)event.getNativeEvent().getEventTarget().cast();
                 if(eventTarget == null || !eventTarget.getTagName().equals("A")) {
-                    History.newItem("mission="+mission.getId());
+                    String constraint = mission.isValidated() ? "" : "&validated=false";
+                    History.newItem("mission="+mission.getId()+constraint);
                 }
             }
         };

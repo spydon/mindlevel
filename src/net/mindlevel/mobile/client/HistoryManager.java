@@ -2,7 +2,6 @@ package net.mindlevel.mobile.client;
 
 import java.util.HashMap;
 
-import net.mindlevel.client.UserTools;
 import net.mindlevel.mobile.client.view.AboutView;
 import net.mindlevel.mobile.client.view.HighscoreView;
 import net.mindlevel.mobile.client.view.HomeView;
@@ -10,6 +9,7 @@ import net.mindlevel.mobile.client.view.LoginView;
 import net.mindlevel.mobile.client.view.MPage;
 import net.mindlevel.mobile.client.view.MissionView;
 import net.mindlevel.mobile.client.view.MissionsView;
+import net.mindlevel.mobile.client.view.PictureInfoView;
 import net.mindlevel.mobile.client.view.PictureView;
 import net.mindlevel.mobile.client.view.RegisterView;
 import net.mindlevel.mobile.client.view.TermsView;
@@ -36,6 +36,7 @@ public class HistoryManager implements ValueChangeHandler<String> {
 
         pageMapper.put("", new HomeView());
         pageMapper.put("picture", new PictureView());
+        pageMapper.put("pictureinfo", new PictureInfoView());
         pageMapper.put("login", new LoginView());
         pageMapper.put("highscore", new HighscoreView());
         pageMapper.put("missions", new MissionsView());
@@ -49,15 +50,6 @@ public class HistoryManager implements ValueChangeHandler<String> {
 
     public void parseToken(String token) {
         if(!token.contains("=") && !token.contains("&")) {
-            if (token.equals("logout")) {
-                UserTools.setLoggedOff();
-                token = "";
-            }
-
-            if(token.equals("")) {
-                ((HomeView) pageMapper.get("")).setLoggedIn(UserTools.isLoggedIn());
-            }
-
             appArea.clear();
             appArea.add(pageMapper.get(token));
         } else {

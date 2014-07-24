@@ -133,6 +133,7 @@ public class LoginView extends MPage {
 
     @Override
     public Widget asWidget() {
+        onLoad();
         return main;
     }
 

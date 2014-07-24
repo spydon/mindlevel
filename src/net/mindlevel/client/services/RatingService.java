@@ -10,6 +10,6 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 public interface RatingService extends RemoteService {
     int getVoteValue(String username, int pictureId) throws IllegalArgumentException;
     void setVoteValue(String token, int pictureId, boolean isUpVote) throws IllegalArgumentException;
-    double getScore(int id) throws IllegalArgumentException;
+    int getScore(int id) throws IllegalArgumentException;
     int getVoteNumber(int id, boolean countUpVotes, boolean countDownVotes) throws IllegalArgumentException;
 }

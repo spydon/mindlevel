@@ -74,7 +74,9 @@ public class Mindlevel implements EntryPoint, ValueChangeHandler<String> {
             isDesktop = false;
         }
 
-//        isDesktop = false;
+        if(Cookies.getCookie("platform") != null && Cookies.getCookie("platform").equals("mobile")) {
+            isDesktop = false;
+        }
 
         if(isDesktop()) {
             RootPanel.get().addStyleName("desktop");

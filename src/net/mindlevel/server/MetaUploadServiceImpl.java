@@ -11,6 +11,7 @@ import net.mindlevel.shared.FieldVerifier;
 import net.mindlevel.shared.MetaImage;
 
 import com.mysql.jdbc.Statement;
+import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 
 /**
  * This is an example of how to use UploadAction class.
@@ -21,7 +22,7 @@ public class MetaUploadServiceImpl extends DBConnector implements
     private static final long serialVersionUID = 1L;
 
     @Override
-    public String upload(MetaImage metaImage, boolean validated) throws IllegalArgumentException{
+    public String upload(MetaImage metaImage, boolean validated) throws IllegalArgumentException {
         if (!FieldVerifier.isValidMetaImage(metaImage).equals(""))
             // If the input is not valid, throw an IllegalArgumentException back to
             // the client.
@@ -51,6 +52,8 @@ public class MetaUploadServiceImpl extends DBConnector implements
                     getPictureID(metaImage.getFilename(), false), validated);
             ps.close();
             conn.close();
+        } catch(MySQLIntegrityConstraintViolationException e) {
+            throw new IllegalArgumentException("You already uploaded this picture");
         } catch(SQLException e) {
             e.printStackTrace();
         }

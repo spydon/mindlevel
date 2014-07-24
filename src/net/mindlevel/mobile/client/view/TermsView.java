@@ -69,6 +69,7 @@ public class TermsView extends MPage {
         if(!initialized) {
             init();
         }
+        onLoad();
         return main;
     }
 

@@ -27,6 +27,7 @@ import net.mindlevel.shared.User;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.HorizontalPanel;
@@ -90,6 +91,8 @@ public class UploadView extends MPage {
         loading = new LoadingElement();
         loadingPanel = new SimplePanel();
         picturePanel = new SimplePanel();
+
+        missionTitle.addStyleName("m-mission-description");
 
         title = new MTextBox();
         location = new MTextBox();
@@ -178,6 +181,7 @@ public class UploadView extends MPage {
 
             @Override
             public void onSuccess(String msg) {
+                History.newItem("");
                 HandyTools.showDialogBox("Success", new HTML("<h3>"+msg+"</h3>"));
             }
         });
@@ -302,6 +306,7 @@ public class UploadView extends MPage {
 
     @Override
     public Widget asWidget() {
+        onLoad();
         return main;
     }
 

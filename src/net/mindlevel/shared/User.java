@@ -1,10 +1,10 @@
 package net.mindlevel.shared;
 
-import java.io.Serializable;
 import java.util.Date;
 
-public class User implements Serializable{
-    private static final long serialVersionUID = 1L;
+import com.google.gwt.user.client.rpc.IsSerializable;
+
+public class User implements IsSerializable {
     private String username;
     private String token;
     private boolean adult;
@@ -14,7 +14,8 @@ public class User implements Serializable{
     private Date created, lastLogin;
     private String pictureUrl;
 
-    public User() {}
+    public User() {
+    }
 
     public String getUsername() {
         return username;

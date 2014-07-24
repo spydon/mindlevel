@@ -52,7 +52,6 @@ public class RatingServiceImpl extends DBConnector implements RatingService {
             precheck1.setInt(2, pictureId);
 
             //Check if user has enough score to vote
-
             PreparedStatement precheck2 = conn.prepareStatement("SELECT username FROM user "
                     + "WHERE username = ? AND score > ?");
             precheck2.setString(1, user.getUsername());
@@ -91,6 +90,14 @@ public class RatingServiceImpl extends DBConnector implements RatingService {
                 ps3.executeUpdate();
                 ps3.close();
 
+                //Update the pictures score
+                PreparedStatement ps4 = conn.prepareStatement("UPDATE picture "
+                        + "SET score = score + ? WHERE id = ?");
+                ps4.setInt(1, isUpVote ? 1 : -1);
+                ps4.setInt(2, pictureId);
+                ps4.executeUpdate();
+                ps4.close();
+
                 conn.close();
             } else if(!hasScore){
                 throw new IllegalArgumentException("I'm afraid you've don't have enough score to cast that vote.");
@@ -102,25 +109,24 @@ public class RatingServiceImpl extends DBConnector implements RatingService {
         }
     }
 
-    @Deprecated
     @Override
-    public double getScore(int id) throws IllegalArgumentException {
-        double voteAvg = 0.0;
+    public int getScore(int id) throws IllegalArgumentException {
+        int score = 0;
         try {
             Connection conn = getConnection();
-            PreparedStatement ps = conn.prepareStatement("SELECT AVG(score) As vote_score "
+            PreparedStatement ps = conn.prepareStatement("SELECT SUM(score) As vote_score "
                     + "FROM rating WHERE picture_id=?");
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             if(rs.first()) {
-                voteAvg = rs.getDouble("vote_score");
+                score = rs.getInt("vote_score");
             }
             ps.close();
             conn.close();
         } catch(SQLException e) {
             e.printStackTrace();
         }
-        return voteAvg;
+        return score;
     }
 
     @Override

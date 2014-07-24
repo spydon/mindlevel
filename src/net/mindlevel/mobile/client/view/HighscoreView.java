@@ -18,11 +18,11 @@ public class HighscoreView extends MPage {
     public void init() {
         HighscoreSection highscore = new HighscoreSection(5);
         main.add(highscore);
-//        main.add(new HTML("(Click on the table to get more information about a user)"));
     }
 
     @Override
     public Widget asWidget() {
+        onLoad();
         return main;
     }
 

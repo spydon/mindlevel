@@ -184,6 +184,7 @@ public class RegisterView extends MPage {
 
     @Override
     public Widget asWidget() {
+        onLoad();
         return main;
     }
 
