@@ -16,6 +16,7 @@ import net.mindlevel.shared.MetaImage;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.logical.shared.SelectionEvent;
 import com.google.gwt.event.logical.shared.SelectionHandler;
+import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HTML;
@@ -54,6 +55,7 @@ public class PictureView extends MPage {
     private boolean initialized = false;
 
     private final ArrayList<MetaImageElement> loadedImages;
+    private HandlerRegistration handlerRegistration;
 
     /**
      * Create a remote service proxy to talk to the server-side picture
@@ -111,57 +113,7 @@ public class PictureView extends MPage {
         voteUp.addTapHandler(new VoteTapHandler(true));
         voteDown.addTapHandler(new VoteTapHandler(false));
 
-        carousel.addSelectionHandler(new SelectionHandler<Integer>() {
-            int lastImageNum;
-            int imageNum = -1;
-            @Override
-            public void onSelection(SelectionEvent<Integer> arg0) {
-                lastImageNum = imageNum;
-                imageNum = arg0.getSelectedItem();
-                if(lastImageNum != imageNum) {
-                    MetaImageElement imageElement = loadedImages.get(imageNum);
-                    MetaImage metaImage = imageElement.getMetaImage();
-
-                    if(imageElement.isLoaded()) {
-                        loadedImages.get(imageNum).adjustSize();
-                    }
-
-                    id = metaImage.getRelativeId();
-                    realId = metaImage.getId();
-
-                    //Remember that the carousel is reversed compared to the website
-                    //Check if the right arrow is needed
-                    if (id == 1) {
-                        next.setVisible(false);
-                    } else if(!next.isVisible()) {
-                        next.setVisible(true);
-                    }
-
-                    //Check if the left arrow is needed
-                    if (id == imageCount || metaImage.getId() == startId) {
-                        previous.setVisible(false);
-                    } else if(!previous.isVisible()) {
-                        previous.setVisible(true);
-                    }
-
-                    //If it is a 'notfound' picture
-                    if (imageCount == 0) {
-                        previous.setVisible(false);
-                        next.setVisible(false);
-                    }
-
-                    History.newItem("picture=" + realId, false);
-
-                    String text = metaImage.getTitle().length() > 7 ? metaImage.getTitle().substring(0,7)+".." : metaImage.getTitle();
-                    title.setText(text + "(" + metaImage.getScore() + ")");
-
-                    //Load next image
-                    if(loadedId > 1 && loadedImages.size() < imageNum+2) {
-                        loadImage(loadedId-1, true);
-                    }
-                }
-            }
-        });
+        handlerRegistration = carousel.addSelectionHandler(new CarouselHandler());
 
         title.addTapHandler(new TapHandler() {
             @Override
@@ -183,7 +135,18 @@ public class PictureView extends MPage {
 //        main.add(imagePanel);
         main.add(carousel);
         main.add(bar);
+    }
 
+    private void reInit() {
+        id = 0;
+        imageCount = 0;
+        startId = realId;
+        loadedId = Integer.MAX_VALUE;
+        loadedImages.clear();
+        carousel.clear();
+        handlerRegistration.removeHandler();
+        handlerRegistration = carousel.addSelectionHandler(new CarouselHandler());
+        loadImage(realId, false);
     }
 
     private class VoteTapHandler implements TapHandler {
@@ -221,19 +184,90 @@ public class PictureView extends MPage {
         }
     }
 
+    private class CarouselHandler implements SelectionHandler<Integer> {
+        int lastImageNum;
+        int imageNum = -1;
+        boolean ignoreThisTime = true;
+
+        @Override
+        public void onSelection(SelectionEvent<Integer> arg0) {
+            lastImageNum = imageNum;
+            imageNum = arg0.getSelectedItem();
+            if(imageNum == 0 &&
+                    lastImageNum == imageNum &&
+                    loadedImages.get(0).getMetaImage().getRelativeId() != loadedImages.get(0).getMetaImage().getImageCount()) {
+                if(ignoreThisTime) {
+                    ignoreThisTime = false;
+                } else {
+                    setId(0);
+                    reInit();
+                }
+            } else if(lastImageNum != imageNum) {
+                MetaImageElement imageElement = loadedImages.get(imageNum);
+                MetaImage metaImage = imageElement.getMetaImage();
+
+                if(imageElement.isLoaded()) {
+                    loadedImages.get(imageNum).adjustSize();
+                }
+
+                id = metaImage.getRelativeId();
+                realId = metaImage.getId();
+                HomeView.pictureId = metaImage.getId();
+
+                //Remember that the carousel is reversed compared to the website
+                //Check if the right arrow is needed
+                if (id == 1) {
+                    next.setVisible(false);
+                } else if(!next.isVisible()) {
+                    next.setVisible(true);
+                }
+
+                //Check if the left arrow is needed
+                if (id == imageCount) {
+                    previous.setVisible(false);
+                } else if(!previous.isVisible()) {
+                    previous.setVisible(true);
+                }
+
+                //If it is a 'notfound' picture
+                if (imageCount == 0) {
+                    previous.setVisible(false);
+                    next.setVisible(false);
+                }
+
+                History.newItem("picture=" + realId, false);
+
+                String text = metaImage.getTitle().length() > 7 ? metaImage.getTitle().substring(0,7)+".." : metaImage.getTitle();
+                title.setText(text + "(" + metaImage.getScore() + ")");
+
+                //Load next image
+                if(loadedId > 1 && loadedImages.size() < imageNum+2) {
+                    loadImage(loadedId-1, true);
+                }
+            }
+        }
+    }
+
+    private int isLoaded(int id) {
+        int place = -1;
+        for(int x = 0; x < loadedImages.size(); x++) {
+            if(loadedImages.get(x).getMetaImage().getId() == id) {
+                place = x;
+                break;
+            }
+        }
+        return place;
+    }
+
     private void show() {
         if(!initialized) {
             startId = realId;
             init();
             loadImage(realId, false);
-        } else if(loadedImages.get(carousel.getSelectedPage()).getMetaImage().getId() != realId) {
-            id = 0;
-            imageCount = 0;
-            startId = realId;
-            loadedId = Integer.MAX_VALUE;
-            loadedImages.clear();
-            carousel.clear();
-            loadImage(realId, false);
+        } else if(isLoaded(realId) == -1) {
+            reInit();
+        } else {
+            carousel.setSelectedPage(isLoaded(realId));
         }
     }
 
@@ -246,6 +280,8 @@ public class PictureView extends MPage {
     private void prevImage() {
         if (id < imageCount) {
             carousel.setSelectedPage(carousel.getSelectedPage()-1);
+        } else {
+            carousel.refresh();
         }
     }
 

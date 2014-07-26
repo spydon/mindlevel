@@ -17,7 +17,7 @@ import com.googlecode.mgwt.ui.client.widget.button.Button;
 
 public class HomeView extends MPage {
     protected VerticalPanel main;
-    private int pictureId = 0;
+    public static int pictureId = 0;
     private final Button loginB;
     private final Button logoutB;
 
@@ -135,8 +135,7 @@ public class HomeView extends MPage {
         }
     }
 
-    @Override
-    public Widget asWidget() {
+    private void updatePictureId() {
         pictureService.get(0, true, UserTools.isAdult(), true, new AsyncCallback<MetaImage>() {
 
             @Override
@@ -149,6 +148,13 @@ public class HomeView extends MPage {
                 pictureId = metaImage.getId();
             }
         });
+    }
+
+    @Override
+    public Widget asWidget() {
+        if(pictureId == 0) {
+            updatePictureId();
+        }
         onLoad();
         setLoggedIn(UserTools.isLoggedIn());
         return main;

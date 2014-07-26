@@ -235,6 +235,20 @@ header {
     max-width: 500px;
 }
 
+
+/* TODO: make proper tag CSS */
+.tag {
+    padding: 2px;
+    border-radius: 4px;
+    border: 1px solid #666;
+    color: #444;
+}
+
+.tag:hover, .tag:active {
+    background-color: #444;
+    color: white;
+}
+
 .search-icon {
     width: 20px;
     opacity: 0.7;

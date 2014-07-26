@@ -64,7 +64,6 @@ public class HistoryManager implements ValueChangeHandler<String> {
             }
             String pageName = token.split("=",2)[0];
             String parameters = token.split("=",2)[1];
-            System.out.println(pageName + " " + parameters);
             if(pageMapper.containsKey(pageName)) {
                 appArea.clear();
                 MPage page = pageMapper.get(pageName);

@@ -7,23 +7,55 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   height="48px"
+   height="32"
    id="svg1328"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
    inkscape:version="0.48.4 r9939"
-   sodipodi:docname="icon.svg"
+   sodipodi:docname="icon (copy).svg"
    sodipodi:version="0.32"
-   width="48px"
+   width="32"
    version="1.1">
-<defs
+  <metadata
+     id="metadata8">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1920"
+     inkscape:window-height="1179"
+     id="namedview6"
+     showgrid="false"
+     inkscape:zoom="4.9166667"
+     inkscape:cx="24"
+     inkscape:cy="24"
+     inkscape:window-x="1280"
+     inkscape:window-y="2"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
      id="defs1330" />
- <g
+  <g
      id="layer1"
      inkscape:groupmode="layer"
      inkscape:label="Layer 1"
-     style="display:inline">
+     style="display:inline"
+     transform="translate(0,-16)">
     <path
-       d="M 24.046494,1.5071795 1.2179878,25.575587 l 5.2682488,0 c 3.1499657,7.169035 3.0402213,13.460455 0.0625,18.979728 C 18.547995,43.727559 30.547253,43.670816 42.546511,44.492815 37.544747,38.266775 37.2668,31.930879 42.399171,25.469161 l 4.475829,0.04393 -9.33445,-9.828664 0.0091,-12.1517489 -7.043771,-0.00913 0.03162,4.6634168 z"
+       d="m 15.981796,17.574976 -15.17058783,15.994559 3.50099263,0 c 2.0932965,4.764153 2.0203663,8.945089 0.041534,12.612899 7.9740572,-0.550082 15.9481132,-0.58779 23.9221692,-0.04153 -3.323901,-4.137489 -3.508609,-8.347982 -0.09791,-12.642089 l 2.974394,0.02919 -6.20317,-6.531597 0.006,-8.075394 -4.680908,-0.006 0.02101,3.099055 z"
        id="rect5117"
        sodipodi:nodetypes="cccccccccccc"
        style="color:#000000;fill:#000000;fill-opacity:0.53240739;fill-rule:nonzero;stroke:none;stroke-width:1;marker:none;visibility:visible;display:inline;overflow:visible"

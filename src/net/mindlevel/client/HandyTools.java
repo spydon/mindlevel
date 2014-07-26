@@ -22,8 +22,6 @@ import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.googlecode.mgwt.dom.client.event.tap.TapEvent;
-import com.googlecode.mgwt.dom.client.event.tap.TapHandler;
 import com.googlecode.mgwt.ui.client.widget.dialog.AlertDialog;
 
 public class HandyTools {
@@ -82,12 +80,6 @@ public class HandyTools {
     private static void showMobileDialogBox(String title, HTML text) {
         final AlertDialog alert = new AlertDialog(title, "");
         alert.setHTML(text.getHTML());
-        alert.addTapHandler(new TapHandler() {
-            @Override
-            public void onTap(TapEvent event) {
-                alert.hide();
-            }
-        });
         alert.show();
     }
 
@@ -169,7 +161,7 @@ public class HandyTools {
     }
 
     public static String getAnchor(String type, String data, String name) {
-        return data!=null ? "<a href=#"+type+"="+data+">"+name+"</a>" : "";
+        return data!=null ? "<a href='#"+type+"="+data+"'>"+name+"</a>" : "";
     }
 
     public static String formatHtml(String text) {
