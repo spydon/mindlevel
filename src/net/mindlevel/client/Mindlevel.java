@@ -76,6 +76,8 @@ public class Mindlevel implements EntryPoint, ValueChangeHandler<String> {
 
         if(Cookies.getCookie("platform") != null && Cookies.getCookie("platform").equals("mobile")) {
             isDesktop = false;
+        } else if(Cookies.getCookie("platform") != null && Cookies.getCookie("platform").equals("desktop")) {
+            isDesktop = true;
         }
 
         if(isDesktop()) {
@@ -221,10 +223,9 @@ public class Mindlevel implements EntryPoint, ValueChangeHandler<String> {
                     break;
                 } else if(parameters.startsWith("search")) {
                     Constraint constraint = new Constraint();
+                    constraint.setType(SearchType.valueOf(getValue(tokens[0]).toUpperCase()));
                     for(int j = 0; j < tokens.length; j++) {
-                        if(tokens[j].startsWith("type")) {
-                            constraint.setType(SearchType.valueOf(getValue(tokens[j]).toUpperCase()));
-                        } else if(tokens[j].startsWith("c=")) {
+                        if(tokens[j].startsWith("c=")) {
                             try {
                                 constraint.setCategory(Category.valueOf(getValue(tokens[j]).toUpperCase()));
                             } catch(IllegalArgumentException e) {

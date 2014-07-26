@@ -15,11 +15,16 @@ public class MetaImageElement extends Image {
     private MetaImage metaImage;
     private int width = 0;
     private int height = 0;
+    private final boolean isThumb;
 
     private boolean isLoaded = false;
 
     public MetaImageElement(MetaImage metaImage) {
-//        addStyleName("m-image-panel");
+        this(metaImage, false);
+    }
+
+    public MetaImageElement(MetaImage metaImage, boolean isThumb) {
+        this.isThumb = isThumb;
         addStyleName("m-image");
         setMetaImage(metaImage);
         init();
@@ -27,9 +32,14 @@ public class MetaImageElement extends Image {
 
     private void init() {
         setUrl(LoadingElement.loadingPath);
-        adjustTopMargin(20);
+        if(!isThumb) {
+            adjustTopMargin(20);
+        }
 
-        new ImageLoader().loadImage(Mindlevel.PATH + "pictures/" + metaImage.getFilename(), new AsyncCallback<IsImage>() {
+        String url = Mindlevel.PATH + "pictures/";
+        url += isThumb ? metaImage.getThumbnail() : metaImage.getFilename();
+
+        new ImageLoader().loadImage(url, new AsyncCallback<IsImage>() {
 
             @Override
             public void onFailure(Throwable arg0) {
@@ -42,7 +52,9 @@ public class MetaImageElement extends Image {
                 height = loaded.getElement().getHeight();
 
                 setUrl(loaded.getElement().getSrc());
-                adjustSize();
+                if(!isThumb) {
+                    adjustSize();
+                }
                 isLoaded = true;
             }
         });

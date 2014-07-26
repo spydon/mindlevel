@@ -21,11 +21,6 @@ public class UserView extends MPage {
         main = new VerticalPanel();
         main.addStyleName("m-center");
         main.addStyleName("m-margin");
-        init();
-    }
-
-    public void init() {
-
     }
 
     private void loadUser(String username) {
@@ -36,7 +31,6 @@ public class UserView extends MPage {
             @Override
             public void onFailure(Throwable arg0) {
                 // TODO Auto-generated method stub
-
             }
 
             @Override
@@ -51,17 +45,8 @@ public class UserView extends MPage {
 
     @Override
     public Widget asWidget() {
+        loadUser(parameter);
         onLoad();
         return main;
-    }
-
-    @Override
-    public void setId(int id) {
-        //No user has number as ID
-    }
-
-    @Override
-    public void setId(String id) {
-        loadUser(id);
     }
 }

@@ -362,7 +362,7 @@ public class Picture {
                 description.setHTML("<h1>Description</h1><br>"
                         + HandyTools.formatHtml(metaImage.getDescription()));
                 tags.setHTML(buildTagHTML(metaImage.getTags()));
-                date.setHTML("<b>Creation date: </b>" + metaImage.getDate());
+                date.setHTML("<b>Completed: </b>" + metaImage.getDate());
                 if(validated) {
                     link.setHTML("<b>Link: </b>" + HandyTools.getAnchor("picture", Integer.toString(realId), "Right click to copy"));
                 } else {

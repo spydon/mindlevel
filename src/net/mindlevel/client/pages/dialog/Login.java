@@ -1,6 +1,5 @@
 package net.mindlevel.client.pages.dialog;
 
-import net.mindlevel.client.HandyTools;
 import net.mindlevel.client.UserTools;
 import net.mindlevel.client.services.LoginService;
 import net.mindlevel.client.services.LoginServiceAsync;
@@ -137,7 +136,6 @@ public class Login {
                             public void onSuccess(User user) {
                                 UserTools.setLoggedIn(user);
                                 loginBox.hide();
-                                HandyTools.showDialogBox("Welcome!", user.getLastLogin().toString());
                                 History.newItem(session);
                             }
                         });

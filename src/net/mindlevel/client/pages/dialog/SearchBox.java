@@ -112,13 +112,13 @@ public class SearchBox {
         String query = searchBox.getText();
         switch(type) {
         case "user":
-            History.newItem("search&type=" + type + "&u=" + query);
+            History.newItem("search=" + type + "&u=" + query);
             break;
         case "picture":
-            History.newItem("search&type=" + type + "&p=" + query + "&c=" + category);
+            History.newItem("search=" + type + "&p=" + query + "&c=" + category);
             break;
         case "mission":
-            History.newItem("search&type=" + type + "&m=" + query + "&c=" + category);
+            History.newItem("search=" + type + "&m=" + query + "&c=" + category);
             break;
         }
     }

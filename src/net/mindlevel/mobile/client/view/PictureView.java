@@ -275,7 +275,6 @@ public class PictureView extends MPage {
         });
     }
 
-    @Override
     public void setId(int id) {
         this.realId = id;
     }
@@ -287,13 +286,9 @@ public class PictureView extends MPage {
 
     @Override
     public Widget asWidget() {
+        setId(Integer.parseInt(parameter));
         show();
         onLoad();
         return main;
-    }
-
-    @Override
-    public void setId(String id) {
-        setId(Integer.parseInt(id));
     }
 }

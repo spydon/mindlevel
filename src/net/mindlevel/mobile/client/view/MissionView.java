@@ -76,17 +76,8 @@ public class MissionView extends MPage {
 
     @Override
     public Widget asWidget() {
+        loadMission(Integer.parseInt(parameter));
         onLoad();
         return main;
-    }
-
-    @Override
-    public void setId(int id) {
-        loadMission(id);
-    }
-
-    @Override
-    public void setId(String id) {
-        setId(Integer.parseInt(id));
     }
 }

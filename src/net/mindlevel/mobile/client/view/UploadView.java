@@ -306,18 +306,13 @@ public class UploadView extends MPage {
 
     @Override
     public Widget asWidget() {
+        setId(Integer.parseInt(parameter));
+        init();
         onLoad();
         return main;
     }
 
-    @Override
     public void setId(int id) {
         this.id = id;
-        init();
-    }
-
-    @Override
-    public void setId(String id) {
-        setId(Integer.parseInt(id));
     }
 }

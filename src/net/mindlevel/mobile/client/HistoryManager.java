@@ -12,6 +12,7 @@ import net.mindlevel.mobile.client.view.MissionsView;
 import net.mindlevel.mobile.client.view.PictureInfoView;
 import net.mindlevel.mobile.client.view.PictureView;
 import net.mindlevel.mobile.client.view.RegisterView;
+import net.mindlevel.mobile.client.view.SearchView;
 import net.mindlevel.mobile.client.view.TermsView;
 import net.mindlevel.mobile.client.view.UploadView;
 import net.mindlevel.mobile.client.view.UserView;
@@ -43,6 +44,7 @@ public class HistoryManager implements ValueChangeHandler<String> {
         pageMapper.put("mission", new MissionView());
         pageMapper.put("upload", new UploadView());
         pageMapper.put("user", new UserView());
+        pageMapper.put("search", new SearchView());
         pageMapper.put("about", new AboutView());
         pageMapper.put("register", new RegisterView());
         pageMapper.put("terms", new TermsView());
@@ -59,14 +61,15 @@ public class HistoryManager implements ValueChangeHandler<String> {
                 int start = sessionIndex+8;
                 session = token.substring(start);
                 token = token.substring(0, sessionIndex-1);
-                System.out.println(token);
             }
-            String[] parameters = token.split("=");
-            if(pageMapper.containsKey(parameters[0])) {
+            String pageName = token.split("=",2)[0];
+            String parameters = token.split("=",2)[1];
+            System.out.println(pageName + " " + parameters);
+            if(pageMapper.containsKey(pageName)) {
                 appArea.clear();
-                MPage page = pageMapper.get(parameters[0]);
-                if(parameters.length > 1) {
-                    page.setId(parameters[1]);
+                MPage page = pageMapper.get(pageName);
+                if(parameters.length() > 0) {
+                    page.setParameter(parameters);
                 }
                 page.setSession(session);
                 appArea.add(page);

@@ -22,6 +22,9 @@ import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.googlecode.mgwt.dom.client.event.tap.TapEvent;
+import com.googlecode.mgwt.dom.client.event.tap.TapHandler;
+import com.googlecode.mgwt.ui.client.widget.dialog.AlertDialog;
 
 public class HandyTools {
 
@@ -44,6 +47,14 @@ public class HandyTools {
     }
 
     public static void showDialogBox(String title, HTML text) {
+        if(Mindlevel.isDesktop()) {
+            showDesktopDialogBox(title, text);
+        } else {
+            showMobileDialogBox(title, text);
+        }
+    }
+
+    private static void showDesktopDialogBox(String title, HTML text) {
         final DialogBox db = new DialogBox(true);
         db.setText(title);
         final Button closeButton = new Button("Ok");
@@ -54,7 +65,7 @@ public class HandyTools {
             }
         });
         VerticalPanel dbPanel = new VerticalPanel();
-        text.addStyleName("dialogBoxHTML");
+        text.addStyleName("dialog-box-html");
         dbPanel.add(text);
         dbPanel.add(closeButton);
         db.add(dbPanel);
@@ -66,6 +77,18 @@ public class HandyTools {
                 db.hide();
             }
         });
+    }
+
+    private static void showMobileDialogBox(String title, HTML text) {
+        final AlertDialog alert = new AlertDialog(title, "");
+        alert.setHTML(text.getHTML());
+        alert.addTapHandler(new TapHandler() {
+            @Override
+            public void onTap(TapEvent event) {
+                alert.hide();
+            }
+        });
+        alert.show();
     }
 
     public static void showDialogBox(String title, String text) {

@@ -136,15 +136,4 @@ public class LoginView extends MPage {
         onLoad();
         return main;
     }
-
-    @Override
-    public void setId(int id) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void setId(String id) {
-        // TODO Auto-generated method stub
-    }
 }

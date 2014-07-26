@@ -36,7 +36,7 @@ public class MindlevelMobile {
         settings.setIconUrl("./images/logo.png");
         settings.setFullscreen(true);
 //        settings.setPreventScrolling(true);
-
+        settings.shouldFixIOS71BodyBug();
         MGWT.applySettings(settings);
 
         History.addValueChangeHandler(historyManager);
