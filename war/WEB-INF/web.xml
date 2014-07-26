@@ -170,6 +170,23 @@
     <url-pattern>*.gupld</url-pattern>
   </servlet-mapping>
   
+  <filter>
+    <filter-name>GWTCacheControlFilter</filter-name>
+    <filter-class>org.realityforge.gwt.cache_filter.GWTCacheControlFilter</filter-class>
+  </filter>
+  <filter>
+    <filter-name>GWTGzipFilter</filter-name>
+    <filter-class>org.realityforge.gwt.cache_filter.GWTGzipFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>GWTCacheControlFilter</filter-name>
+    <url-pattern>/mindlevel/*</url-pattern>
+  </filter-mapping>
+  <filter-mapping>
+    <filter-name>GWTGzipFilter</filter-name>
+    <url-pattern>/mindlevel/*</url-pattern>
+  </filter-mapping>
+  
   <!-- Default page to serve -->
   <welcome-file-list>
     <welcome-file>Mindlevel.html</welcome-file>

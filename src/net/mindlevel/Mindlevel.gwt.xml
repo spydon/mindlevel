@@ -17,6 +17,9 @@
   <!-- Other module inherits                                      -->
   <!-- Include GWTUpload library -->
   <inherits name="gwtupload.GWTUpload"/>
+  
+  <!-- GWT compiler to generate the gzipped files                 -->
+  <inherits name="com.google.gwt.precompress.Precompress"/>
 
   <!-- Other module inherits                                      -->
   <inherits name="com.googlecode.mgwt.MGWT"/>

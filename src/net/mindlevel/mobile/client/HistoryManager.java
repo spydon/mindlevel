@@ -20,18 +20,13 @@ import net.mindlevel.mobile.client.view.UserView;
 import com.google.gwt.event.logical.shared.ValueChangeEvent;
 import com.google.gwt.event.logical.shared.ValueChangeHandler;
 import com.google.gwt.user.client.ui.SimplePanel;
-import com.googlecode.mgwt.ui.client.animation.AnimationHelper;
 
 public class HistoryManager implements ValueChangeHandler<String> {
-
-    private final AnimationHelper animationHelper;
-
     private final HashMap<String, MPage> pageMapper;
     private final SimplePanel appArea;
 
     public HistoryManager(SimplePanel appArea) {
         this.appArea = appArea;
-        this.animationHelper = new AnimationHelper();
 
         pageMapper = new HashMap<String, MPage>();
 

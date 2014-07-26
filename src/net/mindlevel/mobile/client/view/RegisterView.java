@@ -168,13 +168,15 @@ public class RegisterView extends MPage {
                                     @Override
                                     public void onSuccess(Void result) {
                                         History.newItem("");
-                                        HandyTools.showDialogBox("Success!", new HTML("Welcome, you are now registered!"
-                                                + "<p>You might want to check out the <a href=\"#tutorial\">#tutorial</a></p>"));
+                                        HandyTools.showDialogBox("Success!", "An activation email was sent to " + email + "! :)");
+//                                        HandyTools.showDialogBox("Success!", new HTML("Welcome, you are now registered!"
+//                                                + "<p>You might want to check out the <a href=\"#tutorial\">#tutorial</a></p>"));
                                     }
                                 });
                     } else {
                         // Show the RPC error message to the user
                         errorLabel.setText("The captcha answer was invalid");
+                        captcha.generate();
                         registerButton.setDisabled(false);
                     }
                 }

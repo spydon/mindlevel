@@ -426,6 +426,7 @@ CREATE TABLE `user` (
   `adult` tinyint(1) NOT NULL DEFAULT '0',
   `permission_id` int(11) DEFAULT '0',
   `created` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `activated` tinyint(1) NOT NULL DEFAULT '0',
   `token` varchar(64) DEFAULT NULL,
   `last_login` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `picture` varchar(64) DEFAULT '../pictures/default.jpg',
@@ -450,6 +451,31 @@ INSERT INTO `user` (username, password, adult, permission_id, email, validated) 
 INSERT INTO `user` (username, password, adult, permission_id, email, validated) VALUES ('spydon','6b753344106bdd9ee9358ec03a62762d9e12bc2fa865ab37e296c37f2d0956341d95f9e1362c1a9798ce6f22dd5c0060788979dd92b964e2ec7bf1daa9232e86'
                             ,1,1,'admin@mindlevel.net',1);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `user_activation`
+--
+
+DROP TABLE IF EXISTS `user_activation`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `user_activation` (
+  `username` varchar(64) NOT NULL,
+  `uuid` BIGINT NOT NULL, 
+  PRIMARY KEY (`uuid`),
+  KEY `username` (`username`),
+  CONSTRAINT `user_activation_ibfk_1` FOREIGN KEY (`username`) REFERENCES `user` (`username`) ON UPDATE CASCADE ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `user_activation`
+--
+
+LOCK TABLES `user_activation` WRITE;
+/*!40000 ALTER TABLE `user_activation` DISABLE KEYS */;
+/*!40000 ALTER TABLE `user_activation` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --

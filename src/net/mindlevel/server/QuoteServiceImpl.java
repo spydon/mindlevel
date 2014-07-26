@@ -14,7 +14,7 @@ public class QuoteServiceImpl extends DBConnector implements QuoteService {
 
     @Override
     public Quote getQuote() {
-        Quote quote = null;
+        Quote quote = new Quote("spydon", "No quotes added");
         try {
             Connection conn = getConnection();
             PreparedStatement ps = conn.prepareStatement("SELECT username, quote "
@@ -24,8 +24,6 @@ public class QuoteServiceImpl extends DBConnector implements QuoteService {
             ResultSet rs = ps.executeQuery();
             if(rs.next()) {
                 quote = new Quote(rs.getString("username"), rs.getString("quote"));
-            } else {
-                throw new IllegalArgumentException("No such quote found.");
             }
 
             rs.close();

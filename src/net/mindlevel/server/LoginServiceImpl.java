@@ -34,7 +34,7 @@ public class LoginServiceImpl extends DBConnector implements LoginService {
         }
         try {
             Connection conn = getConnection();
-            PreparedStatement ps = conn.prepareStatement("SELECT username, adult, created, permission_id as permission, last_login "
+            PreparedStatement ps = conn.prepareStatement("SELECT username, adult, created, activated, permission_id as permission, last_login "
                     + "FROM user "
                     + "WHERE username = ? AND password = SHA2(CONCAT(SHA2(?, 512),SHA2(?, 512)),512)");
             ps.setString(1, username);
@@ -42,6 +42,10 @@ public class LoginServiceImpl extends DBConnector implements LoginService {
             ps.setString(3, password);
             ResultSet rs = ps.executeQuery();
             if(rs.first()) {
+                if(!rs.getBoolean("activated")) {
+                    throw new IllegalArgumentException(
+                            "This account haven't been activated yet, check your e-mail");
+                }
                 String token = new TokenServiceImpl().generateToken(username);
                 user.setToken(token);
                 user.setUsername(rs.getString("username"));

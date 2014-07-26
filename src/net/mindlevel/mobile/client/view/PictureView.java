@@ -49,7 +49,6 @@ public class PictureView extends MPage {
 
     private int id = 0;
     private int realId = 0;
-    private int startId = 0;
     private int loadedId = Integer.MAX_VALUE;
     private int imageCount = 0;
     private boolean initialized = false;
@@ -140,7 +139,6 @@ public class PictureView extends MPage {
     private void reInit() {
         id = 0;
         imageCount = 0;
-        startId = realId;
         loadedId = Integer.MAX_VALUE;
         loadedImages.clear();
         carousel.clear();
@@ -261,7 +259,6 @@ public class PictureView extends MPage {
 
     private void show() {
         if(!initialized) {
-            startId = realId;
             init();
             loadImage(realId, false);
         } else if(isLoaded(realId) == -1) {

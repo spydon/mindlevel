@@ -38,6 +38,24 @@ public class CaptchaElement extends Composite {
         b.add(new Label("Prove you're not a robot:"));
         b.add(p);
         tb.setWidth("50px");
+        generate();
+        // All composites must call initWidget() in their constructors.
+        initWidget(b);
+    }
+
+    public FormEntry getFormEntry() {
+        return formEntry;
+    }
+
+    public String getAnswer() {
+        return tb.getText().equals("") ? mtb.getText() : tb.getText();
+    }
+
+    public String getToken() {
+        return captcha.getToken();
+    }
+
+    public void generate() {
         captchaService.get(new AsyncCallback<Captcha>() {
 
             @Override
@@ -56,19 +74,5 @@ public class CaptchaElement extends Composite {
                 HandyTools.showDialogBox("Error", new HTML(arg0.getMessage()));
             }
         });
-        // All composites must call initWidget() in their constructors.
-        initWidget(b);
-    }
-
-    public FormEntry getFormEntry() {
-        return formEntry;
-    }
-
-    public String getAnswer() {
-        return tb.getText().equals("") ? mtb.getText() : tb.getText();
-    }
-
-    public String getToken() {
-        return captcha.getToken();
     }
 }
