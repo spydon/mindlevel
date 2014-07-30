@@ -3,6 +3,7 @@ package net.mindlevel.client.pages;
 import net.mindlevel.client.HandyTools;
 import net.mindlevel.client.Mindlevel;
 import net.mindlevel.client.UserTools;
+import net.mindlevel.client.pages.dialog.ChangePassword;
 import net.mindlevel.client.pages.dialog.UpdateProfile;
 import net.mindlevel.client.pages.dialog.UploadProfilePicture;
 import net.mindlevel.client.services.UserService;
@@ -31,6 +32,7 @@ public class Profile {
     private final String userId;
     private final Button changePicture;
     private final Button changeInfo;
+    private final Button changePassword;
     private final static int PICTURE_MAXWIDTH = 150;
     private final static int PICTURE_MAXHEIGHT = 300;
     private User user;
@@ -48,6 +50,7 @@ public class Profile {
         this.appArea = appArea;
         this.userId = userId;
         this.changePicture = new Button("Change picture");
+        this.changePassword = new Button("Change password");
         this.changeInfo = new Button("Edit info");
         init();
     }
@@ -123,6 +126,14 @@ public class Profile {
                         }
                     });
                     infoPanel.add(changeInfo);
+                    changePassword.addClickHandler(new ClickHandler() {
+
+                        @Override
+                        public void onClick(ClickEvent arg0) {
+                            new ChangePassword();
+                        }
+                    });
+                    infoPanel.add(changePassword);
                 }
                 profilePanel.add(picturePanel);
                 profilePanel.add(infoPanel);

@@ -2,7 +2,6 @@ package net.mindlevel.client.pages;
 
 import net.mindlevel.client.HandyTools;
 import net.mindlevel.client.UserTools;
-import net.mindlevel.client.pages.dialog.MissionSuggestion;
 import net.mindlevel.client.services.MissionService;
 import net.mindlevel.client.services.MissionServiceAsync;
 import net.mindlevel.client.widgets.MissionSection;
@@ -11,6 +10,7 @@ import net.mindlevel.shared.Constraint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
@@ -26,9 +26,10 @@ public class Missions {
     private int pageCount = 0;
     private final int stepSize = 20;
     private Label pageL, totalL;
-    private Button leftButton, rightButton;
+    private Button leftButton, rightButton, suggestButton;
     private final SimplePanel missionsContainer = new SimplePanel();
     private final Constraint constraint;
+    private boolean hasSuggestionButton = false;
     /**
      * The list of data to display.
      */
@@ -105,17 +106,28 @@ public class Missions {
             }
         });
 
-        if(UserTools.isLoggedIn()) {
-            Button suggestButton = new Button("Suggest Mission");
+        addSuggestionButton();
+    }
+
+    public void addSuggestionButton() {
+        if(UserTools.isLoggedIn() && !hasSuggestionButton) {
+            hasSuggestionButton = true;
+            suggestButton = new Button("Suggest Mission");
             suggestButton.addStyleName("suggest-mission-button");
             suggestButton.addClickHandler(new ClickHandler() {
 
                 @Override
                 public void onClick(ClickEvent event) {
-                    new MissionSuggestion();
+                    History.newItem("missionsuggestion");
                 }
             });
             appArea.add(suggestButton);
+        }
+    }
+
+    public void removeSuggestionButton() {
+        if(suggestButton != null) {
+            suggestButton.removeFromParent();
         }
     }
 

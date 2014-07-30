@@ -5,7 +5,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
+import java.util.HashSet;
 
 import net.mindlevel.client.services.CategoryService;
 import net.mindlevel.shared.Category;
@@ -13,9 +13,8 @@ import net.mindlevel.shared.Category;
 @SuppressWarnings("serial")
 public class CategoryServiceImpl extends DBConnector implements CategoryService {
 
-    @Override
-    public ArrayList<Category> getCategories() {
-        ArrayList<Category> categories = new ArrayList<Category>();
+    private HashSet<Category> getCategories() {
+        HashSet<Category> categories = new HashSet<Category>();
         try {
             Connection conn = getConnection();
             PreparedStatement ps = conn.prepareStatement("SELECT name FROM category");
@@ -34,8 +33,13 @@ public class CategoryServiceImpl extends DBConnector implements CategoryService 
 
     //TODO: Get a better name for this
     //Already check authentication and this is not visible outside server
-    public void connectCategories(int missionId, ArrayList<Category> categories) {
-        ArrayList<Category> knownCategories = getCategories();
+    public void connectCategories(int missionId, HashSet<Category> categories) {
+        HashSet<Category> knownCategories = getCategories();
+        HashSet<Category> tmp = new HashSet<Category>();
+        tmp.addAll(categories);
+        categories.clear();
+        categories.addAll(tmp);
+
         for(Category categoryObj : categories) {
             String category = categoryObj.toString().toLowerCase();
             for(Category knownCategory : knownCategories) {
@@ -96,8 +100,8 @@ public class CategoryServiceImpl extends DBConnector implements CategoryService 
 
     //Gets the categories for a specific mission
     //@Override
-    public ArrayList<Category> getCategories(int id) {
-        ArrayList<Category> categories = new ArrayList<Category>();
+    public HashSet<Category> getCategories(int id) {
+        HashSet<Category> categories = new HashSet<Category>();
         try {
             Connection conn = getConnection();
             PreparedStatement ps = conn.prepareStatement("SELECT name FROM category "

@@ -33,4 +33,5 @@ public interface UserServiceAsync {
             throws IllegalArgumentException;
     void getNewestUsers(int number, AsyncCallback<List<User>> callback)
             throws IllegalArgumentException;
+    void changePassword(String username, String oldPassword, String password, String token, AsyncCallback<Void> callback) throws IllegalArgumentException;
 }

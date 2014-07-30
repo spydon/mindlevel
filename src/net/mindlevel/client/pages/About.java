@@ -35,7 +35,7 @@ public class About {
                 + "File bugs, abuse and feature requests at <a href=\"#report\">#report</a></p>");
         about.addStyleName("about");
 
-        Button swap = new Button("Swap to mobile version");
+        Button swap = new Button("Swap to mobile version*");
         swap.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {

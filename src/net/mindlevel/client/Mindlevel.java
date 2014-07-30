@@ -1,6 +1,7 @@
 package net.mindlevel.client;
 
 import net.mindlevel.client.pages.About;
+import net.mindlevel.client.pages.Activate;
 import net.mindlevel.client.pages.Chat;
 import net.mindlevel.client.pages.Highscore;
 import net.mindlevel.client.pages.Home;
@@ -13,6 +14,7 @@ import net.mindlevel.client.pages.Terms;
 import net.mindlevel.client.pages.Tutorial;
 import net.mindlevel.client.pages.dialog.Login;
 import net.mindlevel.client.pages.dialog.Logout;
+import net.mindlevel.client.pages.dialog.MissionSuggestion;
 import net.mindlevel.client.pages.dialog.Registration;
 import net.mindlevel.client.pages.dialog.ReportBox;
 import net.mindlevel.client.pages.dialog.SearchBox;
@@ -162,6 +164,8 @@ public class Mindlevel implements EntryPoint, ValueChangeHandler<String> {
             } else if(parameters.equals("pictures")) {
                 clearScreen();
                 new Picture(getAppArea(true), 0, true);
+            } else if(parameters.equals("missionsuggestion")) {
+                new MissionSuggestion();
             } else if(parameters.equals("about")) {
                 clearScreen();
                 new About(getAppArea(true));
@@ -220,6 +224,10 @@ public class Mindlevel implements EntryPoint, ValueChangeHandler<String> {
                         new Home(getAppArea(true));
                         HandyTools.showDialogBox("Error", new HTML("Couldn't find a mission with that id. :("));
                     }
+                    break;
+                } else if(parameters.startsWith("activate")) {
+                    String uuid = getValue(tokens[i]);
+                    new Activate(uuid);
                     break;
                 } else if(parameters.startsWith("search")) {
                     Constraint constraint = new Constraint();

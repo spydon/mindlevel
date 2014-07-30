@@ -1,7 +1,7 @@
 package net.mindlevel.shared;
 
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 
 import com.google.gwt.user.client.rpc.IsSerializable;
 
@@ -10,10 +10,10 @@ public class Mission implements IsSerializable {
     private Date created;
     private int id;
     private boolean adult, validated;
-    private ArrayList<Category> categories;
+    private HashSet<Category> categories;
 
     public Mission(String name,
-                   ArrayList<Category> categories,
+                   HashSet<Category> categories,
                    String description,
                    String creator,
                    boolean adult,
@@ -86,11 +86,11 @@ public class Mission implements IsSerializable {
         this.created = created;
     }
 
-    public ArrayList<Category> getCategories() {
+    public HashSet<Category> getCategories() {
         return categories;
     }
 
-    public void setCategories(ArrayList<Category> categories) {
+    public void setCategories(HashSet<Category> categories) {
         this.categories = categories;
     }
 

@@ -2,21 +2,15 @@ package net.mindlevel.client.pages.dialog;
 
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
 
 import net.mindlevel.client.HandyTools;
-import net.mindlevel.client.Mindlevel;
 import net.mindlevel.client.UserTools;
-import net.mindlevel.client.services.CategoryService;
-import net.mindlevel.client.services.CategoryServiceAsync;
 import net.mindlevel.client.services.MissionService;
 import net.mindlevel.client.services.MissionServiceAsync;
-import net.mindlevel.client.services.TokenService;
-import net.mindlevel.client.services.TokenServiceAsync;
 import net.mindlevel.shared.Category;
 import net.mindlevel.shared.FieldVerifier;
 import net.mindlevel.shared.Mission;
-import net.mindlevel.shared.Normalizer;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -43,17 +37,10 @@ public class MissionSuggestion {
     private final HTML header;
     private final DecoratedPopupPanel popup;
     private final VerticalPanel panel;
-    private ArrayList<String> categories;
     private final ArrayList<ListBox> categoryList = new ArrayList<ListBox>();
 
     private final MissionServiceAsync missionService = GWT
             .create(MissionService.class);
-
-    private final CategoryServiceAsync categoryService = GWT
-            .create(CategoryService.class);
-
-    private final static TokenServiceAsync tokenService = GWT
-            .create(TokenService.class);
 
     public MissionSuggestion() {
         popup = new DecoratedPopupPanel(false);
@@ -92,7 +79,8 @@ public class MissionSuggestion {
             @Override
             public void onClick(ClickEvent event) {
                 if(UserTools.isLoggedIn()) {
-                    ArrayList<Category> categories = new ArrayList<Category>();
+                    HashSet<Category> categories = new HashSet<Category>();
+
                     for(ListBox categoryLB : categoryList) {
                         Category category = Category.valueOf(categoryLB.getItemText(categoryLB.getSelectedIndex()).toUpperCase());
                         if(!categories.contains(category)) { //&& (!categoryLB.isEnabled() || categoryList.size() == 1)
@@ -134,27 +122,16 @@ public class MissionSuggestion {
     }
 
     private void missionUpload(final Mission mission) {
-        // Then, we send the input to the server.
-        tokenService.validateToken(Mindlevel.user.getToken(), new AsyncCallback<Boolean>() {
-        @Override
+        missionService.uploadMission(mission, UserTools.getToken(), new AsyncCallback<Void>() {
+            @Override
             public void onFailure(Throwable caught) {
-                HandyTools.showDialogBox("Error", new HTML("You don't seem to be logged in properly..."));
+                HandyTools.showDialogBox("Error", new HTML(caught.getMessage()));
             }
 
             @Override
-            public void onSuccess(Boolean result) {
-                missionService.uploadMission(mission, UserTools.getToken(), new AsyncCallback<Void>() {
-                    @Override
-                    public void onFailure(Throwable caught) {
-                        HandyTools.showDialogBox("Error", new HTML(caught.getMessage()));
-                    }
-
-                    @Override
-                    public void onSuccess(Void noreturn) {
-                        popup.hide();
-                        HandyTools.showDialogBox("Success", new HTML("<h1>Successfully suggested a mission.</h1>"));
-                    }
-                });
+            public void onSuccess(Void noreturn) {
+                popup.hide();
+                HandyTools.showDialogBox("Success", new HTML("<h1>Successfully suggested a mission.</h1>"));
             }
         });
     }
@@ -164,7 +141,12 @@ public class MissionSuggestion {
         final ListBox categoryLB = new ListBox();
         final Button newTagB = new Button("+");
         final Button delTagB = new Button("-");
-        getCategories(categoryLB);
+
+        for(Category c : Category.values()) {
+            if(c != Category.ALL) {
+                categoryLB.addItem(c.toString());
+            }
+        }
         HorizontalPanel buttonPanel = new HorizontalPanel();
         buttonPanel.add(newTagB);
         buttonPanel.add(delTagB);
@@ -206,30 +188,5 @@ public class MissionSuggestion {
                 }
             }
         });
-    }
-
-    private void getCategories(final ListBox categoryLB) {
-        if(categories == null) {
-            categoryService.getCategories(new AsyncCallback<List<Category>>() {
-                @Override
-                public void onFailure(Throwable caught) {
-                    HandyTools.showDialogBox("Error", new HTML("Could not load categories, try reloading the page."));
-                }
-
-                @Override
-                public void onSuccess(List<Category> result) {
-                    categories = new ArrayList<String>();
-                    for(Category categoryObj : result) {
-                        String category = Normalizer.capitalizeName(categoryObj.toString());
-                        categoryLB.addItem(category);
-                        categories.add(category);
-                    }
-                }
-            });
-        } else {
-            for(String category : categories) {
-                categoryLB.addItem(category);
-            }
-        }
     }
 }

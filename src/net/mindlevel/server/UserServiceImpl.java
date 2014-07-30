@@ -241,6 +241,33 @@ public class UserServiceImpl extends DBConnector implements UserService {
     }
 
     @Override
+    public void changePassword(String username, String oldPassword, String password, String token) throws IllegalArgumentException {
+        Connection conn = getConnection();
+
+        try {
+            PreparedStatement ps = conn.prepareStatement("UPDATE user SET password = SHA2(CONCAT(SHA2(?, 512),SHA2(?, 512)),512)"
+                    + " WHERE username = ? AND token = ? AND password = SHA2(CONCAT(SHA2(?, 512),SHA2(?, 512)),512)");
+            ps.setString(1, username);
+            ps.setString(2, password);
+            ps.setString(3, username);
+            ps.setString(4, token);
+            ps.setString(5, username);
+            ps.setString(6, oldPassword);
+            int result = ps.executeUpdate();
+            if(result != 1) {
+                throw new IllegalArgumentException(
+                        "Password could not be changed.");
+            }
+            ps.close();
+            conn.close();
+
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     public Void banUser(String username, String reason, Date expiry, String adminName, String token) throws IllegalArgumentException {
         try {
             Connection conn = getConnection();

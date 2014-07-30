@@ -26,4 +26,5 @@ public interface UserService extends RemoteService {
     Void banUser(String username, String reason, Date expiry, String adminName, String token) throws IllegalArgumentException;
     List<User> getNewestUsers(int number) throws IllegalArgumentException;
     List<User> getLastLogins(int number) throws IllegalArgumentException;
+    void changePassword(String username, String oldPassword, String password, String token) throws IllegalArgumentException;
 }

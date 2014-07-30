@@ -2,12 +2,11 @@ package net.mindlevel.client;
 
 import static com.google.gwt.safehtml.shared.SafeHtmlUtils.htmlEscape;
 
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 
 import net.mindlevel.client.widgets.LoadingElement;
 import net.mindlevel.shared.Category;
-import net.mindlevel.shared.Normalizer;
 
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
@@ -96,7 +95,6 @@ public class HandyTools {
         HandyTools.showDialogBox("Error", new HTML("You must be logged in to do that <br /><a href=\"#login&session=" + lastPage + "\">Login</a> or <a href=\"#register&session=" + lastPage + "\">Register</a>"));
     }
 
-
     public static void setRightView(boolean logIn, String username) {
         if(Mindlevel.isDesktop()) {
             if(logIn) {
@@ -147,14 +145,16 @@ public class HandyTools {
         return dtf.format(timestamp);
     }
 
-    public static String getCategoryAnchors(ArrayList<Category> categories) {
+    public static String getCategoryAnchors(HashSet<Category> categories) {
         String categoryAnchors = "";
+        boolean isFirst = true;
         for(Category categoryObj : categories) {
-            String category = categoryObj.toString().toLowerCase();
-            if(categories.indexOf(categoryObj) != 0) {
-                categoryAnchors += ", " + getAnchor("search&type=picture&c", category, Normalizer.capitalizeName(category));
+            String category = categoryObj.toString();
+            if(!isFirst) {
+                categoryAnchors += ", " + getAnchor("search&type=picture&c", category.toLowerCase(), category);
             } else {
-                categoryAnchors = getAnchor("search&type=picture&c", category, Normalizer.capitalizeName(category));
+                isFirst = false;
+                categoryAnchors = getAnchor("search&type=picture&c", category.toLowerCase(), category);
             }
         }
         return categoryAnchors;

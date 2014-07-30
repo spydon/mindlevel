@@ -8,6 +8,10 @@ public enum Category implements Serializable {
     ARTISTIC,
     FUNNY,
     KIND,
-    OUTGOING
-}
+    OUTGOING;
 
+    @Override
+    public String toString() {
+        return Normalizer.capitalizeName(name());
+    }
+}

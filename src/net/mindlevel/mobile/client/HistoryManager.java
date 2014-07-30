@@ -3,10 +3,12 @@ package net.mindlevel.mobile.client;
 import java.util.HashMap;
 
 import net.mindlevel.mobile.client.view.AboutView;
+import net.mindlevel.mobile.client.view.ActivationView;
 import net.mindlevel.mobile.client.view.HighscoreView;
 import net.mindlevel.mobile.client.view.HomeView;
 import net.mindlevel.mobile.client.view.LoginView;
 import net.mindlevel.mobile.client.view.MPage;
+import net.mindlevel.mobile.client.view.MissionSuggestionView;
 import net.mindlevel.mobile.client.view.MissionView;
 import net.mindlevel.mobile.client.view.MissionsView;
 import net.mindlevel.mobile.client.view.PictureInfoView;
@@ -31,18 +33,20 @@ public class HistoryManager implements ValueChangeHandler<String> {
         pageMapper = new HashMap<String, MPage>();
 
         pageMapper.put("", new HomeView());
+        pageMapper.put("about", new AboutView());
+        pageMapper.put("activate", new ActivationView());
+        pageMapper.put("highscore", new HighscoreView());
+        pageMapper.put("login", new LoginView());
+        pageMapper.put("mission", new MissionView());
+        pageMapper.put("missions", new MissionsView());
+        pageMapper.put("missionsuggestion", new MissionSuggestionView());
         pageMapper.put("picture", new PictureView());
         pageMapper.put("pictureinfo", new PictureInfoView());
-        pageMapper.put("login", new LoginView());
-        pageMapper.put("highscore", new HighscoreView());
-        pageMapper.put("missions", new MissionsView());
-        pageMapper.put("mission", new MissionView());
+        pageMapper.put("register", new RegisterView());
+        pageMapper.put("search", new SearchView());
+        pageMapper.put("terms", new TermsView());
         pageMapper.put("upload", new UploadView());
         pageMapper.put("user", new UserView());
-        pageMapper.put("search", new SearchView());
-        pageMapper.put("about", new AboutView());
-        pageMapper.put("register", new RegisterView());
-        pageMapper.put("terms", new TermsView());
     }
 
     public void parseToken(String token) {
