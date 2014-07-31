@@ -165,7 +165,11 @@ public class Mindlevel implements EntryPoint, ValueChangeHandler<String> {
                 clearScreen();
                 new Picture(getAppArea(true), 0, true);
             } else if(parameters.equals("missionsuggestion")) {
-                new MissionSuggestion();
+                if(UserTools.isLoggedIn()) {
+                    new MissionSuggestion();
+                } else {
+                    HandyTools.notLoggedInBox();
+                }
             } else if(parameters.equals("about")) {
                 clearScreen();
                 new About(getAppArea(true));

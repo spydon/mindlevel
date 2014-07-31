@@ -7,4 +7,3 @@ public class MindlevelImageButton extends ImageButton {
         super(new MindlevelImageResource());
     }
 }
-

@@ -5,9 +5,12 @@ import net.mindlevel.client.Mindlevel;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.safehtml.shared.SafeUri;
 import com.google.gwt.safehtml.shared.UriUtils;
+import com.googlecode.mgwt.ui.client.MGWT;
 
 public class MindlevelImageResource implements ImageResource {
     private final String image = Mindlevel.PATH + "images/icons/icon.svg";
+    private final int iconWidth = 32;
+    private final int iconHeight = 32;
     @Override
     public String getName() {
         return image.substring(image.lastIndexOf("/"), image.indexOf("."));
@@ -15,7 +18,13 @@ public class MindlevelImageResource implements ImageResource {
 
     @Override
     public int getHeight() {
-        return 32;
+        int height = iconHeight;
+        if(MGWT.getDeviceDensity().isHighDPI()) {
+            height *= 1.5;
+        } else if(MGWT.getDeviceDensity().isXHighDPI()){
+            height *= 2;
+        }
+        return height;
     }
 
     @Override
@@ -40,7 +49,13 @@ public class MindlevelImageResource implements ImageResource {
 
     @Override
     public int getWidth() {
-        return 32;
+        int width = iconWidth;
+        if(MGWT.getDeviceDensity().isHighDPI()) {
+            width *= 1.5;
+        } else if(MGWT.getDeviceDensity().isXHighDPI()){
+            width *= 2;
+        }
+        return width;
     }
 
     @Override

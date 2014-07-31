@@ -24,7 +24,7 @@ import com.google.gwt.regexp.shared.RegExp;
  */
 public class FieldVerifier {
 
-    private static final RegExp alphaNum = RegExp.compile("^([a-zA-Z0-9_\\-.?!]+[ ])*[a-zA-Z0-9_\\-.?!]+$");
+    private static final RegExp alphaNum = RegExp.compile("^([a-zA-Z0-9áé'_\\-.,?!]+[ ])*[a-zA-Z0-9áé'_\\-.,?!]+$");
 
     /**
      * Verifies that the specified name is valid for our service.

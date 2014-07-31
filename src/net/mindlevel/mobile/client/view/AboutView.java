@@ -39,6 +39,7 @@ public class AboutView extends MPage {
 //        ImageButton swap = new ImageButton("Swap to desktop version");
         ComputerImageButton swap = new ComputerImageButton();
         swap.addStyleName("m-button");
+        swap.addStyleName("5px-bottom-margin");
         swap.setWidth("100%");
         swap.setText("Swap to desktop version");
 //        Button swap = new Button("Swap to desktop version");
