@@ -32,7 +32,8 @@ public class About {
                 + "<p>This is my attempt of giving you that option.</p>"
                 + "<p>/<a href=\"#user=spydon\">spydon</a>.<br />"
                 + "<p>Tutorial at <a href=\"#tutorial\">#tutorial</a> <br />"
-                + "File bugs, abuse and feature requests at <a href=\"#report\">#report</a></p>");
+                + "File bugs, abuse and feature requests at <a href=\"#report\">#report</a><br />"
+                + "Other questions etc can be sent to info@mindlevel.net</p>");
         about.addStyleName("about");
 
         Button swap = new Button("Swap to mobile version");

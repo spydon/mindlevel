@@ -12,15 +12,15 @@ public class Tutorial {
     }
 
     private void init() {
-        HTML terms = new HTML(
+        HTML tutorial = new HTML(
                 "<h1>How to use MindLevel</h1> "
               + "<h2>Home</h2>"
               + "<p>The home tab contains four sections: last finished missions, news, last logins and newest users. "
               + "They should be quite self explanatory and everything except the news elements is clickable.</p> "
               + "<h2>Missions</h2>"
               + "<p>Under this tab you can see the available missions, if you click on a mission you see more information about it. "
-              + "You can also suggest missions here, if your mission gets accepted by an admin/moderator you get 100 points "
-              + "and it will become visible on the site.</p>"
+              + "You can also suggest missions here, if your mission gets accepted by an admin/moderator it will become visible "
+              + "on the site.</p>"
               + "<p>If you clicked on a mission you can upload a finished mission and get points for it. In the future you will get "
               + "badges and special rights the more points you have. </p>"
               + "<h2>Pictures</h2>"
@@ -42,7 +42,7 @@ public class Tutorial {
               + "using the site, please contact info@mindlevel.net or file a bug, abuse or "
               + "feature request at <a href=\"#report\">#report</a></p>."
               + "<p>Hope you have a great time here at Mindlevel! /<a href=\"#user=spydon\">spydon</a> </p>");
-        terms.addStyleName("terms");
-        appArea.add(terms);
+        tutorial.addStyleName("terms");
+        appArea.add(tutorial);
     }
 }

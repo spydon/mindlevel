@@ -20,6 +20,7 @@ import net.mindlevel.client.pages.dialog.ReportBox;
 import net.mindlevel.client.pages.dialog.SearchBox;
 import net.mindlevel.client.services.PictureService;
 import net.mindlevel.client.services.PictureServiceAsync;
+import net.mindlevel.client.widgets.QuoteElement;
 import net.mindlevel.mobile.client.MindlevelMobile;
 import net.mindlevel.shared.Category;
 import net.mindlevel.shared.Constraint;
@@ -91,7 +92,8 @@ public class Mindlevel implements EntryPoint, ValueChangeHandler<String> {
             for(String page:pages) {
                 connectListener(page);
             }
-            new QuoteHandler(RootPanel.get("quote"));
+//            new QuoteHandler(RootPanel.get("quote"));
+            RootPanel.get("quote").add(new QuoteElement());
         } else {
             RootPanel.get().addStyleName("mobile");
             Document.get().getElementById("topheader").addClassName("superhidden");

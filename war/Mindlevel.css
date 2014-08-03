@@ -1048,10 +1048,15 @@ header {
     width: 300px;
     max-width: 100%;
     text-align: left;
+    margin-bottom: 10px;
 }
 
 .m-about h1 {
     text-align: center;
+}
+
+.m-about h2 {
+    margin-top: 5px;
 }
 
 .m-missions {
