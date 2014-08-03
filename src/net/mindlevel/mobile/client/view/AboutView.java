@@ -33,7 +33,8 @@ public class AboutView extends MPage {
                             + "had an easy option of doing something more exciting, something that will be worth remembering.</p>"
                             + "<p>This is my attempt of giving you that option. /<a href=\"#user=spydon\">spydon</a></p>"
                             + "</br>"
-                            + "<p>Tutorial at <a href=\"#tutorial\">#tutorial</a></p> <br />"
+                            + "<p>Tutorial at <a href=\"#tutorial\">#tutorial</a> <br />"
+                            + "File bugs, abuse and feature requests at <a href=\"#report\">#report</a></p>"
                             + "<p>Note that this is the mobile version of the site.</p>");
         about.addStyleName("m-about");
 

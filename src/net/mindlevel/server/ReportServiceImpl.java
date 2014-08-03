@@ -16,7 +16,7 @@ public class ReportServiceImpl extends DBConnector implements ReportService {
     @Override
     public void addReport(Report report, String token) throws IllegalArgumentException {
         try {
-            if(token.equals("") || tokenService.validateAuth(report.getUsername(), token)) {
+            if((token.equals("") && report.getUsername().equals("")) || tokenService.validateAuth(report.getUsername(), token)) {
                 Connection conn = getConnection();
                 PreparedStatement ps = conn.prepareStatement("INSERT INTO report (url, content, type, username) "
                         + "VALUES (?, ?, ?, ?)");

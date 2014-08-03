@@ -49,8 +49,8 @@ public class ReportBox {
 
         urlBox.addStyleName("search-box");
         urlBox.getElement().setPropertyString("placeholder", "Concerning URL(optional)");
-        textArea.getElement().setPropertyString("placeholder", "What is on your mind?");
         textArea.addStyleName("report-text-area");
+        textArea.getElement().setPropertyString("placeholder", "What is on your mind?");
 
         Button reportButton = new Button("Report");
         Button cancelButton = new Button("Cancel");

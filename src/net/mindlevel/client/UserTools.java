@@ -2,7 +2,6 @@ package net.mindlevel.client;
 
 import java.util.Date;
 
-import net.mindlevel.client.exception.UserNotLoggedInException;
 import net.mindlevel.client.pages.Admin;
 import net.mindlevel.client.services.UserService;
 import net.mindlevel.client.services.UserServiceAsync;
@@ -84,9 +83,8 @@ public class UserTools {
     /**
      * Returns the username of the user currently logged in.
      * @return username
-     * @throws UserNotLoggedInException
      */
-    public static String getUsername() { //throws UserNotLoggedInException {
+    public static String getUsername() {
         String username = isLoggedIn() ? Mindlevel.user.getUsername() : "";
         return username;
     }

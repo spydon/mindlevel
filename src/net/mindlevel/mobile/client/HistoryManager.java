@@ -14,6 +14,7 @@ import net.mindlevel.mobile.client.view.MissionsView;
 import net.mindlevel.mobile.client.view.PictureInfoView;
 import net.mindlevel.mobile.client.view.PictureView;
 import net.mindlevel.mobile.client.view.RegisterView;
+import net.mindlevel.mobile.client.view.ReportView;
 import net.mindlevel.mobile.client.view.SearchView;
 import net.mindlevel.mobile.client.view.TermsView;
 import net.mindlevel.mobile.client.view.TutorialView;
@@ -44,6 +45,7 @@ public class HistoryManager implements ValueChangeHandler<String> {
         pageMapper.put("picture", new PictureView());
         pageMapper.put("pictureinfo", new PictureInfoView());
         pageMapper.put("register", new RegisterView());
+        pageMapper.put("report", new ReportView());
         pageMapper.put("search", new SearchView());
         pageMapper.put("terms", new TermsView());
         pageMapper.put("tutorial", new TutorialView());
