@@ -29,7 +29,7 @@ public class AboutView extends MPage {
         QuoteElement quote = new QuoteElement();
         quote.addStyleName("m-quote");
 
-        HTML about = new HTML("<h1>About</h1><p>I think that most people probably wouldn't even appreciate the repetitive parts of their lives if they "
+        HTML about = new HTML("<h1>About</h1><p>I think that most people probably wouldn't appreciate the repetitive parts of their lives if they "
                             + "had an easy option of doing something more exciting, something that will be worth remembering.</p>"
                             + "<p>This is my attempt of giving you that option. /<a href=\"#user=spydon\">spydon</a></p>"
                             + "</br>"
