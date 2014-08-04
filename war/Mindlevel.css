@@ -983,6 +983,14 @@ header {
     background-position: left;
 }
 
+.m-register-button {
+    background-image: url(./images/icons/register.svg);
+/*     background-size: 48px 48px; */
+    background-position: -20% 96% !important;
+    background-repeat: no-repeat;
+    background-position: left;
+}
+
 .m-center, m-center-all-children * {
     margin-left: auto;
     margin-right: auto;

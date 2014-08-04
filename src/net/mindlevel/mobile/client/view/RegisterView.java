@@ -93,6 +93,7 @@ public class RegisterView extends MPage {
 
         registerButton = new Button("Register");
         registerButton.addStyleName("m-button");
+        registerButton.addStyleName("m-register-button");
 
         registerButton.addTapHandler(new TapHandler() {
             @Override

@@ -71,14 +71,14 @@ public class LoginView extends MPage {
             }
         });
 
-//        userField.addStyleName("m-center-input");
-//        passField.addStyleName("m-center-input");
         errorLabel.addStyleName("m-margin");
 
         loginButton = new Button("Login");
         registerButton = new Button("Register");
         loginButton.addStyleName("m-button");
+        loginButton.addStyleName("m-login-button");
         registerButton.addStyleName("m-button");
+        registerButton.addStyleName("m-register-button");
 
         loginButton.addTapHandler(new TapHandler() {
             @Override
