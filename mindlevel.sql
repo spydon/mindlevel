@@ -261,6 +261,32 @@ LOCK TABLES `quote` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `quote`
+--
+
+DROP TABLE IF EXISTS `not_found`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `not_found` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `username` varchar(64) NOT NULL,
+  `quote` text NOT NULL,
+  `timestamp` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `not_found`
+--
+
+LOCK TABLES `not_found` WRITE;
+/*!40000 ALTER TABLE `not_found` DISABLE KEYS */;
+/*!40000 ALTER TABLE `not_found` ENABLE KEYS */;
+UNLOCK TABLES;
+
+
+--
 -- Table structure for table `mission`
 --
 

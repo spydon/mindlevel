@@ -11,4 +11,5 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 @RemoteServiceRelativePath("quote")
 public interface QuoteService extends RemoteService {
     Quote getQuote() throws IllegalArgumentException;
+    Quote getNotFound() throws IllegalArgumentException;
 }

@@ -7,6 +7,7 @@ import net.mindlevel.client.pages.Highscore;
 import net.mindlevel.client.pages.Home;
 import net.mindlevel.client.pages.MissionProfile;
 import net.mindlevel.client.pages.Missions;
+import net.mindlevel.client.pages.NotFound;
 import net.mindlevel.client.pages.Picture;
 import net.mindlevel.client.pages.Profile;
 import net.mindlevel.client.pages.Search;
@@ -183,10 +184,12 @@ public class Mindlevel implements EntryPoint, ValueChangeHandler<String> {
                 new Tutorial(getAppArea(true));
             } else if(parameters.equals("report")) {
                 new ReportBox();
+            } else if(parameters.equals("notfound")) {
+                clearScreen();
+                new NotFound(getAppArea(true));
             } else {
                 clearScreen();
-                new Home(getAppArea(true));
-                HandyTools.showDialogBox("Error", new HTML("Something is wrong with your browser history. :( <br />Guru meditation: 1"));
+                new NotFound(getAppArea(true));
             }
         } else {
             String[] tokens = parameters.split("&");
@@ -267,8 +270,7 @@ public class Mindlevel implements EntryPoint, ValueChangeHandler<String> {
                     break;
                 } else {
                     clearScreen();
-                    new Home(getAppArea(true));
-                    HandyTools.showDialogBox("Error", new HTML("Something is wrong with your browser history. :( <br /> Guru meditation: 2"));
+                    new NotFound(getAppArea(true));
                 }
             }
         }

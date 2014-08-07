@@ -10,4 +10,6 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 public interface QuoteServiceAsync {
     void getQuote(AsyncCallback<Quote> callback)
         throws IllegalArgumentException;
+    void getNotFound(AsyncCallback<Quote> callback)
+            throws IllegalArgumentException;
 }

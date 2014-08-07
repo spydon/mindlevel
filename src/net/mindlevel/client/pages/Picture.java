@@ -13,6 +13,7 @@ import net.mindlevel.client.services.PictureService;
 import net.mindlevel.client.services.PictureServiceAsync;
 import net.mindlevel.client.widgets.CommentSection;
 import net.mindlevel.client.widgets.LoadingElement;
+import net.mindlevel.client.widgets.NotFoundElement;
 import net.mindlevel.client.widgets.VotingSection;
 import net.mindlevel.shared.MetaImage;
 import net.mindlevel.shared.Mission;
@@ -42,7 +43,6 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class Picture {
     private final RootPanel appArea;
-    private final String notFoundPath = Mindlevel.PATH + "images/notfound.jpg";
     private final Image image = new Image();
     private final Image leftArrow = new Image(Mindlevel.PATH + "images/icons/left.svg");
     private final Image rightArrow = new Image(Mindlevel.PATH + "images/icons/right.svg");
@@ -256,7 +256,8 @@ public class Picture {
         pictureService.get(id, relative, UserTools.isAdult(), validated, new AsyncCallback<MetaImage>() {
             @Override
             public void onFailure(Throwable caught) {
-                setImageUrl(notFoundPath);
+                picturePanel.clear();
+                picturePanel.add(new NotFoundElement());
                 hideFields();
                 notFound = true;
                 backPanel.setVisible(true);
