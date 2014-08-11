@@ -57,6 +57,7 @@ public class UploadView extends MPage {
     private final MCheckBox adult;
     private final MTextArea description;
     private final VerticalPanel formPanel;
+    private final Button uploadB;
 
     private final MultiWordSuggestOracle userOracle = new MultiWordSuggestOracle();
     private boolean educatedUserOracle = false;
@@ -109,10 +110,11 @@ public class UploadView extends MPage {
         FormEntry adultE = new FormEntry("Adult?", adult);
         FormEntry describeE = new FormEntry("Description", description);
 
-        Button uploadB = new Button("Upload for validation");
+        uploadB = new Button("Upload for validation");
         uploadB.addTapHandler(new TapHandler() {
             @Override
             public void onTap(TapEvent event) {
+                uploadB.setVisible(false);
                 MetaImage metaImage = new MetaImage(filename, title.getText(),
                         location.getText(), new Mission(id), UserTools.getUsername(), description.getText(),
                         getTags(), adult.getValue());
@@ -122,6 +124,7 @@ public class UploadView extends MPage {
                     metaUpload(metaImage);
                 } else {
                     HandyTools.showDialogBox("Error", new HTML(reason));
+                    uploadB.setVisible(true);
                 }
             }
         });
@@ -129,7 +132,7 @@ public class UploadView extends MPage {
         helpB.addTapHandler(new TapHandler() {
             @Override
             public void onTap(TapEvent event) {
-                HandyTools.showDialogBox("Help", new HTML("Remember to press send on the picture before pressing upload.</br>The picture can be up to 6MB.</br>It's not necessary to tag yourself."));
+                HandyTools.showDialogBox("Help", new HTML("Remember to press send on the picture before pressing upload.</br>The picture can be up to 6MB.</br>Only tag the people appearing in the picture."));
             }
         });
 
@@ -155,7 +158,12 @@ public class UploadView extends MPage {
         if(!educatedUserOracle) {
             educateOracle();
         }
+        uploadB.setVisible(true);
         missionTitle.setHTML("");
+        picturePanel.clear();
+        location.setText("");
+        adult.setValue(false);
+        description.setText("");
         loadingPanel.setWidget(loading);
         missionService.getMission(id, true, new AsyncCallback<Mission>() {
             @Override
@@ -177,6 +185,7 @@ public class UploadView extends MPage {
             @Override
             public void onFailure(Throwable caught) {
                 HandyTools.showDialogBox("Error", new HTML(caught.getMessage()));
+                uploadB.setVisible(true);
             }
 
             @Override

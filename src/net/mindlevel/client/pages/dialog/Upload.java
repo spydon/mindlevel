@@ -126,7 +126,7 @@ public class Upload {
         helpB.addClickHandler(new ClickHandler() {
             @Override
             public void onClick(ClickEvent event) {
-                HandyTools.showDialogBox("Help", new HTML("Remember to press send on the picture before pressing upload.</br>The picture can be up to 6MB.</br>It's not necessary to tag yourself."));
+                HandyTools.showDialogBox("Help", new HTML("Remember to press send on the picture before pressing upload.</br>The picture can be up to 6MB.</br>Only tag the people appearing in the picture."));
             }
         });
         Button closeB = new Button("Close");

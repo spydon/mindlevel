@@ -29,7 +29,7 @@ public class About {
                 + "<p>The things that we wont remember when we grow old.</p>"
                 + "<p>I think that most people probably wouldn't even appreciate these parts of their lives if they "
                 + "had an easy option of doing something more exciting, something that will be worth remembering.</p>"
-                + "<p>This is my attempt of giving you that option.</p>"
+                + "<p>This is my attempt of giving you such an option.</p>"
                 + "<p>/<a href=\"#user=spydon\">spydon</a>.<br />"
                 + "<p>Tutorial at <a href=\"#tutorial\">#tutorial</a> <br />"
                 + "File bugs, abuse and feature requests at <a href=\"#report\">#report</a><br />"

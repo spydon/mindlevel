@@ -52,7 +52,7 @@ public class Picture {
     private int nativeWidth, nativeHeight;
     private boolean validated = true;
     private boolean notFound = false;
-    private final HTML title, description, location, owner, tags, date, mission, category, link, score;
+    private final HTML title, description, location, uploader, tags, date, mission, category, link, score;
     private final VerticalPanel backPanel = new VerticalPanel();
     private final VerticalPanel ratingPanel = new VerticalPanel();
     private final VerticalPanel commentPanel = new VerticalPanel();
@@ -89,7 +89,7 @@ public class Picture {
         this.validated = validated;
         title = new HTML();
         location = new HTML();
-        owner = new HTML();
+        uploader = new HTML();
         description = new HTML();
         mission = new HTML();
         category = new HTML();
@@ -101,7 +101,7 @@ public class Picture {
         title.addStyleName("picture-title");
         location.addStyleName("picture-info");
         tags.addStyleName("picture-info");
-        owner.addStyleName("picture-info");
+        uploader.addStyleName("picture-info");
         category.addStyleName("picture-info");
         mission.addStyleName("picture-info");
         score.addStyleName("score-info");
@@ -173,7 +173,7 @@ public class Picture {
         descriptionContainer.add(description);
 
         infoPanel.addStyleName("info-panel");
-        infoPanel.add(owner);
+        infoPanel.add(uploader);
         infoPanel.add(mission);
         infoPanel.add(category);
         infoPanel.add(tags);
@@ -359,7 +359,7 @@ public class Picture {
 
                 title.setHTML(metaImage.getTitle());
                 location.setHTML("<b>Location: </b>" + metaImage.getLocation());
-                owner.setHTML("<b>Owner: </b>" + HandyTools.getAnchor("user", metaImage.getOwner(), metaImage.getOwner()));
+                uploader.setHTML("<b>Uploader: </b>" + HandyTools.getAnchor("user", metaImage.getOwner(), metaImage.getOwner()));
                 description.setHTML("<h1>Description</h1><br>"
                         + HandyTools.formatHtml(metaImage.getDescription()));
                 tags.setHTML(buildTagHTML(metaImage.getTags()));

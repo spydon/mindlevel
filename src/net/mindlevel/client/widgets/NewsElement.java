@@ -5,7 +5,6 @@ import net.mindlevel.shared.News;
 
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class NewsElement extends Composite {
@@ -19,15 +18,15 @@ public class NewsElement extends Composite {
      */
     public NewsElement(News news) {
         backPanel = new VerticalPanel();
-        Label timestamp = new Label(HandyTools.formatDate(news.getTimestamp()).toString());
+//        Label timestamp = new Label(HandyTools.formatOnlyDate(news.getTimestamp()).toString());
         HTML username = new HTML("Author: " + HandyTools.getAnchor("user", news.getUsername(), news.getUsername()));
         HTML content = new HTML(news.getContent());
-        timestamp.addStyleName("news-timestamp");
+//        timestamp.addStyleName("news-timestamp");
         username.addStyleName("news-author");
         content.addStyleName("news-content");
 
-        backPanel.add(timestamp);
         backPanel.add(content);
+//        backPanel.add(timestamp);
         backPanel.add(username);
 
         // All composites must call initWidget() in their constructors.

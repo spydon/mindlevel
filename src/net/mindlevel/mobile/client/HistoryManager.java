@@ -11,6 +11,7 @@ import net.mindlevel.mobile.client.view.MPage;
 import net.mindlevel.mobile.client.view.MissionSuggestionView;
 import net.mindlevel.mobile.client.view.MissionView;
 import net.mindlevel.mobile.client.view.MissionsView;
+import net.mindlevel.mobile.client.view.NotFoundView;
 import net.mindlevel.mobile.client.view.PictureInfoView;
 import net.mindlevel.mobile.client.view.PictureView;
 import net.mindlevel.mobile.client.view.RegisterView;
@@ -42,6 +43,7 @@ public class HistoryManager implements ValueChangeHandler<String> {
         pageMapper.put("mission", new MissionView());
         pageMapper.put("missions", new MissionsView());
         pageMapper.put("missionsuggestion", new MissionSuggestionView());
+        pageMapper.put("notfound", new NotFoundView());
         pageMapper.put("picture", new PictureView());
         pageMapper.put("pictureinfo", new PictureInfoView());
         pageMapper.put("register", new RegisterView());
@@ -56,7 +58,11 @@ public class HistoryManager implements ValueChangeHandler<String> {
     public void parseToken(String token) {
         if(!token.contains("=") && !token.contains("&")) {
             appArea.clear();
-            appArea.add(pageMapper.get(token));
+            if(pageMapper.containsKey(token)) {
+                appArea.add(pageMapper.get(token));
+            } else {
+                appArea.add(pageMapper.get("notfound"));
+            }
         } else {
             String session = "";
             if(token.contains("session")) {
@@ -75,6 +81,8 @@ public class HistoryManager implements ValueChangeHandler<String> {
                 }
                 page.setSession(session);
                 appArea.add(page);
+            } else {
+                appArea.add(pageMapper.get("notfound"));
             }
         }
     }

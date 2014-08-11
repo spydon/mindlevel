@@ -24,7 +24,7 @@ import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.Widget;
 import com.googlecode.mgwt.dom.client.event.tap.TapEvent;
 import com.googlecode.mgwt.dom.client.event.tap.TapHandler;
-import com.googlecode.mgwt.ui.client.widget.button.image.AboutImageButton;
+import com.googlecode.mgwt.ui.client.widget.button.Button;
 import com.googlecode.mgwt.ui.client.widget.button.image.BadImageButton;
 import com.googlecode.mgwt.ui.client.widget.button.image.GoodImageButton;
 import com.googlecode.mgwt.ui.client.widget.button.image.NextitemImageButton;
@@ -38,7 +38,7 @@ import com.googlecode.mgwt.ui.client.widget.panel.flex.RootFlexPanel;
 public class PictureView extends MPage {
     protected RootFlexPanel main;
     protected ButtonBar bar;
-    protected AboutImageButton title;
+    protected Button title;
     protected Carousel carousel;
 
     private PreviousitemImageButton previous;
@@ -74,7 +74,7 @@ public class PictureView extends MPage {
 
     private void init() {
         bar = new ButtonBar();
-        title = new AboutImageButton();
+        title = new Button();
         carousel = new Carousel();
 
         previous = new PreviousitemImageButton();

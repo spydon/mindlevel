@@ -81,10 +81,6 @@ public class MetaUploadServiceImpl extends DBConnector implements
 
     private void uploadTags(String owner, HashSet<String> tags, int pictureId, boolean validated)
             throws SQLException {
-        if (!tags.contains(owner)) {
-            tags.add(owner);
-        }
-
         UserServiceImpl userService = new UserServiceImpl();
         for (String username : tags) {
             if(userService.userExists(username.toLowerCase())) {

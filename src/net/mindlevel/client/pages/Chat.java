@@ -22,7 +22,7 @@ public class Chat {
             Window.addResizeHandler(new ResizeHandler() {
                 @Override
                 public void onResize(ResizeEvent event) {
-                    int height = Window.getClientHeight()-RootPanel.get("topheader").getOffsetHeight()-6;
+                    int height = Window.getClientHeight()-RootPanel.get("topheader").getOffsetHeight()-7;
                     RootPanel.get("chat-frame").setHeight(height+"px");
                 }
             });

@@ -26,7 +26,7 @@ public class PictureInfoView extends MPage {
     private final FlexPanel main;
     private final SimplePanel picturePanel, loadingPanel, descriptionContainer;
     private final VerticalPanel infoPanel;
-    private final HTML title, description, location, owner, tags, date, mission, category, link, score;
+    private final HTML title, description, location, uploader, tags, date, mission, category, link, score;
     private int id = 0;
 
     /**
@@ -50,7 +50,7 @@ public class PictureInfoView extends MPage {
 
         title = new HTML();
         location = new HTML();
-        owner = new HTML();
+        uploader = new HTML();
         description = new HTML();
         mission = new HTML();
         category = new HTML();
@@ -68,7 +68,7 @@ public class PictureInfoView extends MPage {
 
         infoPanel = new VerticalPanel();
         infoPanel.addStyleName("m-info-panel");
-        infoPanel.add(owner);
+        infoPanel.add(uploader);
         infoPanel.add(score);
         infoPanel.add(location);
         infoPanel.add(mission);
@@ -110,7 +110,7 @@ public class PictureInfoView extends MPage {
 
     private void initInfo(MetaImage metaImage) {
         location.setHTML("<b>Location: </b>" + metaImage.getLocation());
-        owner.setHTML("<b>Owner: </b>" + HandyTools.getAnchor("user", metaImage.getOwner(), metaImage.getOwner()));
+        uploader.setHTML("<b>Uploader: </b>" + HandyTools.getAnchor("user", metaImage.getOwner(), metaImage.getOwner()));
         score.setHTML("<b>Score: </b>" + metaImage.getScore());
         description.setHTML("<h1>Description</h1><br>"
                 + HandyTools.formatHtml(metaImage.getDescription()));

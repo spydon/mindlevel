@@ -574,6 +574,10 @@ header {
 
 .news-section {
     max-width: 320px;
+    background-color: whitesmoke;
+    box-shadow: 2px 2px 10px #888888;
+    padding: 10px;
+    margin-bottom: 15px;
 }
 
 .news-element {
@@ -632,6 +636,10 @@ header {
 
 .home-user-panel {
     margin-right: 15px;
+    background-color: whitesmoke;
+    box-shadow: 2px 2px 10px #888888;
+    padding: 10px;
+    margin-bottom: 15px;
 }
 
 .users-section {
@@ -726,8 +734,12 @@ header {
 
 .picture-section {
     text-align: left;
-    max-width: 200px;
-    margin-left: 50px;
+    width: 300px;
+    margin-left: 15px;
+    background-color: whitesmoke;
+    box-shadow: 2px 2px 10px #888888;
+    padding: 10px;
+    margin-bottom: 15px;
 }
 
 .picture-element {
@@ -737,6 +749,8 @@ header {
 
 .picture-element .gwt-HTML {
     width: 95%;
+    max-width: 190px;
+    word-wrap: break-word;
     text-align: left;
 }
 
@@ -848,8 +862,12 @@ header {
 
 @media only screen and (max-width: 420px), only screen and (max-device-width: 420px) {
     header {
-        position:relative;
+        position: relative;
         padding-top: 10px;
+    }
+    
+    .desktop {
+        overflow: hidden;
     }
     
     #main-menu {
@@ -871,6 +889,10 @@ header {
     
     .margin.adminbar {
         margin-top: 30px;
+    }
+    
+    .nomargin.adminbar {
+        margin-top: 0px;
     }
     
     .margin {
