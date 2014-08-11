@@ -18,6 +18,9 @@
   <!-- Include GWTUpload library -->
   <inherits name="gwtupload.GWTUpload"/>
   
+  <!-- ColorPicker                                                -->
+  <inherits name='org.skrat.gwt.ColorBox'/>
+  
   <!-- GWT compiler to generate the gzipped files                 -->
   <inherits name="com.google.gwt.precompress.Precompress"/>
 

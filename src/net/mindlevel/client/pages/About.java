@@ -8,12 +8,16 @@ import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class About {
     private final RootPanel appArea;
+    private final VerticalPanel aboutPanel;
 
     public About(RootPanel appArea) {
         this.appArea = appArea;
+        this.aboutPanel = new VerticalPanel();
+        aboutPanel.addStyleName("about-panel");
         init();
     }
 
@@ -45,8 +49,9 @@ public class About {
             }
         });
 
-        appArea.add(logo);
-        appArea.add(about);
-        appArea.add(swap);
+        aboutPanel.add(logo);
+        aboutPanel.add(about);
+        aboutPanel.add(swap);
+        appArea.add(aboutPanel);
     }
 }

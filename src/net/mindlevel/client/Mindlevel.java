@@ -261,6 +261,10 @@ public class Mindlevel implements EntryPoint, ValueChangeHandler<String> {
                     clearScreen();
                     new Search(getAppArea(true), "Search", constraint);
 
+                } else if(parameters.startsWith("colour")) {
+                    RootPanel.getBodyElement().getStyle().setBackgroundColor("#" + getValue(tokens[0]));
+                    clearScreen();
+                    new Home(getAppArea(true));
                 } else if(parameters.startsWith("login")  && !UserTools.isLoggedIn()) {
                     new Login(session);
                     break;

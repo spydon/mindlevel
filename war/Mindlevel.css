@@ -88,7 +88,7 @@ html, .desktop {
 }
 
 .gwt-DialogBox {
-	z-index: 10000 !important;
+    z-index: 10000 !important;
 }
 
 .center-button {
@@ -228,6 +228,12 @@ header {
 
 .about img {
     max-width: 300px;
+}
+
+.about-panel {
+    background-color: whitesmoke;
+    box-shadow: 2px 2px 10px #888888;
+    padding: 10px;
 }
 
 .terms {
@@ -524,12 +530,12 @@ header {
 }
 
 .comment-level-0 {
-	margin-top: 20px;
+    margin-top: 20px;
     padding-left: 0px; 
 }
 
 .comment-level-1 {
-    padding-left: 40px;	
+    padding-left: 40px;    
 }
 
 .comment-level-2 {
@@ -545,7 +551,7 @@ header {
 }
 
 .vote-section {
-	margin-left: 7px;
+    margin-left: 7px;
 }
 
 .vote-button {
@@ -781,6 +787,40 @@ header {
         margin-left: auto;
         margin-right: auto;
     }
+    
+    /**
+    *   COMMENTS
+    */
+    
+    /** ReadBox */
+    .comment-box {
+        z-index: 2;
+        position: relative;
+        margin-bottom: 10px;
+        box-shadow: 0px 4px 4px #000;
+        background: lightsteelblue;
+/*         min-width: 100px;  */
+        width: 100%;
+/*         max-width: 100%; */
+    }
+    
+    .comment-text {
+        text-align: left;
+        margin: 5px;
+        margin-top: 0px;
+        margin-bottom: 32px;
+        width: 200px;
+        word-break: break-word;
+    }
+    
+    .comment-textarea {
+        height: 40px;
+    }
+    
+    .comment-level-0, .comment-level-1, .comment-level-2, .comment-level-3, .comment-level-4 {
+        margin-top: 20px;
+        padding-left: 0px; 
+    }
 }
 
 @media only screen and (max-width: 520px), only screen and (max-device-width: 520px) {
@@ -804,6 +844,7 @@ header {
     .picture-panel {
         position: relative;
         width: 100%;
+        margin-left: 0px;
     }
     
     .meta-panel > tbody > tr > td  {
@@ -910,6 +951,8 @@ header {
     .menu a:hover .page-name {
         display: block;
     }
+    
+/*     TODO: FIX COMMENTS */
 }
 
 /**
