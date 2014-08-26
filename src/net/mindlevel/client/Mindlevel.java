@@ -96,6 +96,7 @@ public class Mindlevel implements EntryPoint, ValueChangeHandler<String> {
 //            new QuoteHandler(RootPanel.get("quote"));
             RootPanel.get("quote").add(new QuoteElement());
         } else {
+            getAppArea(false).setVisible(false);
             RootPanel.get().addStyleName("mobile");
             Document.get().getElementById("topheader").addClassName("superhidden");
             new MindlevelMobile();
