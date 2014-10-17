@@ -2,6 +2,7 @@ gwt-unitCache
 war/WEB-INF/classes/
 war/WEB-INF/deploy/
 war/mindlevel/
+war/mindlevel/gwt/
 war/mindlevel/mindlevel.nocache.js
 war/mindlevelmobile/
 war/pictures/
