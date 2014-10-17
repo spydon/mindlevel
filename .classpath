@@ -17,6 +17,6 @@
 	<classpathentry kind="lib" path="war/WEB-INF/lib/gwt-colorbox.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/mgwt-2.0.0-beta3-javadoc.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/mgwt-2.0.0-beta3-sources.jar"/>
-	<classpathentry kind="lib" path="war/WEB-INF/lib/mgwt-2.0.0-rc1.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/mgwt-2.0.0.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>
