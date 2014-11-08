@@ -10,12 +10,12 @@ import net.mindlevel.shared.User;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class LoginsSection extends Composite {
 
-    private final VerticalPanel p;
+    private final FlowPanel p;
 
     private final UserServiceAsync userService = GWT
             .create(UserService.class);
@@ -25,8 +25,8 @@ public class LoginsSection extends Composite {
      *
      */
     public LoginsSection(final int number) {
-        p = new VerticalPanel();
-        HTML header = new HTML("Last logins");
+        p = new FlowPanel();
+        HTML header = new HTML("<h2>Last login</h2>");
         final LoadingElement l = new LoadingElement();
         header.addStyleName("users-header");
         p.add(header);

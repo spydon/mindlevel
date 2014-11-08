@@ -8,7 +8,7 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 @SuppressWarnings("serial")
 public abstract class DBConnector extends RemoteServiceServlet {
-    protected String url = "jdbc:mysql://localhost/mindleveö";
+    protected String url = "jdbc:mysql://localhost/mindlevel";
     protected String dbUser = "root";
     protected String pass = "YouWillNeverRealizeHowFuckingLongThisPasswordIs!";
 

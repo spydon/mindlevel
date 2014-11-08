@@ -10,13 +10,14 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.VerticalPanel;
+import com.google.gwt.user.client.ui.SimplePanel;
 
 public class PictureElement extends Composite {
 
-    private final VerticalPanel backPanel;
+    private final FlowPanel backPanel;
 
     /**
      * Constructs an NewsElement with the given news displayed.
@@ -24,7 +25,8 @@ public class PictureElement extends Composite {
      * @param caption the caption to be displayed with the check box
      */
     public PictureElement(final MetaImage metaImage, boolean isSimple) {
-        backPanel = new VerticalPanel();
+        backPanel = new FlowPanel();
+
         Image image = new Image(Mindlevel.PATH + "pictures/" + metaImage.getThumbnail());
         image.addStyleName("last-picture");
         image.addClickHandler(new ClickHandler() {
@@ -33,6 +35,11 @@ public class PictureElement extends Composite {
                 History.newItem("picture=" + metaImage.getId());
             }
         });
+
+        SimplePanel imageWrapper = new SimplePanel();
+        imageWrapper.addStyleName("last-picture-wrapper");
+        imageWrapper.setWidget(image);
+
         HTML title = new HTML("Title: "
         + HandyTools.getAnchor("picture", "" + metaImage.getId(),
                 HandyTools.formatHtml(metaImage.getTitle()).toString()));
@@ -60,9 +67,7 @@ public class PictureElement extends Composite {
             categories.setHTML(categories.getHTML() + HandyTools.getAnchor("search&type=picture&c", categoryName.toLowerCase(), categoryName));
         }
 
-
-
-        backPanel.add(image);
+        backPanel.add(imageWrapper);
         backPanel.add(title);
         if(!isSimple) {
             backPanel.add(mission);

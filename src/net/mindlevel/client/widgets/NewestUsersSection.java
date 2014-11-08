@@ -26,7 +26,7 @@ public class NewestUsersSection extends Composite {
      */
     public NewestUsersSection(final int number) {
         p = new VerticalPanel();
-        HTML header = new HTML("Newest users");
+        HTML header = new HTML("<h2>Newest users</h2>");
         final LoadingElement l = new LoadingElement();
         header.addStyleName("users-header");
         p.add(header);

@@ -11,11 +11,10 @@ import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.Composite;
-import com.google.gwt.user.client.ui.Grid;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Panel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class UserElement extends Composite
 implements HasClickHandlers {
@@ -44,13 +43,16 @@ implements HasClickHandlers {
         HTML username = new HTML(HandyTools.getAnchor("user", user.getUsername(), user.getUsername() + "(" + user.getScore() + ")"));
         Image image;
         if(isSimple) {
-            backPanel = new Grid(1,2);
+//            backPanel = new Grid(1,2);
+            backPanel = new FlowPanel();
             image = new Image(Mindlevel.PATH + "pictures/" + user.getThumbnail());
-            ((Grid)backPanel).setWidget(0, 0, image);
-            ((Grid)backPanel).setWidget(0, 1, username);
+//            ((Grid)backPanel).setWidget(0, 0, image);
+//            ((Grid)backPanel).setWidget(0, 1, username);
+            backPanel.add(image);
+            backPanel.add(username);
         } else {
             username.addStyleName("5px-top-margin");
-            backPanel = new VerticalPanel();
+            backPanel = new FlowPanel();
             image = new Image(Mindlevel.PATH + "pictures/" + user.getPicture());
             backPanel.add(image);
             backPanel.add(username);

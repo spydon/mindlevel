@@ -11,7 +11,17 @@ td[style] {
 html, .desktop {
 /*     height: 100%; */
     margin: 0 !important;
-    overflow-x: hidden;
+/*     overflow-x: hidden; */
+}
+
+h1, h2, h3, h4, h5 {
+    font-family: 'Advent Pro';
+    text-align: center;
+}
+
+h2 {
+    font-size: 20pt;
+    font-weight: bold;
 }
 
 .desktop h1 {
@@ -38,7 +48,7 @@ html, .desktop {
 }
 
 .margin {
-    margin-top: 80px;
+    margin-top: 60px;
 }
 
 .margin.adminbar {
@@ -167,13 +177,13 @@ header {
     top: 0;
     position: fixed;
     z-index: 3;
-    opacity: 0.9;
-    min-height: 55px;
+/*     opacity: 0.9; */
+    min-height: 60px;
     width: 100%;
     background-color: #199fd2;
     color: white;
     margin: 0px;
-    box-shadow: 0px 2px 2px #09103D;
+/*     box-shadow: 0px 2px 2px #09103D; */
 }
 
 /** MENU STOP **/
@@ -205,7 +215,6 @@ header {
 /*     border-radius: 10px; */
 /*     margin: 0px 0px 10px; */
     box-shadow: 0px 4px 4px #000;
-    background: lightsteelblue; /*#D65E2F;  199fd2 */
 /*     opacity: 0.7; */
 }
 
@@ -231,8 +240,6 @@ header {
 }
 
 .about-panel {
-    background-color: whitesmoke;
-    box-shadow: 2px 2px 10px #888888;
     padding: 10px;
 }
 
@@ -579,16 +586,22 @@ header {
 */
 
 .news-section {
-    max-width: 320px;
-    background-color: whitesmoke;
-    box-shadow: 2px 2px 10px #888888;
-    padding: 10px;
+    width: 100%;
+    color: white;
     margin-bottom: 15px;
+    padding: 20px 0;
+    background-image: url("images/header.jpg");
+    background-attachment: fixed;
+    -webkit-background-size: 100%;
+    background-size: 100%;
+/*     background-position: 0% 37%; */
+/*     background-position: 0% 10%; */
+    background-repeat: no-repeat no-repeat;
 }
 
 .news-element {
     max-width: 320px;
-    margin-bottom: 15px;
+    margin-bottom: 35px;
 }
 
 .news-author {
@@ -604,12 +617,12 @@ header {
 
 .news-content {
     text-align: left;
+    font-family: 'Advent Pro';
+    font-size: 14pt;
 }
 
 .news-header {
-    font-size: large;
-    font-weight: bold;
-    margin-bottom: 10px;
+    width: 100%;
 }
 
 /**
@@ -641,21 +654,14 @@ header {
 */
 
 .home-user-panel {
-    margin-right: 15px;
-    background-color: whitesmoke;
-    box-shadow: 2px 2px 10px #888888;
-    padding: 10px;
     margin-bottom: 15px;
 }
 
 .users-section {
-    text-align: left;
-    max-width: 200px;
     margin-bottom: 15px;
 }
 
 .user-element {
-    text-align: left;
     min-height: 50px;
     margin-bottom: 10px;
 }
@@ -669,29 +675,21 @@ header {
     opacity: 0.7;
 }
 
-.user-element .gwt-HTML {
-    width: 95%;
-    text-align: left;
+.user-element {
 }
 
 .simple-user-element {
-    text-align: left;
-    width: 100%;
-    height: 50px;
-    margin-left: 10px;
     transition:all 1s;
+    border-radius: 40px;
+    margin: 5px;
+    display: inline-block;
 }
 
 .simple-user-element:hover {
     cursor: pointer;
-    background-color: lightsteelblue;
-/*     transition: none; */
-    margin-left: 0px;
 }
 
 .simple-user-element .gwt-HTML {
-    width: 160px;
-    text-align: left;
 }
 
 .users-header {
@@ -702,7 +700,7 @@ header {
 
 .simple-user-element .user-image {
     width: 80px;
-    margin-right: 5px;
+    border-radius: 40px;
 }
 
 .simple-user-element .user-image:hover {
@@ -727,7 +725,6 @@ header {
 
 .mission-element:hover {
     cursor: pointer;
-    background: lightsteelblue;
 }
 
 .suggest-mission-button {
@@ -739,16 +736,11 @@ header {
 */
 
 .picture-section {
-    text-align: left;
-    width: 300px;
-    margin-left: 15px;
-    background-color: whitesmoke;
-    box-shadow: 2px 2px 10px #888888;
-    padding: 10px;
     margin-bottom: 15px;
 }
 
 .picture-element {
+    display: inline-block;
     text-align: left;
     margin-bottom: 10px;
 }
@@ -773,6 +765,11 @@ header {
 .last-picture:hover {
     cursor: pointer;
     opacity: 0.7;
+}
+
+.last-picture-wrapper {
+    height: 150px;
+    overflow: hidden;
 }
 
 /** RESPONSIVE CSS */
@@ -1151,11 +1148,7 @@ header {
     margin-top: 10px;
     padding: 10px;
     max-width: 300px;
-/*     border-radius: 10px; */
-/*     margin: 0px 0px 10px; */
     box-shadow: 0px 4px 4px #000;
-    background: lightsteelblue; /*#D65E2F;  199fd2 */
-/*     opacity: 0.7; */
 }
 
 .m-info-panel * {

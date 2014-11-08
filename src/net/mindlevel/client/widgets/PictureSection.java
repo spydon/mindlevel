@@ -13,11 +13,11 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.VerticalPanel;
+import com.googlecode.mgwt.ui.client.widget.panel.flex.FlexPanel;
 
 public class PictureSection extends Composite {
 
-    private final VerticalPanel p;
+    private final FlexPanel p;
 
     private final PictureServiceAsync pictureService = GWT
             .create(PictureService.class);
@@ -27,8 +27,8 @@ public class PictureSection extends Composite {
      *
      */
     public PictureSection(final int number, boolean validated) {
-        p = new VerticalPanel();
-        HTML header = new HTML("Last finished missions");
+        p = new FlexPanel();
+        HTML header = new HTML("<h2>Last finished missions</h2>");
         final LoadingElement l = new LoadingElement();
         header.addStyleName("picture-header");
         p.add(header);

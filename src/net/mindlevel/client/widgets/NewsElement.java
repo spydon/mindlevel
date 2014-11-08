@@ -4,12 +4,12 @@ import net.mindlevel.client.HandyTools;
 import net.mindlevel.shared.News;
 
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class NewsElement extends Composite {
 
-    private final VerticalPanel backPanel;
+    private final FlowPanel backPanel;
 
     /**
      * Constructs an NewsElement with the given news displayed.
@@ -17,7 +17,7 @@ public class NewsElement extends Composite {
      * @param caption the caption to be displayed with the check box
      */
     public NewsElement(News news) {
-        backPanel = new VerticalPanel();
+        backPanel = new FlowPanel();
 //        Label timestamp = new Label(HandyTools.formatOnlyDate(news.getTimestamp()).toString());
         HTML username = new HTML("Author: " + HandyTools.getAnchor("user", news.getUsername(), news.getUsername()));
         HTML content = new HTML(news.getContent());

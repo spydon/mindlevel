@@ -12,9 +12,9 @@ import com.google.gwt.event.dom.client.HasClickHandlers;
 import com.google.gwt.event.shared.HandlerRegistration;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.Composite;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Panel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class MissionElement extends Composite
 implements HasClickHandlers {
@@ -38,8 +38,8 @@ implements HasClickHandlers {
             }
         };
 
-        HTML missionName = new HTML("<h1>" + HandyTools.formatHtml(mission.getName()) + "</h1>");
-        backPanel = new VerticalPanel();
+        HTML missionName = new HTML("<h3>" + HandyTools.formatHtml(mission.getName()) + "</h3>");
+        backPanel = new FlowPanel();
 
         HTML categories = new HTML();
         for(Category category : mission.getCategories()) {
