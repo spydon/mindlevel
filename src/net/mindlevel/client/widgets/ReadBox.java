@@ -71,7 +71,7 @@ public class ReadBox extends Composite {
                 History.newItem("user=" + user.getUsername());
             }
         });
-        HTML userLabel = new HTML("#" + comment.getId() + " " + HandyTools.getAnchor("user", user.getUsername(), user.getUsername()));
+        HTML userLabel = new HTML("#" + comment.getId() + " " + HandyTools.getAnchor("user", user.getUsername(), user.getUsername()).asString());
         if(comment.getParentId() != 0) {
             userLabel = new HTML(userLabel.getHTML() + " comments on #" + comment.getParentId());
         }

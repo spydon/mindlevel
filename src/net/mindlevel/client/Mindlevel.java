@@ -52,7 +52,6 @@ import com.googlecode.mgwt.ui.client.MGWT;
 public class Mindlevel implements EntryPoint, ValueChangeHandler<String> {
     public static User user;
     public static HandlerRegistration navigationHandlerRegistration = null;
-//    public static SimplePanel chat = null;
     public static String PATH = "./";
     private static boolean isDesktop = true;
 
@@ -140,16 +139,16 @@ public class Mindlevel implements EntryPoint, ValueChangeHandler<String> {
         if(!parameters.contains("=")) {
             if(parameters.equals("")) { //Empty is always home
                 clearScreen();
-                new Home(getAppArea(true));
+                new Home(getAppArea(false));
             } else if(parameters.equals("register")) {
                 new Registration();
             } else if(parameters.equals("login")) {
-                new Login(""); //Empty is always home
+                new Login("");
             } else if(parameters.equals("search")) {
                 new SearchBox();
             } else if(parameters.equals("logout")) {
                 clearScreen();
-                new Logout(""); //Empty is always home
+                new Logout("");
             } else if(parameters.equals("chat")) {
                 clearScreen();
                 getAppArea(false);
@@ -215,7 +214,7 @@ public class Mindlevel implements EntryPoint, ValueChangeHandler<String> {
                         new Picture(getAppArea(true), pictureId, validated);
                     } catch (NumberFormatException nfe) {
                         clearScreen();
-                        new Home(getAppArea(true));
+                        new Home(getAppArea(false));
                         HandyTools.showDialogBox("Error", new HTML("Couldn't find a picture with that id. :("));
                     }
                     break;
@@ -231,7 +230,7 @@ public class Mindlevel implements EntryPoint, ValueChangeHandler<String> {
                         new MissionProfile(getAppArea(true), missionId, validated);
                     } catch (NumberFormatException nfe) {
                         clearScreen();
-                        new Home(getAppArea(true));
+                        new Home(getAppArea(false));
                         HandyTools.showDialogBox("Error", new HTML("Couldn't find a mission with that id. :("));
                     }
                     break;
@@ -265,7 +264,7 @@ public class Mindlevel implements EntryPoint, ValueChangeHandler<String> {
                 } else if(parameters.startsWith("colour")) {
                     RootPanel.getBodyElement().getStyle().setBackgroundColor("#" + getValue(tokens[0]));
                     clearScreen();
-                    new Home(getAppArea(true));
+                    new Home(getAppArea(false));
                 } else if(parameters.startsWith("login")  && !UserTools.isLoggedIn()) {
                     new Login(session);
                     break;

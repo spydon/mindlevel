@@ -1,7 +1,5 @@
 package net.mindlevel.mobile.client.view;
 
-import java.util.HashSet;
-
 import net.mindlevel.client.HandyTools;
 import net.mindlevel.client.UserTools;
 import net.mindlevel.client.services.MissionService;
@@ -110,27 +108,14 @@ public class PictureInfoView extends MPage {
 
     private void initInfo(MetaImage metaImage) {
         location.setHTML("<b>Location: </b>" + metaImage.getLocation());
-        uploader.setHTML("<b>Uploader: </b>" + HandyTools.getAnchor("user", metaImage.getOwner(), metaImage.getOwner()));
+        uploader.setHTML("<b>Uploader: </b>" + HandyTools.getAnchor("user", metaImage.getOwner(), metaImage.getOwner()).asString());
         score.setHTML("<b>Score: </b>" + metaImage.getScore());
         description.setHTML("<h1>Description</h1><br>"
                 + HandyTools.formatHtml(metaImage.getDescription()));
-        tags.setHTML(buildTagHTML(metaImage.getTags()));
+        tags.setHTML(HandyTools.buildTagHTML(metaImage.getTags()));
         date.setHTML("<b>Completed: </b>" + metaImage.getDate());
         link.setHTML("<b>Link: </b>" + HandyTools.getAnchor("picture", Integer.toString(id), "Click to copy"));
         fetchMission(metaImage.getMission().getId());
-    }
-
-    private String buildTagHTML(HashSet<String> tags) {
-        String separator = ",&nbsp;";
-        String tagHtml = "<b>Tags: </b>";
-        if(tags!=null && !tags.isEmpty()) {
-            for(String tag : tags) {
-                tagHtml = tagHtml.concat(HandyTools.getAnchor("user", tag, tag));
-                tagHtml = tagHtml.concat(separator);
-            }
-            tagHtml = tagHtml.substring(0, tagHtml.length()-separator.length());
-        }
-        return tagHtml;
     }
 
     private void fetchMission(int id) {
@@ -143,7 +128,7 @@ public class PictureInfoView extends MPage {
             @Override
             public void onSuccess(Mission m) {
                 if(m != null) {
-                    mission.setHTML("<b>Mission: </b>" + HandyTools.getAnchor("mission", Integer.toString(m.getId()), m.getName()));
+                    mission.setHTML("<b>Mission: </b>" + HandyTools.getAnchor("mission", Integer.toString(m.getId()), m.getName()).asString());
                     category.setHTML("<b>Categories: </b>" + HandyTools.getCategoryAnchors(m.getCategories()));
                 }
                 loadingPanel.clear();

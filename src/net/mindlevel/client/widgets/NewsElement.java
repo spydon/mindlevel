@@ -19,7 +19,7 @@ public class NewsElement extends Composite {
     public NewsElement(News news) {
         backPanel = new FlowPanel();
 //        Label timestamp = new Label(HandyTools.formatOnlyDate(news.getTimestamp()).toString());
-        HTML username = new HTML("Author: " + HandyTools.getAnchor("user", news.getUsername(), news.getUsername()));
+        HTML username = new HTML("Author: " + HandyTools.getAnchor("user", news.getUsername(), news.getUsername()).asString());
         HTML content = new HTML(news.getContent());
 //        timestamp.addStyleName("news-timestamp");
         username.addStyleName("news-author");

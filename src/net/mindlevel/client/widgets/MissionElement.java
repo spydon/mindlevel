@@ -1,9 +1,7 @@
 package net.mindlevel.client.widgets;
 
 import net.mindlevel.client.HandyTools;
-import net.mindlevel.shared.Category;
 import net.mindlevel.shared.Mission;
-import net.mindlevel.shared.Normalizer;
 
 import com.google.gwt.dom.client.AnchorElement;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -37,23 +35,11 @@ implements HasClickHandlers {
                 }
             }
         };
-
-        HTML missionName = new HTML("<h3>" + HandyTools.formatHtml(mission.getName()) + "</h3>");
         backPanel = new FlowPanel();
 
-        HTML categories = new HTML();
-        for(Category category : mission.getCategories()) {
-            if(!categories.getHTML().equals("")) {
-                categories.setHTML(categories.getHTML() + ", ");
-            } else {
-                categories.setHTML("Categories: ");
-            }
-            String categoryName = Normalizer.capitalizeName(category.toString());
-            categories.setHTML(categories.getHTML() + HandyTools.getAnchor("search&type=mission&c", categoryName.toLowerCase(), categoryName));
-        }
-        backPanel.add(missionName);
+        backPanel.add(new HTML("<h3>" + HandyTools.formatHtml(mission.getName()) + "</h3>"));
         backPanel.add(new HTML("Creator: " + HandyTools.getAnchor("user", mission.getCreator(), mission.getCreator())));
-        backPanel.add(categories);
+        backPanel.add(new HTML("Categories: " + HandyTools.getCategoryAnchors(mission.getCategories())));
         backPanel.add(new HTML("Created: " + HandyTools.formatDate(mission.getCreated())));
 
         addClickHandler(handler);

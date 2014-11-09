@@ -26,7 +26,7 @@ public class LoginsSection extends Composite {
      */
     public LoginsSection(final int number) {
         p = new FlowPanel();
-        HTML header = new HTML("<h2>Last login</h2>");
+        HTML header = new HTML("<h2>Last logins</h2>");
         final LoadingElement l = new LoadingElement();
         header.addStyleName("users-header");
         p.add(header);

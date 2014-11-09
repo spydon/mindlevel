@@ -14,6 +14,9 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.i18n.client.DefaultDateTimeFormatInfo;
+import com.google.gwt.safehtml.shared.SafeHtml;
+import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
+import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
@@ -145,23 +148,41 @@ public class HandyTools {
         return dtf.format(timestamp);
     }
 
-    public static String getCategoryAnchors(HashSet<Category> categories) {
-        String categoryAnchors = "";
-        boolean isFirst = true;
-        for(Category categoryObj : categories) {
+    public static SafeHtml getCategoryAnchors(HashSet<Category> categories) {
+        SafeHtmlBuilder builder = new SafeHtmlBuilder();
+        for (Category categoryObj : categories) {
             String category = categoryObj.toString();
-            if(!isFirst) {
-                categoryAnchors += ", " + getAnchor("search&type=picture&c", category.toLowerCase(), category);
+            if (builder.toSafeHtml().asString().equals("")) {
+              builder.append(getAnchor("search&type=picture&c", category.toLowerCase(), category));
             } else {
-                isFirst = false;
-                categoryAnchors = getAnchor("search&type=picture&c", category.toLowerCase(), category);
+              builder.appendHtmlConstant(", ").append(getAnchor("search&type=picture&c", category.toLowerCase(), category));
             }
         }
-        return categoryAnchors;
+        return builder.toSafeHtml();
     }
 
-    public static String getAnchor(String type, String data, String name) {
-        return data!=null ? "<a href='#"+type+"="+data+"'>"+name+"</a>" : "";
+    public static SafeHtml getAnchor(String type, String data, String name) {
+        SafeHtmlBuilder builder = new SafeHtmlBuilder();
+        String uriData = SafeHtmlUtils.htmlEscape(data);
+        builder.appendHtmlConstant("<a href='#" + type + "=" + uriData + "'>").appendEscaped(name).appendHtmlConstant("</a>");
+        return builder.toSafeHtml();
+    }
+
+    public static String buildTagHTML(HashSet<String> tags) {
+        String separator = ",&nbsp;";
+        SafeHtmlBuilder builder = new SafeHtmlBuilder();
+        builder.appendHtmlConstant("<b>Tags: </b>");
+        if(tags != null && !tags.isEmpty()) {
+            int x = 0;
+            for(String tag : tags) {
+                builder.append(HandyTools.getAnchor("user", tag, tag));
+                if (x != tags.size()-1) {
+                    builder.appendHtmlConstant(separator);
+                }
+                x++;
+            }
+        }
+        return builder.toSafeHtml().asString();
     }
 
     public static String formatHtml(String text) {
