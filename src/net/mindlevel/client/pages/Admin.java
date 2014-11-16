@@ -8,15 +8,17 @@ import com.google.gwt.user.client.Command;
 import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.RootPanel;
 
-public class Admin {
+public class Admin extends Page {
     private final RootPanel appArea;
 
     public Admin(RootPanel appArea) {
+        super();
         this.appArea = appArea;
         init();
     }
 
-    private void init() {
+    @Override
+    protected void init() {
         RootPanel.get("admin-menu").clear();
         MenuBar validationMenu = new MenuBar(true);
         validationMenu.setAutoOpen(true);

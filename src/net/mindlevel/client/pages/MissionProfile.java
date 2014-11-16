@@ -23,7 +23,7 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-public class MissionProfile {
+public class MissionProfile extends Page {
     private final RootPanel appArea;
     private final int missionId;
     private Mission mission;
@@ -37,6 +37,7 @@ public class MissionProfile {
             .create(MissionService.class);
 
     public MissionProfile(RootPanel appArea, Mission mission) {
+        super();
         HandyTools.setLoading(true);
         this.appArea = appArea;
         this.mission = mission;
@@ -47,6 +48,7 @@ public class MissionProfile {
     }
 
     public MissionProfile(RootPanel appArea, int missionId, boolean validated) {
+        super();
         HandyTools.setLoading(true);
         History.newItem("mission=" + missionId, false);
         this.appArea = appArea;
@@ -55,7 +57,8 @@ public class MissionProfile {
         init();
     }
 
-    private void init() {
+    @Override
+    protected void init() {
         missionService.getMission(missionId, validated, new AsyncCallback<Mission>() {
             @Override
             public void onFailure(Throwable caught) {

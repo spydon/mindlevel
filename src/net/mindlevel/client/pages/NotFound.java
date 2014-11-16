@@ -4,15 +4,17 @@ import net.mindlevel.client.widgets.NotFoundElement;
 
 import com.google.gwt.user.client.ui.RootPanel;
 
-public class NotFound {
+public class NotFound extends Page {
     private final RootPanel appArea;
 
     public NotFound(RootPanel appArea) {
+        super();
         this.appArea = appArea;
         init();
     }
 
-    private void init() {
+    @Override
+    protected void init() {
         appArea.add(new NotFoundElement());
     }
 }

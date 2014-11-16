@@ -8,11 +8,12 @@ import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 
-public class Home extends Page{
+public class Home extends Page {
     private final RootPanel appArea;
     private final FlowPanel backPanel;
 
     public Home(RootPanel appArea) {
+        super();
         History.newItem("", false);
         this.appArea = appArea;
         this.backPanel = new FlowPanel();

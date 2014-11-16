@@ -3,15 +3,17 @@ package net.mindlevel.client.pages;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
 
-public class Tutorial {
+public class Tutorial extends Page {
     private final RootPanel appArea;
 
     public Tutorial(RootPanel appArea) {
+        super();
         this.appArea = appArea;
         init();
     }
 
-    private void init() {
+    @Override
+    protected void init() {
         HTML tutorial = new HTML(
                 "<h1>How to use MindLevel</h1> "
               + "<h2>Home</h2>"

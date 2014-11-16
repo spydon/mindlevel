@@ -19,7 +19,7 @@ import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.SimplePanel;
 
-public class Missions {
+public class Missions extends Page {
     private final Panel appArea;
     private int current = 0;
     private int missionCount = 0;
@@ -41,12 +41,14 @@ public class Missions {
     }
 
     public Missions(Panel appArea, Constraint constraint) {
+        super();
         this.appArea = appArea;
         this.constraint = constraint;
         init();
     }
 
-    public void init() {
+    @Override
+    protected void init() {
         constraint.setSortingColumn("timestamp desc");
         MissionSection missionSection = new MissionSection(current, stepSize, constraint);
         missionsContainer.add(missionSection);

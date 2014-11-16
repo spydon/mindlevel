@@ -9,7 +9,7 @@ import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HTML;
 
-public class Activate {
+public class Activate extends Page {
 
     /**
      * Create a remote service proxy to talk to the server-side Registration service.
@@ -18,6 +18,7 @@ public class Activate {
             .create(RegistrationService.class);
 
     public Activate(String uuid) {
+        super();
         finalize(uuid);
     }
 
@@ -37,4 +38,7 @@ public class Activate {
             }
         });
     }
+
+    @Override
+    protected void init() {}
 }

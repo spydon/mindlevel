@@ -1,6 +1,11 @@
 package net.mindlevel.client.pages;
 
+import com.google.gwt.user.client.Window;
+
 public abstract class Page {
-	//public abstract Page(RootPanel appArea);
-	protected abstract void init();
+
+    public Page() {
+        Window.scrollTo(0, 0);
+    }
+    protected abstract void init();
 }

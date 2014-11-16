@@ -42,7 +42,7 @@ import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-public class Picture {
+public class Picture extends Page {
     private final RootPanel appArea;
     private final Image image = new Image();
     private final Image leftArrow = new Image(Mindlevel.PATH + "images/icons/left.svg");
@@ -85,6 +85,7 @@ public class Picture {
             .create(MetaUploadService.class);
 
     public Picture(RootPanel appArea, int id, boolean validated) {
+        super();
         HandyTools.setLoading(true);
         this.appArea = appArea;
         this.id = id;
@@ -113,7 +114,8 @@ public class Picture {
         init();
     }
 
-    private void init() {
+    @Override
+    protected void init() {
         Window.addResizeHandler(new ResizeHandler() {
             Timer resizeTimer = new Timer() {
                 @Override

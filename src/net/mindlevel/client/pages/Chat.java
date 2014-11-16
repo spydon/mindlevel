@@ -7,13 +7,15 @@ import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.RootPanel;
 
-public class Chat {
+public class Chat extends Page {
 
     public Chat() {
+        super();
         init();
     }
 
-    public void init() {
+    @Override
+    protected void init() {
         int height = Window.getClientHeight()-RootPanel.get("topheader").getOffsetHeight()-6;
         RootPanel.get("chat-frame").setStyleName("superhidden", false);
         RootPanel.get("chat-frame").setHeight(height+"px");

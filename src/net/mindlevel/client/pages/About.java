@@ -10,18 +10,20 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-public class About {
+public class About extends Page {
     private final RootPanel appArea;
     private final VerticalPanel aboutPanel;
 
     public About(RootPanel appArea) {
+        super();
         this.appArea = appArea;
         this.aboutPanel = new VerticalPanel();
         aboutPanel.addStyleName("about-panel");
         init();
     }
 
-    private void init() {
+    @Override
+    protected void init() {
         Image logo = new Image("./images/logo.png");
         HTML about = new HTML(
                 "<h1>About MindLevel</h1>"

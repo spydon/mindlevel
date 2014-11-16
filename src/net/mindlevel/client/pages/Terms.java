@@ -3,15 +3,17 @@ package net.mindlevel.client.pages;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
 
-public class Terms {
+public class Terms extends Page {
     private final RootPanel appArea;
 
     public Terms(RootPanel appArea) {
+        super();
         this.appArea = appArea;
         init();
     }
 
-    private void init() {
+    @Override
+    protected void init() {
         HTML terms = new HTML(
                 "<h1>Terms and Conditions for the usage of MindLevel</h1> "
               + "<h2>Privacy</h2>"

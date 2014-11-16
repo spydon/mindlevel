@@ -28,7 +28,7 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-public class Profile {
+public class Profile extends Page {
     private final RootPanel appArea;
     private final String userId;
     private final Button changePicture;
@@ -48,6 +48,7 @@ public class Profile {
             .create(UserService.class);
 
     public Profile(RootPanel appArea, String userId) {
+        super();
         History.newItem("user=" + userId, false);
         this.appArea = appArea;
         this.userId = userId;
@@ -58,7 +59,8 @@ public class Profile {
         init();
     }
 
-    private void init() {
+    @Override
+    protected void init() {
         final HorizontalPanel profilePanel = new HorizontalPanel();
         final VerticalPanel picturePanel = new VerticalPanel();
         final VerticalPanel infoPanel = new VerticalPanel();

@@ -20,7 +20,7 @@ import com.google.gwt.view.client.CellPreviewEvent;
 import com.google.gwt.view.client.CellPreviewEvent.Handler;
 import com.google.gwt.view.client.HasData;
 
-public class Highscore {
+public class Highscore extends Page {
     private final RootPanel appArea;
     private final CellTable<User> table = new CellTable<User>();
     private AsyncDataProvider<User> provider;
@@ -31,11 +31,13 @@ public class Highscore {
             .create(UserService.class);
 
     public Highscore(RootPanel appArea) {
+        super();
         this.appArea = appArea;
         init();
     }
 
-    public void init() {
+    @Override
+    protected void init() {
         table.setPageSize(10);
         //Set style name of the table
         table.setStyleName("pointer-table");

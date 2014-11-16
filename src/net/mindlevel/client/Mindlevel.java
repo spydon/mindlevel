@@ -284,13 +284,12 @@ public class Mindlevel implements EntryPoint, ValueChangeHandler<String> {
 
     public static RootPanel getAppArea(boolean margin) {
         RootPanel appArea = RootPanel.get("apparea");
-        RootPanel root = RootPanel.get();
         if(margin) {
-            root.addStyleName("margin");
-            root.removeStyleName("nomargin");
+            appArea.addStyleName("margin");
+            appArea.removeStyleName("nomargin");
         } else {
-            root.addStyleName("nomargin");
-            root.removeStyleName("margin");
+            appArea.addStyleName("nomargin");
+            appArea.removeStyleName("margin");
         }
         return appArea;
     }
