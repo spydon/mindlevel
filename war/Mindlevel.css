@@ -809,7 +809,7 @@ header * {
 }
 
 .user-tag-section > * {
-    display: inline-block;
+/*     display: inline-block; */
 }
 
 /**
