@@ -87,7 +87,7 @@ public class NotFoundElement extends Composite {
     }
 
     private void init() {
-        final LoadingElement l = new LoadingElement();
+        final LoadingElement l = new LoadingElement(LoadingElement.SIZE.LONG);
         p.add(l);
 
         canvas = Canvas.createIfSupported();

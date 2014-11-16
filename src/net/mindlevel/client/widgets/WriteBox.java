@@ -1,9 +1,10 @@
 package net.mindlevel.client.widgets;
 
-import net.mindlevel.client.HandyTools;
-import net.mindlevel.client.UserTools;
 import net.mindlevel.client.services.CommentService;
 import net.mindlevel.client.services.CommentServiceAsync;
+import net.mindlevel.client.tools.HandyTools;
+import net.mindlevel.client.tools.HtmlTools;
+import net.mindlevel.client.tools.UserTools;
 import net.mindlevel.shared.Comment;
 
 import com.google.gwt.core.client.GWT;
@@ -87,7 +88,7 @@ public class WriteBox extends Composite {
                                 container.clear();
                                 container.getParent().removeFromParent();
                             }
-                            HandyTools.scrollDown();
+                            HtmlTools.scrollDown();
                         }
 
                         @Override

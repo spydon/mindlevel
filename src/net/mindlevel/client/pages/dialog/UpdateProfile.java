@@ -1,9 +1,9 @@
 package net.mindlevel.client.pages.dialog;
 
-import net.mindlevel.client.HandyTools;
 import net.mindlevel.client.Mindlevel;
 import net.mindlevel.client.services.UserService;
 import net.mindlevel.client.services.UserServiceAsync;
+import net.mindlevel.client.tools.HandyTools;
 import net.mindlevel.shared.User;
 
 import com.google.gwt.core.client.GWT;

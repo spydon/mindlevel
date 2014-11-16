@@ -1,17 +1,20 @@
 package net.mindlevel.client.pages;
 
-import net.mindlevel.client.HandyTools;
 import net.mindlevel.client.Mindlevel;
-import net.mindlevel.client.UserTools;
 import net.mindlevel.client.services.MetaUploadService;
 import net.mindlevel.client.services.MetaUploadServiceAsync;
 import net.mindlevel.client.services.MissionService;
 import net.mindlevel.client.services.MissionServiceAsync;
 import net.mindlevel.client.services.PictureService;
 import net.mindlevel.client.services.PictureServiceAsync;
+import net.mindlevel.client.tools.HandyTools;
+import net.mindlevel.client.tools.HtmlTools;
+import net.mindlevel.client.tools.UserTools;
 import net.mindlevel.client.widgets.CommentSection;
 import net.mindlevel.client.widgets.LoadingElement;
 import net.mindlevel.client.widgets.NotFoundElement;
+import net.mindlevel.client.widgets.UserTagElement;
+import net.mindlevel.client.widgets.UserTagSection;
 import net.mindlevel.client.widgets.VotingSection;
 import net.mindlevel.shared.MetaImage;
 import net.mindlevel.shared.Mission;
@@ -50,7 +53,8 @@ public class Picture {
     private int nativeWidth, nativeHeight;
     private boolean validated = true;
     private boolean notFound = false;
-    private final HTML title, description, location, uploader, tags, date, mission, category, link, score;
+    private final HTML title, description, location, uploader, date, mission, category, link, score;
+    private final SimplePanel tags;
     private final VerticalPanel backPanel = new VerticalPanel();
     private final VerticalPanel ratingPanel = new VerticalPanel();
     private final VerticalPanel commentPanel = new VerticalPanel();
@@ -91,10 +95,10 @@ public class Picture {
         description = new HTML();
         mission = new HTML();
         category = new HTML();
-        tags = new HTML();
         score = new HTML();
         link = new HTML();
         date = new HTML();
+        tags = new SimplePanel();
         image.addStyleName("mission-picture");
         title.addStyleName("picture-title");
         location.addStyleName("picture-info");
@@ -250,7 +254,7 @@ public class Picture {
     private void loadImage(final int id, final boolean relative) {
         ratingPanel.clear();
         commentPanel.clear();
-        setImageUrl(LoadingElement.loadingPath);
+        setImageUrl(LoadingElement.loadingPathLong);
         pictureService.get(id, relative, UserTools.isAdult(), validated, new AsyncCallback<MetaImage>() {
             @Override
             public void onFailure(Throwable caught) {
@@ -357,16 +361,12 @@ public class Picture {
 
                 title.setHTML(metaImage.getTitle());
                 location.setHTML("<b>Location: </b>" + metaImage.getLocation());
-                uploader.setHTML("<b>Uploader: </b>" + HandyTools.getAnchor("user", metaImage.getOwner(), metaImage.getOwner()).asString());
-                description.setHTML("<h1>Description</h1><br>"
-                        + HandyTools.formatHtml(metaImage.getDescription()));
-                tags.setHTML(HandyTools.buildTagHTML(metaImage.getTags()));
+                uploader.setHTML(HtmlTools.concat("<b>Uploader: </b>", HtmlTools.getAnchor("user", metaImage.getOwner(), metaImage.getOwner())));
+                description.setHTML("<h1>Description</h1><br>" + HtmlTools.formatHtml(metaImage.getDescription()));
+//                tags.setHTML(HtmlTools.buildTagHTML(metaImage.getTags()));
+                tags.setWidget(new UserTagSection(metaImage.getTags(), true, true, UserTagElement.SIZE.SMALL));
                 date.setHTML("<b>Completed: </b>" + metaImage.getDate());
-                if(validated) {
-                    link.setHTML("<b>Link: </b>" + HandyTools.getAnchor("picture", Integer.toString(realId), "Right click to copy"));
-                } else {
-                    link.setHTML("<b>Link: </b><a href=#picture="+realId+"&validated=false>Right click to copy</a>");
-                }
+                link.setHTML("<b>Link: </b>" + HtmlTools.getAnchor("picture", Integer.toString(realId), "Right click to copy", validated));
                 fetchMission(metaImage.getMission().getId());
                 ratingPanel.add(new VotingSection(realId));
                 commentPanel.add(new CommentSection(metaImage.getThreadId()));
@@ -437,8 +437,8 @@ public class Picture {
             @Override
             public void onSuccess(Mission m) {
                 if(m != null) {
-                    mission.setHTML("<b>Mission: </b>" + HandyTools.getAnchor("mission", Integer.toString(m.getId()), m.getName()).asString());
-                    category.setHTML("<b>Categories: </b>" + HandyTools.getCategoryAnchors(m.getCategories()));
+                    mission.setHTML(HtmlTools.concat("<b>Mission: </b>", HtmlTools.getAnchor("mission", Integer.toString(m.getId()), m.getName())));
+                    category.setHTML(HtmlTools.concat("<b>Categories: </b>", HtmlTools.getCategoryAnchors(m.getCategories())));
                 }
             }
         });

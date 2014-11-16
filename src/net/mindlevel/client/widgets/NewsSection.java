@@ -2,9 +2,9 @@ package net.mindlevel.client.widgets;
 
 import java.util.ArrayList;
 
-import net.mindlevel.client.HandyTools;
 import net.mindlevel.client.services.NewsService;
 import net.mindlevel.client.services.NewsServiceAsync;
+import net.mindlevel.client.tools.HandyTools;
 import net.mindlevel.shared.News;
 
 import com.google.gwt.core.client.GWT;

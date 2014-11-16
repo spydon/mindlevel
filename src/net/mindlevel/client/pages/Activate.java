@@ -1,8 +1,8 @@
 package net.mindlevel.client.pages;
 
-import net.mindlevel.client.HandyTools;
 import net.mindlevel.client.services.RegistrationService;
 import net.mindlevel.client.services.RegistrationServiceAsync;
+import net.mindlevel.client.tools.HandyTools;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.History;

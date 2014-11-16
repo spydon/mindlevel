@@ -1,7 +1,7 @@
 package net.mindlevel.client.pages;
 
-import net.mindlevel.client.UserTools;
 import net.mindlevel.client.pages.dialog.BanBox;
+import net.mindlevel.client.tools.UserTools;
 import net.mindlevel.shared.Constraint;
 
 import com.google.gwt.user.client.Command;

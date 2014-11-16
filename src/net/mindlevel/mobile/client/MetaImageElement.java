@@ -31,7 +31,7 @@ public class MetaImageElement extends Image {
     }
 
     private void init() {
-        setUrl(LoadingElement.loadingPath);
+        setUrl(LoadingElement.loadingPathLong);
         if(!isThumb) {
             adjustTopMargin(20);
         }

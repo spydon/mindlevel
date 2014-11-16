@@ -1,10 +1,11 @@
 package net.mindlevel.client.widgets;
 
-import net.mindlevel.client.HandyTools;
 import net.mindlevel.client.Mindlevel;
-import net.mindlevel.client.UserTools;
 import net.mindlevel.client.services.UserService;
 import net.mindlevel.client.services.UserServiceAsync;
+import net.mindlevel.client.tools.HandyTools;
+import net.mindlevel.client.tools.HtmlTools;
+import net.mindlevel.client.tools.UserTools;
 import net.mindlevel.shared.Comment;
 import net.mindlevel.shared.User;
 
@@ -71,7 +72,7 @@ public class ReadBox extends Composite {
                 History.newItem("user=" + user.getUsername());
             }
         });
-        HTML userLabel = new HTML("#" + comment.getId() + " " + HandyTools.getAnchor("user", user.getUsername(), user.getUsername()).asString());
+        HTML userLabel = new HTML(HtmlTools.concat("#" + comment.getId() + " ", HtmlTools.getAnchor("user", user.getUsername(), user.getUsername())));
         if(comment.getParentId() != 0) {
             userLabel = new HTML(userLabel.getHTML() + " comments on #" + comment.getParentId());
         }
@@ -83,7 +84,7 @@ public class ReadBox extends Composite {
                     HandyTools.showDialogBox("Already replying", new HTML("You are already replying to this comment."));
                 } else if(UserTools.isLoggedIn()) {
                     replyPanel.add(new WriteBox(comment));
-                    HandyTools.scrollDown();
+                    HtmlTools.scrollDown();
                 } else {
                     HandyTools.notLoggedInBox();
                 }
@@ -109,7 +110,7 @@ public class ReadBox extends Composite {
 
         buttonPanel.add(replyButton);
 
-        HTML commentText = new HTML(HandyTools.formatHtml(comment.getComment()));
+        HTML commentText = new HTML(HtmlTools.formatHtml(comment.getComment()));
         rightPanel.add(userLabel);
         rightPanel.add(commentText);
         rightPanel.add(buttonPanel);

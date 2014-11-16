@@ -10,14 +10,14 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
-import net.mindlevel.client.HandyTools;
-import net.mindlevel.client.UserTools;
 import net.mindlevel.client.services.MetaUploadService;
 import net.mindlevel.client.services.MetaUploadServiceAsync;
 import net.mindlevel.client.services.MissionService;
 import net.mindlevel.client.services.MissionServiceAsync;
 import net.mindlevel.client.services.UserService;
 import net.mindlevel.client.services.UserServiceAsync;
+import net.mindlevel.client.tools.HandyTools;
+import net.mindlevel.client.tools.UserTools;
 import net.mindlevel.client.widgets.LoadingElement;
 import net.mindlevel.shared.FieldVerifier;
 import net.mindlevel.shared.MetaImage;

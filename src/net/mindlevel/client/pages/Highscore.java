@@ -2,9 +2,9 @@ package net.mindlevel.client.pages;
 
 import java.util.List;
 
-import net.mindlevel.client.HandyTools;
 import net.mindlevel.client.services.UserService;
 import net.mindlevel.client.services.UserServiceAsync;
+import net.mindlevel.client.tools.HandyTools;
 import net.mindlevel.shared.User;
 
 import com.google.gwt.core.client.GWT;

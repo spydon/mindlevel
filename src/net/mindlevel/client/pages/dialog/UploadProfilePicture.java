@@ -5,10 +5,10 @@ import gwtupload.client.IUploader;
 import gwtupload.client.PreloadedImage;
 import gwtupload.client.PreloadedImage.OnLoadPreloadedImageHandler;
 import gwtupload.client.SingleUploader;
-import net.mindlevel.client.HandyTools;
 import net.mindlevel.client.Mindlevel;
 import net.mindlevel.client.services.UserService;
 import net.mindlevel.client.services.UserServiceAsync;
+import net.mindlevel.client.tools.HandyTools;
 import net.mindlevel.client.widgets.LoadingElement;
 
 import com.google.gwt.core.client.GWT;

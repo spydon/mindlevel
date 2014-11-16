@@ -1,7 +1,7 @@
 package net.mindlevel.mobile.client.view;
 
-import net.mindlevel.client.UserTools;
 import net.mindlevel.client.pages.Missions;
+import net.mindlevel.client.tools.UserTools;
 
 import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;

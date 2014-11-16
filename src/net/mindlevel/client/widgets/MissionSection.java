@@ -2,9 +2,9 @@ package net.mindlevel.client.widgets;
 
 import java.util.List;
 
-import net.mindlevel.client.HandyTools;
 import net.mindlevel.client.services.MissionService;
 import net.mindlevel.client.services.MissionServiceAsync;
+import net.mindlevel.client.tools.HandyTools;
 import net.mindlevel.shared.Constraint;
 import net.mindlevel.shared.Mission;
 

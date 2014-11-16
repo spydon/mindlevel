@@ -4,10 +4,10 @@ package net.mindlevel.client.pages.dialog;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-import net.mindlevel.client.HandyTools;
-import net.mindlevel.client.UserTools;
 import net.mindlevel.client.services.MissionService;
 import net.mindlevel.client.services.MissionServiceAsync;
+import net.mindlevel.client.tools.HandyTools;
+import net.mindlevel.client.tools.UserTools;
 import net.mindlevel.shared.Category;
 import net.mindlevel.shared.FieldVerifier;
 import net.mindlevel.shared.Mission;

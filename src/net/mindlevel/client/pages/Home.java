@@ -1,11 +1,8 @@
 package net.mindlevel.client.pages;
 
-import net.mindlevel.client.Mindlevel;
-import net.mindlevel.client.UserTools;
 import net.mindlevel.client.widgets.LoginsSection;
 import net.mindlevel.client.widgets.NewsSection;
 import net.mindlevel.client.widgets.PictureSection;
-import net.mindlevel.client.widgets.UserTagElement;
 
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.ui.FlowPanel;
@@ -33,9 +30,6 @@ public class Home extends Page{
         userPanel.addStyleName("home-user-panel");
         userPanel.add(lls);
 //        userPanel.add(nsu);
-        if(UserTools.isLoggedIn()) {
-            backPanel.add(new UserTagElement(Mindlevel.user, true, true));
-        }
         backPanel.add(news);
         backPanel.add(ps);
         backPanel.add(userPanel);

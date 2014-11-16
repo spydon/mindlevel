@@ -1,10 +1,10 @@
 package net.mindlevel.client.pages.dialog;
 
 
-import net.mindlevel.client.HandyTools;
-import net.mindlevel.client.UserTools;
 import net.mindlevel.client.services.ReportService;
 import net.mindlevel.client.services.ReportServiceAsync;
+import net.mindlevel.client.tools.HandyTools;
+import net.mindlevel.client.tools.UserTools;
 import net.mindlevel.shared.Report;
 
 import com.google.gwt.core.client.GWT;

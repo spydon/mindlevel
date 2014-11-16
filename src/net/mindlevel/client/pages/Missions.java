@@ -1,9 +1,9 @@
 package net.mindlevel.client.pages;
 
-import net.mindlevel.client.HandyTools;
-import net.mindlevel.client.UserTools;
 import net.mindlevel.client.services.MissionService;
 import net.mindlevel.client.services.MissionServiceAsync;
+import net.mindlevel.client.tools.HandyTools;
+import net.mindlevel.client.tools.UserTools;
 import net.mindlevel.client.widgets.MissionSection;
 import net.mindlevel.shared.Constraint;
 

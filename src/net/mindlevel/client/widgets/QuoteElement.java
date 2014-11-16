@@ -1,8 +1,8 @@
 package net.mindlevel.client.widgets;
 
-import net.mindlevel.client.HandyTools;
 import net.mindlevel.client.services.QuoteService;
 import net.mindlevel.client.services.QuoteServiceAsync;
+import net.mindlevel.client.tools.HandyTools;
 import net.mindlevel.shared.Quote;
 
 import com.google.gwt.core.client.GWT;
@@ -10,6 +10,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Label;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.SimplePanel;
 
 public class QuoteElement extends Composite {
@@ -28,6 +29,7 @@ public class QuoteElement extends Composite {
 
             @Override
             public void onSuccess(Quote quote) {
+                RootPanel.get("footer").addStyleName("footer-display");
                 l.removeFromParent();
                 p.add(new Label(quote.getQuote() + " - " + quote.getUsername()));
             }

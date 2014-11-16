@@ -1,11 +1,11 @@
-package net.mindlevel.client;
+package net.mindlevel.client.tools;
 
 import java.util.Date;
 
+import net.mindlevel.client.Mindlevel;
 import net.mindlevel.client.pages.Admin;
 import net.mindlevel.client.services.UserService;
 import net.mindlevel.client.services.UserServiceAsync;
-import net.mindlevel.shared.Normalizer;
 import net.mindlevel.shared.User;
 
 import com.google.gwt.core.client.GWT;
@@ -50,7 +50,7 @@ public class UserTools {
         nowLong = nowLong + (1000 * 60 * 60 * 24 * 7);//seven days
         date.setTime(nowLong);
         Cookies.setCookie("mindlevel", user.getToken(), date);
-        HandyTools.setRightView(true, Normalizer.capitalizeName(user.getUsername()));
+        HandyTools.setRightView(true, user);
         if(user.isAdmin() && Mindlevel.isDesktop()) {
             new Admin(Mindlevel.getAppArea(true));
         }
@@ -60,7 +60,7 @@ public class UserTools {
         Cookies.removeCookie("mindlevel");
         Mindlevel.user = null;
         RootPanel.get("chat-frame").getElement().setAttribute("src", "");
-        HandyTools.setRightView(false, "");
+        HandyTools.setRightView(false, null);
     }
 
     public static void keepLoggedIn(String token) {

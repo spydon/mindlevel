@@ -1,10 +1,10 @@
 package net.mindlevel.mobile.client.view;
 
-import net.mindlevel.client.HandyTools;
 import net.mindlevel.client.services.CaptchaService;
 import net.mindlevel.client.services.CaptchaServiceAsync;
 import net.mindlevel.client.services.RegistrationService;
 import net.mindlevel.client.services.RegistrationServiceAsync;
+import net.mindlevel.client.tools.HandyTools;
 import net.mindlevel.client.widgets.CaptchaElement;
 import net.mindlevel.client.widgets.QuoteElement;
 import net.mindlevel.shared.FieldVerifier;

@@ -1,7 +1,8 @@
 package net.mindlevel.client.widgets;
 
-import net.mindlevel.client.HandyTools;
 import net.mindlevel.client.Mindlevel;
+import net.mindlevel.client.tools.HandyTools;
+import net.mindlevel.client.tools.HtmlTools;
 import net.mindlevel.shared.User;
 
 import com.google.gwt.dom.client.AnchorElement;
@@ -40,7 +41,7 @@ implements HasClickHandlers {
             }
         };
 
-        HTML username = new HTML(HandyTools.getAnchor("user", user.getUsername(), user.getUsername() + "(" + user.getScore() + ")"));
+        HTML username = new HTML(HtmlTools.getAnchor("user", user.getUsername(), user.getUsername() + "(" + user.getScore() + ")"));
         Image image;
         if(isSimple) {
 //            backPanel = new Grid(1,2);
@@ -60,11 +61,11 @@ implements HasClickHandlers {
                 backPanel.add(new HTML("<b>Name:</b> " + user.getName()));
             }
             if(!user.getLocation().equals("")) {
-                backPanel.add(new HTML("<b>Location:</b> " + HandyTools.formatHtml(user.getLocation())));
+                backPanel.add(new HTML("<b>Location:</b> " + HtmlTools.formatHtml(user.getLocation())));
             }
             backPanel.add(new HTML("<b>Last log in:</b> " + HandyTools.formatOnlyDate(user.getLastLogin())));
             if(includeAbout && !user.getAbout().equals("")) {
-                backPanel.add(new HTML("<b>About:</b> " + HandyTools.formatHtml(user.getAbout())));
+                backPanel.add(new HTML("<b>About:</b> " + HtmlTools.formatHtml(user.getAbout())));
             }
         }
 

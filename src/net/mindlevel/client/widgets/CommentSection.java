@@ -2,9 +2,10 @@ package net.mindlevel.client.widgets;
 
 import java.util.ArrayList;
 
-import net.mindlevel.client.HandyTools;
 import net.mindlevel.client.services.CommentService;
 import net.mindlevel.client.services.CommentServiceAsync;
+import net.mindlevel.client.tools.HandyTools;
+import net.mindlevel.client.tools.HtmlTools;
 import net.mindlevel.shared.Comment;
 
 import com.google.gwt.core.client.GWT;
@@ -59,7 +60,7 @@ public class CommentSection extends Composite {
                                     l.removeFromParent();
                                     comments.addAll(oldComments);
                                     addNestedComments(new Comment(threadId), 0);
-                                    HandyTools.scrollDown();
+                                    HtmlTools.scrollDown();
                                 }
 
                                 @Override

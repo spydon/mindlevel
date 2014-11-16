@@ -2,9 +2,9 @@ package net.mindlevel.client.widgets;
 
 import java.util.ArrayList;
 
-import net.mindlevel.client.HandyTools;
 import net.mindlevel.client.services.PictureService;
 import net.mindlevel.client.services.PictureServiceAsync;
+import net.mindlevel.client.tools.HandyTools;
 import net.mindlevel.shared.Constraint;
 import net.mindlevel.shared.MetaImage;
 
@@ -27,7 +27,7 @@ public class GallerySection extends Composite {
      */
     public GallerySection(final Constraint constraint) {
         p = new FlowPanel();
-        final LoadingElement l = new LoadingElement();
+        final LoadingElement l = new LoadingElement(LoadingElement.SIZE.LONG);
         p.add(l);
 
         pictureService.getPictures(0, 20, constraint,

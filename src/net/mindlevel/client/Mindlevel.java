@@ -21,7 +21,10 @@ import net.mindlevel.client.pages.dialog.ReportBox;
 import net.mindlevel.client.pages.dialog.SearchBox;
 import net.mindlevel.client.services.PictureService;
 import net.mindlevel.client.services.PictureServiceAsync;
+import net.mindlevel.client.tools.HandyTools;
+import net.mindlevel.client.tools.UserTools;
 import net.mindlevel.client.widgets.QuoteElement;
+import net.mindlevel.client.widgets.SearchElement;
 import net.mindlevel.mobile.client.MindlevelMobile;
 import net.mindlevel.shared.Category;
 import net.mindlevel.shared.Constraint;
@@ -58,8 +61,7 @@ public class Mindlevel implements EntryPoint, ValueChangeHandler<String> {
     private int pictureId = 0;
     private final String[] pages =
             {"home", "missions", "pictures", "highscore",
-            "about", "chat", "login", "logout",
-            "register", "profile", "search"};
+            "about", "chat", "login", "register", "search"};
 
     /**
      * Create a remote service proxy to talk to the server-side picture
@@ -89,11 +91,11 @@ public class Mindlevel implements EntryPoint, ValueChangeHandler<String> {
             Document.get().getElementById("topheader").removeClassName("superhidden");
             History.addValueChangeHandler(this);
             HandyTools.initTools();
-            for(String page:pages) {
+            for(String page : pages) {
                 connectListener(page);
             }
-//            new QuoteHandler(RootPanel.get("quote"));
             RootPanel.get("quote").add(new QuoteElement());
+            RootPanel.get("search").add(new SearchElement());
         } else {
             getAppArea(false).setVisible(false);
             RootPanel.get().addStyleName("mobile");
@@ -282,12 +284,13 @@ public class Mindlevel implements EntryPoint, ValueChangeHandler<String> {
 
     public static RootPanel getAppArea(boolean margin) {
         RootPanel appArea = RootPanel.get("apparea");
+        RootPanel root = RootPanel.get();
         if(margin) {
-            appArea.addStyleName("margin");
-            appArea.removeStyleName("nomargin");
+            root.addStyleName("margin");
+            root.removeStyleName("nomargin");
         } else {
-            appArea.addStyleName("nomargin");
-            appArea.removeStyleName("margin");
+            root.addStyleName("nomargin");
+            root.removeStyleName("margin");
         }
         return appArea;
     }

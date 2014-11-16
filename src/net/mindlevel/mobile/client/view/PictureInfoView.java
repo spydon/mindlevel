@@ -1,12 +1,15 @@
 package net.mindlevel.mobile.client.view;
 
-import net.mindlevel.client.HandyTools;
-import net.mindlevel.client.UserTools;
 import net.mindlevel.client.services.MissionService;
 import net.mindlevel.client.services.MissionServiceAsync;
 import net.mindlevel.client.services.PictureService;
 import net.mindlevel.client.services.PictureServiceAsync;
+import net.mindlevel.client.tools.HandyTools;
+import net.mindlevel.client.tools.HtmlTools;
+import net.mindlevel.client.tools.UserTools;
 import net.mindlevel.client.widgets.LoadingElement;
+import net.mindlevel.client.widgets.UserTagElement;
+import net.mindlevel.client.widgets.UserTagSection;
 import net.mindlevel.mobile.client.MetaImageElement;
 import net.mindlevel.shared.MetaImage;
 import net.mindlevel.shared.Mission;
@@ -24,7 +27,8 @@ public class PictureInfoView extends MPage {
     private final FlexPanel main;
     private final SimplePanel picturePanel, loadingPanel, descriptionContainer;
     private final VerticalPanel infoPanel;
-    private final HTML title, description, location, uploader, tags, date, mission, category, link, score;
+    private final HTML title, description, location, uploader, date, mission, category, link, score;
+    private final SimplePanel tags;
     private int id = 0;
 
     /**
@@ -52,11 +56,11 @@ public class PictureInfoView extends MPage {
         description = new HTML();
         mission = new HTML();
         category = new HTML();
-        tags = new HTML();
         score = new HTML();
         link = new HTML();
         date = new HTML();
 
+        tags = new SimplePanel();
         picturePanel = new SimplePanel();
         picturePanel.addStyleName("m-image-container");
 
@@ -108,13 +112,14 @@ public class PictureInfoView extends MPage {
 
     private void initInfo(MetaImage metaImage) {
         location.setHTML("<b>Location: </b>" + metaImage.getLocation());
-        uploader.setHTML("<b>Uploader: </b>" + HandyTools.getAnchor("user", metaImage.getOwner(), metaImage.getOwner()).asString());
+        uploader.setHTML(HtmlTools.concat("<b>Uploader: </b>", HtmlTools.getAnchor("user", metaImage.getOwner(), metaImage.getOwner())));
         score.setHTML("<b>Score: </b>" + metaImage.getScore());
         description.setHTML("<h1>Description</h1><br>"
-                + HandyTools.formatHtml(metaImage.getDescription()));
-        tags.setHTML(HandyTools.buildTagHTML(metaImage.getTags()));
+                + HtmlTools.formatHtml(metaImage.getDescription()));
+//        tags.setHTML(HtmlTools.buildTagHTML(metaImage.getTags()));
+        tags.setWidget(new UserTagSection(metaImage.getTags(), true, true, UserTagElement.SIZE.SMALL));
         date.setHTML("<b>Completed: </b>" + metaImage.getDate());
-        link.setHTML("<b>Link: </b>" + HandyTools.getAnchor("picture", Integer.toString(id), "Click to copy"));
+        link.setHTML(HtmlTools.concat("<b>Link: </b>", HtmlTools.getAnchor("picture", Integer.toString(id), "Click to copy")));
         fetchMission(metaImage.getMission().getId());
     }
 
@@ -128,8 +133,8 @@ public class PictureInfoView extends MPage {
             @Override
             public void onSuccess(Mission m) {
                 if(m != null) {
-                    mission.setHTML("<b>Mission: </b>" + HandyTools.getAnchor("mission", Integer.toString(m.getId()), m.getName()).asString());
-                    category.setHTML("<b>Categories: </b>" + HandyTools.getCategoryAnchors(m.getCategories()));
+                    mission.setHTML(HtmlTools.concat("<b>Mission: </b>", HtmlTools.getAnchor("mission", Integer.toString(m.getId()), m.getName())));
+                    category.setHTML(HtmlTools.concat("<b>Categories: </b>", HtmlTools.getCategoryAnchors(m.getCategories())));
                 }
                 loadingPanel.clear();
                 setVisible(true);

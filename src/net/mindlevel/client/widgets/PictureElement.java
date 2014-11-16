@@ -1,7 +1,7 @@
 package net.mindlevel.client.widgets;
 
-import net.mindlevel.client.HandyTools;
 import net.mindlevel.client.Mindlevel;
+import net.mindlevel.client.tools.HtmlTools;
 import net.mindlevel.shared.MetaImage;
 
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -38,20 +38,21 @@ public class PictureElement extends Composite {
         imageWrapper.addStyleName("last-picture-wrapper");
         imageWrapper.setWidget(image);
 
-        HTML title = new HTML("<b>Title:</b> "
-        + HandyTools.getAnchor("picture", "" + metaImage.getId(),
-                HandyTools.formatHtml(metaImage.getTitle()).toString()).asString());
-        HTML mission = new HTML("<b>Mission:</b> "
-        + HandyTools.getAnchor("mission", "" + metaImage.getMission().getId(),
-                HandyTools.formatHtml(metaImage.getMission().getName()).toString()).asString());
+        HTML title = new HTML(HtmlTools.getAnchor("picture", "" + metaImage.getId(),
+                HtmlTools.formatHtml(metaImage.getTitle()).toString()));
+        HTML mission = new HTML(HtmlTools.concat("<b>Mission:</b> ", HtmlTools.getAnchor("mission", "" + metaImage.getMission().getId(),
+                HtmlTools.formatHtml(metaImage.getMission().getName()).toString())));
+
+        title.addStyleName("text-center");
 
         backPanel.add(imageWrapper);
         backPanel.add(title);
         if(!isSimple) {
             backPanel.add(mission);
-            backPanel.add(new HTML(HandyTools.getCategoryAnchors(metaImage.getCategories())));
+            backPanel.add(new HTML(HtmlTools.getCategoryAnchors(metaImage.getCategories())));
         }
-        backPanel.add(new HTML(HandyTools.buildTagHTML(metaImage.getTags())));
+//        backPanel.add(new HTML(HtmlTools.buildTagHTML(metaImage.getTags())));
+        backPanel.add(new UserTagSection(metaImage.getTags(), true, true, UserTagElement.SIZE.SMALL));
 
         // All composites must call initWidget() in their constructors.
         initWidget(backPanel);

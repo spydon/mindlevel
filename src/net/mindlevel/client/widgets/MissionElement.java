@@ -1,6 +1,7 @@
 package net.mindlevel.client.widgets;
 
-import net.mindlevel.client.HandyTools;
+import net.mindlevel.client.tools.HandyTools;
+import net.mindlevel.client.tools.HtmlTools;
 import net.mindlevel.shared.Mission;
 
 import com.google.gwt.dom.client.AnchorElement;
@@ -37,9 +38,9 @@ implements HasClickHandlers {
         };
         backPanel = new FlowPanel();
 
-        backPanel.add(new HTML("<h3>" + HandyTools.formatHtml(mission.getName()) + "</h3>"));
-        backPanel.add(new HTML("Creator: " + HandyTools.getAnchor("user", mission.getCreator(), mission.getCreator())));
-        backPanel.add(new HTML("Categories: " + HandyTools.getCategoryAnchors(mission.getCategories())));
+        backPanel.add(new HTML("<h3>" + HtmlTools.formatHtml(mission.getName()) + "</h3>"));
+        backPanel.add(new HTML(HtmlTools.concat("Creator: ", HtmlTools.getAnchor("user", mission.getCreator(), mission.getCreator()))));
+        backPanel.add(new HTML(HtmlTools.concat("Categories: ", HtmlTools.getCategoryAnchors(mission.getCategories()))));
         backPanel.add(new HTML("Created: " + HandyTools.formatDate(mission.getCreated())));
 
         addClickHandler(handler);

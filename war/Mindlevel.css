@@ -1,3 +1,10 @@
+@font-face {
+  font-family: 'Advent Pro';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Advent Pro Regular'), local('AdventPro-Regular'), url(http://fonts.gstatic.com/s/adventpro/v4/rT9jpj7pBpZV6AmssbZKkxsxEYwM7FgeyaSgU71cLG0.woff) format('woff');
+}
+
 .desktop * { 
     margin-left: auto;
     margin-right: auto;
@@ -9,9 +16,28 @@ td[style] {
 }
 
 html, .desktop {
-/*     height: 100%; */
     margin: 0 !important;
-/*     overflow-x: hidden; */
+    height: 100%;
+    min-height: 100%;
+}
+
+a {
+    color: black !important;
+}
+
+footer {
+    display: none;
+    clear: both;
+    position: relative;
+    height: 3em;
+    margin-top: -3em;
+    bottom: 0px;
+    background-image: url("images/footer.jpg");
+    background-repeat: repeat-x;
+}
+
+.footer-display {
+    display: block !important;
 }
 
 h1, h2, h3, h4, h5 {
@@ -32,6 +58,10 @@ h2 {
     width: 100%;
 }
 
+.text-center {
+    text-align: center !important;
+}
+
 .fullwidth {
     width: 100%;
 }
@@ -44,32 +74,33 @@ h2 {
     max-width: 95%;
 }
 
-.margin {
-    margin-top: 80px;
-}
-
-.margin.adminbar {
-    margin-top: 110px;
-}
-
 .5px-top-margin {
     margin-top: 5px;
 }
 
+.margin {
+    margin-top: 80px !important;
+}
+
+.margin.adminbar {
+    margin-top: 110px !important;
+}
+
+
 .smallmargin {
-    margin-top: 60px;
+    margin-top: 60px !important;
 }
 
 .smallmargin.adminbar {
-    margin-top: 90px;
+    margin-top: 90px !important;
 }
 
 .nomargin {
-    margin-top: 57px;
+    margin-top: 57px !important;
 }
 
 .nomargin.adminbar {
-    margin-top: 88px;
+    margin-top: 88px !important;
 }
 
 .error-background {
@@ -79,11 +110,9 @@ h2 {
 /** MENU START **/
 
 .admin-menu {
-    background-color: pink;
     position: relative;
     z-index: 4;
     margin-bottom: 31px;
-/*     padding-bottom: 40px; */
 }
 
 .gwt-MenuBarPopup {
@@ -178,9 +207,14 @@ header {
     min-height: 60px;
     width: 100%;
     background-color: #199fd2;
+/*     background-color: rgb(56, 65, 83); */
     color: white;
     margin: 0px;
 /*     box-shadow: 0px 2px 2px #09103D; */
+}
+
+header * {
+    color: white;
 }
 
 /** MENU STOP **/
@@ -260,6 +294,9 @@ header {
 }
 
 .search-icon {
+    position: fixed;
+    top: 30px;
+    left: 5px;
     width: 20px;
     opacity: 0.7;
 }
@@ -282,7 +319,7 @@ header {
 }
 
 .loading-element {
-    width: 100%;
+/*     width: 100%; */
 }
 
 .report-text-area {
@@ -413,13 +450,13 @@ header {
     background-color: white;
     border: 1px solid red;
     padding: 4px;
-    font-family: sans-serif;
+    font-family: 'Advent Pro';
 }
 
 #login-menu {
     top: 0;
     right: 0;
-    position:absolute;
+    position: absolute;
     display: table-cell;
     margin: 5px auto 0px auto;
     vertical-align: top;
@@ -427,16 +464,21 @@ header {
     white-space: nowrap;
 }
 
+#login, #register {
+    font-family: 'Advent Pro';
+    color: white !important;
+}
+
 #quote {
-    position: absolute;
-    top: 1px;
-    left: 2px;
-    color: black;
-    text-align: left;
+    padding-top: 10px;
+    font-size: 12pt;
+    color: white;
+    text-align: center;
+    font-family: 'Advent Pro';
 }
 
 #quote:hover {
-    font-weight:bold;
+    font-weight: bold;
 }
 
 #logo {
@@ -455,7 +497,8 @@ header {
     text-align: center;
     margin-left: auto;
     margin-right: auto;
-    height: 100%;
+    min-height: 100%;
+    margin-bottom: 35px;
 }
 
 #debug {
@@ -716,16 +759,57 @@ header {
     display: table-cell;
     vertical-align: middle;
     margin: 2px;
-    color: black;
+    color: black !important;
+}
+
+.user-tag-picture-small {
+    height: 20px;
+    border-radius: 10px;
+}
+
+.user-tag-picture-medium {
+    height: 40px;
+    border-radius: 20px;
+}
+
+.user-tag-picture-large {
+    height: 60px;
+    border-radius: 30px;
 }
 
 .user-tag-picture {
-    height: 30px;
-    border-radius: 15px;
+    transition: transform .6s ease-in-out;
+    -webkit-transition: -webkit-transform .6s ease-in-out;
+    -ms-transition: -ms-transform .6s ease-in-out;
 }
 
 .user-tag-picture:hover {
     cursor: pointer;
+    transform: rotate(40deg);
+    -ms-transform: rotate(40deg);
+    -webkit-transform: rotate(40deg);
+}
+
+.user-tag-picture:active {
+    transform: none;
+    -webkit-transform: none;
+}
+
+.user-tag-profile {
+    float: right;
+    position: fixed;
+    right: 5px;
+    top: 8px;
+    z-index: 3;
+}
+
+.user-tag-section {
+/*     display: table; */
+    max-width: 180px;
+}
+
+.user-tag-section > * {
+    display: inline-block;
 }
 
 /**
@@ -790,7 +874,7 @@ header {
 .last-picture-wrapper {
     height: 150px;
     overflow: hidden;
-    border-radius: 20px;
+    border-radius: 10px;
 }
 
 /** RESPONSIVE CSS */
@@ -972,6 +1056,10 @@ header {
         
     .menu a:hover .page-name {
         display: block;
+    }
+    
+    .news-element {
+        display: none;
     }
     
 /*     TODO: FIX COMMENTS */

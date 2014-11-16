@@ -1,8 +1,8 @@
 package net.mindlevel.mobile.client.view;
 
-import net.mindlevel.client.UserTools;
 import net.mindlevel.client.services.PictureService;
 import net.mindlevel.client.services.PictureServiceAsync;
+import net.mindlevel.client.tools.UserTools;
 import net.mindlevel.shared.MetaImage;
 
 import com.google.gwt.core.client.GWT;

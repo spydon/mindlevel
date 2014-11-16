@@ -2,12 +2,12 @@ package net.mindlevel.mobile.client.view;
 
 import java.util.ArrayList;
 
-import net.mindlevel.client.HandyTools;
-import net.mindlevel.client.UserTools;
 import net.mindlevel.client.services.PictureService;
 import net.mindlevel.client.services.PictureServiceAsync;
 import net.mindlevel.client.services.RatingService;
 import net.mindlevel.client.services.RatingServiceAsync;
+import net.mindlevel.client.tools.HandyTools;
+import net.mindlevel.client.tools.UserTools;
 import net.mindlevel.mobile.client.MetaImageElement;
 import net.mindlevel.mobile.client.MindlevelMobile;
 import net.mindlevel.mobile.client.widget.MindlevelImageButton;

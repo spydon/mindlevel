@@ -1,12 +1,13 @@
 package net.mindlevel.client.pages;
 
-import net.mindlevel.client.HandyTools;
 import net.mindlevel.client.Mindlevel;
-import net.mindlevel.client.UserTools;
 import net.mindlevel.client.pages.dialog.SureBox;
 import net.mindlevel.client.pages.dialog.Upload;
 import net.mindlevel.client.services.MissionService;
 import net.mindlevel.client.services.MissionServiceAsync;
+import net.mindlevel.client.tools.HandyTools;
+import net.mindlevel.client.tools.HtmlTools;
+import net.mindlevel.client.tools.UserTools;
 import net.mindlevel.client.widgets.GallerySection;
 import net.mindlevel.shared.Constraint;
 import net.mindlevel.shared.Mission;
@@ -79,8 +80,8 @@ public class MissionProfile {
         missionPanel.addStyleName("mission-panel");
         missionPanel.add(new HTML("<b>MissionID:</b> " + missionId));
         missionPanel.add(new HTML("<b>Name:</b> " + mission.getName()));
-        missionPanel.add(new HTML("<b>Categories:</b> " + HandyTools.getCategoryAnchors(mission.getCategories())));
-        missionPanel.add(new HTML("<b>Description:</b><br>" + HandyTools.formatHtml(mission.getDescription())));
+        missionPanel.add(new HTML(HtmlTools.concat("<b>Categories:</b>", HtmlTools.getCategoryAnchors(mission.getCategories()))));
+        missionPanel.add(new HTML("<b>Description:</b><br>" + HtmlTools.formatHtml(mission.getDescription())));
 
         VerticalPanel buttonPanel = new VerticalPanel();
         buttonPanel.addStyleName("button-panel");

@@ -1,8 +1,8 @@
 package net.mindlevel.client.pages.dialog;
 
-import net.mindlevel.client.UserTools;
 import net.mindlevel.client.services.LoginService;
 import net.mindlevel.client.services.LoginServiceAsync;
+import net.mindlevel.client.tools.UserTools;
 import net.mindlevel.shared.User;
 
 import com.google.gwt.core.client.GWT;

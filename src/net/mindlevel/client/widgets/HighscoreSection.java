@@ -2,9 +2,9 @@ package net.mindlevel.client.widgets;
 
 import java.util.List;
 
-import net.mindlevel.client.HandyTools;
 import net.mindlevel.client.services.UserService;
 import net.mindlevel.client.services.UserServiceAsync;
+import net.mindlevel.client.tools.HandyTools;
 import net.mindlevel.shared.User;
 
 import com.google.gwt.core.client.GWT;
@@ -28,7 +28,7 @@ public class HighscoreSection extends Composite {
     public HighscoreSection(final int number) {
         p = new FlowPanel();
         HTML header = new HTML("Highscore");
-        final LoadingElement l = new LoadingElement();
+        final LoadingElement l = new LoadingElement(LoadingElement.SIZE.LONG);
         header.addStyleName("users-header");
         p.add(header);
         p.add(l);

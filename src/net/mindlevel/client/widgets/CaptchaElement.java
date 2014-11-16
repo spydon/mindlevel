@@ -1,8 +1,8 @@
 package net.mindlevel.client.widgets;
 
-import net.mindlevel.client.HandyTools;
 import net.mindlevel.client.services.CaptchaService;
 import net.mindlevel.client.services.CaptchaServiceAsync;
+import net.mindlevel.client.tools.HandyTools;
 import net.mindlevel.shared.Captcha;
 
 import com.google.gwt.core.client.GWT;

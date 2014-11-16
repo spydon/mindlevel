@@ -1,12 +1,11 @@
-package net.mindlevel.client;
-
-import static com.google.gwt.safehtml.shared.SafeHtmlUtils.htmlEscape;
+package net.mindlevel.client.tools;
 
 import java.util.Date;
-import java.util.HashSet;
 
+import net.mindlevel.client.Mindlevel;
 import net.mindlevel.client.widgets.LoadingElement;
-import net.mindlevel.shared.Category;
+import net.mindlevel.client.widgets.UserTagElement;
+import net.mindlevel.shared.User;
 
 import com.google.gwt.dom.client.Document;
 import com.google.gwt.dom.client.Element;
@@ -14,11 +13,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.i18n.client.DefaultDateTimeFormatInfo;
-import com.google.gwt.safehtml.shared.SafeHtml;
-import com.google.gwt.safehtml.shared.SafeHtmlBuilder;
-import com.google.gwt.safehtml.shared.SafeHtmlUtils;
 import com.google.gwt.user.client.History;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.HTML;
@@ -29,6 +24,7 @@ import com.googlecode.mgwt.ui.client.widget.dialog.AlertDialog;
 public class HandyTools {
 
     private static VerticalPanel loadingPanel;
+    private static UserTagElement userTag;
 
     public static void initTools() {
         loadingPanel = new VerticalPanel();
@@ -36,14 +32,6 @@ public class HandyTools {
         loadingPanel.setVisible(false);
         loadingPanel.add(new LoadingElement());
         RootPanel.get().add(loadingPanel);
-    }
-
-    public static native Element activeElement() /*-{
-        return $doc.activeElement;
-    }-*/;
-
-    public static void scrollDown() {
-        Window.scrollTo(0, Window.getScrollTop()+200);
     }
 
     public static void showDialogBox(String title, HTML text) {
@@ -98,20 +86,30 @@ public class HandyTools {
         HandyTools.showDialogBox("Error", new HTML("You must be logged in to do that <br /><a href=\"#login&session=" + lastPage + "\">Login</a> or <a href=\"#register&session=" + lastPage + "\">Register</a>"));
     }
 
-    public static void setRightView(boolean logIn, String username) {
+    public static void setRightView(boolean logIn, User user) {
         if(Mindlevel.isDesktop()) {
             if(logIn) {
                 Document.get().getElementById("hidelogin").addClassName("superhidden");
-                Document.get().getElementById("hidelogout").removeClassName("superhidden");
+//                Document.get().getElementById("hidelogout").removeClassName("superhidden");
                 Document.get().getElementById("hideregister").addClassName("superhidden");
-                Document.get().getElementById("profile").setInnerHTML(username);
-                Document.get().getElementById("hideprofile").removeClassName("superhidden");
+//                Document.get().getElementById("profile").setInnerHTML(username);
+                if (userTag == null) {
+                    userTag = new UserTagElement(user, true, false);
+                    userTag.addStyleName("user-tag-profile");
+                }
+                RootPanel.get().add(userTag);
+
+//                Document.get().getElementById("hideprofile").removeClassName("superhidden");
                 Document.get().getElementById("hidechat").removeClassName("superhidden");
             } else {
+                if (userTag != null) {
+                    userTag.removeFromParent();
+                    userTag = null;
+                }
                 Document.get().getElementById("hidelogin").removeClassName("superhidden");
-                Document.get().getElementById("hidelogout").addClassName("superhidden");
+//                Document.get().getElementById("hidelogout").addClassName("superhidden");
                 Document.get().getElementById("hideregister").removeClassName("superhidden");
-                Document.get().getElementById("hideprofile").addClassName("superhidden");
+//                Document.get().getElementById("hideprofile").addClassName("superhidden");
                 Document.get().getElementById("hidechat").addClassName("superhidden");
             }
 
@@ -146,46 +144,5 @@ public class HandyTools {
     public static String formatOnlyDate(Date timestamp) {
         DateTimeFormat dtf = DateTimeFormat.getFormat("yyyy-MM-dd");
         return dtf.format(timestamp);
-    }
-
-    public static SafeHtml getCategoryAnchors(HashSet<Category> categories) {
-        SafeHtmlBuilder builder = new SafeHtmlBuilder();
-        for (Category categoryObj : categories) {
-            String category = categoryObj.toString();
-            if (builder.toSafeHtml().asString().equals("")) {
-              builder.append(getAnchor("search&type=picture&c", category.toLowerCase(), category));
-            } else {
-              builder.appendHtmlConstant(", ").append(getAnchor("search&type=picture&c", category.toLowerCase(), category));
-            }
-        }
-        return builder.toSafeHtml();
-    }
-
-    public static SafeHtml getAnchor(String type, String data, String name) {
-        SafeHtmlBuilder builder = new SafeHtmlBuilder();
-        String uriData = SafeHtmlUtils.htmlEscape(data);
-        builder.appendHtmlConstant("<a href='#" + type + "=" + uriData + "'>").appendEscaped(name).appendHtmlConstant("</a>");
-        return builder.toSafeHtml();
-    }
-
-    public static String buildTagHTML(HashSet<String> tags) {
-        String separator = ",&nbsp;";
-        SafeHtmlBuilder builder = new SafeHtmlBuilder();
-        builder.appendHtmlConstant("<b>Tags: </b>");
-        if(tags != null && !tags.isEmpty()) {
-            int x = 0;
-            for(String tag : tags) {
-                builder.append(HandyTools.getAnchor("user", tag, tag));
-                if (x != tags.size()-1) {
-                    builder.appendHtmlConstant(separator);
-                }
-                x++;
-            }
-        }
-        return builder.toSafeHtml().asString();
-    }
-
-    public static String formatHtml(String text) {
-        return htmlEscape(text).replaceAll("\n", "<br>");
     }
 }

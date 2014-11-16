@@ -1,8 +1,8 @@
 package net.mindlevel.mobile.client.view;
 
-import net.mindlevel.client.UserTools;
 import net.mindlevel.client.services.LoginService;
 import net.mindlevel.client.services.LoginServiceAsync;
+import net.mindlevel.client.tools.UserTools;
 import net.mindlevel.client.widgets.QuoteElement;
 import net.mindlevel.shared.User;
 

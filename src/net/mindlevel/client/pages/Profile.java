@@ -1,13 +1,14 @@
 package net.mindlevel.client.pages;
 
-import net.mindlevel.client.HandyTools;
 import net.mindlevel.client.Mindlevel;
-import net.mindlevel.client.UserTools;
 import net.mindlevel.client.pages.dialog.ChangePassword;
 import net.mindlevel.client.pages.dialog.UpdateProfile;
 import net.mindlevel.client.pages.dialog.UploadProfilePicture;
 import net.mindlevel.client.services.UserService;
 import net.mindlevel.client.services.UserServiceAsync;
+import net.mindlevel.client.tools.HandyTools;
+import net.mindlevel.client.tools.HtmlTools;
+import net.mindlevel.client.tools.UserTools;
 import net.mindlevel.client.widgets.GallerySection;
 import net.mindlevel.shared.Constraint;
 import net.mindlevel.shared.SearchType;
@@ -33,6 +34,7 @@ public class Profile {
     private final Button changePicture;
     private final Button changeInfo;
     private final Button changePassword;
+    private final Button logout;
     private final static int PICTURE_MAXWIDTH = 150;
     private final static int PICTURE_MAXHEIGHT = 300;
     private User user;
@@ -52,6 +54,7 @@ public class Profile {
         this.changePicture = new Button("Change picture");
         this.changePassword = new Button("Change password");
         this.changeInfo = new Button("Edit info");
+        this.logout = new Button("Logout");
         init();
     }
 
@@ -80,10 +83,10 @@ public class Profile {
 
                 username = user.getUsername();
                 infoPanel.add(new HTML("<b>Nick:</b> " + username + " " + special));
-                infoPanel.add(new HTML("<b>Name:</b> " + HandyTools.formatHtml(user.getName())));
+                infoPanel.add(new HTML("<b>Name:</b> " + HtmlTools.formatHtml(user.getName())));
                 infoPanel.add(new HTML("<b>Score:</b> " + user.getScore()));
-                infoPanel.add(new HTML("<b>Location:</b> " + HandyTools.formatHtml(user.getLocation())));
-                infoPanel.add(new HTML("<b>About:</b><br>" + HandyTools.formatHtml(user.getAbout())));
+                infoPanel.add(new HTML("<b>Location:</b> " + HtmlTools.formatHtml(user.getLocation())));
+                infoPanel.add(new HTML("<b>About:</b><br>" + HtmlTools.formatHtml(user.getAbout())));
                 infoPanel.add(new HTML("<b>Last log in:</b> " + HandyTools.formatDate(user.getLastLogin())));
                 infoPanel.addStyleName("profile-info-panel");
 
@@ -111,7 +114,6 @@ public class Profile {
 
                 if(Mindlevel.user != null && userinfo.getUsername().equals(Mindlevel.user.getUsername())) {
                     changePicture.addClickHandler(new ClickHandler() {
-
                         @Override
                         public void onClick(ClickEvent event) {
                             new UploadProfilePicture();
@@ -119,7 +121,6 @@ public class Profile {
                     });
                     picturePanel.add(changePicture);
                     changeInfo.addClickHandler(new ClickHandler() {
-
                         @Override
                         public void onClick(ClickEvent event) {
                             new UpdateProfile(user);
@@ -127,13 +128,19 @@ public class Profile {
                     });
                     infoPanel.add(changeInfo);
                     changePassword.addClickHandler(new ClickHandler() {
-
                         @Override
                         public void onClick(ClickEvent arg0) {
                             new ChangePassword();
                         }
                     });
                     infoPanel.add(changePassword);
+                    logout.addClickHandler(new ClickHandler() {
+                        @Override
+                        public void onClick(ClickEvent arg0) {
+                            History.newItem("logout");
+                        }
+                    });
+                    infoPanel.add(logout);
                 }
                 profilePanel.add(picturePanel);
                 profilePanel.add(infoPanel);
