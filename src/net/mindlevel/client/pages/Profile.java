@@ -15,6 +15,8 @@ import net.mindlevel.shared.SearchType;
 import net.mindlevel.shared.User;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.event.dom.client.BlurEvent;
+import com.google.gwt.event.dom.client.BlurHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.LoadEvent;
@@ -22,11 +24,11 @@ import com.google.gwt.event.dom.client.LoadHandler;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.DialogBox;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class Profile extends Page {
     private final RootPanel appArea;
@@ -35,6 +37,7 @@ public class Profile extends Page {
     private final Button changeInfo;
     private final Button changePassword;
     private final Button logout;
+    private final Button settings;
     private final static int PICTURE_MAXWIDTH = 150;
     private final static int PICTURE_MAXHEIGHT = 300;
     private User user;
@@ -56,15 +59,19 @@ public class Profile extends Page {
         this.changePassword = new Button("Change password");
         this.changeInfo = new Button("Edit info");
         this.logout = new Button("Logout");
+        this.settings = new Button("|||");
+        this.changePicture.addStyleName("profile-change-pic-button");
         init();
     }
 
     @Override
     protected void init() {
-        final HorizontalPanel profilePanel = new HorizontalPanel();
-        final VerticalPanel picturePanel = new VerticalPanel();
-        final VerticalPanel infoPanel = new VerticalPanel();
+        final FlowPanel profilePanel = new FlowPanel();
+        final FlowPanel picturePanel = new FlowPanel();
+        final FlowPanel infoPanel = new FlowPanel();
         profilePanel.addStyleName("profile-panel");
+        picturePanel.addStyleName("profile-picture-container");
+        infoPanel.addStyleName("profile-info-panel");
         userService.getUser(userId, new AsyncCallback<User>() {
             @Override
             public void onFailure(Throwable caught) {
@@ -90,7 +97,6 @@ public class Profile extends Page {
                 infoPanel.add(new HTML("<b>Location:</b> " + HtmlTools.formatHtml(user.getLocation())));
                 infoPanel.add(new HTML("<b>About:</b><br>" + HtmlTools.formatHtml(user.getAbout())));
                 infoPanel.add(new HTML("<b>Last log in:</b> " + HandyTools.formatDate(user.getLastLogin())));
-                infoPanel.addStyleName("profile-info-panel");
 
                 final Image profilePicture = new Image(Mindlevel.PATH + "pictures/" + userinfo.getPicture());
                 profilePicture.setVisible(false);
@@ -115,6 +121,8 @@ public class Profile extends Page {
                 picturePanel.add(profilePicture);
 
                 if(Mindlevel.user != null && userinfo.getUsername().equals(Mindlevel.user.getUsername())) {
+                    final FlowPanel settingsPanel = new FlowPanel();
+                    settingsPanel.addStyleName("profile-settings-panel");
                     changePicture.addClickHandler(new ClickHandler() {
                         @Override
                         public void onClick(ClickEvent event) {
@@ -128,21 +136,39 @@ public class Profile extends Page {
                             new UpdateProfile(user);
                         }
                     });
-                    infoPanel.add(changeInfo);
+                    settingsPanel.add(changeInfo);
                     changePassword.addClickHandler(new ClickHandler() {
                         @Override
                         public void onClick(ClickEvent arg0) {
                             new ChangePassword();
                         }
                     });
-                    infoPanel.add(changePassword);
+                    settingsPanel.add(changePassword);
                     logout.addClickHandler(new ClickHandler() {
                         @Override
                         public void onClick(ClickEvent arg0) {
                             History.newItem("logout");
                         }
                     });
-                    infoPanel.add(logout);
+                    settingsPanel.add(logout);
+                    settings.addClickHandler(new ClickHandler() {
+
+                        @Override
+                        public void onClick(ClickEvent event) {
+                            final DialogBox db = new DialogBox(true, false);
+                            db.addHandler(new BlurHandler() {
+
+                                @Override
+                                public void onBlur(BlurEvent event) {
+                                    // TODO: Handle hiding when somebody presses a button
+                                    db.hide();
+                                }
+                            }, BlurEvent.getType());
+                            db.setWidget(settingsPanel);
+                            db.showRelativeTo(settings);
+                        }
+                    });
+                    infoPanel.add(settings);
                 }
                 profilePanel.add(picturePanel);
                 profilePanel.add(infoPanel);
@@ -169,7 +195,6 @@ public class Profile extends Page {
                 });
                 appArea.add(profilePanel);
                 appArea.add(galleryButton);
-
             }
         });
     }

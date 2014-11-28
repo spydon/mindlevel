@@ -5,19 +5,19 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Cookies;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class About extends Page {
     private final RootPanel appArea;
-    private final VerticalPanel aboutPanel;
+    private final FlowPanel aboutPanel;
 
     public About(RootPanel appArea) {
         super();
         this.appArea = appArea;
-        this.aboutPanel = new VerticalPanel();
+        this.aboutPanel = new FlowPanel();
         aboutPanel.addStyleName("about-panel");
         init();
     }

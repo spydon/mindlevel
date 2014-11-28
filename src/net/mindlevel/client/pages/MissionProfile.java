@@ -19,9 +19,9 @@ import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
-import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class MissionProfile extends Page {
     private final RootPanel appArea;
@@ -79,14 +79,14 @@ public class MissionProfile extends Page {
     private void showMission() {
         HandyTools.setLoading(false);
         appArea.clear();
-        VerticalPanel missionPanel = new VerticalPanel();
+        FlowPanel missionPanel = new FlowPanel();
         missionPanel.addStyleName("mission-panel");
         missionPanel.add(new HTML("<b>MissionID:</b> " + missionId));
         missionPanel.add(new HTML("<b>Name:</b> " + mission.getName()));
         missionPanel.add(new HTML(HtmlTools.concat("<b>Categories:</b>", HtmlTools.getCategoryAnchors(mission.getCategories()))));
         missionPanel.add(new HTML("<b>Description:</b><br>" + HtmlTools.formatHtml(mission.getDescription())));
 
-        VerticalPanel buttonPanel = new VerticalPanel();
+        FlowPanel buttonPanel = new FlowPanel();
         buttonPanel.addStyleName("button-panel");
         if(UserTools.isLoggedIn() && validated) {
             Button uploadButton = new Button("Upload completed mission");
