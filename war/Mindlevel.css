@@ -364,11 +364,10 @@ header * {
 
 .picture-panel * {
     vertical-align: middle !important;
-/*     max-width: 80%; */
-/*     width: 95%; */
-/*     display: table; */
-/*     float: left; */
-/*     max-height: 95%; */
+}
+
+.profile-panel {
+    width: 100%;
 }
 
 .profile-panel *, .mission-panel * {
@@ -376,11 +375,39 @@ header * {
 }
 
 .profile-info-panel {
+    display: inline-block;
     max-width: 300px;
+    vertical-align: top;
+    margin-top: 30px;
+}
+
+.profile-picture-container {
+    display: inline-block;
+    text-align: center;
+    position: relative;
+    width: -moz-min-content;
+    width: -webkit-min-content; 
+    width: min-content;
+}
+
+.profile-settings-panel * {
+    display: block;
+    width: 100%;
 }
 
 .profile-picture {
     margin-right: 15px;
+}
+
+.profile-change-pic-button {
+    visibility: hidden;
+    position: absolute;
+    bottom: -2px;
+    right: 12px;
+}
+
+.profile-picture-container:hover .profile-change-pic-button {
+    visibility: visible;
 }
 
 .profile-gallery-button, .profile-gallery-header {

@@ -75,6 +75,7 @@ public class Mindlevel implements EntryPoint, ValueChangeHandler<String> {
      */
     @Override
     public void onModuleLoad() {
+        System.out.println("user = " + user);
         if(!MGWT.getFormFactor().isDesktop() && !MGWT.getOsDetection().isAndroid2x() ) {
             isDesktop = false;
         }
@@ -155,9 +156,6 @@ public class Mindlevel implements EntryPoint, ValueChangeHandler<String> {
                 clearScreen();
                 getAppArea(false);
                 new Chat();
-            } else if(parameters.equals("profile")) {
-                clearScreen();
-                new Profile(getAppArea(true), Mindlevel.user.getUsername());
             } else if(parameters.equals("highscore")) {
                 clearScreen();
                 new Highscore(getAppArea(true));
