@@ -75,7 +75,6 @@ public class Mindlevel implements EntryPoint, ValueChangeHandler<String> {
      */
     @Override
     public void onModuleLoad() {
-        System.out.println("user = " + user);
         if(!MGWT.getFormFactor().isDesktop() && !MGWT.getOsDetection().isAndroid2x() ) {
             isDesktop = false;
         }

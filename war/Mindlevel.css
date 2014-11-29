@@ -83,16 +83,15 @@ h2 {
 }
 
 .margin.adminbar {
-    margin-top: 110px !important;
+    padding-top: 110px !important;
 }
 
-
 .smallmargin {
-    margin-top: 60px !important;
+    padding-top: 60px !important;
 }
 
 .smallmargin.adminbar {
-    margin-top: 90px !important;
+    padding-top: 90px !important;
 }
 
 .nomargin {
@@ -100,7 +99,7 @@ h2 {
 }
 
 .nomargin.adminbar {
-    margin-top: 88px !important;
+    padding-top: 88px !important;
 }
 
 .error-background {
@@ -375,6 +374,7 @@ header * {
 }
 
 .profile-info-panel {
+    position: relative;
     display: inline-block;
     max-width: 300px;
     vertical-align: top;
@@ -388,6 +388,12 @@ header * {
     width: -moz-min-content;
     width: -webkit-min-content; 
     width: min-content;
+}
+
+.profile-settings {
+    position: absolute;
+    top: 0px;
+    right: 0px;
 }
 
 .profile-settings-panel * {
@@ -420,10 +426,6 @@ header * {
 }
 
 /** Most GWT widgets already have a style name defined */
-.gwt-DialogBox {
-    width: 400px;
-}
-
 .dialogVPanel {
     margin: 5px;
 }
@@ -1193,7 +1195,7 @@ header * {
     background-position: left;
 }
 
-.m-center, m-center-all-children * {
+.m-center {
     margin-left: auto;
     margin-right: auto;
 }

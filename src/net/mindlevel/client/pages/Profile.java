@@ -32,16 +32,11 @@ import com.google.gwt.user.client.ui.RootPanel;
 
 public class Profile extends Page {
     private final RootPanel appArea;
-    private final String userId;
-    private final Button changePicture;
-    private final Button changeInfo;
-    private final Button changePassword;
-    private final Button logout;
-    private final Button settings;
     private final static int PICTURE_MAXWIDTH = 150;
     private final static int PICTURE_MAXHEIGHT = 300;
     private User user;
     private String username = "system";
+    private String userId;
 
     /**
      * Create a remote service proxy to talk to the server-side user
@@ -55,12 +50,6 @@ public class Profile extends Page {
         History.newItem("user=" + userId, false);
         this.appArea = appArea;
         this.userId = userId;
-        this.changePicture = new Button("Change picture");
-        this.changePassword = new Button("Change password");
-        this.changeInfo = new Button("Edit info");
-        this.logout = new Button("Logout");
-        this.settings = new Button("|||");
-        this.changePicture.addStyleName("profile-change-pic-button");
         init();
     }
 
@@ -69,9 +58,16 @@ public class Profile extends Page {
         final FlowPanel profilePanel = new FlowPanel();
         final FlowPanel picturePanel = new FlowPanel();
         final FlowPanel infoPanel = new FlowPanel();
+        final Button changePicture = new Button("Change picture");
+        final Button changeInfo = new Button("Edit info");
+        final Button changePassword = new Button("Change password");
+        final Button logout = new Button("Logout");
+        final Button settings = new Button("|||");
+        changePicture.addStyleName("profile-change-pic-button");
         profilePanel.addStyleName("profile-panel");
         picturePanel.addStyleName("profile-picture-container");
         infoPanel.addStyleName("profile-info-panel");
+        settings.addStyleName("profile-settings");
         userService.getUser(userId, new AsyncCallback<User>() {
             @Override
             public void onFailure(Throwable caught) {
@@ -165,7 +161,8 @@ public class Profile extends Page {
                                 }
                             }, BlurEvent.getType());
                             db.setWidget(settingsPanel);
-                            db.showRelativeTo(settings);
+                            db.setPopupPosition(event.getClientX()+5, event.getClientY()+5);
+                            db.show();
                         }
                     });
                     infoPanel.add(settings);
