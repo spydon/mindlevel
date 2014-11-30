@@ -66,20 +66,20 @@ h2 {
     width: 100%;
 }
 
+.padding {
+    padding-top: 80px;
+}
+
 .padding.adminbar {
     padding-top: 110px !important;
 }
 
-.smallpadding {
+.smallpadding, .nopadding {
     padding-top: 60px !important;
 }
 
 .smallpadding.adminbar {
     padding-top: 90px !important;
-}
-
-.nopadding {
-    padding-top: 57px !important;
 }
 
 .nopadding.adminbar {
@@ -510,8 +510,7 @@ header * {
     text-align: center;
     margin-left: auto;
     margin-right: auto;
-    min-height: calc(100% - 80px);
-    padding-top: 80px !important;
+    min-height: calc(100% - 60px);
 }
 
 #debug {

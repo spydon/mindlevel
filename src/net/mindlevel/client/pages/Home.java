@@ -13,6 +13,7 @@ public class Home extends Page {
 
     public Home() {
         super();
+        appArea.removeStyleName("padding");
         appArea.addStyleName("nopadding");
         History.newItem("", false);
         this.backPanel = new FlowPanel();

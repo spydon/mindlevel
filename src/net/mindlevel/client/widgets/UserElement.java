@@ -1,5 +1,7 @@
 package net.mindlevel.client.widgets;
 
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.layout.client.Layout;
 import com.google.gwt.user.client.ui.*;
 import net.mindlevel.client.Mindlevel;
 import net.mindlevel.client.tools.HandyTools;
@@ -38,12 +40,15 @@ implements HasClickHandlers {
         };
 
         HTML username = new HTML(HtmlTools.getAnchor("user", user.getUsername(), user.getUsername() + "(" + user.getScore() + ")"));
-        SimplePanel image = new SimplePanel();
+        HTML image = new HTML();
         backPanel = new FlowPanel();
         if(isSimple) {
             backPanel.add(image);
             backPanel.add(username);
+            image.setHTML("<div style=background-image: " + Mindlevel.PATH + "pictures/" + user.getThumbnail());
             image.getElement().getStyle().setBackgroundImage(Mindlevel.PATH + "pictures/" + user.getThumbnail());
+            image.getElement().setPropertyString("style", "background-image: " + Mindlevel.PATH + "pictures/" + user.getThumbnail());
+            GWT.log(image.getElement().getStyle().getBackgroundImage());
         } else {
             username.addStyleName("user-username");
             backPanel.add(image);

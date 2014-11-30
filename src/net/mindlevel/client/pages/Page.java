@@ -9,6 +9,8 @@ public abstract class Page {
 
     public Page() {
         appArea = RootPanel.get("apparea");
+        appArea.removeStyleName("nopadding");
+        appArea.addStyleName("padding");
         Window.scrollTo(0, 0);
     }
     protected abstract void init();
