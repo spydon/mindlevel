@@ -21,7 +21,6 @@ import com.google.gwt.view.client.CellPreviewEvent.Handler;
 import com.google.gwt.view.client.HasData;
 
 public class Highscore extends Page {
-    private final RootPanel appArea;
     private final CellTable<User> table = new CellTable<User>();
     private AsyncDataProvider<User> provider;
     /**
@@ -30,9 +29,8 @@ public class Highscore extends Page {
     private final UserServiceAsync highscoreService = GWT
             .create(UserService.class);
 
-    public Highscore(RootPanel appArea) {
+    public Highscore() {
         super();
-        this.appArea = appArea;
         init();
     }
 
@@ -47,7 +45,7 @@ public class Highscore extends Page {
             public void onCellPreview(CellPreviewEvent<User> event) {
                 boolean isClick = "click".equals(event.getNativeEvent().getType());
                 if(isClick) {
-                    new Profile(appArea, event.getValue().getUsername());
+                    new Profile(event.getValue().getUsername());
                 }
             }
         });

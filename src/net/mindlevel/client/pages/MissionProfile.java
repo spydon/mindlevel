@@ -24,7 +24,6 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
 
 public class MissionProfile extends Page {
-    private final RootPanel appArea;
     private final int missionId;
     private Mission mission;
     private boolean validated = true;
@@ -36,10 +35,9 @@ public class MissionProfile extends Page {
     private final MissionServiceAsync missionService = GWT
             .create(MissionService.class);
 
-    public MissionProfile(RootPanel appArea, Mission mission) {
+    public MissionProfile(Mission mission) {
         super();
         HandyTools.setLoading(true);
-        this.appArea = appArea;
         this.mission = mission;
         this.missionId = mission.getId();
         this.validated = mission.isValidated();
@@ -47,11 +45,10 @@ public class MissionProfile extends Page {
         showMission();
     }
 
-    public MissionProfile(RootPanel appArea, int missionId, boolean validated) {
+    public MissionProfile(int missionId, boolean validated) {
         super();
         HandyTools.setLoading(true);
         History.newItem("mission=" + missionId, false);
-        this.appArea = appArea;
         this.missionId = missionId;
         this.validated = validated;
         init();
@@ -65,7 +62,7 @@ public class MissionProfile extends Page {
                 HandyTools.setLoading(false);
                 HandyTools.showDialogBox("Error", new HTML(caught.getMessage()));
                 appArea.clear();
-                new Home(appArea);
+                new Home();
             }
 
             @Override
@@ -90,7 +87,7 @@ public class MissionProfile extends Page {
         buttonPanel.addStyleName("button-panel");
         if(UserTools.isLoggedIn() && validated) {
             Button uploadButton = new Button("Upload completed mission");
-            uploadButton.addStyleName("smallmargin");
+            uploadButton.addStyleName("smallpadding");
             uploadButton.addClickHandler(new ClickHandler() {
 
                 @Override
@@ -124,7 +121,7 @@ public class MissionProfile extends Page {
                                         Constraint constraint = new Constraint();
                                         constraint.setValidated(false);
                                         constraint.setAdult(UserTools.isAdult());
-                                        new Missions(appArea, constraint);
+                                        new Missions(constraint);
                                     }
                                 });
                     }
@@ -155,7 +152,7 @@ public class MissionProfile extends Page {
                                     Constraint constraint = new Constraint();
                                     constraint.setAdult(UserTools.isAdult());
                                     constraint.setValidated(validated);
-                                    new Missions(appArea, constraint);
+                                    new Missions(constraint);
                                 }
                             });
 

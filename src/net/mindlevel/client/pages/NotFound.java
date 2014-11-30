@@ -5,11 +5,9 @@ import net.mindlevel.client.widgets.NotFoundElement;
 import com.google.gwt.user.client.ui.RootPanel;
 
 public class NotFound extends Page {
-    private final RootPanel appArea;
 
-    public NotFound(RootPanel appArea) {
+    public NotFound() {
         super();
-        this.appArea = appArea;
         init();
     }
 

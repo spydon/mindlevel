@@ -52,7 +52,7 @@ public class UserTools {
         Cookies.setCookie("mindlevel", user.getToken(), date);
         HandyTools.setRightView(true, user);
         if(user.isAdmin() && Mindlevel.isDesktop()) {
-            new Admin(Mindlevel.getAppArea(true));
+            new Admin();
         }
     }
 

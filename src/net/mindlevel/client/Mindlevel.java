@@ -97,7 +97,7 @@ public class Mindlevel implements EntryPoint, ValueChangeHandler<String> {
             RootPanel.get("quote").add(new QuoteElement());
             RootPanel.get("search").add(new SearchElement());
         } else {
-            getAppArea(false).setVisible(false);
+            RootPanel.get("apparea").setVisible(false);
             RootPanel.get().addStyleName("mobile");
             Document.get().getElementById("topheader").addClassName("superhidden");
             new MindlevelMobile();
@@ -141,7 +141,7 @@ public class Mindlevel implements EntryPoint, ValueChangeHandler<String> {
         if(!parameters.contains("=")) {
             if(parameters.equals("")) { //Empty is always home
                 clearScreen();
-                new Home(getAppArea(false));
+                new Home();
             } else if(parameters.equals("register")) {
                 new Registration();
             } else if(parameters.equals("login")) {
@@ -153,19 +153,19 @@ public class Mindlevel implements EntryPoint, ValueChangeHandler<String> {
                 new Logout("");
             } else if(parameters.equals("chat")) {
                 clearScreen();
-                getAppArea(false);
+                ;
                 new Chat();
             } else if(parameters.equals("highscore")) {
                 clearScreen();
-                new Highscore(getAppArea(true));
+                new Highscore();
             } else if(parameters.equals("missions")) {
                 clearScreen();
                 Constraint constraint = new Constraint();
                 constraint.setAdult(UserTools.isAdult());
-                new Missions(getAppArea(true), constraint);
+                new Missions(constraint);
             } else if(parameters.equals("pictures")) {
                 clearScreen();
-                new Picture(getAppArea(true), 0, true);
+                new Picture(0, true);
             } else if(parameters.equals("missionsuggestion")) {
                 if(UserTools.isLoggedIn()) {
                     new MissionSuggestion();
@@ -174,21 +174,21 @@ public class Mindlevel implements EntryPoint, ValueChangeHandler<String> {
                 }
             } else if(parameters.equals("about")) {
                 clearScreen();
-                new About(getAppArea(true));
+                new About();
             } else if(parameters.equals("terms")) {
                 clearScreen();
-                new Terms(getAppArea(true));
+                new Terms();
             } else if(parameters.equals("tutorial")) {
                 clearScreen();
-                new Tutorial(getAppArea(true));
+                new Tutorial();
             } else if(parameters.equals("report")) {
                 new ReportBox();
             } else if(parameters.equals("notfound")) {
                 clearScreen();
-                new NotFound(getAppArea(true));
+                new NotFound();
             } else {
                 clearScreen();
-                new NotFound(getAppArea(true));
+                new NotFound();
             }
         } else {
             String[] tokens = parameters.split("&");
@@ -210,26 +210,26 @@ public class Mindlevel implements EntryPoint, ValueChangeHandler<String> {
                     try {
                         int pictureId = Integer.parseInt(getValue(tokens[i]));
                         clearScreen();
-                        new Picture(getAppArea(true), pictureId, validated);
+                        new Picture(pictureId, validated);
                     } catch (NumberFormatException nfe) {
                         clearScreen();
-                        new Home(getAppArea(false));
+                        new Home();
                         HandyTools.showDialogBox("Error", new HTML("Couldn't find a picture with that id. :("));
                     }
                     break;
                 } else if(tokens[i].startsWith("user")) {
                     String userId = getValue(tokens[i]).toLowerCase();
                     clearScreen();
-                    new Profile(getAppArea(true), userId);
+                    new Profile(userId);
                     break;
                 } else if(tokens[i].startsWith("mission")) {
                     try {
                         int missionId = Integer.parseInt(getValue(tokens[i]));
                         clearScreen();
-                        new MissionProfile(getAppArea(true), missionId, validated);
+                        new MissionProfile(missionId, validated);
                     } catch (NumberFormatException nfe) {
                         clearScreen();
-                        new Home(getAppArea(false));
+                        new Home();
                         HandyTools.showDialogBox("Error", new HTML("Couldn't find a mission with that id. :("));
                     }
                     break;
@@ -258,12 +258,12 @@ public class Mindlevel implements EntryPoint, ValueChangeHandler<String> {
                     constraint.setAdult(UserTools.isAdult());
                     constraint.setToken(UserTools.getToken());
                     clearScreen();
-                    new Search(getAppArea(true), "Search", constraint);
+                    new Search("Search", constraint);
 
                 } else if(parameters.startsWith("colour")) {
                     RootPanel.getBodyElement().getStyle().setBackgroundColor("#" + getValue(tokens[0]));
                     clearScreen();
-                    new Home(getAppArea(false));
+                    new Home();
                 } else if(parameters.startsWith("login")  && !UserTools.isLoggedIn()) {
                     new Login(session);
                     break;
@@ -273,22 +273,10 @@ public class Mindlevel implements EntryPoint, ValueChangeHandler<String> {
                     break;
                 } else {
                     clearScreen();
-                    new NotFound(getAppArea(true));
+                    new NotFound();
                 }
             }
         }
-    }
-
-    public static RootPanel getAppArea(boolean margin) {
-        RootPanel appArea = RootPanel.get("apparea");
-        if(margin) {
-            appArea.addStyleName("margin");
-            appArea.removeStyleName("nomargin");
-        } else {
-            appArea.addStyleName("nomargin");
-            appArea.removeStyleName("margin");
-        }
-        return appArea;
     }
 
     private void clearScreen() {

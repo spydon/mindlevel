@@ -4,11 +4,9 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
 
 public class Terms extends Page {
-    private final RootPanel appArea;
 
-    public Terms(RootPanel appArea) {
+    public Terms() {
         super();
-        this.appArea = appArea;
         init();
     }
 

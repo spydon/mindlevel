@@ -43,7 +43,6 @@ import com.google.gwt.user.client.ui.SimplePanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class Picture extends Page {
-    private final RootPanel appArea;
     private final Image image = new Image();
     private final Image leftArrow = new Image(Mindlevel.PATH + "images/icons/left.svg");
     private final Image rightArrow = new Image(Mindlevel.PATH + "images/icons/right.svg");
@@ -84,10 +83,9 @@ public class Picture extends Page {
     final MetaUploadServiceAsync metaUploadService = GWT
             .create(MetaUploadService.class);
 
-    public Picture(RootPanel appArea, int id, boolean validated) {
+    public Picture(int id, boolean validated) {
         super();
         HandyTools.setLoading(true);
-        this.appArea = appArea;
         this.id = id;
         this.validated = validated;
         title = new HTML();

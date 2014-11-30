@@ -9,11 +9,9 @@ import com.google.gwt.user.client.ui.MenuBar;
 import com.google.gwt.user.client.ui.RootPanel;
 
 public class Admin extends Page {
-    private final RootPanel appArea;
 
-    public Admin(RootPanel appArea) {
+    public Admin() {
         super();
-        this.appArea = appArea;
         init();
     }
 
@@ -31,7 +29,7 @@ public class Admin extends Page {
                 Constraint constraint = new Constraint();
                 constraint.setAdult(UserTools.isAdult());
                 constraint.setValidated(false);
-                new Missions(appArea, constraint);
+                new Missions(constraint);
             }
         });
         validationMenu.addItem("Pictures", new Command() {
@@ -39,7 +37,7 @@ public class Admin extends Page {
             public void execute() {
                 RootPanel.get("chat-frame").setStyleName("superhidden", true);
                 clearScreen();
-                new Picture(appArea, 0, false);
+                new Picture(0, false);
             }
         });
 

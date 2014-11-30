@@ -10,13 +10,22 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-public class Search {
+public class Search extends Page {
     private final VerticalPanel backPanel;
+    private final String title;
+    private final Constraint constraint;
 
-    public Search(RootPanel appArea, String title, Constraint constraint) {
+    public Search(String title, Constraint constraint) {
+        super();
         this.backPanel = new VerticalPanel();
-        backPanel.add(new HTML("<h1>" + title + "</h1>"));
+        this.title = title;
+        this.constraint = constraint;
         backPanel.addStyleName("fullwidth");
+        init();
+    }
+
+    protected void init() {
+        backPanel.add(new HTML("<h1>" + title + "</h1>"));
         appArea.add(backPanel);
         switch(constraint.getType()) {
         case ALL:

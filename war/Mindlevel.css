@@ -66,39 +66,23 @@ h2 {
     width: 100%;
 }
 
-.max-fullwidth {
-    max-width: 100%;
-}
-
-.max-95 {
-    max-width: 95%;
-}
-
-.5px-top-margin {
-    margin-top: 5px;
-}
-
-.margin {
-    padding-top: 80px !important;
-}
-
-.margin.adminbar {
+.padding.adminbar {
     padding-top: 110px !important;
 }
 
-.smallmargin {
+.smallpadding {
     padding-top: 60px !important;
 }
 
-.smallmargin.adminbar {
+.smallpadding.adminbar {
     padding-top: 90px !important;
 }
 
-.nomargin {
+.nopadding {
     padding-top: 57px !important;
 }
 
-.nomargin.adminbar {
+.nopadding.adminbar {
     padding-top: 88px !important;
 }
 
@@ -392,8 +376,8 @@ header * {
 
 .profile-settings {
     position: absolute;
-    top: 0px;
-    right: 0px;
+    top: 0;
+    right: 0;
 }
 
 .profile-settings-panel * {
@@ -527,7 +511,7 @@ header * {
     margin-left: auto;
     margin-right: auto;
     min-height: calc(100% - 80px);
-    /*margin-bottom: 35px;*/
+    padding-top: 80px !important;
 }
 
 #debug {
@@ -691,6 +675,14 @@ header * {
 
 .news-header {
     width: 100%;
+}
+
+/**
+*   Missions page
+*/
+
+.mission-page-controller > * {
+    display: inline-block;
 }
 
 /**
@@ -967,7 +959,7 @@ header * {
     
     #loginMenu li {
         display: block;
-        padding: 0em;
+        padding: 0;
     }
     
     #loginMenu ul {
@@ -1063,23 +1055,23 @@ header * {
         display: none !important;
     }
     
-    .margin.adminbar {
+    .padding.adminbar {
         margin-top: 30px;
     }
     
-    .nomargin.adminbar {
+    .nopadding.adminbar {
         margin-top: 0px;
     }
     
-    .margin {
+    .padding {
         margin-top: 10px;
     }
 
-    .smallmargin {
+    .smallpadding {
         margin-top: 5px;
     }
     
-    .nomargin {
+    .nopadding {
         margin-top: 0px;
     }
         

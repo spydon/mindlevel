@@ -9,13 +9,12 @@ import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.RootPanel;
 
 public class Home extends Page {
-    private final RootPanel appArea;
     private final FlowPanel backPanel;
 
-    public Home(RootPanel appArea) {
+    public Home() {
         super();
+        appArea.addStyleName("nopadding");
         History.newItem("", false);
-        this.appArea = appArea;
         this.backPanel = new FlowPanel();
         init();
     }

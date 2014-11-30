@@ -28,10 +28,8 @@ import com.google.gwt.user.client.ui.DialogBox;
 import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.RootPanel;
 
 public class Profile extends Page {
-    private final RootPanel appArea;
     private final static int PICTURE_MAXWIDTH = 150;
     private final static int PICTURE_MAXHEIGHT = 300;
     private User user;
@@ -45,10 +43,9 @@ public class Profile extends Page {
     private final UserServiceAsync userService = GWT
             .create(UserService.class);
 
-    public Profile(RootPanel appArea, String userId) {
+    public Profile(String userId) {
         super();
         History.newItem("user=" + userId, false);
-        this.appArea = appArea;
         this.userId = userId;
         init();
     }
@@ -73,7 +70,7 @@ public class Profile extends Page {
             public void onFailure(Throwable caught) {
                 HandyTools.showDialogBox("Error", new HTML(caught.getMessage()));
                 appArea.clear();
-                new Home(appArea);
+                new Home();
             }
 
             @Override

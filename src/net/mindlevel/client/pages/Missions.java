@@ -14,13 +14,12 @@ import com.google.gwt.user.client.History;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.HTML;
-import com.google.gwt.user.client.ui.HorizontalPanel;
+import com.google.gwt.user.client.ui.FlowPanel;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.Panel;
 import com.google.gwt.user.client.ui.SimplePanel;
 
 public class Missions extends Page {
-    private final Panel appArea;
     private int current = 0;
     private int missionCount = 0;
     private int pageCount = 0;
@@ -36,13 +35,12 @@ public class Missions extends Page {
     private final MissionServiceAsync missionService = GWT
             .create(MissionService.class);
 
-    public Missions(Panel appArea) {
-        this(appArea, new Constraint());
+    public Missions() {
+        this(new Constraint());
     }
 
-    public Missions(Panel appArea, Constraint constraint) {
+    public Missions(Constraint constraint) {
         super();
-        this.appArea = appArea;
         this.constraint = constraint;
         init();
     }
@@ -54,7 +52,6 @@ public class Missions extends Page {
         missionsContainer.add(missionSection);
 
         HTML explanation = new HTML("<h1>Missions</h1><p>Click on a mission to see more information or to upload a picture.</p>");
-        explanation.addStyleName("max-95");
         appArea.add(explanation);
         appArea.add(missionsContainer);
 
@@ -63,12 +60,13 @@ public class Missions extends Page {
         pageL = new Label("1");
         Label separatorL = new Label("/");
         totalL = new Label("");
-        HorizontalPanel buttonPanel = new HorizontalPanel();
+        FlowPanel buttonPanel = new FlowPanel();
         buttonPanel.add(leftButton);
         buttonPanel.add(rightButton);
         leftButton.setEnabled(false);
 
-        HorizontalPanel pageController = new HorizontalPanel();
+        FlowPanel pageController = new FlowPanel();
+        pageController.addStyleName("mission-page-controller");
         pageController.add(pageL);
         pageController.add(separatorL);
         pageController.add(totalL);
@@ -143,8 +141,8 @@ public class Missions extends Page {
             @Override
             public void onSuccess(Integer result) {
                 missionCount = result;
-                pageCount = (int) Math.ceil((double)missionCount/stepSize);
-                if(current >= missionCount-stepSize) {
+                pageCount = (int) Math.ceil((double) missionCount / stepSize);
+                if(current >= missionCount - stepSize) {
                     rightButton.setEnabled(false);
                 }
                 totalL.setText("" + pageCount);

@@ -4,11 +4,9 @@ import com.google.gwt.user.client.ui.HTML;
 import com.google.gwt.user.client.ui.RootPanel;
 
 public class Tutorial extends Page {
-    private final RootPanel appArea;
 
-    public Tutorial(RootPanel appArea) {
+    public Tutorial() {
         super();
-        this.appArea = appArea;
         init();
     }
 

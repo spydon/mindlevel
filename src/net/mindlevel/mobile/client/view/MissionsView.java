@@ -24,7 +24,7 @@ public class MissionsView extends MPage {
 
     public void init() {
         initialized = true;
-        missions = new Missions(appArea);
+        missions = new Missions();
     }
 
     @Override
