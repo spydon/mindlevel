@@ -857,7 +857,20 @@ header * {
 .picture-element {
     display: inline-block;
     text-align: left;
-    margin-bottom: 10px;
+    margin: 10px;
+    border-radius: 10px;
+    border: 1px solid #222;
+}
+
+.picture-element:hover { /*TODO: not done.*/
+    cursor: hand;
+    transition: border .2s;
+    border: 1px solid #112f65;
+}
+
+.picture-element * {
+    margin-bottom: 5px;
+    font-family: 'Abel', sans-serif;
 }
 
 .picture-element .gwt-HTML {
@@ -865,6 +878,10 @@ header * {
     max-width: 190px;
     word-wrap: break-word;
     text-align: left;
+}
+
+.picture-element-title {
+    font-weight: bold;
 }
 
 .picture-header {
@@ -885,7 +902,7 @@ header * {
 .last-picture-wrapper {
     height: 120px;
     overflow: hidden;
-    border-radius: 10px;
+    border-radius: 10px 10px 0 0;
 }
 
 /** RESPONSIVE CSS */

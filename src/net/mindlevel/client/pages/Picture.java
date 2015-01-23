@@ -366,7 +366,7 @@ public class Picture extends Page {
 //                tags.setHTML(HtmlTools.buildTagHTML(metaImage.getTags()));
                 tags.setWidget(new UserTagSection(metaImage.getTags(), true, true, UserTagElement.SIZE.SMALL));
                 date.setHTML("<b>Completed: </b>" + metaImage.getDate());
-                link.setHTML("<b>Link: </b>" + HtmlTools.getAnchor("picture", Integer.toString(realId), "Right click to copy", validated));
+                link.setHTML(HtmlTools.concat("<b>Link: </b>", HtmlTools.getAnchor("picture", Integer.toString(realId), "Right click to copy", validated)));
                 fetchMission(metaImage.getMission().getId());
                 ratingPanel.add(new VotingSection(realId));
                 commentPanel.add(new CommentSection(metaImage.getThreadId()));

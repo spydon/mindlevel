@@ -65,9 +65,8 @@ public class PictureServiceImpl extends DBConnector implements PictureService {
             ps.setInt(8, offset);
             ResultSet rs = ps.executeQuery();
             while(rs.next()) {
-                MetaImage picture = new MetaImage();
                 int id = rs.getInt("id");
-                picture = new MetaImage(rs.getString("filename"), rs.getString("title"),
+                MetaImage picture = new MetaImage(rs.getString("filename"), rs.getString("title"),
                         rs.getString("location"), getMission(rs.getInt("mission_id")),
                         rs.getString("owner"), rs.getString("description"),
                         getTags(id),

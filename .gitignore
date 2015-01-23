@@ -10,5 +10,6 @@ web/pictures/
 src/net/mindlevel/External.gwt.xml
 *.iml
 out/
+war/
 .idea
 .classpath

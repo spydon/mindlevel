@@ -36,7 +36,16 @@ public class NewsSection extends Composite {
         header.addStyleName("news-header");
         p.add(header);
         p.add(currentNews);
+        pollNews(currentNews, number);
 
+        // All composites must call initWidget() in their constructors.
+        initWidget(p);
+
+        // Give the overall composite a style name.
+        setStyleName("news-section");
+    }
+
+    private void pollNews(final SimplePanel currentNews, int number) {
         newsService.getNews(number, new AsyncCallback<ArrayList<News>>() {
 
             @Override
@@ -52,17 +61,11 @@ public class NewsSection extends Composite {
 
             @Override
             public void onFailure(Throwable caught) {
-                l.removeFromParent();
+                currentNews.clear();
                 caught.printStackTrace();
                 HandyTools.showDialogBox("Error", new HTML(caught.getMessage()));
             }
         });
-
-        // All composites must call initWidget() in their constructors.
-        initWidget(p);
-
-        // Give the overall composite a style name.
-        setStyleName("news-section");
     }
 
     protected ArrayList<News> getNews() {

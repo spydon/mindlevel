@@ -40,19 +40,22 @@ public class PictureElement extends Composite {
 
         HTML title = new HTML(HtmlTools.getAnchor("picture", "" + metaImage.getId(),
                 HtmlTools.formatHtml(metaImage.getTitle()).toString()));
+        title.addStyleName("picture-element-title");
         HTML mission = new HTML(HtmlTools.concat("<b>Mission:</b> ", HtmlTools.getAnchor("mission", "" + metaImage.getMission().getId(),
                 HtmlTools.formatHtml(metaImage.getMission().getName()).toString())));
+        HTML description = new HTML(metaImage.getDescription());
 
         title.addStyleName("text-center");
 
         backPanel.add(imageWrapper);
         backPanel.add(title);
+        backPanel.add(description);
         if(!isSimple) {
             backPanel.add(mission);
             backPanel.add(new HTML(HtmlTools.getCategoryAnchors(metaImage.getCategories())));
         }
 //        backPanel.add(new HTML(HtmlTools.buildTagHTML(metaImage.getTags())));
-        backPanel.add(new UserTagSection(metaImage.getTags(), true, true, UserTagElement.SIZE.SMALL));
+//        backPanel.add(new UserTagSection(metaImage.getTags(), true, true, UserTagElement.SIZE.SMALL));
 
         // All composites must call initWidget() in their constructors.
         initWidget(backPanel);
