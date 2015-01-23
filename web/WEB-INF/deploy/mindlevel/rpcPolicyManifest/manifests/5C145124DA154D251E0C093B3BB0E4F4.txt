@@ -1,0 +1,2 @@
+serviceClass: net.mindlevel.client.services.ReportService
+path: BB1D5494182DB5051ABBAF65FECCDE57.gwt.rpc

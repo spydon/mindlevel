@@ -1,0 +1,2 @@
+serviceClass: net.mindlevel.client.services.QuoteService
+path: 131602C652F88EF9C2A53D87E97622D2.gwt.rpc

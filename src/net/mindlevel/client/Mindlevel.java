@@ -23,6 +23,7 @@ import net.mindlevel.client.services.PictureService;
 import net.mindlevel.client.services.PictureServiceAsync;
 import net.mindlevel.client.tools.HandyTools;
 import net.mindlevel.client.tools.UserTools;
+import net.mindlevel.client.widgets.FooterElement;
 import net.mindlevel.client.widgets.QuoteElement;
 import net.mindlevel.client.widgets.SearchElement;
 import net.mindlevel.mobile.client.MindlevelMobile;
@@ -94,7 +95,9 @@ public class Mindlevel implements EntryPoint, ValueChangeHandler<String> {
             for(String page : pages) {
                 connectListener(page);
             }
-            RootPanel.get("quote").add(new QuoteElement());
+            FooterElement footer = new FooterElement();
+//            RootPanel.get("apparea").add(footer, 0, RootPanel.get("apparea").getOffsetHeight()-footer.getOffsetHeight());
+            RootPanel.get("apparea").add(footer);
             RootPanel.get("search").add(new SearchElement());
         } else {
             RootPanel.get("apparea").setVisible(false);

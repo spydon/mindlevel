@@ -1,0 +1,2 @@
+serviceClass: net.mindlevel.client.services.TokenService
+path: 4A47B519188712AC1BCF56C05A98E018.gwt.rpc
