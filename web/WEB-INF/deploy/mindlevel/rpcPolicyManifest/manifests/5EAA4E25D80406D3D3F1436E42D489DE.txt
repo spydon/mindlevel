@@ -1,2 +1,0 @@
-serviceClass: net.mindlevel.client.services.CaptchaService
-path: CB83586F7A8B1F6EBC6D7F6D3EB35EE0.gwt.rpc

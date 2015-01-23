@@ -1,2 +1,0 @@
-serviceClass: net.mindlevel.client.services.RatingService
-path: 6AC27EDE083E2D48AB55CEAEC16AE311.gwt.rpc

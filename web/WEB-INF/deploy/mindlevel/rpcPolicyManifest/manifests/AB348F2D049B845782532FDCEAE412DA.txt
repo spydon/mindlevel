@@ -1,2 +1,0 @@
-serviceClass: net.mindlevel.client.services.CommentService
-path: 2A0A54FC1B64FC68A2BF43E661D7AED5.gwt.rpc

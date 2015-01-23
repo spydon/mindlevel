@@ -1,2 +1,0 @@
-serviceClass: net.mindlevel.client.services.NewsService
-path: B89B5AA65D0D26DF1038A829E58D0D2E.gwt.rpc

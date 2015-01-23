@@ -1,2 +1,0 @@
-serviceClass: net.mindlevel.client.services.RegistrationService
-path: A8C67A4F8113F37562A116AEBDD9A5DB.gwt.rpc
